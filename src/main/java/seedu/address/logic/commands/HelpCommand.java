@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 import seedu.address.logic.CommandHistory;
+import seedu.address.logic.parser.CliSyntax;
 import seedu.address.model.Model;
 
 /**
@@ -10,7 +11,7 @@ import seedu.address.model.Model;
  */
 public class HelpCommand extends Command {
 
-    public static final String COMMAND_WORD = "help";
+    public static final String COMMAND_WORD = CliSyntax.COMMAND_HELP;
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows program usage instructions.\n"
             + "Example: " + COMMAND_WORD;

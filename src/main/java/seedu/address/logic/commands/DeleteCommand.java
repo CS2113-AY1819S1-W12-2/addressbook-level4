@@ -6,9 +6,12 @@ import java.util.List;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.util.FileEncryptor;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.CliSyntax;
 import seedu.address.model.Model;
+import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 
 /**
@@ -16,7 +19,7 @@ import seedu.address.model.person.Person;
  */
 public class DeleteCommand extends Command {
 
-    public static final String COMMAND_WORD = "delete";
+    public static final String COMMAND_WORD = CliSyntax.COMMAND_DELETE;
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the person identified by the index number used in the displayed person list.\n"
@@ -36,6 +39,14 @@ public class DeleteCommand extends Command {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
+        UserPrefs userPref = new UserPrefs();
+        FileEncryptor fe = new FileEncryptor(userPref.getAddressBookFilePath().toString());
+
+        if (fe.isLocked()) {
+            throw new CommandException(FileEncryptor.MESSAGE_ADDRESS_BOOK_LOCKED);
+        }
+
+
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
@@ -43,6 +54,7 @@ public class DeleteCommand extends Command {
         Person personToDelete = lastShownList.get(targetIndex.getZeroBased());
         model.deletePerson(personToDelete);
         model.commitAddressBook();
+        model.deletePersonFromTrie(personToDelete);
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, personToDelete));
     }
 

@@ -1,5 +1,6 @@
 package seedu.address.logic;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -48,5 +49,16 @@ public class LogicManager extends ComponentManager implements Logic {
     @Override
     public ListElementPointer getHistorySnapshot() {
         return new ListElementPointer(history.getHistory());
+    }
+
+    //@@author lekoook
+    /**
+     * Retrieves a list of possible predictions for a command box input
+     * @param textInput text input from command box
+     * @return a list of predictions
+     */
+    @Override
+    public ArrayList<String> getCmdPrediction(String textInput) {
+        return model.getCmdPrediction(textInput);
     }
 }

@@ -4,5 +4,6 @@
     <phone>9482424</phone>
     <email>hans@example</email>
     <address>4th street</address>
+    <note>Sample note</note>
     <tagged>friends</tagged>
 </person>

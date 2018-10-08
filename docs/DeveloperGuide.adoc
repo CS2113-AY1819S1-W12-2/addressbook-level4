@@ -210,12 +210,8 @@ The `Model`,
 * stores a `UserPref` object that represents the user's preferences.
 * stores the Address Book data.
 * exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* Stores a `Tag` list in the `Address Book`, which `Person` can reference. This allows `Address Book` to only require one `Tag`object per unique `Tag`.
 * does not depend on any of the other three components.
-
-[NOTE]
-As a more OOP model, we can store a `Tag` list in `Address Book`, which `Person` can reference. This would allow `Address Book` to only require one `Tag` object per unique `Tag`, instead of each `Person` needing their own `Tag` object. An example of how such a model may look like is given below. +
- +
-image:ModelClassBetterOopDiagram.png[width="800"]
 
 [[Design-Storage]]
 === Storage component
@@ -320,9 +316,13 @@ image::UndoRedoActivityDiagram.png[width="650"]
 // end::undoredo[]
 
 // tag::dataencryption[]
-=== [Proposed] Data Encryption
+=== Data Encryption
 
-_{Explain here how the data encryption feature will be implemented}_
+Password handling is done in `PasswordCommand` class. +
+Credentials obtained from the argument is then parsed to the `FileEncryptor` class. +
+Encryption of the XML data file is done in `FileEncryptor` class using the credentials obtained earlier.
+
+* The data file path must be manually set for now and will be developed in future to support user config.
 
 // end::dataencryption[]
 
@@ -826,7 +826,9 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 [appendix]
 == User Stories
 
-Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (unlikely to have) - `*`
+Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (unlikely to have) - `*` +
+
+Functional Requirements:
 
 [width="59%",cols="22%,<23%,<25%,<30%",options="header",]
 |=======================================================================
@@ -839,17 +841,82 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
 
+|`* * *` |user who values time |autocomplete my commands |execute commands faster.
+
+|`* * *` |forgetful user |look at the photos of my contacts |recognise the person.
+
+|`* * *` |forgetful user |approximate my search input |get the closest output suggestions I need.
+
+|`* * *` |employee |access the full profile of my clients |retrieve their information when required.
+
+|`* * *` |organized user |create groups |mass contact easily.
+
+|`* * *` |meticulous supervisor |access my team’s profiles easily |I can keep track of each member conveniently.
+
+|`* * *` |overworked employee |i need a backup file |information is not immediately lost when i accidentally delete contacts.
+
 |`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
 
-|`*` |user with many persons in the address book |sort persons by name |locate a person easily
-|=======================================================================
+|`* *` |organised user |can sort my contacts based on rank/position |respond to them appropriately.
 
-_{More to be added}_
+|`* *` |efficient user |send mass emails with a single command |email large groups quickly.
+
+|`* *` |meticulous employee |add notes along with my contacts |keep track of my working relations
+
+|`* *` |supervisor |access my subordinate’s Key-Performance-Index |keep track of their work quality.
+
+|`*` |user with many persons in the address book |sort persons by name |locate a person easily
+
+|`*` |user |schedule tasks in a calendar |notified of my appointments.
+
+|`*` |user |schedule tasks in a calendar |notified of when tasks are due.
+|=======================================================================
 
 [appendix]
 == Use Cases
 
 (For all use cases below, the *System* is the `AddressBook` and the *Actor* is the `user`, unless specified otherwise)
+
+[discrete]
+=== Use case: Viewing help
+*MSS*
+
+1.  User requests a list of commands
+2.  AddressBook shows a list of commands
++
+Use case ends.
+
+[discrete]
+=== Use case: Add person
+*MSS*
+1.  User requests to Add a person with the relevant details.
+2.  AddressBook adds the person into the list and shows a success message.
++
+Use case ends.
+
+*Extensions*
+[none]
+* 1a. Given details are invalid.
+[none]
+** 1a1. AddressBook shows an error message.
++
+Use case resumes at step 1.
+
+[discrete]
+=== Use case: List persons
+*MSS*
+
+1.  User requests to list persons
+2.  AddressBook shows a list of persons
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
 
 [discrete]
 === Use case: Delete person
@@ -877,7 +944,157 @@ Use case ends.
 +
 Use case resumes at step 2.
 
-_{More to be added}_
+[discrete]
+=== Use case: Back Up data
+
+*MSS*
+
+1.  User requests to back up data
+2.  AddressBook shows that data has been backed up
++
+Use case ends.
+
+[discrete]
+=== Use case: Restore data
+
+*MSS*
+
+1.  User requests to list snapshots of all backups
+2.  AddressBook shows a list of snapshots
+3.  User requests to restore a specific snapshot in the list
+4.  AddressBook is restored to the time and date of the restored backup.
+
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+* 3a. The given index is invalid.
++
+[none]
+** 3a1. AddressBook shows an error message.
++
+Use case resumes at step 2.
+
+[discrete]
+=== Use case: Export data to a directory
+
+*MSS*
+
+1.  User requests to export the data to the directory
+2.  AddressBook shows that the file has been exported
+
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. Directory does not exist
+[none]
+** 2a1. AddressBook shows an error message.
++
+Use case ends.
+
+[discrete]
+=== Use case: Import data from a directory
+
+*MSS*
+
+1.  User requests to import the data from a directory
+2.  AddressBook shows that the file has been imported
+3.  AddressBook will include the imported data.
+
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. Directory does not exist
+[none]
+** 2a1. AddressBook shows an error message.
++
+Use case ends.
+
+[discrete]
+=== Use case: Encrypt addressbook
+*MSS*
+
+1. User requests to encrypt addressbook with password
+2. Addressbook shows encrypted message
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. Addressbook is already encrypted.
++
+[none]
+** 1a1. Address book will decrypt the data instead with the given password.
++
+Use case ends.
+
+[discrete]
+=== Use case: Decrypt addressbook
+*MSS*
+
+1. User requests to decrypt addressbook with password
+2. Addressbook shows decrypted message
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. Addressbook is already decrypted.
++
+[none]
+** 1a1. Address book will encrypt the data instead with the given password.
++
+[none]
+* 1b. Incorrect password entered.
++
+[none]
+** 1b1. Addressbook will display incorrect password message.
++
+Use case ends.
+
+[discrete]
+=== Use case: Text prediction
+*MSS*
+
+1. User input some characters. +
+2. User requests text prediction with `Tab`. +
+3. Address book auto completes user input with closest prediction. +
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. There is more than one prediction.
+[none]
+** 2a1. Address book lists multiple predictions. +
+** 2a2. Use case resumes from step 1. +
+
+[discrete]
+=== Use case: Send email
+*MSS*
+
+1. User requests to send email with mail command. +
+2. Address book opens email application with appropriate recipients. +
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. Input command has invalid format.
+[none]
+** 1a1. Address book displays format error. +
+Use case ends.
 
 [appendix]
 == Non Functional Requirements
@@ -885,8 +1102,11 @@ _{More to be added}_
 .  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `9` or higher installed.
 .  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-
-_{More to be added}_
+.  A busy employee should be able to get back to work quickly using an intuitive interface to get information from the address book fast.
+.  A secretary should be able to refer and contact different people with accurate information.
+.  A busy employee should be able to get back to work fast by having quick access to information required.
+.  Should have a way to keep information confidential and safe from any unauthenticated personnel.
+.  Should be able to transfer information between machines easily by making the address book small and compact
 
 [appendix]
 == Glossary
@@ -959,3 +1179,4 @@ _{ more test cases ... }_
 .. _{explain how to simulate a missing/corrupted file and the expected behavior}_
 
 _{ more test cases ... }_
+

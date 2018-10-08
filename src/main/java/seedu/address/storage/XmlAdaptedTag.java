@@ -10,6 +10,7 @@ import seedu.address.model.tag.Tag;
  */
 public class XmlAdaptedTag {
 
+    //TODO convert this to Xml element to contain both value and proirity
     @XmlValue
     private String tagName;
 
@@ -33,6 +34,9 @@ public class XmlAdaptedTag {
      */
     public XmlAdaptedTag(Tag source) {
         tagName = source.tagName;
+        if (source.priority != source.PRIORITY_LOW) {
+            tagName += " " + source.priority;
+        }
     }
 
     /**

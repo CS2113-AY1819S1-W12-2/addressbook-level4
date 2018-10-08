@@ -6,12 +6,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.util.FileEncryptor;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.model.ReadOnlyAddressBook;
 
@@ -23,6 +25,7 @@ public class XmlAddressBookStorage implements AddressBookStorage {
     private static final Logger logger = LogsCenter.getLogger(XmlAddressBookStorage.class);
 
     private Path filePath;
+    private Path encryptedFilePath;
 
     public XmlAddressBookStorage(Path filePath) {
         this.filePath = filePath;
@@ -45,9 +48,10 @@ public class XmlAddressBookStorage implements AddressBookStorage {
     public Optional<ReadOnlyAddressBook> readAddressBook(Path filePath) throws DataConversionException,
                                                                                  FileNotFoundException {
         requireNonNull(filePath);
+        encryptedFilePath = Paths.get(filePath.toString() + FileEncryptor.getExtension());
 
-        if (!Files.exists(filePath)) {
-            logger.info("AddressBook file "  + filePath + " not found");
+        if (!Files.exists(filePath) && !Files.exists(encryptedFilePath)) {
+            logger.info("AddressBook file " + filePath + " not found");
             return Optional.empty();
         }
 
