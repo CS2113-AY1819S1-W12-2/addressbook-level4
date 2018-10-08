@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
@@ -35,6 +36,7 @@ public class PersonListPanel extends UiPart<Region> {
         personListView.setItems(personList);
         personListView.setCellFactory(listView -> new PersonListViewCell());
         setEventHandlerForSelectionChangeEvent();
+        personListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     private void setEventHandlerForSelectionChangeEvent() {
@@ -80,4 +82,7 @@ public class PersonListPanel extends UiPart<Region> {
         }
     }
 
+    public ListView<Person> getPersonListView() {
+        return personListView;
+    }
 }

@@ -9,10 +9,14 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.backup.BackupList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Kpi;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Position;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -96,6 +100,20 @@ public class ParserUtil {
     }
 
     /**
+     * Parses a {@code String note} into an {@code Note}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code note} is invalid.
+     */
+    public static Note parseNote(String note) throws ParseException {
+        String trimmedNote = note.trim();
+        if (!Note.isValidNote(trimmedNote)) {
+            throw new ParseException(Note.MESSAGE_NOTE_CONSTRAINTS);
+        }
+        return new Note(trimmedNote);
+    }
+
+    /**
      * Parses a {@code String tag} into a {@code Tag}.
      * Leading and trailing whitespaces will be trimmed.
      *
@@ -120,5 +138,44 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    //@@author Limminghong
+    /**
+     * Parses {@code String Snapshots} into a {@code Snapshots}.
+     * @throws ParseException if the argument is invalid (not "list").
+     */
+    public static BackupList parseBackup(String backupList) {
+        requireNonNull(backupList);
+        return new BackupList("Parser works for now");
+    }
+
+    //@@author
+    /**
+     * Parses a {@code String position} into an {@code Position}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code position} is invalid.
+     */
+    public static Position parsePosition(String position) throws ParseException {
+        String trimmedPosition = position.trim();
+        if (!Position.isValidPosition(trimmedPosition)) {
+            throw new ParseException(Position.MESSAGE_POSITION_CONSTRAINTS);
+        }
+        return new Position(trimmedPosition);
+    }
+
+    /**
+     * Parses a {@code String position} into an {@code Position}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code position} is invalid.
+     */
+    public static Kpi parseKpi(String kpi) throws ParseException {
+        String trimmedScore = kpi.trim();
+        if (!Kpi.isValidKpi(trimmedScore)) {
+            throw new ParseException(Kpi.MESSAGE_KPI_CONSTRAINTS);
+        }
+        return new Kpi(trimmedScore);
     }
 }

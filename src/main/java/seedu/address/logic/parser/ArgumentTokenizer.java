@@ -120,8 +120,10 @@ public class ArgumentTokenizer {
 
         int valueStartPos = currentPrefixPosition.getStartPosition() + prefix.getPrefix().length();
         String value = argsString.substring(valueStartPos, nextPrefixPosition.getStartPosition());
-
-        return value.trim();
+        if (value.trim().isEmpty()) {
+            value = value.trim();
+        }
+        return value;
     }
 
     /**
@@ -145,4 +147,23 @@ public class ArgumentTokenizer {
         }
     }
 
+    /**
+     * Determines the last Prefix given an argument string.
+     * @param arguments the argument string to search from.
+     * @param prefixes the prefixes that wants to be considered and searched.
+     * @return the last Prefix in the argument string.
+     */
+    public static Prefix findLastPrefix(String arguments, Prefix... prefixes) {
+        List<PrefixPosition> positionList = findAllPrefixPositions(arguments, prefixes);
+        int max = 0;
+        // Returns an invalid Prefix if no last prefix could be found.
+        Prefix prefix = CliSyntax.PREFIX_INVALID;
+        for (PrefixPosition position : positionList) {
+            if (position.startPosition >= max) {
+                max = position.startPosition;
+                prefix = position.prefix;
+            }
+        }
+        return prefix;
+    }
 }

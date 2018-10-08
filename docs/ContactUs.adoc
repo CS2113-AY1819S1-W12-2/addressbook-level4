@@ -3,5 +3,9 @@
 :stylesDir: stylesheets
 
 * *Bug reports, Suggestions* : Post in our https://github.com/se-edu/addressbook-level4/issues[issue tracker] if you noticed bugs or have suggestions on how to improve.
-* *Contributing* : We welcome pull requests. Follow the process described https://github.com/oss-generic/process[here]
-* *Email us* : You can also reach us at `damith [at] comp.nus.edu.sg`
+* *Email us* : +
+[Lee Kok Teng] lee.kokteng@u.nus.edu +
+[Low Gin Wee] e0176691@u.nus.edu +
+[Lim Ming Hong] lim.minghong@u.nus.edu +
+[Ler Wei Sheng] Lws803@gmail.com +
+[Lim Pei Ying] peiying_sg@yahoo.com.sg +

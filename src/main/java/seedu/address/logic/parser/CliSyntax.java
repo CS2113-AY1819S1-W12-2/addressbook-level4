@@ -37,5 +37,9 @@ public class CliSyntax {
     public static final String COMMAND_IMPORT = "import";
     public static final String COMMAND_EXPORT = "export";
     public static final String COMMAND_MAIL = "mail";
+<<<<<<< HEAD
     public static final String COMMAND_SORT = "sort";
 }
+=======
+}
+>>>>>>> upstream/master
