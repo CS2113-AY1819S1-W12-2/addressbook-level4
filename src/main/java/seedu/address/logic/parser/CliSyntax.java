@@ -39,6 +39,7 @@ public class CliSyntax {
     public static final String COMMAND_MAIL = "mail";
 <<<<<<< HEAD
     public static final String COMMAND_SORT = "sort";
+    public static final String REVERSE_SEQUENCE = "descending";
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD

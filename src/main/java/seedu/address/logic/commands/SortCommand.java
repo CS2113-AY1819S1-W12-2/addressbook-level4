@@ -26,6 +26,7 @@ import seedu.address.model.person.Person;
 public class SortCommand extends Command {
 
     public static final String COMMAND_WORD = CliSyntax.COMMAND_SORT;
+    public static final String REVERSE_ORDER = CliSyntax.REVERSE_SEQUENCE;
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Sorts address book in ascending or descending order"
@@ -34,8 +35,6 @@ public class SortCommand extends Command {
             + "Parameters: "
             + "[PREFIX]\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + " " + REVERSE_ORDER;
-
-    // might add reverse later on
 
     public static final String MESSAGE_SORT_SUCCESS = "Sorted address book by %1$s in %2$s order.";
     public static final String MESSAGE_SORT_EMPTY = "No person to sort in this attribute.";
@@ -52,11 +51,11 @@ public class SortCommand extends Command {
      * @param isReverseOrder specify if sorting is to be in ascending or descending order
      */
 
-    public SortCommand(String attribute) {
+    public SortCommand(String attribute, boolean isReverseOrder) {
         requireNonNull(attribute);
         requireNonNull(isReverseOrder);
 
-        this.field = field;
+        this.attribute = attribute;
         this.isReverseOrder = isReverseOrder;
 
     }
