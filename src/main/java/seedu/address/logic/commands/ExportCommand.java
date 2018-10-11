@@ -28,10 +28,9 @@ public class ExportCommand extends Command {
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NOTE + "C:\\Users\\USER\\ "
             + PREFIX_NAME + "export1";
-
     public static final String MESSAGE_FAILURE = "Directory does not exist.";
     public static final String MESSAGE_FILE_NAME_EXIST = "A file with the name %1$s exists in this directory.";
-    public static final String MESSAGE_SUCCESS = "AddressBook is exported to %1$s with the name %2$s!";
+    public static final String MESSAGE_SUCCESS = "AddressBook is exported to %1$s with the name %2$s.";
 
     private String directory;
     private String fileName;
