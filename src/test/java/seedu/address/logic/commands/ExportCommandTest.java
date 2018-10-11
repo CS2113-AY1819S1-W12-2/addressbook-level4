@@ -4,8 +4,6 @@ package seedu.address.logic.commands;
 import static junit.framework.TestCase.assertEquals;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.logging.Logger;
 
 import org.junit.jupiter.api.Test;
