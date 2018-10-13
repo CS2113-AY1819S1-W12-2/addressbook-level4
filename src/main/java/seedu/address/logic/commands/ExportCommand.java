@@ -14,6 +14,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.CliSyntax;
 import seedu.address.model.Model;
 import seedu.address.model.UserPrefs;
+import seedu.address.storage.XmlConverter;
 
 /**
  * Exports CSV file into a directory from the address book.
@@ -48,16 +49,21 @@ public class ExportCommand extends Command {
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         UserPrefs userPref = new UserPrefs();
         FileEncryptor fe = new FileEncryptor(userPref.getAddressBookFilePath().toString());
-        File src = new File(userPref.getAddressBookFilePath().toString());
 
         if (fe.isLocked()) {
             throw new CommandException(FileEncryptor.MESSAGE_ADDRESS_BOOK_LOCKED);
         }
 
         try {
-            Files.copy(src.toPath(), file.toPath());
+            File srcXml = new File(userPref.getAddressBookFilePath().toString());
+            File srcCsv = new File("data/addressbook.csv");
+            XmlConverter.XmlToCsv(srcXml);
+            Files.copy(srcCsv.toPath(), file.toPath());
+            srcCsv.delete();
             return new CommandResult(String.format(MESSAGE_SUCCESS, directory, fileName));
         } catch (IOException io) {
+            throw new CommandException("ERROR");
+        } catch (Exception e) {
             throw new CommandException("ERROR");
         }
     }

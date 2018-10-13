@@ -56,7 +56,7 @@ public class ExportCommandParser implements Parser<ExportCommand> {
         if (arePrefixesPresent(argMultimap, PREFIX_NAME)) {
             fileName = argMultimap.getValue(PREFIX_NAME).get();
         }
-        fileName += ".xml";
+        fileName += ".csv";
         fileName = fileName.trim();
 
         /**
