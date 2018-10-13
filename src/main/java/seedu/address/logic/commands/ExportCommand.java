@@ -57,7 +57,7 @@ public class ExportCommand extends Command {
         try {
             File srcXml = new File(userPref.getAddressBookFilePath().toString());
             File srcCsv = new File("data/addressbook.csv");
-            XmlConverter.XmlToCsv(srcXml);
+            XmlConverter.xmlToCsv(srcXml);
             Files.copy(srcCsv.toPath(), file.toPath());
             srcCsv.delete();
             return new CommandResult(String.format(MESSAGE_SUCCESS, directory, fileName));
