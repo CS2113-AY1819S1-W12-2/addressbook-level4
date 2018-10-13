@@ -13,10 +13,17 @@ import java.io.File;
 
 import org.w3c.dom.Document;
 
+/**
+ * Converts files between xml and csv
+ */
 public class XmlConverter {
 
     public XmlConverter () {}
 
+    /**
+     * @param xmlSource the file that is converted to .csv format
+     * @throws Exception when transformation fails
+     */
     public static void XmlToCsv (File xmlSource) throws Exception {
         File stylesheet = new File("data/style.xsl");
 
