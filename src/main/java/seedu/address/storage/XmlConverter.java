@@ -1,3 +1,4 @@
+//@@author Limminghong
 package seedu.address.storage;
 
 import java.io.File;
@@ -26,7 +27,7 @@ public class XmlConverter {
      * @throws Exception when transformation fails
      */
     public static void xmlToCsv (File xmlSource) throws Exception {
-        File stylesheet = new File("data/style.xsl");
+        File stylesheet = new File("src\\main\\resources\\view\\style.xsl");
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
