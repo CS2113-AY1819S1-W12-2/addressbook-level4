@@ -1,8 +1,8 @@
 //@@author Limminghong
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DIRECTORY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FILENAME;
 
 import java.io.File;
 import java.util.stream.Stream;
@@ -26,16 +26,16 @@ public class ExportCommandParser implements Parser<ExportCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(
                         args,
-                        PREFIX_NAME,
-                        PREFIX_NOTE);
+                        PREFIX_FILENAME,
+                        PREFIX_DIRECTORY);
 
         /**
          * Checks if directory is specified.
          */
         File dest;
         String directory;
-        if (arePrefixesPresent(argMultimap, PREFIX_NOTE)) {
-            directory = argMultimap.getValue(PREFIX_NOTE).get();
+        if (arePrefixesPresent(argMultimap, PREFIX_DIRECTORY)) {
+            directory = argMultimap.getValue(PREFIX_DIRECTORY).get();
             dest = new File(directory);
             if (!dest.exists()) {
                 throw new ParseException(ExportCommand.MESSAGE_FAILURE);
@@ -53,8 +53,8 @@ public class ExportCommandParser implements Parser<ExportCommand> {
          * Checks if name of file has been specified.
          */
         String fileName = DEFAULT_FILE_NAME;
-        if (arePrefixesPresent(argMultimap, PREFIX_NAME)) {
-            fileName = argMultimap.getValue(PREFIX_NAME).get();
+        if (arePrefixesPresent(argMultimap, PREFIX_FILENAME)) {
+            fileName = argMultimap.getValue(PREFIX_FILENAME).get();
         }
         fileName += ".csv";
         fileName = fileName.trim();

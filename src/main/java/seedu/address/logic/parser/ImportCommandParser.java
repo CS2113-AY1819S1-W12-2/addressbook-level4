@@ -2,7 +2,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DIRECTORY;
 
 import java.io.File;
 import java.util.stream.Stream;
@@ -24,24 +24,24 @@ public class ImportCommandParser implements Parser<ImportCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(
                         args,
-                        PREFIX_NOTE);
+                        PREFIX_DIRECTORY);
 
         /**
          * Checks if prefixes are present
          */
-        if (!arePrefixesPresent(argMultimap, PREFIX_NOTE)) {
+        if (!arePrefixesPresent(argMultimap, PREFIX_DIRECTORY)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE));
         }
 
         /**
          * Checks if file specified exists
          */
-        File file = new File(argMultimap.getValue(PREFIX_NOTE).get().trim());
+        File file = new File(argMultimap.getValue(PREFIX_DIRECTORY).get().trim());
         if (!file.exists() || file.isDirectory()) {
             throw new ParseException(ImportCommand.MESSAGE_FAILURE);
         }
 
-        return new ImportCommand(argMultimap.getValue(PREFIX_NOTE).get().trim(), file);
+        return new ImportCommand(argMultimap.getValue(PREFIX_DIRECTORY).get().trim(), file);
     }
 
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {

@@ -16,7 +16,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.w3c.dom.Document;
 
 /**
- * Converts files between xml and csv
+ * A class that converts files between xml and csv
  */
 public class XmlConverter {
 
@@ -37,6 +37,7 @@ public class XmlConverter {
         Transformer transformer = TransformerFactory.newInstance()
                 .newTransformer(styleSource);
         Source source = new DOMSource(document);
+        // TODO: make "data/addressbook.csv" accessible to all objects
         Result outputTarget = new StreamResult(new File("data/addressbook.csv"));
         transformer.transform(source, outputTarget);
     }

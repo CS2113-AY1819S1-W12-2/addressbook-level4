@@ -1,7 +1,7 @@
 //@@author Limminghong
 package seedu.address.logic.commands;
 
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DIRECTORY;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,9 +29,9 @@ public class ImportCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Imports the address book into a directory\n"
             + "Parameters: "
-            + PREFIX_NOTE + "Directory\n"
+            + PREFIX_DIRECTORY + "Directory\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NOTE + "C:\\Users\\USER\\export.xml";
+            + PREFIX_DIRECTORY + "C:\\Users\\USER\\export.xml";
     public static final String MESSAGE_FAILURE = "Directory does not exists.";
     public static final String MESSAGE_SUCCESS = "AddressBook is imported from %1$s.";
 

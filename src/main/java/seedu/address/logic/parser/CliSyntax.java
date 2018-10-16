@@ -17,6 +17,8 @@ public class CliSyntax {
     public static final Prefix PREFIX_ALL = new Prefix("all/");
     public static final Prefix PREFIX_COMMAND = new Prefix("command/");
     public static final Prefix PREFIX_INVALID = new Prefix("invalid/");
+    public static final Prefix PREFIX_DIRECTORY = new Prefix("d/");
+    public static final Prefix PREFIX_FILENAME = new Prefix("f");
 
     /* Command keywords */
     public static final String COMMAND_ADD = "add";

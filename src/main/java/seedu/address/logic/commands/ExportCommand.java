@@ -1,8 +1,8 @@
 //@@author Limminghong
 package seedu.address.logic.commands;
 
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DIRECTORY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FILENAME;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,11 +24,11 @@ public class ExportCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Exports the address book into a directory\n"
             + "Parameters: "
-            + PREFIX_NOTE + "Directory "
-            + PREFIX_NAME + "Name of File\n"
+            + PREFIX_DIRECTORY + "Directory "
+            + PREFIX_FILENAME + "Name of File\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NOTE + "C:\\Users\\USER\\ "
-            + PREFIX_NAME + "export1";
+            + PREFIX_DIRECTORY + "C:\\Users\\USER\\ "
+            + PREFIX_FILENAME + "export1";
     public static final String MESSAGE_FAILURE = "Directory does not exist.";
     public static final String MESSAGE_FILE_NAME_EXIST = "A file with the name %1$s exists in this directory.";
     public static final String MESSAGE_SUCCESS = "AddressBook is exported to %1$s with the name %2$s.";

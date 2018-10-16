@@ -228,11 +228,11 @@ Format: `restore INDEX`
 
 === Exports the address book to a directory : `export`
 Export the data to a designated directory with choice of filters. +
-Format: `export [d/ OUTPUT_PATH] [n/ NAME_OF_FILE] [f/ FILTER_FIELD]`
+Format: `export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE] [t/ FILTER_FIELD]`
 
 === Imports the address book from a directory : `import`
 Import the data from a designated directory with choice of filters. +
-Format: `import [d/ TARGET_PATH] [f/ FILTER_FIELD]`
+Format: `import [d/ TARGET_PATH] [t/ FILTER_FIELD]`
 
 === Clearing all entries : `clear`
 
