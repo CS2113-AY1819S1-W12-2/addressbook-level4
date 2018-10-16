@@ -17,16 +17,22 @@
 <li><a href="#adding-a-person-code-add-code">3.2. Adding a person: <code>add</code></a></li>
 <li><a href="#listing-all-persons-code-list-code">3.3. Listing all persons : <code>list</code></a></li>
 <li><a href="#editing-a-person-code-edit-code">3.4. Editing a person : <code>edit</code></a></li>
-<li><a href="#locating-persons-by-name-code-find-code">3.5. Locating persons by name: <code>find</code></a></li>
+<li><a href="#locating-persons-by-attribute-code-find-code">3.5. Locating persons by attribute: <code>find</code></a></li>
 <li><a href="#deleting-a-person-code-delete-code">3.6. Deleting a person : <code>delete</code></a></li>
 <li><a href="#selecting-a-person-code-select-code">3.7. Selecting a person : <code>select</code></a></li>
 <li><a href="#listing-entered-commands-code-history-code">3.8. Listing entered commands : <code>history</code></a></li>
 <li><a href="#undoing-previous-command-code-undo-code">3.9. Undoing previous command : <code>undo</code></a></li>
 <li><a href="#redoing-the-previously-undone-command-code-redo-code">3.10. Redoing the previously undone command : <code>redo</code></a></li>
-<li><a href="#clearing-all-entries-code-clear-code">3.11. Clearing all entries : <code>clear</code></a></li>
-<li><a href="#exiting-the-program-code-exit-code">3.12. Exiting the program : <code>exit</code></a></li>
-<li><a href="#saving-the-data">3.13. Saving the data</a></li>
-<li><a href="#encrypting-data-files-code-coming-in-v2-0-code">3.14. Encrypting data files <code>[coming in v2.0]</code></a></li>
+<li><a href="#backing-up-all-data-code-backup-code">3.11. Backing up all data : <code>backup</code></a></li>
+<li><a href="#restore-data-from-backup-code-restore-code">3.12. Restore data from backup : <code>restore</code></a></li>
+<li><a href="#exports-the-address-book-to-a-directory-code-export-code">3.13. Exports the address book to a directory : <code>export</code></a></li>
+<li><a href="#imports-the-address-book-from-a-directory-code-import-code">3.14. Imports the address book from a directory : <code>import</code></a></li>
+<li><a href="#clearing-all-entries-code-clear-code">3.15. Clearing all entries : <code>clear</code></a></li>
+<li><a href="#exiting-the-program-code-exit-code">3.16. Exiting the program : <code>exit</code></a></li>
+<li><a href="#saving-the-data">3.17. Saving the data</a></li>
+<li><a href="#encrypting-data-files-code-password-code">3.18. Encrypting data files : <code>password</code></a></li>
+<li><a href="#email-contacts-code-mail-code">3.19. Email contacts : <code>mail</code></a></li>
+<li><a href="#text-prediction">3.20. Text prediction</a></li>
 </ul>
 </li>
 <li><a href="#faq">4. FAQ</a></li>
@@ -38,7 +44,7 @@
 <h2 id="introduction"><a class="link" href="#introduction">1. Introduction</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>AddressBook Level 4 (AB4) is for those who <strong>prefer to use a desktop app for managing contacts</strong>. More importantly, AB4 is <strong>optimized for those who prefer to work with a Command Line Interface</strong> (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB4 can get your contact management tasks done faster than traditional GUI apps. Interested? Jump to the <a href="#quick-start">Section 2, &#8220;Quick Start&#8221;</a> to get started. Enjoy!</p>
+<p>This address book is optimised and made for corporate users. It is able to store essential and critical information of each contact and boasts a friendly user interface for efficiency. Autocompletion and an ability to approximate word search allows for productivity when information is needed fast. It features proper tagging and groupings for better organisation of contacts. It is also able to store confidential information securely and has a backup file to prevent any accidental deletion.</p>
 </div>
 </div>
 </div>
@@ -130,7 +136,7 @@ e.g. typing <strong><code>help</code></strong> and pressing <kbd>Enter</kbd> wil
 <h3 id="adding-a-person-code-add-code"><a class="link" href="#adding-a-person-code-add-code">3.2. Adding a person: <code>add</code></a></h3>
 <div class="paragraph">
 <p>Adds a person to the address book<br>
-Format: <code>add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]&#8230;&#8203;</code></p>
+Format: <code>add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/POSITION] [k/KPI] [d/NOTE] [t/TAG [PRIORITY]]&#8230;&#8203;</code></p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -139,7 +145,19 @@ Format: <code>add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]&#8230;&#8203;<
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-A person can have any number of tags (including 0)
+KPI scores should be a number from 0 - 5
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+A person can have any number of tags (including 0). Priorities, high(2) or medium(1), can be added after the tag.
 </td>
 </tr>
 </table>
@@ -150,10 +168,10 @@ A person can have any number of tags (including 0)
 <div class="ulist">
 <ul>
 <li>
-<p><code>add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01</code></p>
+<p><code>add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 r/Secretary k/4.99 d/John is forgetful t/friends t/owesMoney 2</code></p>
 </li>
 <li>
-<p><code>add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal</code></p>
+<p><code>add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 r/prisoner t/criminal</code></p>
 </li>
 </ul>
 </div>
@@ -161,15 +179,32 @@ A person can have any number of tags (including 0)
 <div class="sect2">
 <h3 id="listing-all-persons-code-list-code"><a class="link" href="#listing-all-persons-code-list-code">3.3. Listing all persons : <code>list</code></a></h3>
 <div class="paragraph">
-<p>Shows a list of all persons in the address book.<br>
-Format: <code>list</code></p>
+<p>Displays a list of persons in your address book.<br>
+Format: <code>list</code> or <code>list t/TAG</code> or <code>list k/KPI</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>t/TAG</code> flag can be specified with a tag to list <em>all persons belonging to that tag</em>.<br></p>
+</li>
+<li>
+<p><code>k/KPI</code> flag can be specified with a KPI value to list <em>all persons with that value</em>.<br></p>
+</li>
+<li>
+<p>If no flags are specified, <em>all persons</em> are listed by default.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Example:<br>
+You can input <code>list t/friends</code> to display all persons with that tag in your address book.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="editing-a-person-code-edit-code"><a class="link" href="#editing-a-person-code-edit-code">3.4. Editing a person : <code>edit</code></a></h3>
 <div class="paragraph">
 <p>Edits an existing person in the address book.<br>
-Format: <code>edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]&#8230;&#8203;</code></p>
+Format: <code>edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/POSITION] [k/KPI] [d/NOTE] [t/TAG [PRIORITY]]&#8230;&#8203;</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -185,10 +220,16 @@ Format: <code>edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]&#8230;
 <p>Existing values will be updated to the input values.</p>
 </li>
 <li>
+<p>Use <code>all/</code> instead of <code>INDEX</code> to edit all persons listed in a single command.</p>
+</li>
+<li>
 <p>When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.</p>
 </li>
 <li>
 <p>You can remove all the person&#8217;s tags by typing <code>t/</code> without specifying any tags after it.</p>
+</li>
+<li>
+<p>You can remove the person&#8217;s position or KPI by typing <code>r/</code> or <code>k/</code> respectively without specifying any position or KPI.</p>
 </li>
 </ul>
 </div>
@@ -204,24 +245,28 @@ Format: <code>edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]&#8230;
 Edits the phone number and email address of the 1st person to be <code>91234567</code> and <code>johndoe@example.com</code> respectively.</p>
 </li>
 <li>
-<p><code>edit 2 n/Betsy Crower t/</code><br>
-Edits the name of the 2nd person to be <code>Betsy Crower</code> and clears all existing tags.</p>
+<p><code>edit 2 n/Betsy Crower r/ t/</code><br>
+Edits the name of the 2nd person to be <code>Betsy Crower</code> and clears current position and all existing tags.</p>
+</li>
+<li>
+<p><code>edit all/ t/friends k/1.0</code><br>
+Replaces all listed persons' tag to be <code>friends</code> and edits their KPI to be <code>1.0</code>.<br></p>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="locating-persons-by-name-code-find-code"><a class="link" href="#locating-persons-by-name-code-find-code">3.5. Locating persons by name: <code>find</code></a></h3>
+<h3 id="locating-persons-by-attribute-code-find-code"><a class="link" href="#locating-persons-by-attribute-code-find-code">3.5. Locating persons by attribute: <code>find</code></a></h3>
 <div class="paragraph">
 <p>Finds persons whose names contain any of the given keywords.<br>
-Format: <code>find KEYWORD [MORE_KEYWORDS]</code></p>
+Format: <code>find PREFIX KEYWORD [MORE_KEYWORDS]</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>The search is case insensitive. e.g <code>hans</code> will match <code>Hans</code></p>
+<p>The search is not case insensitive.</p>
 </li>
 <li>
 <p>The order of the keywords does not matter. e.g. <code>Hans Bo</code> will match <code>Bo Hans</code></p>
@@ -230,7 +275,7 @@ Format: <code>find KEYWORD [MORE_KEYWORDS]</code></p>
 <p>Only the name is searched.</p>
 </li>
 <li>
-<p>Only full words will be matched e.g. <code>Han</code> will not match <code>Hans</code></p>
+<p>Partial words or words with typos will be matched too eg. 'Hangs' will be matched to 'Hans'</p>
 </li>
 <li>
 <p>Persons matching at least one keyword will be returned (i.e. <code>OR</code> search). e.g. <code>Hans Bo</code> will return <code>Hans Gruber</code>, <code>Bo Yang</code></p>
@@ -245,12 +290,16 @@ Format: <code>find KEYWORD [MORE_KEYWORDS]</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>find John</code><br>
+<p><code>find n/John</code><br>
 Returns <code>john</code> and <code>John Doe</code></p>
 </li>
 <li>
-<p><code>find Betsy Tim John</code><br>
+<p><code>find n/Betsy Tim John</code><br>
 Returns any person having names <code>Betsy</code>, <code>Tim</code>, or <code>John</code></p>
+</li>
+<li>
+<p><code>find e/example@domain.com</code><br>
+Returns any person having the email <code>example@domain.com</code></p>
 </li>
 </ul>
 </div>
@@ -436,30 +485,134 @@ The <code>redo</code> command fails as there are no <code>undo</code> commands e
 </div>
 </div>
 <div class="sect2">
-<h3 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">3.11. Clearing all entries : <code>clear</code></a></h3>
+<h3 id="backing-up-all-data-code-backup-code"><a class="link" href="#backing-up-all-data-code-backup-code">3.11. Backing up all data : <code>backup</code></a></h3>
+<div class="paragraph">
+<p>Backup the data into a “.backup” folder which is invisible to users so as to enhance security.<br>
+Format: <code>backup</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="restore-data-from-backup-code-restore-code"><a class="link" href="#restore-data-from-backup-code-restore-code">3.12. Restore data from backup : <code>restore</code></a></h3>
+<div class="paragraph">
+<p>Restores data from a chosen backup snapshot from the ".backup" folder.<br>
+Format: <code>restore INDEX</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="exports-the-address-book-to-a-directory-code-export-code"><a class="link" href="#exports-the-address-book-to-a-directory-code-export-code">3.13. Exports the address book to a directory : <code>export</code></a></h3>
+<div class="paragraph">
+<p>Export the data to a designated directory with choice of filters.<br>
+Format: <code>export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE] [t/ FILTER_FIELD]</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="imports-the-address-book-from-a-directory-code-import-code"><a class="link" href="#imports-the-address-book-from-a-directory-code-import-code">3.14. Imports the address book from a directory : <code>import</code></a></h3>
+<div class="paragraph">
+<p>Import the data from a designated directory with choice of filters.<br>
+Format: <code>import [d/ TARGET_PATH] [t/ FILTER_FIELD]</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">3.15. Clearing all entries : <code>clear</code></a></h3>
 <div class="paragraph">
 <p>Clears all entries from the address book.<br>
 Format: <code>clear</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">3.12. Exiting the program : <code>exit</code></a></h3>
+<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">3.16. Exiting the program : <code>exit</code></a></h3>
 <div class="paragraph">
 <p>Exits the program.<br>
 Format: <code>exit</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-the-data"><a class="link" href="#saving-the-data">3.13. Saving the data</a></h3>
+<h3 id="saving-the-data"><a class="link" href="#saving-the-data">3.17. Saving the data</a></h3>
 <div class="paragraph">
 <p>Address book data are saved in the hard disk automatically after any command that changes the data.<br>
 There is no need to save manually.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="encrypting-data-files-code-coming-in-v2-0-code"><a class="link" href="#encrypting-data-files-code-coming-in-v2-0-code">3.14. Encrypting data files <code>[coming in v2.0]</code></a></h3>
+<h3 id="encrypting-data-files-code-password-code"><a class="link" href="#encrypting-data-files-code-password-code">3.18. Encrypting data files : <code>password</code></a></h3>
 <div class="paragraph">
-<p><em>{explain how the user can enable/disable data encryption}</em></p>
+<p>Encrypts the data file with your password.<br>
+Format: <code>password YOURPASSWORD</code><br>
+All commands will be disabled during encryption, your data will be safely protected.<br>
+Please close the application after encrypting to clear the application and prevent others from accessing your data.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="email-contacts-code-mail-code"><a class="link" href="#email-contacts-code-mail-code">3.19. Email contacts : <code>mail</code></a></h3>
+<div class="paragraph">
+<p>Opens your system&#8217;s default email application.<br>
+Format: <code>mail all/</code> or <code>mail t/TAG</code> or <code>mail</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>all/</code> flag can be specified to open the email application with <em>all contacts</em> as recipients.<br></p>
+</li>
+<li>
+<p><code>t/TAG</code> flag can be specified with a tag to open the email applications with <em>all contacts belonging to that tag</em> as recipients.<br></p>
+</li>
+<li>
+<p>If no flags are specified, selected contacts are chosen as recipients.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Examples:<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mail t/accountant</code><br>
+opens your email application with all accountants as recipients.<br></p>
+</li>
+<li>
+<p><code>select 3</code><br>
+<code>mail</code><br>
+opens your email application with person (3rd person in the list panel) as recipient.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="text-prediction"><a class="link" href="#text-prediction">3.20. Text prediction</a></h3>
+<div class="paragraph">
+<p>Text prediction feature allows you to complete your command faster with less typing.<br>
+Invoke this feature by pressing the <em>Tab</em> key on the keyboard.<br></p>
+</div>
+<div class="paragraph">
+<p>You can invoke this feature on:<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Command keywords (<code>mail</code>, <code>add</code>, <code>find</code>, etc.) .</p>
+</li>
+<li>
+<p>Flag arguments (<code>n/</code>, <code>a/</code>, <code>t/</code>, etc.) .</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example, given an address book consisting of a contact with the name <em>Alex Yeoh</em>:<br>
+Typing <code>m</code> in the box and pressing <em>Tab</em> will auto complete to the <code>mail</code> command. Then, typing <code>mail n/A</code> and pressing <em>Tab</em> will auto complete to <code>mail n/Alex Yeoh</code> for you.<br></p>
+</div>
+<div class="paragraph">
+<p>Note:<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If there are multiple predicted values, they will be listed down.<br></p>
+</li>
+<li>
+<p>If no argument flags are specified, the default value predicted is based on the command&#8217;s default argument.<br></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -516,7 +669,26 @@ e.g.<code>select 2</code></p>
 <li>
 <p><strong>Redo</strong> : <code>redo</code></p>
 </li>
+<li>
+<p><strong>Backup</strong> : <code>backup</code></p>
+</li>
+<li>
+<p><strong>Restore</strong> : <code>restore</code></p>
+</li>
+<li>
+<p><strong>Export</strong> : <code>export</code></p>
+</li>
+<li>
+<p><strong>Import</strong> : <code>import</code></p>
+</li>
+<li>
+<p><strong>Password</strong> : <code>password</code></p>
+</li>
+<li>
+<p><strong>Email</strong> : <code>mail</code><br>
+e.g. <code>mail all/</code> or <code>mail t/TAG</code></p>
+</li>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-07-28 08:52:29 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-16 16:09:13 UTC</div></div></div></body></html>
