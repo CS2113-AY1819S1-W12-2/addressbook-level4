@@ -20,6 +20,8 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.autocomplete.CommandCompleter;
+import seedu.address.model.autocomplete.TextPrediction;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
@@ -156,27 +158,8 @@ public class AddCommandTest {
 
         //@@author lekoook
         @Override
-        public ArrayList<String> getCmdPrediction(String textInput) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addPersonToTrie(Person person) {
-        }
-
-        @Override
-        public void deletePersonFromTrie(Person person) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void clearAllTries() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void editPersonInTrie(Person personToEdit, Person editedPerson) {
-            throw new AssertionError("This method should not be called.");
+        public TextPrediction getTextPrediction() {
+            return new CommandCompleter(this);
         }
 
         @Override

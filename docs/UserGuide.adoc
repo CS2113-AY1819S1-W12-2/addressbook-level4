@@ -86,6 +86,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/POSITION] [k/KPI
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index *must be a positive integer* 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
+* Use `all/` instead of `INDEX` to edit all persons listed in a single command.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
 * You can remove all the person's tags by typing `t/` without specifying any tags after it.
 * You can remove the person's position or KPI by typing `r/` or `k/` respectively without specifying any position or KPI.
@@ -97,11 +98,13 @@ Examples:
 Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 * `edit 2 n/Betsy Crower r/ t/` +
 Edits the name of the 2nd person to be `Betsy Crower` and clears current position and all existing tags.
+* `edit all/ t/friends k/1.0` +
+Replaces all listed persons' tag to be `friends` and edits their KPI to be `1.0`. +
 
-=== Locating persons by name: `find`
+=== Locating persons by attribute: `find`
 
 Finds persons whose names contain any of the given keywords. +
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Format: `find PREFIX KEYWORD [MORE_KEYWORDS]`
 
 ****
 * The search is not case insensitive.
@@ -113,10 +116,13 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 
 Examples:
 
-* `find John` +
+* `find n/John` +
 Returns `john` and `John Doe`
-* `find Betsy Tim John` +
+* `find n/Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
+* `find e/example@domain.com` +
+Returns any person having the email `example@domain.com`
+
 
 === Deleting a person : `delete`
 

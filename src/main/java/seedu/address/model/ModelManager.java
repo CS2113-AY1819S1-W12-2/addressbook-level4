@@ -3,7 +3,6 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -15,6 +14,7 @@ import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.model.autocomplete.CommandCompleter;
+import seedu.address.model.autocomplete.TextPrediction;
 import seedu.address.model.person.Person;
 
 /**
@@ -25,8 +25,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final VersionedAddressBook versionedAddressBook;
     private final FilteredList<Person> filteredPersons;
-    private CommandCompleter commandCompleter;
     private List<Person> selectedPersons;
+    private TextPrediction textPrediction;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -34,12 +34,11 @@ public class ModelManager extends ComponentManager implements Model {
     public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs) {
         super();
         requireAllNonNull(addressBook, userPrefs);
-
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
-        commandCompleter = new CommandCompleter(this);
+        textPrediction = new CommandCompleter(this);
     }
 
     public ModelManager() {
@@ -123,7 +122,7 @@ public class ModelManager extends ComponentManager implements Model {
         versionedAddressBook.undo();
         indicateAddressBookChanged();
         //@@author lekoook
-        commandCompleter = new CommandCompleter(this);
+        textPrediction.reinitialise();
         //@@author
     }
 
@@ -132,7 +131,7 @@ public class ModelManager extends ComponentManager implements Model {
         versionedAddressBook.redo();
         indicateAddressBookChanged();
         //@@author lekoook
-        commandCompleter = new CommandCompleter(this);
+        textPrediction.reinitialise();
         //@@author
     }
 
@@ -160,52 +159,27 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     //@@author lekoook
+
     /**
-     * Retrieves a list of possible predictions for a command box input
-     * @param textInput text input from command box
-     * @return a list of predictions
+     * Get the TextPrediction instance.
+     * @return the TextPrediction instance used for text prediction.
      */
-    @Override
-    public ArrayList<String> getCmdPrediction(String textInput) {
-        return commandCompleter.predictText(textInput);
+    public TextPrediction getTextPrediction() {
+        return textPrediction;
     }
 
     /**
-     * Adds a Person's attributes to the respective Trie instances for auto complete
-     * @param person the person to add
+     * Initialises the list of selected Persons in address book.
+     * @param selectedPersons the list to initialise with.
      */
-    public void addPersonToTrie(Person person) {
-        commandCompleter.addPersonToTrie(person);
-    }
-
-    /**
-     * Deletes a Person's attributes from the respective Trie instances for auto complete
-     * @param person the person to delete
-     */
-    public void deletePersonFromTrie(Person person) {
-        commandCompleter.deletePersonFromTrie(person);
-    }
-
-    /**
-     * Removes all entries in all Trie instances
-     */
-    public void clearAllTries() {
-        commandCompleter.clearAllTries();
-    }
-
-    /**
-     * Edits a Person's attributes in each respective Trie instances for auto complete.
-     * @param personToEdit the original person.
-     * @param editedPerson the new person.
-     */
-    public void editPersonInTrie(Person personToEdit, Person editedPerson) {
-        commandCompleter.editPersonInTrie(personToEdit, editedPerson);
-    }
-
     public void setSelectedPersons(List<Person> selectedPersons) {
         this.selectedPersons = selectedPersons;
     }
 
+    /**
+     * Returns the list of selected Persons in address book.
+     * @return the list of selected Persons.
+     */
     public List<Person> getSelectedPersons() {
         return this.selectedPersons;
     }

@@ -55,11 +55,16 @@ To achieve better modularity, separate the code into distinct sections, such tha
 - Applying SoC reduces functional overlaps among code sections and also limits the
 ripple effect when changes are introduced to a specific part of the system.
 
+## SOC vs SRP
+SOC is higher level. Applies to component, class.
+
 # Open-closed principle
 A module should be open for extension but closed for modification. That is,
 modules should be written so that they can be extended, without requiring them to be modified.
 
 - ArrayList class can be reused for different templates/ types without modifying its code base.
+- example: AddressbookParser, where we need to add more switch cases when we wish to add more commands
+
 
 # Association classes
 Example:

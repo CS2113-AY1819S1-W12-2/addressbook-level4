@@ -32,7 +32,7 @@ public class ClearCommand extends Command {
 
         model.resetData(new AddressBook());
         model.commitAddressBook();
-        model.clearAllTries();
+        model.getTextPrediction().clearData();
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

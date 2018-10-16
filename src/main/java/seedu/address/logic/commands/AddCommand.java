@@ -82,7 +82,7 @@ public class AddCommand extends Command {
 
         model.addPerson(toAdd);
         model.commitAddressBook();
-        model.addPersonToTrie(toAdd);
+        model.getTextPrediction().insertPerson(toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
 

@@ -11,9 +11,9 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.trie.Trie;
 
 /**
- * Completes the command for the user by predicting the possible substrings
+ * Completes the command for the user by predicting the possible substrings.
  */
-public class CommandCompleter {
+public class CommandCompleter implements TextPrediction {
 
     /**
      * Model instance to access data.
@@ -151,10 +151,11 @@ public class CommandCompleter {
     }
 
     /**
-     * Adds a Person's attributes to the respective Trie instances for auto complete
+     * Adds a Person's attributes to the respective Trie instances for auto complete.
      * @param person the person to add
      */
-    public void addPersonToTrie(Person person) {
+    @Override
+    public void insertPerson(Person person) {
         nameTrie.insert(person.getName().fullName);
         phoneTrie.insert(person.getPhone().value);
         emailTrie.insert(person.getEmail().value);
@@ -166,10 +167,11 @@ public class CommandCompleter {
     }
 
     /**
-     * Deletes a Person's attributes from the respective Trie instances for auto complete
+     * Deletes a Person's attributes from the respective Trie instances for auto complete.
      * @param person the person to delete
      */
-    public void deletePersonFromTrie(Person person) {
+    @Override
+    public void removePerson(Person person) {
         nameTrie.remove(person.getName().fullName);
         phoneTrie.remove(person.getPhone().value);
         emailTrie.remove(person.getEmail().value);
@@ -180,7 +182,8 @@ public class CommandCompleter {
     /**
      * Removes all entries in all Trie instances
      */
-    public void clearAllTries() {
+    @Override
+    public void clearData() {
         nameTrie.clear();
         phoneTrie.clear();
         emailTrie.clear();
@@ -194,7 +197,8 @@ public class CommandCompleter {
      * @param personToEdit the original person.
      * @param editedPerson the new person.
      */
-    public void editPersonInTrie(Person personToEdit, Person editedPerson) {
+    @Override
+    public void editPerson(Person personToEdit, Person editedPerson) {
         if (!personToEdit.getName().equals(editedPerson.getName())) {
             nameTrie.remove(personToEdit.getName().fullName);
             nameTrie.insert(editedPerson.getName().fullName);
@@ -250,5 +254,14 @@ public class CommandCompleter {
         PREDICT_TAG,
         PREDICT_COMMAND,
         PREDICT_INVALID
+    }
+
+    /**
+     * Reinitialise all data structures with given Model.
+     */
+    @Override
+    public void reinitialise() {
+        initLists();
+        initTries();
     }
 }

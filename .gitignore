@@ -17,4 +17,6 @@ classes/
 /data/
 /bin/
 src/main/resources/docs/
+src/main/resources/META-INF/
 out/
+.backup/

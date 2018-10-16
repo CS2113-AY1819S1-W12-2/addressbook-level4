@@ -210,7 +210,7 @@ The `Model`,
 * stores a `UserPref` object that represents the user's preferences.
 * stores the Address Book data.
 * exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* Stores a `Tag` list in the `Address Book`, which `Person` can reference. This allows `Address Book` to only require one `Tag`object per unique `Tag`.
+* Stores a `UniqueTagList` hashmap in the `Address Book`. Each unique `Tag` key is assigned to a value of the list of `person` who are assigned with the same tag.
 * does not depend on any of the other three components.
 
 [[Design-Storage]]

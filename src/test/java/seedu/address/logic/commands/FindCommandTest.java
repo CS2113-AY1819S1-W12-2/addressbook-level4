@@ -20,6 +20,7 @@ import seedu.address.logic.CommandHistory;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.ClosestMatchList;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 
 /**
@@ -87,5 +88,13 @@ public class FindCommandTest {
      */
     private NameContainsKeywordsPredicate preparePredicate(String userInput) {
         return new NameContainsKeywordsPredicate(Arrays.asList(userInput.split("\\s+")));
+    }
+
+
+    @Test
+    public void closestMatchListTest () {
+        String[] names = {"Kurz"};
+        ClosestMatchList closestMatch = new ClosestMatchList(model, PREFIX_NAME, names);
+        assertEquals(closestMatch.getApprovedList().length, 2);
     }
 }
