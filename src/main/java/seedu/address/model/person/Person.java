@@ -33,7 +33,7 @@ public class Person {
     public Person(Name name, Phone phone, Email email, Address address, Position position, Kpi kpi,
                   Note note, Set<Tag> tags) {
         //TODO check if position and Kpi is non null in their respective object class
-        requireAllNonNull(name, phone, email, address, note, tags);
+        requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -151,9 +151,10 @@ public class Person {
         if (kpiDoesExist()) {
             builder.append(" KPI: ").append(getKpi());
         }
-        builder.append(" Note: ")
-                .append(getNote())
-                .append(" Tags: ");
+        if (noteDoesExist()) {
+            builder.append(" Note: ").append(getNote());
+        }
+        builder.append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();
     }
@@ -173,6 +174,16 @@ public class Person {
      */
     public boolean kpiDoesExist() {
         if (kpi == null || !kpi.doesExist()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Returns true if the person has a KPI score
+     */
+    public boolean noteDoesExist() {
+        if (note == null || !note.doesExist()) {
             return false;
         }
         return true;

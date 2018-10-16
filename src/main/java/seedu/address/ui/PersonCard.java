@@ -46,8 +46,6 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private FlowPane information;
     @FXML
-    private Label note;
-    @FXML
     private FlowPane tags;
 
     public PersonCard(Person person, int displayedIndex) {
@@ -58,8 +56,6 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
-        note.setText(person.getNote().value);
-
         //@@author LowGinWee
         List<Label> highPriorityTags = new ArrayList<>();
         List<Label> mediumPriorityTags = new ArrayList<>();;
@@ -92,6 +88,10 @@ public class PersonCard extends UiPart<Region> {
         //TODO find a btr way to find height
         information.setOrientation(Orientation.VERTICAL);
         int height = 0;
+        if (person.noteDoesExist()) {
+            information.getChildren().add(new Label("Note: " + person.getNote().value));
+            height += LABEL_HEIGHT;
+        }
         if (person.positionDoesExist()) {
             information.getChildren().add(new Label("Position: " + person.getPosition().value));
             height += LABEL_HEIGHT;

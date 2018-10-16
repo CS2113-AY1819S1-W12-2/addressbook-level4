@@ -12,6 +12,20 @@ public class AutoCompleteParserPair {
 
     public AutoCompleteParserPair(Prefix predictionType, String prefixValue) {
         this.predictionType = predictionType;
-        this.prefixValue = prefixValue;
+        this.prefixValue = removeLeadingWhitespace(prefixValue);
+    }
+
+    /**
+     * Removes leading whitespace for correct text prediction.
+     * @param input the user input to trim.
+     * @return the trimmed input.
+     */
+    private String removeLeadingWhitespace(String input) {
+        for (int index = 0; index < input.length(); index++) {
+            if (!Character.isWhitespace(input.charAt(index))) {
+                return input.substring(index);
+            }
+        }
+        return input;
     }
 }
