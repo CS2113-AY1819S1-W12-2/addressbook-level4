@@ -346,6 +346,24 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
+=== Back Up and Restore
+==== Back Up
+Creation of backups is done in `BackUpCommand` class. It extends the `Command` class with an overriding execute function. +
+The execute function does the following operations: +
+Step 1. The 'BackUpCommand` class will check if a `.backup` directory exist. If it does not, a `.backup` will be created. +
+Step 2. `addressbook.xml` will be copied to the `.backup` folder with the name being saved as the number of milliseconds which has passed since epoch. +
+
+==== Listing of backup snapshots
+Listing of the snapshots of backups is done with the `RestoreSnapshotsCommand` class. It also extends the `Command` class. +
+The execute function does the following operations: +
+Step 1. Checks the `.backup` folder for all the snapshots and stores them in a `BackupList` class. Throws an exception if `.backup` does not exist or is empty. +
+Step 2. Converts the names of file into the format DATE TIME and saves it in an array. +
+Step 3. Iterate through the array and form a string to print. +
+Step 4. Prints the string. +
+
+==== Restoring from the list
+[[Implementation-Restore]]
+
 == Documentation
 
 We use asciidoc for writing documentation.
