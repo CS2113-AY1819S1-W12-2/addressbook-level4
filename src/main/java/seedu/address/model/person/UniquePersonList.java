@@ -112,6 +112,26 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**
+     * sorts the person in the list according to the comparator specified
+     * If isReverseOrder is true, the list will be in descending order
+     * @throws EmptyPersonListException if the list is empty
+     */
+    public void sort(Comparator comparator, Boolean isReverseOrder) throws EmptyPersonListException {
+        requireNonNull(comparator);
+        requireNonNull(isReverseOrder);
+
+        if (internalList.size() < 1) {
+            throw new EmptyPersonListException();
+        }
+
+        Collections.sort(internalList, comparator);
+
+        if (isReverseOrder) {
+            Collections.reverse(internalList);
+        }
+    }
+
+    /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
     public ObservableList<Person> asUnmodifiableObservableList() {
