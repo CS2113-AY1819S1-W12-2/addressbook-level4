@@ -9,6 +9,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.SortCommand;
@@ -35,13 +36,20 @@ public class SortCommandParser implements Parser<SortCommand>{
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
 
+        if (!args.matches("^|( [npea]/(r)?)$")) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
+        /** To check
         if (argMultimap.size() > 2) {
             throw new ParseException(
                     String.format(SortCommand.MESSAGE_MULTIPLE_ATTRIBUTE_ERROR, SortCommand.MESSAGE_USAGE)
             );
         }
-        if (!(arePrefixesPresent(argMultimap, PREFIX_NAME_FOR_SORTING)
-                || arePrefixesPresent(argMultimap, PREFIX_PHONE_FOR_SORTING))) {
+         **/
+
+        if (!(arePrefixesPresent(argMultimap, PREFIX_NAME)
+                || arePrefixesPresent(argMultimap, PREFIX_PHONE))) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
 
@@ -54,11 +62,11 @@ public class SortCommandParser implements Parser<SortCommand>{
         }
 
         if (argMultimap.size() == 1) {
-            attribute = PREFIX_NAME_FOR_SORTING.getPrefix();
+            attribute = PREFIX_NAME.getPrefix();
         }
 
-        argMultimap.getValue(PREFIX_NAME_FOR_SORTING).ifPresent(setOrder(PREFIX_NAME_FOR_SORTING));
-        argMultimap.getValue(PREFIX_PHONE_FOR_SORTING).ifPresent(setOrder(PREFIX_PHONE_FOR_SORTING));
+        argMultimap.getValue(PREFIX_NAME).ifPresent(setOrder(PREFIX_NAME));
+        argMultimap.getValue(PREFIX_PHONE).ifPresent(setOrder(PREFIX_PHONE));
 
         return new SortCommand(attribute, isReverseOrder);
 
