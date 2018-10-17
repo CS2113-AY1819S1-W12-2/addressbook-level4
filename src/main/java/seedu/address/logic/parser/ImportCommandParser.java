@@ -2,10 +2,10 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DIRECTORY;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.File;
+import java.util.stream.Stream;
 
 import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -21,14 +21,30 @@ public class ImportCommandParser implements Parser<ImportCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public ImportCommand parse(String args) throws ParseException {
-        args = args.trim();
-        Path path = Paths.get(args);
-        if (args.isEmpty()) {
-            throw new ParseException(ImportCommand.MESSAGE_USAGE);
-        } else if (Files.notExists(path)) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_FAILURE));
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(
+                        args,
+                        PREFIX_DIRECTORY);
+
+        /**
+         * Checks if prefixes are present
+         */
+        if (!arePrefixesPresent(argMultimap, PREFIX_DIRECTORY)) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE));
         }
-        return new ImportCommand(path);
+
+        /**
+         * Checks if file specified exists
+         */
+        File file = new File(argMultimap.getValue(PREFIX_DIRECTORY).get().trim());
+        if (!file.exists() || file.isDirectory()) {
+            throw new ParseException(ImportCommand.MESSAGE_FAILURE);
+        }
+
+        return new ImportCommand(argMultimap.getValue(PREFIX_DIRECTORY).get().trim(), file);
+    }
+
+    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }

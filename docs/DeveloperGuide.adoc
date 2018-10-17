@@ -346,6 +346,55 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
+=== Text prediction
+
+The low level implementation of text prediction is done in `Trie`. The internal data structure is a _Tree_ structure where each character is stored as a node and strings built into a single tree.
+
+A node has a `endNode` flag that determines if that node represents the last character of the predicted string value. If such a node is reached, the entire string value is appended to the prediction list.
+
+The data structure can be visualised in the diagram below:
+
+image::text_prediction_general.png[width="800"]
+
+In addition, `Trie` implements the following main operations:
+
+* `Trie#insert(String value)` -- inserts a string into the data structure.
+* `Trie#remove(String value)` -- removes a string from the data structure.
+* `Trie#getPredictList(String prefix)` -- retrieve a list of predicted string values that completes the prefix.
+
+The prediction implementation is achieved by utilising depth first search (DFS) in the data structure, starting from the node representing the last character of the prefix.
+
+The prediction algorithm is illustrated with the help of the following diagram:
+
+image::text_prediction_predict.png[width="800"]
+
+For example, we call the method `getPredictList("wom")`.
+
+The algorithm works by first traversing the route (green circles) that represents `"wom"` and stopping at the `m` node (red circle). The algorithm procedes to DFS from that node and explore all it's children nodes (blue circles).
+
+Hence, calling `getPredictList("wom")` will return a list containing the elements:
+
+* `"en"`
+* `"ble"`
+
+=== Back Up and Restore
+==== Back Up
+Creation of backups is done in `BackUpCommand` class. It extends the `Command` class with an overriding execute function. +
+The execute function does the following operations: +
+Step 1. The 'BackUpCommand` class will check if a `.backup` directory exist. If it does not, a `.backup` will be created. +
+Step 2. `addressbook.xml` will be copied to the `.backup` folder with the name being saved as the number of milliseconds which has passed since epoch. +
+
+==== Listing of backup snapshots
+Listing of the snapshots of backups is done with the `RestoreSnapshotsCommand` class. It also extends the `Command` class. +
+The execute function does the following operations: +
+Step 1. Checks the `.backup` folder for all the snapshots and stores them in a `BackupList` class. Throws an exception if `.backup` does not exist or is empty. +
+Step 2. Converts the names of file into the format DATE TIME and saves it in an array. +
+Step 3. Iterate through the array and form a string to print. +
+Step 4. Prints the string. +
+
+==== Restoring from the list
+[[Implementation-Restore]]
+
 == Documentation
 
 We use asciidoc for writing documentation.

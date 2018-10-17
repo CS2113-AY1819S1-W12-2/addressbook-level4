@@ -74,8 +74,17 @@ Examples:
 
 === Listing all persons : `list`
 
-Shows a list of all persons in the address book. +
-Format: `list`
+Displays a list of persons in your address book. +
+Format: `list` or `list t/TAG` or `list k/KPI`
+
+* `t/TAG` flag can be specified with a tag to list _all persons belonging to that tag_. +
+
+* `k/KPI` flag can be specified with a KPI value to list _all persons with that value_. +
+
+* If no flags are specified, _all persons_ are listed by default.
+
+Example: +
+You can input `list t/friends` to display all persons with that tag in your address book.
 
 === Editing a person : `edit`
 
@@ -234,11 +243,11 @@ Format: `restore INDEX`
 
 === Exports the address book to a directory : `export`
 Export the data to a designated directory with choice of filters. +
-Format: `export [d/ OUTPUT_PATH] [f/ FILTER_FIELD]`
+Format: `export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE] [t/ FILTER_FIELD]`
 
 === Imports the address book from a directory : `import`
 Import the data from a designated directory with choice of filters. +
-Format: `import [d/ TARGET_PATH] [f/ FILTER_FIELD]`
+Format: `import [d/ TARGET_PATH] [t/ FILTER_FIELD]`
 
 === Clearing all entries : `clear`
 
@@ -268,30 +277,38 @@ Please close the application after encrypting to clear the application and preve
 Opens your system's default email application. +
 Format: `mail all/` or `mail t/TAG` or `mail`
 
-`all/` flag can be specified to open the email application with all contacts as recipients. +
+* `all/` flag can be specified to open the email application with _all contacts_ as recipients. +
 
-`t/TAG` flag can specified with a tag to open the email applications with all contacts belonging to that tag as recipients. +
+* `t/TAG` flag can be specified with a tag to open the email applications with _all contacts belonging to that tag_ as recipients. +
 
-If no flags are specified, selected contacts are chosen as recipients.
+* If no flags are specified, selected contacts are chosen as recipients.
+
+Examples: +
+
+* `mail t/accountant` +
+opens your email application with all accountants as recipients. +
+
+* `select 3` +
+`mail` +
+opens your email application with person (3rd person in the list panel) as recipient.
 
 === Text prediction
 
-The command box is able to do smart prediction on the current text in the box. +
-This is similar to text prediction on shell programs and can be invoked by pressing the `Tab` key on the keyboard. +
-If there are more than one prediction, the predictions will be listed in results window. +
+Text prediction feature allows you to complete your command faster with less typing. +
+Invoke this feature by pressing the _Tab_ key on the keyboard. +
 
-For example, typing `c` in the box and pressing `Tab` will auto complete to the `clear` command. +
-Typing `e` in the box and pressing `Tab` will list `edit`, `exit` and `export` in results window. +
+You can invoke this feature on: +
 
-In general, text prediction works on all commands. +
-In particular, text prediction also works on the following attributes of a contact: +
+* Command keywords (`mail`, `add`, `find`, etc.) .
+* Flag arguments (`n/`, `a/`, `t/`, etc.) .
 
-* `name` +
+For example, given an address book consisting of a contact with the name _Alex Yeoh_: +
+Typing `m` in the box and pressing _Tab_ will auto complete to the `mail` command. Then, typing `mail n/A` and pressing _Tab_ will auto complete to `mail n/Alex Yeoh` for you. +
 
-This feature is supported by the `find` command. When using `find`, first input the command, followed by any string of characters, then pressing `Tab` will invoke this feature. +
+Note: +
 
-For example in an address book consisting of a contact with the name `Alex Yeoh`, typing `find A` and pressing `Tab` will auto complete to `find Alex Yeoh`. +
-If no flags are given, by default, names are assumed to be predicted.
+* If there are multiple predicted values, they will be listed down. +
+* If no argument flags are specified, the default value predicted is based on the command's default argument. +
 
 == FAQ
 

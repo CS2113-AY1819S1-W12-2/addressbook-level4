@@ -2,6 +2,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.COMMAND_SNAPSHOTS;
 
 import java.io.IOException;
 
@@ -15,7 +16,6 @@ import seedu.address.model.backup.BackupList;
  * Parses input arguments and creates a new RestoreCommand object
  */
 public class RestoreCommandParser implements Parser<RestoreCommand> {
-    public static final String ARGUMENT_SNAPSHOTS = "snapshots";
 
     /**
      * Parses the given {@code String} of arguments in the context of the RestoreCommand
@@ -26,7 +26,7 @@ public class RestoreCommandParser implements Parser<RestoreCommand> {
         args = args.trim();
         try {
             BackupList backupList = ParserUtil.parseBackup(args);
-            if (args.equals(ARGUMENT_SNAPSHOTS)) {
+            if (args.equals(COMMAND_SNAPSHOTS)) {
                 return new RestoreSnapshotsCommand(backupList);
             } else {
                 Index index = ParserUtil.parseIndex(args);
