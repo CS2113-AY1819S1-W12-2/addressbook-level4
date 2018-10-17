@@ -17,7 +17,7 @@ import seedu.address.model.Model;
  * Commands for sorting by respective attributes
  */
 
-public class SortCommand extends Command {
+public class SortCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = CliSyntax.COMMAND_SORT;
     public static final String REVERSE_ORDER = CliSyntax.REVERSE_SEQUENCE;
@@ -62,7 +62,7 @@ public class SortCommand extends Command {
         try {
             model.sortPersonList(comparator, isReverseOrder);
         } catch (EmptyPersonListException eple) {
-            throw new CommandException(MESSAGE_PERSONS_LIST_EMPTY);
+            throw new CommandException(MESSAGE_SORT_EMPTY);
         }
 
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
