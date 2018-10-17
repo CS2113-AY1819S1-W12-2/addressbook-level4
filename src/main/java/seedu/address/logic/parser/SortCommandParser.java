@@ -27,7 +27,7 @@ public class SortCommandParser implements Parser<SortCommand>{
      */
 
     private String attribute;
-    private Boolean isReverseOrder = false;
+    private Boolean isReverseOrder;
 
     public SortCommand parse(String args) throws ParseException {
         requireNonNull(args);
@@ -48,7 +48,7 @@ public class SortCommandParser implements Parser<SortCommand>{
         /**
          * Invalid command arguments would result in a loaded preamble
          */
-
+        //@@author sunarjo-denny-reused
         if (!argMultimap.getPreamble().equals("")) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
