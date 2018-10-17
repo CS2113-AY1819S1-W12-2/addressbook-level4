@@ -14,10 +14,13 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import seedu.address.model.AddressBook;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.ReadPersonOnly;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 /**
  * A utility class containing a list of {@code Person} objects to be used in tests.
@@ -125,5 +128,59 @@ public class TypicalPersons {
 
     public static List<Person> getTypicalPersons() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
+    }
+
+    //sorting tests
+    public static AddressBook getEmptyAddressBook() {
+        AddressBook ab = new AddressBook();
+        return ab;
+    }
+
+    public static AddressBook getSortedAddressBook(String type, boolean isReverseOrder) {
+        AddressBook ab = new AddressBook();
+        List<ReadPersonOnly> personList;
+
+        switch(type) {
+            case "name":
+                personList = getTypicalPersons();
+                break;
+            case "phone":
+                personList = getTypicalPersonsSortedByPhone();
+                break;
+            case "email":
+                personList = getTypicalPersonsSortedByEmail();
+                break;
+            case "address":
+                personList = getTypicalPersonsSortedByAddress();
+                break;
+            default:
+                personList = getTypicalPersons();
+        }
+
+        if (isReverseOrder) {
+            Collections.reverse(personList);
+        }
+
+        for (ReadPersonOnly person : personList) {
+            try {
+                ab.addPerson(person);
+            } catch (DuplicatePersonException e) {
+                assert false : "not possible";
+            }
+        }
+
+        return ab;
+    }
+
+    public static List<ReadPersonOnly> getTypicalPersonsSortedByPhone() {
+        return new ArrayList<>(Arrays.asList(ALICE, DANIEL, ELLE, FIONA, GEORGE, CARL, BENSON));
+    }
+
+    public static List<ReadPersonOnly> getTypicalPersonsSortedByEmail() {
+        return new ArrayList<>(Arrays.asList(ALICE, GEORGE, DANIEL, CARL, BENSON, FIONA, ELLE));
+    }
+
+    public static List<ReadPersonOnly> getTypicalPersonsSortedByAddress() {
+        return new ArrayList<>(Arrays.asList(DANIEL, ALICE, BENSON, GEORGE, FIONA, ELLE, CARL));
     }
 }
