@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Comparator;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.function.Predicate;
@@ -11,6 +12,7 @@ import seedu.address.model.autocomplete.TextPrediction;
 import seedu.address.model.person.Person;
 import seedu.address.model.schedule.Activity;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.person.ReadPersonOnly;
 
 /**
  * The API of the Model component.
@@ -135,4 +137,8 @@ public interface Model {
      */
     TreeMap<Date, ArrayList<Activity>> getSchedule();
 
+
+    //@author peiying98
+    /** Sorts address book list */
+    void sortPerson(Comparator<ReadPersonOnly> sortComparator, boolean isReverseOrder) throws NoPersonsException;
 }
