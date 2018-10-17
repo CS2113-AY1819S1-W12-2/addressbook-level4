@@ -7,11 +7,16 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+
+import java.util.Comparator;
 
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.CliSyntax;
 import seedu.address.model.Model;
+import seedu.address.model.person.ReadPersonOnly;
+import seedu.address.model.person.exceptions.EmptyPersonListException;
 
 /**
  * Commands for sorting by respective attributes
@@ -58,24 +63,24 @@ public class SortCommand extends Command {
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
 
-        Comparator<ReadOnlyPerson> comparator = sortComparatorByPrefix(this.attribute);
+        Comparator<ReadPersonOnly> comparator = sortComparatorByPrefix(this.attribute);
         try {
-            model.sortPersonList(comparator, isReverseOrder);
+            model.sortPerson(comparator, isReverseOrder);
         } catch (EmptyPersonListException eple) {
-            throw new CommandException(MESSAGE_PERSONS_LIST_EMPTY);
+            throw new CommandException(MESSAGE_SORT_EMPTY);
         }
 
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         if (isReverseOrder) {
             this.sequence = "descending";
         }
-        return new CommandResult(String.format(MESSAGE_SUCCESS, sortBy, sequence));
+        return new CommandResult(String.format(MESSAGE_SORT_SUCCESS, sortBy, sequence));
     }
 
     /**
      * Comparator depending on the attribute specified
      */
-    private Comparator<ReadOnlyPerson> sortComparatorByPrefix(String attribute) {
+    private Comparator<ReadPersonOnly> sortComparatorByPrefix(String attribute) {
         switch (attribute) {
             case PREFIX_NAME:
                 this.sortBy = "name";
@@ -91,7 +96,7 @@ public class SortCommand extends Command {
                 return (o1, o2) -> o1.getAddress().toString().compareToIgnoreCase(o2.getAddress().toString());
             case PREFIX_TAG:
                 this.sortBy = "tag";
-                return (o1, o2) -> o1.getTag().toString().compareToIgnoreCase(o2.getTag().toString());
+                return (o1, o2) -> o1.getTags().toString().compareToIgnoreCase(o2.getTag().toString());
             default:
                 return (o1, o2) -> o1.getName().toString().compareToIgnoreCase(o2.getName().toString());
         }
@@ -101,7 +106,7 @@ public class SortCommand extends Command {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof SortCommand // instanceof handles nulls
-                && field.equals(((SortCommand) other).field)
+                && attribute.equals(((SortCommand) other).attribute)
                 && REVERSE_ORDER.equals(((SortCommand) other).REVERSE_ORDER));
 
     }

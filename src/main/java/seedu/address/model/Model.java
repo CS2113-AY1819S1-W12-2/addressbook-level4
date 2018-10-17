@@ -1,11 +1,13 @@
 package seedu.address.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.ReadPersonOnly;
 
 /**
  * The API of the Model component.
@@ -113,4 +115,8 @@ public interface Model {
     void setSelectedPersons(List<Person> personListView);
 
     List<Person> getSelectedPersons();
+
+    //@author peiying98
+    /** Sorts address book list */
+    void sortPerson(Comparator<ReadPersonOnly> sortComparator, boolean isReverseOrder) throws NoPersonsException;
 }
