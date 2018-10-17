@@ -32,12 +32,23 @@ public class LogicManager extends ComponentManager implements Logic {
 
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
-        logger.info("----------------[USER COMMAND][" + commandText + "]");
+        boolean isPasswordSenstive = isSensitive(commandText);
+
+        if (!isPasswordSenstive) {
+            logger.info("----------------[USER COMMAND][" + commandText + "]");
+        } else {
+            logger.info("----------------[USER COMMAND][" + "password ********" + "]");
+        }
+
         try {
             Command command = addressBookParser.parseCommand(commandText);
             return command.execute(model, history);
         } finally {
-            history.add(commandText);
+            if (!isPasswordSenstive) {
+                history.add(commandText);
+            } else {
+                history.add("password *******");
+            }
         }
     }
 
@@ -61,4 +72,20 @@ public class LogicManager extends ComponentManager implements Logic {
     public ArrayList<String> getCmdPrediction(String textInput) {
         return model.getTextPrediction().predictText(textInput);
     }
+
+    /**
+     * Check to see if commandText is a password command
+     * @param commandText
+     * @return true if commandText is password sensitive
+     */
+    private boolean isSensitive (String commandText) {
+        String[] splited = commandText.split("\\s+");
+        if (splited.length > 1) {
+            if (splited[0].compareTo("password") == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

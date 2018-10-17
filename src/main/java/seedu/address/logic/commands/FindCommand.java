@@ -5,7 +5,10 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_POSITION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Arrays;
 
@@ -20,7 +23,10 @@ import seedu.address.model.person.AddressContainsKeywordsPredicate;
 import seedu.address.model.person.ClosestMatchList;
 import seedu.address.model.person.EmailContainsKeywordsPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.NoteContainsKeywordsPredicate;
 import seedu.address.model.person.PhoneContainsKeywordPredicate;
+import seedu.address.model.person.PositionContainsKeywordsPredicate;
+import seedu.address.model.person.TagContainsKeywordsPredicate;
 
 
 /**
@@ -68,6 +74,12 @@ public class FindCommand extends Command {
             model.updateFilteredPersonList(new AddressContainsKeywordsPredicate(Arrays.asList(approvedList)));
         } else if (type == PREFIX_EMAIL) {
             model.updateFilteredPersonList(new EmailContainsKeywordsPredicate(Arrays.asList(approvedList)));
+        } else if (type == PREFIX_NOTE) {
+            model.updateFilteredPersonList(new NoteContainsKeywordsPredicate(Arrays.asList(approvedList)));
+        } else if (type == PREFIX_POSITION) {
+            model.updateFilteredPersonList(new PositionContainsKeywordsPredicate(Arrays.asList(approvedList)));
+        } else if (type == PREFIX_TAG) {
+            model.updateFilteredPersonList(new TagContainsKeywordsPredicate(Arrays.asList(approvedList)));
         }
 
         return new CommandResult(

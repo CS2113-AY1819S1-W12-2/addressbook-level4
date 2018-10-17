@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ALL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_KPI;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -11,6 +12,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_POSITION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -57,13 +59,16 @@ public class EditCommand extends Command {
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
-            + PREFIX_EMAIL + "johndoe@example.com";
+            + PREFIX_EMAIL + "johndoe@example.com\n"
+            + "Use " + PREFIX_ALL + " instead of \"INDEX\" to edit all listed persons.";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_EDIT_ALL_SUCCESS = "Edited %d Person(s)";
 
     private final Index index;
+    private final Boolean editAll;
     private final EditPersonDescriptor editPersonDescriptor;
 
     /**
@@ -75,13 +80,20 @@ public class EditCommand extends Command {
         requireNonNull(editPersonDescriptor);
 
         this.index = index;
+        this.editAll = false;
+        this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
+    }
+    public EditCommand(EditPersonDescriptor editPersonDescriptor) {
+        requireNonNull(editPersonDescriptor);
+
+        this.index = null;
+        this.editAll = true;
         this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
     }
 
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
-        List<Person> lastShownList = model.getFilteredPersonList();
 
         UserPrefs userPref = new UserPrefs();
         FileEncryptor fe = new FileEncryptor(userPref.getAddressBookFilePath().toString());
@@ -90,7 +102,47 @@ public class EditCommand extends Command {
             throw new CommandException(FileEncryptor.MESSAGE_ADDRESS_BOOK_LOCKED);
         }
 
+        if (editAll) {
+            return editAllEntries(model);
+        }
 
+        return editSingleEntry(model);
+    }
+
+    /**
+     * Edits all persons listed and returns a {@code CommandResult} with the total number of persons edited.
+     */
+    private CommandResult editAllEntries(Model model) throws CommandException {
+        List<Person> lastShownList = model.getFilteredPersonList();
+        List<Person> personsToCopy = new ArrayList<>();
+
+        for (Person person : lastShownList) {
+            personsToCopy.add(person);
+        }
+        for (Person personToEdit : personsToCopy) {
+            Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
+
+            if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
+                throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+            }
+
+            model.updatePerson(personToEdit, editedPerson);
+            //TODO to enquire and merge with lekoook
+            //model.getTextPrediction().editPerson(personToEdit, editedPerson);
+        }
+
+        model.commitAddressBook();
+
+        //TODO change this to show only edited stuff and format
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        return new CommandResult(String.format(MESSAGE_EDIT_ALL_SUCCESS, personsToCopy.size()));
+    }
+
+    /**
+     * Edits specified person by index and returns a {@code CommandResult} details of {@code editedPerson}
+     */
+    private CommandResult editSingleEntry(Model model) throws CommandException {
+        List<Person> lastShownList = model.getFilteredPersonList();
         if (index.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
@@ -103,11 +155,13 @@ public class EditCommand extends Command {
         }
 
         model.updatePerson(personToEdit, editedPerson);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+
         model.commitAddressBook();
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         model.getTextPrediction().editPerson(personToEdit, editedPerson);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedPerson));
     }
+
 
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
@@ -131,7 +185,9 @@ public class EditCommand extends Command {
         if (editPersonDescriptor.removeKpi) {
             updatedKpi = null;
         }
-
+        if (editPersonDescriptor.removeNote) {
+            updatedNote = null;
+        }
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
                 updatedPosition, updatedKpi, updatedNote, updatedTags);
     }
@@ -169,11 +225,13 @@ public class EditCommand extends Command {
         private Set<Tag> tags;
         private boolean removePosition;
         private boolean removeKpi;
+        private boolean removeNote;
 
         //@@author LowGinWee
         public EditPersonDescriptor() {
             removePosition = false;
             removeKpi = false;
+            removeNote = false;
         }
         //@@author
 
@@ -192,13 +250,14 @@ public class EditCommand extends Command {
             setTags(toCopy.tags);
             removeKpi = toCopy.removeKpi;
             removePosition = toCopy.removePosition;
+            removeNote = toCopy.removeNote;
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            if (removeKpi || removePosition) {
+            if (removeKpi || removePosition || removeNote) {
                 return true;
             }
             return CollectionUtil.isAnyNonNull(name, phone, email, address,
@@ -215,6 +274,7 @@ public class EditCommand extends Command {
 
         public void setPhone(Phone phone) {
             this.phone = phone;
+
         }
 
         public Optional<Phone> getPhone() {
@@ -268,6 +328,10 @@ public class EditCommand extends Command {
 
         public void setRemoveKpi() {
             removeKpi = true;
+        }
+
+        public void setRemoveNote() {
+            removeNote = true;
         }
         //@@author
 

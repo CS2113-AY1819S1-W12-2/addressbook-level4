@@ -4,7 +4,10 @@ package seedu.address.model.person;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_POSITION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -101,7 +104,14 @@ public class ClosestMatchList {
             compareString = person.getEmail().value;
         } else if (myPrefix == PREFIX_ADDRESS) {
             compareString = person.getAddress().value;
+        } else if (myPrefix == PREFIX_POSITION) {
+            compareString = person.getPosition().value;
+        } else if (myPrefix == PREFIX_NOTE) {
+            compareString = person.getNote().value;
+        } else if (myPrefix == PREFIX_TAG) {
+            compareString = person.getStringTags();
         }
+
         generateNameMap(searchKey, compareString);
     }
 
@@ -157,5 +167,4 @@ public class ClosestMatchList {
     public String[] getApprovedList () {
         return approvedNames.toArray(new String[0]);
     }
-
 }

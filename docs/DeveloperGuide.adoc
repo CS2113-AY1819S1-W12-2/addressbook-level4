@@ -210,7 +210,7 @@ The `Model`,
 * stores a `UserPref` object that represents the user's preferences.
 * stores the Address Book data.
 * exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* Stores a `Tag` list in the `Address Book`, which `Person` can reference. This allows `Address Book` to only require one `Tag`object per unique `Tag`.
+* Stores a `UniqueTagList` hashmap in the `Address Book`. Each unique `Tag` key is assigned to a value of the list of `person` who are assigned with the same tag.
 * does not depend on any of the other three components.
 
 [[Design-Storage]]
@@ -345,6 +345,37 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 === Configuration
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
+
+=== Text prediction
+
+The low level implementation of text prediction is done in `Trie`. The internal data structure is a _Tree_ structure where each character is stored as a node and strings built into a single tree.
+
+A node has a `endNode` flag that determines if that node represents the last character of the predicted string value. If such a node is reached, the entire string value is appended to the prediction list.
+
+The data structure can be visualised in the diagram below:
+
+image::text_prediction_general.png[width="800"]
+
+In addition, `Trie` implements the following main operations:
+
+* `Trie#insert(String value)` -- inserts a string into the data structure.
+* `Trie#remove(String value)` -- removes a string from the data structure.
+* `Trie#getPredictList(String prefix)` -- retrieve a list of predicted string values that completes the prefix.
+
+The prediction implementation is achieved by utilising depth first search (DFS) in the data structure, starting from the node representing the last character of the prefix.
+
+The prediction algorithm is illustrated with the help of the following diagram:
+
+image::text_prediction_predict.png[width="800"]
+
+For example, we call the method `getPredictList("wom")`.
+
+The algorithm works by first traversing the route (green circles) that represents `"wom"` and stopping at the `m` node (red circle). The algorithm procedes to DFS from that node and explore all it's children nodes (blue circles).
+
+Hence, calling `getPredictList("wom")` will return a list containing the elements:
+
+* `"en"`
+* `"ble"`
 
 === Back Up and Restore
 ==== Back Up

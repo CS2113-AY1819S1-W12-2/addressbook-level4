@@ -70,6 +70,8 @@ public class PasswordCommand extends Command {
             logger.warning(dataE.getMessage());
         }
 
+        model.getTextPrediction().reinitialise();
+
         return new CommandResult(message);
     }
 

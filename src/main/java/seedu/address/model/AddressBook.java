@@ -5,8 +5,11 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.UniqueTagList;
 
 /**
  * Wraps all data at the address-book level
@@ -15,6 +18,7 @@ import seedu.address.model.person.UniquePersonList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
+    private final UniqueTagList tags;
 
     /*
      * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
@@ -25,6 +29,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         persons = new UniquePersonList();
+        tags = new UniqueTagList();
     }
 
     public AddressBook() {}
@@ -47,6 +52,11 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.persons.setPersons(persons);
     }
 
+    //TODO add description
+    public void setTags(ObservableMap<Tag, UniquePersonList> tagListMap) {
+        this.tags.setTags(tagListMap);
+    }
+
     /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
@@ -54,6 +64,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(newData);
 
         setPersons(newData.getPersonList());
+        setTags(newData.getTagList());
     }
 
     //// person-level operations
@@ -72,6 +83,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void addPerson(Person p) {
         persons.add(p);
+        tags.add(p);
     }
 
     /**
@@ -83,6 +95,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(editedPerson);
 
         persons.setPerson(target, editedPerson);
+        tags.setTag(target, editedPerson);
     }
 
     /**
@@ -91,6 +104,22 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void removePerson(Person key) {
         persons.remove(key);
+        tags.remove(key);
+
+    }
+
+    /**
+     * @return the List of Unique Tags.
+     */
+    public List<Tag> getUniqueTagList() {
+        return tags.getUniqueTagList();
+    }
+
+    /**
+     * @return the List of persons associated with specified tag
+     */
+    public List<Person> getPersonsFromTag(Tag tag) {
+        return tags.getPersons(tag);
     }
 
     //// util methods
@@ -105,6 +134,10 @@ public class AddressBook implements ReadOnlyAddressBook {
         return persons.asUnmodifiableObservableList();
     }
 
+    @Override
+    public ObservableMap<Tag, UniquePersonList> getTagList() {
+        return tags.asUnmodifiableObservableMap();
+    }
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object

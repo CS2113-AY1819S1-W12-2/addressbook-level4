@@ -15,18 +15,15 @@ public class Note {
 
     //TODO check regex and update to include fullstops.
     public static final String NOTE_VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*";
-    public static final String NOTE_NOT_PROVIDED = "No notes for this contact";
 
     public final String value;
-
 
     /**
      * Constructs a {@code Note}
      */
     public Note() {
-        value = NOTE_NOT_PROVIDED;
+        value = null;
     }
-
 
     /**
      * Constructs a {@code Tag}.
@@ -37,6 +34,16 @@ public class Note {
         requireNonNull(note);
         checkArgument(isValidNote(note), MESSAGE_NOTE_CONSTRAINTS);
         value = note;
+    }
+
+    /**
+     * Returns true if a Note has been assigned to the person.
+     */
+    public boolean doesExist() {
+        if (value != null) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -65,7 +72,6 @@ public class Note {
     public int hashCode() {
         return value.hashCode();
     }
-
 }
 
 
