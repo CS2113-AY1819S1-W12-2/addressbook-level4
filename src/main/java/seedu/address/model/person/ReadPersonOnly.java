@@ -1,8 +1,11 @@
 //@author: peiying98
 
 package seedu.address.model.person;
+<<<<<<< HEAD
 import java.util.Set;
 
+=======
+>>>>>>> d4b8e417e0effa343ca60cd5a3412e6dd7a23565
 
 import javafx.beans.property.ObjectProperty;
 import seedu.address.model.tag.Tag;
