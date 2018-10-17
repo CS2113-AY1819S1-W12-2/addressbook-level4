@@ -3,13 +3,19 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
+=======
+import java.util.Collections;
+import java.util.Comparator;
+>>>>>>> sorting
 import java.util.Iterator;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.EmptyPersonListException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**

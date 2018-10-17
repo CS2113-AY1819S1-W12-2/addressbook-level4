@@ -64,4 +64,11 @@ public class ArgumentMultimap {
     public Integer getSize () {
         return argMultimap.size();
     }
+
+    /**
+     *  Returns the size of an ArgumentMultimap instance
+     */
+    public int size() {
+        return argMultimap.size();
+    }
 }
