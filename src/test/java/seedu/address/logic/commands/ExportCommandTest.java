@@ -6,7 +6,6 @@ import static junit.framework.TestCase.assertEquals;
 import java.io.File;
 import java.util.logging.Logger;
 
-import org.junit.After;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.CommandHistory;

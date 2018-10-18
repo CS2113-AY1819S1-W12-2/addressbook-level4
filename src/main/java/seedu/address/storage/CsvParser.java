@@ -52,7 +52,7 @@ public class CsvParser {
 
     /**
      * @return The AddressBook in .csv format in "data" folder
-     * @throws IOException
+     * @throws IOException if {@code convertedFile} does not exist
      */
     public File convertToCsv() throws IOException {
         File convertedFile = new File("data\\addressbook.csv");
