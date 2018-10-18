@@ -8,13 +8,15 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+import javafx.collections.ObservableList;
 import seedu.address.commons.util.FileEncryptor;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.CliSyntax;
 import seedu.address.model.Model;
 import seedu.address.model.UserPrefs;
-import seedu.address.storage.XmlConverter;
+import seedu.address.model.person.Person;
+import seedu.address.storage.CsvParser;
 
 /**
  * Exports CSV file into a directory from the address book.
@@ -55,16 +57,16 @@ public class ExportCommand extends Command {
         }
 
         try {
-            File srcXml = new File(userPref.getAddressBookFilePath().toString());
-            File srcCsv = new File("data/addressbook.csv");
-            XmlConverter.xmlToCsv(srcXml);
+            ObservableList<Person> personList = model.getAddressBook().getPersonList();
+            CsvParser csvParser = new CsvParser(personList);
+            File srcCsv = csvParser.convertToCsv();
             Files.copy(srcCsv.toPath(), file.toPath());
             srcCsv.delete();
             return new CommandResult(String.format(MESSAGE_SUCCESS, directory, fileName));
         } catch (IOException io) {
-            throw new CommandException("ERROR");
+            throw new CommandException("ERROR1");
         } catch (Exception e) {
-            throw new CommandException("ERROR");
+            throw new CommandException("ERROR2");
         }
     }
 }
