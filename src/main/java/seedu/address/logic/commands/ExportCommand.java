@@ -16,7 +16,7 @@ import seedu.address.logic.parser.CliSyntax;
 import seedu.address.model.Model;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
-import seedu.address.storage.CsvParser;
+import seedu.address.storage.CsvWriter;
 
 /**
  * Exports CSV file into a directory from the address book.
@@ -58,8 +58,8 @@ public class ExportCommand extends Command {
 
         try {
             ObservableList<Person> personList = model.getAddressBook().getPersonList();
-            CsvParser csvParser = new CsvParser(personList);
-            File srcCsv = csvParser.convertToCsv();
+            CsvWriter csvWriter = new CsvWriter(personList);
+            File srcCsv = csvWriter.convertToCsv();
             Files.copy(srcCsv.toPath(), file.toPath());
             srcCsv.delete();
             return new CommandResult(String.format(MESSAGE_SUCCESS, directory, fileName));
