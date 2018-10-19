@@ -1,15 +1,16 @@
 //@@author Limminghong
 package seedu.address.storage;
 
-import javafx.collections.ObservableList;
-import seedu.address.model.person.Person;
-import seedu.address.model.tag.Tag;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.collections.ObservableList;
+
+import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 
 /**
  * Converts the file from {@code Model} to a .csv file
