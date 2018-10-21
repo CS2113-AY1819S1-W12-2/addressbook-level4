@@ -93,8 +93,11 @@ public class CsvWriter {
         return convertedFile;
     }
 
-    public List<Person> convertToList() throws IOException {
-        List<Person> personList  = new ArrayList<>();
+    /**
+     * @return a {@code List} of {@code Person} from the {@code List} created by either a file or {@code ObservingList<Person>}
+     */
+    public List<Person> convertToList() {
+        List<Person> personList = new ArrayList<>();
         int counter = 0;
         for (String line : stringList) {
             if (counter != 0) {
