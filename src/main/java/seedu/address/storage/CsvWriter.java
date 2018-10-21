@@ -94,7 +94,7 @@ public class CsvWriter {
     }
 
     /**
-     * @return a {@code List} of {@code Person} from the {@code List} created by either a file or {@code ObservingList<Person>}
+     * @return a {@code List} of {@code Person}
      */
     public List<Person> convertToList() {
         List<Person> personList = new ArrayList<>();
