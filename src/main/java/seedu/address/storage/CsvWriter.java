@@ -98,6 +98,7 @@ public class CsvWriter {
         int counter = 0;
         for (String line : stringList) {
             if (counter != 0) {
+                line = line.substring(0, line.length() - 1);
                 String[] sections = line.split("\",");
 
                 Name name = new Name(sections[0].substring(1).trim());
@@ -106,21 +107,21 @@ public class CsvWriter {
                 Address address = new Address(sections[3].substring(1).trim());
 
                 Position position;
-                if (sections[4].equals("null")) {
+                if (sections[4].substring(1).equals("null")) {
                     position = new Position();
                 } else {
                     position = new Position(sections[4].substring(1).trim());
                 }
 
                 Kpi kpi;
-                if (sections[5].equals("null")) {
+                if (sections[5].substring(1).equals("null")) {
                     kpi = new Kpi();
                 } else {
                     kpi = new Kpi(sections[5].substring(1).trim());
                 }
 
                 Note note;
-                if (sections[6].equals("null")) {
+                if (sections[6].substring(1).equals("null")) {
                     note = new Note();
                 } else {
                     note = new Note(sections[6].substring(1).trim());
