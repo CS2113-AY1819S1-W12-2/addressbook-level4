@@ -96,4 +96,10 @@ public interface Model {
      * @return the list of selected Persons.
      */
     List<Person> getSelectedPersons();
+
+    //@@author lws803
+    /**
+     * Reinitialises the address book
+     */
+    void reinitAddressbook ();
 }

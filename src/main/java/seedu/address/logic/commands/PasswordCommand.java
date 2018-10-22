@@ -1,22 +1,11 @@
 //@@author lws803
 package seedu.address.logic.commands;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.logging.Logger;
-
-import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.commons.exceptions.FileEncryptorException;
 import seedu.address.commons.util.FileEncryptor;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.UserPrefs;
-import seedu.address.model.util.SampleDataUtil;
-import seedu.address.storage.XmlAddressBookStorage;
-
 
 /**
  * Encrypts the XML data using a password and returns a message
@@ -29,9 +18,9 @@ public class PasswordCommand extends Command {
             + "Parameters: KEYWORD PASSWORD...\\n"
             + "Example: " + COMMAND_WORD + " myPassword";
 
-    // public static final String MESSAGE_SUCCESS = "Command executed";
+    public static final String MESSAGE_ENCRYPT_SUCCESS = "File encrypted!";
+    public static final String MESSAGE_DECRYPT_SUCCESS = "File decrypted!";
 
-    private static final Logger logger = LogsCenter.getLogger(PasswordCommand.class);
     private String password;
     private FileEncryptor fe;
 
@@ -39,40 +28,29 @@ public class PasswordCommand extends Command {
      * Executes the FileEncryptor and obtains a message
      * @param credentials will be obtained from parser
      */
-    public PasswordCommand (String[] credentials) {
-        UserPrefs userPref = new UserPrefs();
-        fe = new FileEncryptor(userPref.getAddressBookFilePath().toString());
-        this.password = credentials[0];
+    public PasswordCommand (String credentials, String path) {
+        fe = new FileEncryptor(path);
+        this.password = credentials;
     }
 
     @Override
     public CommandResult execute (Model model, CommandHistory history) throws CommandException {
 
-        UserPrefs userPref = new UserPrefs();
-        Path path = Paths.get(userPref.getAddressBookFilePath().toString());
-        XmlAddressBookStorage storage = new XmlAddressBookStorage(path);
-
-        if (!fe.isAlphanumeric(this.password)) {
-            throw new CommandException(FileEncryptor.MESSAGE_PASSWORD_ALNUM);
-        }
-        // TODO: Let FE throw the error instead of getting the message from it.
-        fe.process(this.password);
-        String message = fe.getMessage();
-
-
-        ReadOnlyAddressBook initialData;
+        String message;
         try {
-            initialData = storage.readAddressBook().orElseGet(SampleDataUtil::getSampleAddressBook);
-            model.resetData(initialData);
-        } catch (IOException ioe) {
-            logger.warning(ioe.getMessage());
-        } catch (DataConversionException dataE) {
-            logger.warning(dataE.getMessage());
+            message = fe.process(this.password);
+        } catch (FileEncryptorException fex) {
+            throw new CommandException(fex.getLocalizedMessage());
         }
 
+        model.reinitAddressbook();
         model.getTextPrediction().reinitialise();
 
-        return new CommandResult(message);
+        if (message == FileEncryptor.MESSAGE_DECRYPTED) {
+            return new CommandResult(MESSAGE_DECRYPT_SUCCESS);
+        } else {
+            return new CommandResult(MESSAGE_ENCRYPT_SUCCESS);
+        }
     }
 
 }

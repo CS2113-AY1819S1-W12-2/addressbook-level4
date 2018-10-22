@@ -317,12 +317,46 @@ image::UndoRedoActivityDiagram.png[width="650"]
 
 // tag::dataencryption[]
 === Data Encryption
+==== Current Implementation
 
-Password handling is done in `PasswordCommand` class. +
-Credentials obtained from the argument is then parsed to the `FileEncryptor` class. +
-Encryption of the XML data file is done in `FileEncryptor` class using the credentials obtained earlier.
+The encrypt/ decrypt mechanism is facilitated by `FileEncryptor`.
+It extends `AddressBook` with a encrypt/decrypt feature, maintained by `PasswordCommand`.
+Additionally, it implements the following operations:
 
-* The data file path must be manually set for now and will be developed in future to support user config.
+* `FileEncryptor#process()` -- Decrypts or encrypts the data file depending on its current state (encrypted or decrypted).
+* `VersionedAddressBook#decryptFile()` -- encrypts a file given the path and password.
+* `VersionedAddressBook#encryptFile()` -- decrypts a file given the path and password.
+
+Given below is an example usage scenario and how the password mechanism behaves at each step.
+
+// TODO: Add more images here
+
+Step 1. The user enters the password command with a password.
+
+[NOTE]
+If the user enters a password which is non alpha-numeric, an error will be thrown at the CommandResult box. Only alpha-numeric passwords are supported by `FileEncryptor`
+
+Step 2. The user closes the addressbook.
+
+Step 3. The user re-opens the addressbook. No data will be shown as XML data file is technically not present in the data folder.
+
+Step 4. The user enters the password command with the right password. Addressbook will be refreshed and restored back to its former state (before encryption).
+
+[NOTE]
+If the user enters the wrong password, an error will be thrown at the CommandResult box.
+
+
+==== Design Considerations
+
+===== Aspect: How encryption and decryption is done
+** The `PBEKeySpec` is first specified using the "PBEWithMD5AndDES" specification.
+** A secret key is generated from `SecretKeyFactory` using "PBEWithMD5AndDES" cipher.
+** Then a `Cipher` is used to encrypt or decrypt the file with a given password and key specifications.
+** Additional salt is used in the password to ensure that the password cannot be easily broken down by dictionary attacks.
+
+===== Aspect: Pros and cons of tight security
+** Pros: Your data is protected and it will be near impossible to use any third part tool to crack the data file.
+** Cons: Data will be *permanently* lost if you forget the password.
 
 // end::dataencryption[]
 
@@ -394,6 +428,24 @@ Step 4. Prints the string. +
 
 ==== Restoring from the list
 [[Implementation-Restore]]
+
+// tag::find[]
+=== Flexible Search
+==== Current Implementation
+
+The find function has been revamped to support prioritisation of search similarity. +
+`FindCommand` is now backed up by the `ClosestMatchList` class which uses `LevenshteinDistanceUtil` to generate an ordered set of Person names ordered by similarity.
+
+// TODO: Add more information here
+
+==== Design Considerations
+
+===== Aspect: How find command executes
+
+===== Aspect: Data structure to support the revamped Find command
+
+// end::find[]
+
 
 == Documentation
 

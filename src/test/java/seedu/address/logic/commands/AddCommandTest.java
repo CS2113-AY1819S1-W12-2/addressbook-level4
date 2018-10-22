@@ -172,6 +172,14 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
         //@@author
+
+        //@@author lws803
+        @Override
+        public void reinitAddressbook() {
+            throw new AssertionError("This method should not be called.");
+        }
+        //@@author
+
     }
 
     /**

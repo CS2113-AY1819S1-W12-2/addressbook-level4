@@ -4,12 +4,13 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
 
 import seedu.address.logic.commands.FindCommand;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
 
 public class FindCommandParserTest {
 
@@ -24,8 +25,13 @@ public class FindCommandParserTest {
     public void parse_validArgs_returnsFindCommand() {
         // no leading and trailing whitespaces
         String[] names = {"Alice", "Bob"};
-        FindCommand expectedFindCommand =
-                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")), names, PREFIX_NAME);
+
+        Map<Prefix, String[]> prefixKeywordsMap = new HashMap<>();
+        prefixKeywordsMap.put(PREFIX_NAME, names);
+        Set<Prefix> keys = prefixKeywordsMap.keySet();
+
+        // FindCommand expectedFindCommand =
+        //        new FindCommand(, names, keys.toArray(new Prefix[0]));
         // assertParseSuccess(parser,  "Alice Bob", expectedFindCommand);
 
         // multiple whitespaces between keywords

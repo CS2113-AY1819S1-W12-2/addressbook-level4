@@ -9,14 +9,15 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POSITION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Position;
@@ -58,58 +59,52 @@ public class FindCommandParser implements Parser<FindCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        if (argMultimap.getSize() > 2) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-        }
 
-        String trimmedArgs = "";
-        Prefix type = PREFIX_NAME;
-        Name name;
-        Phone phone;
-        Address address;
-        Email email;
-        Position position;
-        Note note;
-        Tag tag;
+        Map<Prefix, String[]> prefixKeywordMap = new HashMap<>();
 
         if (arePrefixesPresent(argMultimap, PREFIX_NAME)) {
-            name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
-            trimmedArgs = name.fullName.trim();
-            type = PREFIX_NAME;
-        } else if (arePrefixesPresent(argMultimap, PREFIX_ADDRESS)) {
-            address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
-            trimmedArgs = address.value.trim();
-            type = PREFIX_ADDRESS;
-        } else if (arePrefixesPresent(argMultimap, PREFIX_PHONE)) {
-            phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
-            trimmedArgs = phone.value.trim();
-            type = PREFIX_PHONE;
-        } else if (arePrefixesPresent(argMultimap, PREFIX_EMAIL)) {
-            email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
-            trimmedArgs = email.value.trim();
-            type = PREFIX_EMAIL;
-        } else if (arePrefixesPresent(argMultimap, PREFIX_POSITION)) {
-            position = ParserUtil.parsePosition(argMultimap.getValue(PREFIX_POSITION).get());
-            trimmedArgs = position.value.trim();
-            type = PREFIX_POSITION;
-        } else if (arePrefixesPresent(argMultimap, PREFIX_NOTE)) {
-            note = ParserUtil.parseNote(argMultimap.getValue(PREFIX_NOTE).get());
-            trimmedArgs = note.value.trim();
-            type = PREFIX_NOTE;
-        } else if (arePrefixesPresent(argMultimap, PREFIX_TAG)) {
-            tag = ParserUtil.parseTag(argMultimap.getValue(PREFIX_TAG).get());
-            trimmedArgs = tag.tagName.trim();
-            type = PREFIX_TAG;
+            Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
+            String[] keywords = name.fullName.trim().split("\\s+");
+            prefixKeywordMap.put(PREFIX_NAME, keywords);
+        }
+        if (arePrefixesPresent(argMultimap, PREFIX_ADDRESS)) {
+            Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
+            String[] keywords = address.value.trim().split("\\s+");
+            prefixKeywordMap.put(PREFIX_ADDRESS, keywords);
+        }
+        if (arePrefixesPresent(argMultimap, PREFIX_PHONE)) {
+
+            Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
+            String[] keywords = phone.value.trim().split("\\s+");
+            prefixKeywordMap.put(PREFIX_PHONE, keywords);
+        }
+        if (arePrefixesPresent(argMultimap, PREFIX_EMAIL)) {
+            Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
+            String[] keywords = email.value.trim().split("\\s+");
+            prefixKeywordMap.put(PREFIX_EMAIL, keywords);
+        }
+        if (arePrefixesPresent(argMultimap, PREFIX_POSITION)) {
+            Position position = ParserUtil.parsePosition(argMultimap.getValue(PREFIX_POSITION).get());
+            String[] keywords = position.value.trim().split("\\s+");
+            prefixKeywordMap.put(PREFIX_POSITION, keywords);
+        }
+        if (arePrefixesPresent(argMultimap, PREFIX_NOTE)) {
+            Note note = ParserUtil.parseNote(argMultimap.getValue(PREFIX_NOTE).get());
+            String[] keywords = note.value.trim().split("\\s+");
+            prefixKeywordMap.put(PREFIX_NOTE, keywords);
+        }
+        if (arePrefixesPresent(argMultimap, PREFIX_TAG)) {
+            Tag tag = ParserUtil.parseTag(argMultimap.getValue(PREFIX_TAG).get());
+            String[] keywords = tag.tagName.trim().split("\\s+");
+            prefixKeywordMap.put(PREFIX_TAG, keywords);
         }
 
-        if (trimmedArgs.isEmpty()) {
+        if (prefixKeywordMap.isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
-
-        String[] keywords = trimmedArgs.split("\\s+");
-
-        return new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(keywords)), keywords, type);
+        Set<Prefix> keys = prefixKeywordMap.keySet();
+        return new FindCommand(prefixKeywordMap, keys.toArray(new Prefix[0]));
     }
 
     /**

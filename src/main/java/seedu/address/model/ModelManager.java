@@ -3,6 +3,9 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -13,9 +16,12 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.autocomplete.CommandCompleter;
 import seedu.address.model.autocomplete.TextPrediction;
 import seedu.address.model.person.Person;
+import seedu.address.model.util.SampleDataUtil;
+import seedu.address.storage.XmlAddressBookStorage;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -182,5 +188,26 @@ public class ModelManager extends ComponentManager implements Model {
      */
     public List<Person> getSelectedPersons() {
         return this.selectedPersons;
+    }
+
+
+    //@@author lws803
+    /**
+     * Reinitialises the address book
+     */
+    @Override
+    public void reinitAddressbook() {
+        UserPrefs userPref = new UserPrefs();
+        Path path = Paths.get(userPref.getAddressBookFilePath().toString());
+        XmlAddressBookStorage storage = new XmlAddressBookStorage(path);
+        ReadOnlyAddressBook initialData;
+        try {
+            initialData = storage.readAddressBook().orElseGet(SampleDataUtil::getSampleAddressBook);
+            resetData(initialData);
+        } catch (IOException ioe) {
+            logger.warning(ioe.getMessage());
+        } catch (DataConversionException dataE) {
+            logger.warning(dataE.getMessage());
+        }
     }
 }

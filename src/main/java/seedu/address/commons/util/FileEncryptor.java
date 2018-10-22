@@ -1,3 +1,4 @@
+//@@author lws803
 package seedu.address.commons.util;
 
 import java.io.File;
@@ -6,11 +7,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
+
+import seedu.address.commons.exceptions.FileEncryptorException;
 
 // TODO: Parse username as salt and pad it to make it 8bytes long at least
 
@@ -26,10 +30,11 @@ public class FileEncryptor {
     public static final String MESSAGE_ADDRESS_BOOK_LOCKED = "Address book is locked, "
             + "please key in password";
     public static final String MESSAGE_PASSWORD_ALNUM = "Password must be alpha numeric";
+    public static final String MESSAGE_DECRYPTED = "decrypted";
+    public static final String MESSAGE_ENCRYPTED = "encrypted";
 
     private static String extension = ".encrypted";
     private static String filename = "";
-    private static String message = "";
 
     private static final byte[] salt = {
         (byte) 0x43, (byte) 0x76, (byte) 0x95, (byte) 0xc7,
@@ -45,30 +50,37 @@ public class FileEncryptor {
      * will also check if file is present first
      * @param password is obtained from PasswordCommand class
      */
-    public void process (String password) {
+    public String process (String password) throws FileEncryptorException {
 
         File f = new File(filename);
         File fEncrypted = new File(filename + extension);
 
         try {
+            if (!isAlphanumeric(password)) {
+                throw new FileEncryptorException(MESSAGE_PASSWORD_ALNUM);
+            }
+
             if (fEncrypted.exists() && !fEncrypted.isDirectory() && f.exists() && !f.isDirectory()) {
+                String message;
                 message = "File not decrypted, existing encrypted file already exist\n"
                         + "Please delete the newly created XML file";
+                throw new FileEncryptorException(message);
             } else if (f.exists() && !f.isDirectory()) {
                 encryptFile(filename, password);
-                message = "File encrypted!";
-                // TODO: Send a request to refresh the addressbook
+                return MESSAGE_ENCRYPTED;
+
             } else if (fEncrypted.exists() && !fEncrypted.isDirectory()) {
                 decryptFile(filename, password);
-                message = "File decrypted!";
+                return MESSAGE_DECRYPTED;
             }
 
         } catch (IOException e) {
-            message = e.getMessage();
+            throw new FileEncryptorException(e.getMessage());
         } catch (GeneralSecurityException e) {
-            // message = e.getMessage();
-            message = "Password mismatch!";
+            throw new FileEncryptorException("Password mismatch!");
         }
+
+        return "";
     }
 
     /**
@@ -203,20 +215,13 @@ public class FileEncryptor {
         target.close();
     }
 
-    /**
-     * Gets return message
-     */
-    public String getMessage () {
-        return this.message;
-    }
-
 
     /**
      * Check for alphanumeric
      * @param str
      * @return
      */
-    public boolean isAlphanumeric (String str) {
+    private boolean isAlphanumeric (String str) {
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
             if (c < 0x30 || (c >= 0x3a && c <= 0x40) || (c > 0x5a && c <= 0x60) || c > 0x7a) {

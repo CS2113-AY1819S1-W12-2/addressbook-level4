@@ -8,7 +8,10 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.Rule;
@@ -29,7 +32,6 @@ import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
@@ -80,9 +82,15 @@ public class AddressBookParserTest {
     public void parseCommand_find() throws Exception {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         String[] names = {"foo", "bar", "baz"};
+
+        Map<Prefix, String[]> prefixKeywordsMap = new HashMap<>();
+        prefixKeywordsMap.put(PREFIX_NAME, names);
+        Set<Prefix> keys = prefixKeywordsMap.keySet();
+
+
         FindCommand command = (FindCommand) parser.parseCommand(
                 FindCommand.COMMAND_WORD + " " + PREFIX_NAME + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindCommand(new NameContainsKeywordsPredicate(keywords), names, PREFIX_NAME), command);
+        assertEquals(new FindCommand(prefixKeywordsMap, keys.toArray(new Prefix[0])), command);
     }
 
     @Test

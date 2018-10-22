@@ -9,8 +9,11 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POSITION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Predicate;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.util.FileEncryptor;
@@ -24,6 +27,7 @@ import seedu.address.model.person.ClosestMatchList;
 import seedu.address.model.person.EmailContainsKeywordsPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.NoteContainsKeywordsPredicate;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.PhoneContainsKeywordPredicate;
 import seedu.address.model.person.PositionContainsKeywordsPredicate;
 import seedu.address.model.person.TagContainsKeywordsPredicate;
@@ -42,14 +46,14 @@ public class FindCommand extends Command {
             + "Parameters: PREFIX/KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "alice bob charlie";
 
-    private final NameContainsKeywordsPredicate predicate;
-    private String[] nameKeywords;
-    private Prefix type;
+    private final Predicate<Person> predicate = PREDICATE_SHOW_ALL_PERSONS;
+    private Map<Prefix, String[]> prefixKeywordMap;
+    private Prefix[] types;
 
-    public FindCommand(NameContainsKeywordsPredicate predicate, String[] names, Prefix type) {
-        this.predicate = predicate;
-        this.nameKeywords = names;
-        this.type = type;
+    public FindCommand(Map<Prefix, String[]> prefixKeywordMap,
+                       Prefix[] types) {
+        this.prefixKeywordMap = prefixKeywordMap;
+        this.types = types;
     }
 
     @Override
@@ -63,24 +67,44 @@ public class FindCommand extends Command {
         }
         requireNonNull(model);
 
-        ClosestMatchList closestMatch = new ClosestMatchList(model, type, nameKeywords);
-        String[] approvedList = closestMatch.getApprovedList();
+        Predicate<Person> combinedPredicate = PREDICATE_SHOW_ALL_PERSONS;
 
-        if (type == PREFIX_PHONE) {
-            model.updateFilteredPersonList(new PhoneContainsKeywordPredicate(Arrays.asList(approvedList)));
-        } else if (type == PREFIX_NAME) {
-            model.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(approvedList)));
-        } else if (type == PREFIX_ADDRESS) {
-            model.updateFilteredPersonList(new AddressContainsKeywordsPredicate(Arrays.asList(approvedList)));
-        } else if (type == PREFIX_EMAIL) {
-            model.updateFilteredPersonList(new EmailContainsKeywordsPredicate(Arrays.asList(approvedList)));
-        } else if (type == PREFIX_NOTE) {
-            model.updateFilteredPersonList(new NoteContainsKeywordsPredicate(Arrays.asList(approvedList)));
-        } else if (type == PREFIX_POSITION) {
-            model.updateFilteredPersonList(new PositionContainsKeywordsPredicate(Arrays.asList(approvedList)));
-        } else if (type == PREFIX_TAG) {
-            model.updateFilteredPersonList(new TagContainsKeywordsPredicate(Arrays.asList(approvedList)));
+        for (Prefix type : types) {
+            ClosestMatchList closestMatch = new ClosestMatchList(model, type, prefixKeywordMap.get(type));
+            String[] approvedList = closestMatch.getApprovedList();
+
+            if (type == PREFIX_PHONE) {
+                combinedPredicate = combinedPredicate.and(
+                        new PhoneContainsKeywordPredicate(Arrays.asList(approvedList))
+                );
+            } else if (type == PREFIX_NAME) {
+                combinedPredicate = combinedPredicate.and(
+                        new NameContainsKeywordsPredicate(Arrays.asList(approvedList))
+                );
+            } else if (type == PREFIX_ADDRESS) {
+                combinedPredicate = combinedPredicate.and(
+                        new AddressContainsKeywordsPredicate(Arrays.asList(approvedList))
+                );
+            } else if (type == PREFIX_EMAIL) {
+                combinedPredicate = combinedPredicate.and(
+                        new EmailContainsKeywordsPredicate(Arrays.asList(approvedList))
+                );
+            } else if (type == PREFIX_NOTE) {
+                combinedPredicate = combinedPredicate.and(
+                        new NoteContainsKeywordsPredicate(Arrays.asList(approvedList))
+                );
+            } else if (type == PREFIX_POSITION) {
+                combinedPredicate = combinedPredicate.and(
+                        new PositionContainsKeywordsPredicate(Arrays.asList(approvedList))
+                );
+            } else if (type == PREFIX_TAG) {
+                combinedPredicate = combinedPredicate.and(
+                        new TagContainsKeywordsPredicate(Arrays.asList(approvedList))
+                );
+            }
         }
+
+        model.updateFilteredPersonList(combinedPredicate);
 
         return new CommandResult(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));

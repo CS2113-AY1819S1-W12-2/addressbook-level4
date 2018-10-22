@@ -21,3 +21,4 @@ src/main/resources/META-INF/
 out/
 .backup/
 /exports/
+/META-INF

@@ -1,9 +1,11 @@
+//@@author lws803
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import seedu.address.logic.commands.PasswordCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.UserPrefs;
 
 /**
  * Password command parser class
@@ -18,6 +20,8 @@ public class PasswordCommandParser implements Parser<PasswordCommand> {
      */
     public PasswordCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
+        UserPrefs userPref = new UserPrefs();
+
 
         if (trimmedArgs.isEmpty()) {
             throw new ParseException(
@@ -31,7 +35,7 @@ public class PasswordCommandParser implements Parser<PasswordCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, PasswordCommand.MESSAGE_USAGE));
         }
 
-        return new PasswordCommand(credentials);
+        return new PasswordCommand(credentials[0], userPref.getAddressBookFilePath().toString());
     }
 
 
