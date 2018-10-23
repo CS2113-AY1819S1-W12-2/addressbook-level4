@@ -63,6 +63,9 @@ public class BackUpCommand extends Command {
         Files.copy(source.toPath(), dest.toPath());
     }
 
+    /**
+     * @return filename
+     */
     public String getFileName() {
         return this.fileName;
     }
