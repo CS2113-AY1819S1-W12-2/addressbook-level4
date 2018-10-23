@@ -19,31 +19,51 @@ public class BackUpCommand extends Command {
 
     public static final String COMMAND_WORD = CliSyntax.COMMAND_BACKUP;
     public static final String MESSAGE_SUCCESS = "Address book has been backed up!";
-    public static final String ERROR = "error";
+    public static final String MESSAGE_ERROR = "The source or destination does not exist!";
 
     public static final String DEST_PATH = ".backup";
+
+    private String fileName;
+
+    public BackUpCommand() {
+        fileName = DEST_PATH + "/" + Long.toString(System.currentTimeMillis()) + ".xml";
+    }
 
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         UserPrefs userPref = new UserPrefs();
         FileEncryptor fe = new FileEncryptor(userPref.getAddressBookFilePath().toString());
-        File source = new File(userPref.getAddressBookFilePath().toString());
         File backupDest = new File(DEST_PATH);
+        String sourceName = userPref.getAddressBookFilePath().toString();
 
         if (fe.isLocked()) {
             throw new CommandException(FileEncryptor.MESSAGE_ADDRESS_BOOK_LOCKED);
         }
 
+        if (!backupDest.exists()) {
+            new File(DEST_PATH).mkdir();
+        }
+
         try {
-            if (!backupDest.exists()) {
-                new File(DEST_PATH).mkdir();
-            }
-            String fileName = Long.toString(System.currentTimeMillis());
-            File dest = new File(DEST_PATH + "/" + fileName + ".xml");
-            Files.copy(source.toPath(), dest.toPath());
+            makeBackup(sourceName, fileName);
             return new CommandResult(MESSAGE_SUCCESS);
         } catch (IOException io) {
-            throw new CommandException(ERROR);
+            throw new CommandException(MESSAGE_ERROR);
         }
+    }
+
+    /**
+     * @param sourceName the directory of the addressbook.xml
+     * @param fileName the name of the destination file
+     * @throws IOException if either the source file or destination cannot be found
+     */
+    public void makeBackup (String sourceName, String fileName) throws IOException {
+        File source = new File(sourceName);
+        File dest = new File(fileName);
+        Files.copy(source.toPath(), dest.toPath());
+    }
+
+    public String getFileName() {
+        return this.fileName;
     }
 }

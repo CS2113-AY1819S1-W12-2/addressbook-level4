@@ -35,7 +35,7 @@ public class ExportCommandParser implements Parser<ExportCommand> {
         File dest;
         String directory;
         if (arePrefixesPresent(argMultimap, PREFIX_DIRECTORY)) {
-            directory = argMultimap.getValue(PREFIX_DIRECTORY).get();
+            directory = argMultimap.getValue(PREFIX_DIRECTORY).get().trim();
             dest = new File(directory);
             if (!dest.exists()) {
                 throw new ParseException(ExportCommand.MESSAGE_FAILURE);
