@@ -139,7 +139,7 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_backUp() throws Exception{
+    public void parseCommand_backUp() throws Exception {
         assertTrue(parser.parseCommand(BackUpCommand.COMMAND_WORD) instanceof BackUpCommand);
     }
 
