@@ -20,13 +20,12 @@ public class BackUpCommand extends Command {
     public static final String COMMAND_WORD = CliSyntax.COMMAND_BACKUP;
     public static final String MESSAGE_SUCCESS = "Address book has been backed up!";
     public static final String MESSAGE_ERROR = "The source or destination does not exist!";
-
     public static final String DEST_PATH = ".backup";
 
     private String fileName;
 
     public BackUpCommand() {
-        fileName = DEST_PATH + "/" + Long.toString(System.currentTimeMillis()) + ".xml";
+        fileName = DEST_PATH + "\\" + Long.toString(System.currentTimeMillis()) + ".xml";
     }
 
     @Override

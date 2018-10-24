@@ -6,8 +6,7 @@ import static junit.framework.TestCase.assertEquals;
 import java.io.File;
 import java.util.logging.Logger;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.CommandHistory;
@@ -22,26 +21,25 @@ class BackUpCommandTest {
     private CommandHistory commandHistory = new CommandHistory();
     private BackUpCommand backUpCommand;
     private String fileName;
-
-    @Before
-    public void setUp() {
-        backUpCommand = new BackUpCommand();
-        fileName = backUpCommand.getFileName();
-    }
+    private File tmpDest;
 
     @Test
     public void execute_success() {
+        backUpCommand = new BackUpCommand();
         try {
+
             CommandResult result = backUpCommand.execute(model, commandHistory);
+            fileName = backUpCommand.getFileName();
             assertEquals(BackUpCommand.MESSAGE_SUCCESS, result.feedbackToUser);
         } catch (CommandException ce) {
             logger.severe(ce.getMessage());
         }
+
     }
 
-    @After
-    public void cleanUp() {
-        File tmpDest = new File(fileName);
+    @AfterEach
+    public void tearDown() {
+        tmpDest = new File(fileName);
         tmpDest.delete();
     }
 }
