@@ -22,18 +22,26 @@ public class BackUpCommand extends Command {
     public static final String MESSAGE_ERROR = "The source or destination does not exist!";
     public static final String DEST_PATH = ".backup";
 
+    private String sourceName;
     private String fileName;
+    private UserPrefs userPref;
 
     public BackUpCommand() {
+        userPref = new UserPrefs();
+        sourceName = userPref.getAddressBookFilePath().toString();
+        fileName = DEST_PATH + "\\" + Long.toString(System.currentTimeMillis()) + ".xml";
+    }
+
+    public BackUpCommand(String sourceName) {
+        userPref = new UserPrefs();
+        this.sourceName = sourceName;
         fileName = DEST_PATH + "\\" + Long.toString(System.currentTimeMillis()) + ".xml";
     }
 
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
-        UserPrefs userPref = new UserPrefs();
         FileEncryptor fe = new FileEncryptor(userPref.getAddressBookFilePath().toString());
         File backupDest = new File(DEST_PATH);
-        String sourceName = userPref.getAddressBookFilePath().toString();
 
         if (fe.isLocked()) {
             throw new CommandException(FileEncryptor.MESSAGE_ADDRESS_BOOK_LOCKED);

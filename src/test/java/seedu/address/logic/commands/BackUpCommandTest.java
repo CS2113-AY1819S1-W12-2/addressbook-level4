@@ -16,7 +16,6 @@ import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
 
 class BackUpCommandTest {
     private static final Logger logger = Logger.getLogger(BackUpCommand.class.getName());
@@ -27,7 +26,7 @@ class BackUpCommandTest {
     private File tmpSource;
     private File tmpDest;
     private String toWrite = "Hello World!";
-    private Boolean checkStub = false;
+    private String sourceName = "source.xml";
 
     /**
      * Create stubs
@@ -35,16 +34,11 @@ class BackUpCommandTest {
      */
     @BeforeEach
     public void setUp() {
-        UserPrefs userPrefs = new UserPrefs();
         try {
-            tmpSource = new File(userPrefs.getAddressBookFilePath().toString());
-            if (!tmpSource.exists()) {
-                tmpSource.createNewFile();
-                FileWriter writer = new FileWriter(tmpSource);
-                writer.write(toWrite);
-                writer.close();
-                checkStub = true;
-            }
+            tmpSource = new File(sourceName);
+            FileWriter writer = new FileWriter(tmpSource);
+            writer.write(toWrite);
+            writer.close();
         } catch (IOException io) {
             logger.severe(io.getMessage());
         }
@@ -55,7 +49,7 @@ class BackUpCommandTest {
      */
     @Test
     public void execute_success() {
-        BackUpCommand backUpCommand = new BackUpCommand();
+        BackUpCommand backUpCommand = new BackUpCommand(sourceName);
         try {
             CommandResult result = backUpCommand.execute(model, commandHistory);
             fileName = backUpCommand.getFileName();
@@ -73,8 +67,6 @@ class BackUpCommandTest {
     public void tearDown() {
         tmpDest = new File(fileName);
         tmpDest.delete();
-        if (checkStub) {
-            tmpSource.delete();
-        }
+        tmpSource.delete();
     }
 }
