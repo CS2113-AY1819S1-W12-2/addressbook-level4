@@ -29,6 +29,10 @@ class BackUpCommandTest {
     private String toWrite = "Hello World!";
     private Boolean checkStub = false;
 
+    /**
+     * Create stubs
+     * @throws IOException if path to file does not exist
+     */
     @BeforeEach
     public void setUp() throws IOException {
         UserPrefs userPrefs = new UserPrefs();
@@ -42,6 +46,9 @@ class BackUpCommandTest {
         }
     }
 
+    /**
+     * Test for execute in BackupCommand
+     */
     @Test
     public void execute_success() {
         BackUpCommand backUpCommand = new BackUpCommand();
@@ -55,6 +62,9 @@ class BackUpCommandTest {
 
     }
 
+    /**
+     * Cleanup stubs created in setup
+     */
     @AfterEach
     public void tearDown() {
         tmpDest = new File(fileName);
