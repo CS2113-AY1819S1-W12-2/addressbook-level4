@@ -34,15 +34,19 @@ class BackUpCommandTest {
      * @throws IOException if path to file does not exist
      */
     @BeforeEach
-    public void setUp() throws IOException {
+    public void setUp() {
         UserPrefs userPrefs = new UserPrefs();
-        tmpSource = new File(userPrefs.getAddressBookFilePath().toString());
-        if (!tmpSource.exists()) {
-            tmpSource.createNewFile();
-            FileWriter writer = new FileWriter(tmpSource);
-            writer.write(toWrite);
-            writer.close();
-            checkStub = true;
+        try {
+            tmpSource = new File(userPrefs.getAddressBookFilePath().toString());
+            if (!tmpSource.exists()) {
+                tmpSource.createNewFile();
+                FileWriter writer = new FileWriter(tmpSource);
+                writer.write(toWrite);
+                writer.close();
+                checkStub = true;
+            }
+        } catch (IOException io) {
+            logger.severe(io.getMessage());
         }
     }
 
