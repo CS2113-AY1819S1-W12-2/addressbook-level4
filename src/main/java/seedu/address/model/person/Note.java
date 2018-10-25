@@ -14,7 +14,7 @@ public class Note {
             + "should only contain alphanumeric characters and spaces";
 
     //TODO check regex and update to include fullstops.
-    public static final String NOTE_VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*";
+    public static final String NOTE_VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*\\.*";
 
     public final String value;
 

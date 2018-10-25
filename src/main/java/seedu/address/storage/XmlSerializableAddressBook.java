@@ -11,6 +11,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
+import seedu.address.model.schedule.Activity;
 
 /**
  * An Immutable AddressBook that is serializable to XML format
@@ -23,12 +24,16 @@ public class XmlSerializableAddressBook {
     @XmlElement
     private List<XmlAdaptedPerson> persons;
 
+    @XmlElement
+    private List<XmlAdaptedActivity> activities;
+
     /**
      * Creates an empty XmlSerializableAddressBook.
      * This empty constructor is required for marshalling.
      */
     public XmlSerializableAddressBook() {
         persons = new ArrayList<>();
+        activities = new ArrayList<>();
     }
 
     /**
@@ -37,6 +42,7 @@ public class XmlSerializableAddressBook {
     public XmlSerializableAddressBook(ReadOnlyAddressBook src) {
         this();
         persons.addAll(src.getPersonList().stream().map(XmlAdaptedPerson::new).collect(Collectors.toList()));
+        activities.addAll(src.getActivityList().stream().map(XmlAdaptedActivity::new).collect(Collectors.toList()));
     }
 
     /**
@@ -55,6 +61,10 @@ public class XmlSerializableAddressBook {
             addressBook.addPerson(person);
 
         }
+        for (XmlAdaptedActivity a : activities) {
+            Activity activity = a.toModelType();
+            addressBook.addActivity(activity);
+        }
         return addressBook;
     }
 
@@ -67,6 +77,7 @@ public class XmlSerializableAddressBook {
         if (!(other instanceof XmlSerializableAddressBook)) {
             return false;
         }
+        //TODO update this to include schedule
         return persons.equals(((XmlSerializableAddressBook) other).persons);
     }
 }

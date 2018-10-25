@@ -1,12 +1,15 @@
 package seedu.address.logic;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TreeMap;
 
 import javafx.collections.ObservableList;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Person;
+import seedu.address.model.schedule.Activity;
 
 /**
  * API of the Logic component
@@ -26,6 +29,10 @@ public interface Logic {
 
     /** Returns the list of input entered by the user, encapsulated in a {@code ListElementPointer} object */
     ListElementPointer getHistorySnapshot();
+
+    //@@author LowGinWee
+    /** @return the TreeMap of the Schedule */
+    TreeMap<Date, ArrayList<Activity>> getSchedule();
 
     //@@author lekoook
     /**

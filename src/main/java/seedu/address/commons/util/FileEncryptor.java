@@ -56,10 +56,6 @@ public class FileEncryptor {
         File fEncrypted = new File(filename + extension);
 
         try {
-            if (!isAlphanumeric(password)) {
-                throw new FileEncryptorException(MESSAGE_PASSWORD_ALNUM);
-            }
-
             if (fEncrypted.exists() && !fEncrypted.isDirectory() && f.exists() && !f.isDirectory()) {
                 String message;
                 message = "File not decrypted, existing encrypted file already exist\n"
@@ -221,7 +217,7 @@ public class FileEncryptor {
      * @param str
      * @return
      */
-    private boolean isAlphanumeric (String str) {
+    public static boolean isAlphanumeric (String str) {
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
             if (c < 0x30 || (c >= 0x3a && c <= 0x40) || (c > 0x5a && c <= 0x60) || c > 0x7a) {

@@ -12,10 +12,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 
 /**
- *
- * //TODO write description
- *
- *
+ * A Map with keys as Unique tags. Each key has a unique list of persons as its value.
  */
 public class UniqueTagList {
     private final ObservableMap<Tag, UniquePersonList> internalList = FXCollections.observableHashMap();
@@ -99,7 +96,6 @@ public class UniqueTagList {
         }
     }
 
-    //TODO to edit description
     /**
      * Replaces the contents of this Map with {@code tagListMap}.
      */
@@ -116,17 +112,12 @@ public class UniqueTagList {
     }
 
     /**
-     * Returns the backing list as an unmodifiable {@code ObservableMap}.
+     * Returns the backing map as an unmodifiable {@code ObservableMap}.
      */
     public ObservableMap<Tag, UniquePersonList> asUnmodifiableObservableMap() {
         return FXCollections.unmodifiableObservableMap(internalList);
     }
 
-    /*TODO replace iterate
-    @Override
-    public Iterator<Tag> iterator() {
-        return internalList.iterator();
-    }*/
 
     @Override
     public boolean equals(Object other) {

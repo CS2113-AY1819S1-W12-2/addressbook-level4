@@ -35,7 +35,6 @@ public class EditCommandParser implements Parser<EditCommand> {
      */
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        //TODO 120 characters
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
                 PREFIX_ALL,
                 PREFIX_NAME,
@@ -50,7 +49,6 @@ public class EditCommandParser implements Parser<EditCommand> {
         Index index = null;
         Boolean editAll = false;
 
-        //TODO check label if correct
         CheckPreamble: try {
             if (argMultimap.getValue(PREFIX_ALL).isPresent()) {
                 editAll = true;

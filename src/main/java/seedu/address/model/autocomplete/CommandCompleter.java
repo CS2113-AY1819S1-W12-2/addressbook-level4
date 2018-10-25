@@ -2,6 +2,7 @@
 package seedu.address.model.autocomplete;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.collections.ObservableList;
 import seedu.address.logic.parser.CliSyntax;
@@ -92,6 +93,9 @@ public class CommandCompleter implements TextPrediction {
         commandList.add(CliSyntax.COMMAND_RESTORE);
         commandList.add(CliSyntax.COMMAND_IMPORT);
         commandList.add(CliSyntax.COMMAND_EXPORT);
+        commandList.add(CliSyntax.COMMAND_SCHEDULE_ADD);
+        commandList.add(CliSyntax.COMMAND_SCHEDULE_EDIT);
+        commandList.add(CliSyntax.COMMAND_SCHEDULE_DELETE);
     }
 
     /**
@@ -171,12 +175,16 @@ public class CommandCompleter implements TextPrediction {
      * @param person the person to delete
      */
     @Override
-    public void removePerson(Person person) {
+    public void removePerson(Person person, List<Tag> uniqueTagList) {
         nameTrie.remove(person.getName().fullName);
         phoneTrie.remove(person.getPhone().value);
         emailTrie.remove(person.getEmail().value);
         addressTrie.remove(person.getAddress().value);
-        // TODO: find a way to delete single occurrence tags
+        for (Tag tag : person.getTags()) {
+            if (!uniqueTagList.contains(tag)) {
+                tagTrie.remove(tag.toString());
+            }
+        }
     }
 
     /**
@@ -198,7 +206,7 @@ public class CommandCompleter implements TextPrediction {
      * @param editedPerson the new person.
      */
     @Override
-    public void editPerson(Person personToEdit, Person editedPerson) {
+    public void editPerson(Person personToEdit, Person editedPerson, List<Tag> uniqueTagList) {
         if (!personToEdit.getName().equals(editedPerson.getName())) {
             nameTrie.remove(personToEdit.getName().fullName);
             nameTrie.insert(editedPerson.getName().fullName);
@@ -216,7 +224,14 @@ public class CommandCompleter implements TextPrediction {
             addressTrie.insert(editedPerson.getAddress().value);
         }
         if (!personToEdit.getTags().equals(editedPerson.getTags())) {
-            // TODO: find a way to edit the tags data structure
+            for (Tag tag : personToEdit.getTags()) {
+                if (!uniqueTagList.contains(tag)) {
+                    tagTrie.remove(tag.toString());
+                }
+            }
+            for (Tag tag : editedPerson.getTags()) {
+                tagTrie.insert(tag.toString());
+            }
         }
     }
 

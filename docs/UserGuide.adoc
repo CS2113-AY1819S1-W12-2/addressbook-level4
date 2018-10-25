@@ -14,7 +14,7 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/se-edu/addressbook-level4
 
-By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
+By: `CorpProC`      Since: `Aug 2018`      Licence: `MIT`
 
 == Introduction
 
@@ -314,6 +314,9 @@ Note: +
 
 *Q*: How do I transfer my data to another Computer? +
 *A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Address Book folder.
+
+*Q*: What happens if I forget my password? +
+*A*: Your Address book will not be recoverable. Just delete XML.decrypted
 
 == Command Summary
 

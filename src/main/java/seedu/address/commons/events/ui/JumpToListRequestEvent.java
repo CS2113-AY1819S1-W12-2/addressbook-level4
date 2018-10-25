@@ -1,5 +1,7 @@
 package seedu.address.commons.events.ui;
 
+import java.util.ArrayList;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.events.BaseEvent;
 
@@ -8,10 +10,10 @@ import seedu.address.commons.events.BaseEvent;
  */
 public class JumpToListRequestEvent extends BaseEvent {
 
-    public final int targetIndex;
+    public final ArrayList<Integer> targetIndex;
 
-    public JumpToListRequestEvent(Index targetIndex) {
-        this.targetIndex = targetIndex.getZeroBased();
+    public JumpToListRequestEvent(ArrayList<Index> targetIndex) {
+        this.targetIndex = new ArrayList<>(extractIndexAsIntegers(targetIndex));
     }
 
     @Override
@@ -19,4 +21,16 @@ public class JumpToListRequestEvent extends BaseEvent {
         return getClass().getSimpleName();
     }
 
+    /**
+     * Extracts out an array list of {@code Integer} from an array list of {@code Index}.
+     * @param indexArrayList array list of {@code Index} to extract from.
+     * @return extracted array list of {@code Integer}.
+     */
+    private ArrayList<Integer> extractIndexAsIntegers(ArrayList<Index> indexArrayList) {
+        ArrayList<Integer> output = new ArrayList<>();
+        for (Index index : indexArrayList) {
+            output.add(index.getZeroBased());
+        }
+        return output;
+    }
 }

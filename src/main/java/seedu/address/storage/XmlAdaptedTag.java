@@ -1,7 +1,9 @@
 package seedu.address.storage;
 
+import java.util.StringTokenizer;
 import javax.xml.bind.annotation.XmlValue;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.tag.Tag;
 
@@ -34,8 +36,8 @@ public class XmlAdaptedTag {
      */
     public XmlAdaptedTag(Tag source) {
         tagName = source.tagName;
-        if (source.priority != source.PRIORITY_LOW) {
-            tagName += " " + source.priority;
+        if (source.priority.getZeroBased() != Tag.PRIORITY_LOW) {
+            tagName += " " + source.priority.getZeroBased();
         }
     }
 
@@ -47,6 +49,13 @@ public class XmlAdaptedTag {
     public Tag toModelType() throws IllegalValueException {
         if (!Tag.isValidTagName(tagName)) {
             throw new IllegalValueException(Tag.MESSAGE_TAG_CONSTRAINTS);
+        }
+
+        StringTokenizer st = new StringTokenizer(tagName);
+        tagName = st.nextToken();
+        if (st.hasMoreTokens()) {
+            Index priority = Index.fromZeroBased(Integer.parseInt(st.nextToken()));
+            return new Tag(tagName, priority);
         }
         return new Tag(tagName);
     }

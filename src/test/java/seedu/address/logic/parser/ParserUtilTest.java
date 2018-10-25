@@ -5,6 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_LIST_FIRST;
+import static seedu.address.testutil.TypicalIndexes.INDEX_LIST_SIX;
+import static seedu.address.testutil.TypicalIndexes.INDEX_LIST_THREE;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -204,5 +207,52 @@ public class ParserUtilTest {
         Set<Tag> expectedTagSet = new HashSet<Tag>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
 
         assertEquals(expectedTagSet, actualTagSet);
+    }
+
+    //@@author lekoook
+    @Test
+    public void parseSelectIndex_validInput_success() throws Exception {
+        // No white spaces, single Index
+        assertEquals(INDEX_LIST_FIRST, ParserUtil.parseSelectIndex("1"));
+
+        // No white spaces, multiple Index
+        assertEquals(INDEX_LIST_THREE, ParserUtil.parseSelectIndex("1 2 3"));
+
+        // No white spaces, single range Index
+        assertEquals(INDEX_LIST_THREE, ParserUtil.parseSelectIndex("1-3"));
+
+        // No white spaces, multiple range Index
+        assertEquals(INDEX_LIST_SIX, ParserUtil.parseSelectIndex("1-3,5-7"));
+
+        // With white spaces, single Index
+        assertEquals(INDEX_LIST_FIRST, ParserUtil.parseSelectIndex("  1     "));
+
+        // With white spaces, multiple Index
+        assertEquals(INDEX_LIST_THREE, ParserUtil.parseSelectIndex(" 1      2   3    "));
+
+        // With white spaces, single range Index
+        assertEquals(INDEX_LIST_THREE, ParserUtil.parseSelectIndex("        1  - 3  "));
+
+        // With white spaces, multiple range Index
+        assertEquals(INDEX_LIST_SIX, ParserUtil.parseSelectIndex("1 -    3 , 5  - 7  "));
+    }
+
+    @Test
+    public void parseSelectIndex_invalidInput_throwsParseException() throws Exception {
+        thrown.expect(ParseException.class);
+        // Non numeric
+        ParserUtil.parseSelectIndex("a");
+
+        // Non positive values
+        ParserUtil.parseSelectIndex("-1");
+        ParserUtil.parseSelectIndex("0");
+
+        // Invalid range format/values
+        ParserUtil.parseSelectIndex("1 -- 3");
+        ParserUtil.parseSelectIndex("-4 - 2");
+
+        // Invalid multiple range format/values
+        ParserUtil.parseSelectIndex("1 - 3 5 - 9");
+        ParserUtil.parseSelectIndex("1-4 ,, 6-8");
     }
 }

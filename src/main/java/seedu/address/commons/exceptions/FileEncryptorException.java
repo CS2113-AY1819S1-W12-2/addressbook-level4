@@ -13,12 +13,4 @@ public class FileEncryptorException extends Exception {
         super(message);
     }
 
-    /**
-     * @param message should contain relevant information on the failed constraint(s)
-     * @param cause of the main exception
-     */
-    public FileEncryptorException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
 }

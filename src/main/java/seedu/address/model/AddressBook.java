@@ -2,12 +2,17 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TreeMap;
 
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.schedule.Activity;
+import seedu.address.model.schedule.Schedule;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -19,6 +24,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
     private final UniqueTagList tags;
+    private final Schedule schedule;
 
     /*
      * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
@@ -30,6 +36,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     {
         persons = new UniquePersonList();
         tags = new UniqueTagList();
+        schedule = new Schedule();
     }
 
     public AddressBook() {}
@@ -52,11 +59,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.persons.setPersons(persons);
     }
 
-    //TODO add description
-    public void setTags(ObservableMap<Tag, UniquePersonList> tagListMap) {
-        this.tags.setTags(tagListMap);
-    }
-
     /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
@@ -65,6 +67,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         setPersons(newData.getPersonList());
         setTags(newData.getTagList());
+        setSchedule(newData.getActivityList());
     }
 
     //// person-level operations
@@ -105,7 +108,6 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void removePerson(Person key) {
         persons.remove(key);
         tags.remove(key);
-
     }
 
     /**
@@ -138,6 +140,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     public ObservableMap<Tag, UniquePersonList> getTagList() {
         return tags.asUnmodifiableObservableMap();
     }
+
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
@@ -148,5 +151,44 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public int hashCode() {
         return persons.hashCode();
+    }
+
+    //@@author LowGinWee
+    /**
+     * Replaces the contents of the tag HashMap with {@code tagListMap}.
+     */
+    public void setTags(ObservableMap<Tag, UniquePersonList> tagListMap) {
+        this.tags.setTags(tagListMap);
+    }
+
+    /**
+     * Replaces the contents of the schedule with {@code activities}.
+     */
+    public void setSchedule(List<Activity> activities) {
+        this.schedule.setSchedule(activities);
+    }
+
+    /**
+     * Adds an Activity to the schedule in the address book.
+     */
+    public void addActivity(Activity activity) {
+        schedule.add(activity);
+    }
+
+    /**
+     * Deletes an Activity from the schedule in the address book.
+     */
+    public void deleteActivity(Activity activity) {
+        schedule.delete(activity);
+    }
+
+    @Override
+    public ObservableList<Activity> getActivityList() {
+        return schedule.getActivities();
+    }
+
+    @Override
+    public TreeMap<Date, ArrayList<Activity>> getSchedule() {
+        return schedule.getSchedule();
     }
 }

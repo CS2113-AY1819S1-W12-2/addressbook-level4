@@ -1,5 +1,6 @@
 package seedu.address.ui;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
@@ -52,10 +53,13 @@ public class PersonListPanel extends UiPart<Region> {
     /**
      * Scrolls to the {@code PersonCard} at the {@code index} and selects it.
      */
-    private void scrollTo(int index) {
+    private void scrollTo(ArrayList<Integer> indexList) {
         Platform.runLater(() -> {
-            personListView.scrollTo(index);
-            personListView.getSelectionModel().clearAndSelect(index);
+            personListView.scrollTo(indexList.get(0));
+            personListView.getSelectionModel().clearSelection();
+            for (int item : indexList) {
+                personListView.getSelectionModel().select(item);
+            }
         });
     }
 

@@ -4,7 +4,7 @@ package seedu.address.model.tag;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
-import java.util.StringTokenizer;
+import seedu.address.commons.core.index.Index;
 
 /**
  * Represents a Tag in the address book.
@@ -19,26 +19,29 @@ public class Tag {
     public static final int PRIORITY_LOW = 0;
 
     public final String tagName;
-    public final int priority;
+    public final Index priority;
 
     /**
      * Constructs a {@code Tag}.
-     *
+     * @param tagName A valid tag name.
+     * @param priority Priority of Tag.
+     */
+    public Tag(String tagName, Index priority) {
+        requireNonNull(tagName);
+        checkArgument(isValidTagName(tagName), MESSAGE_TAG_CONSTRAINTS);
+        this.tagName = tagName;
+        this.priority = priority;
+    }
+
+    /**
+     * Constructs a {@code Tag}.
      * @param tagName A valid tag name.
      */
     public Tag(String tagName) {
         requireNonNull(tagName);
         checkArgument(isValidTagName(tagName), MESSAGE_TAG_CONSTRAINTS);
-        //TODO to refactor this method
-        //@@author LowGinWee
-        StringTokenizer st = new StringTokenizer(tagName);
-        this.tagName = st.nextToken();
-        if (st.hasMoreTokens()) {
-            this.priority = Integer.parseInt(st.nextToken());
-        } else {
-            this.priority = PRIORITY_LOW;
-        }
-        //@@author
+        this.tagName = tagName;
+        this.priority = Index.fromZeroBased(PRIORITY_LOW);
     }
 
     /**
@@ -52,21 +55,23 @@ public class Tag {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Tag // instanceof handles nulls
-                && tagName.equals(((Tag) other).tagName)); // state check
+                && tagName.equals(((Tag) other).tagName)
+                && priority.equals(((Tag) other).priority)); // state check
     }
 
     @Override
     public int hashCode() {
-        return (priority + tagName).hashCode();
+        return (tagName).hashCode();
     }
 
     /**
      * Format state as text for viewing.
      */
+    @Override
     public String toString() {
         String fullTag = tagName;
-        if (!(priority == PRIORITY_LOW)) {
-            fullTag += " " + priority;
+        if (!(priority.getZeroBased() == PRIORITY_LOW)) {
+            fullTag += " " + priority.getZeroBased();
         }
         return fullTag;
     }

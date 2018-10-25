@@ -8,10 +8,13 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,6 +26,7 @@ import javafx.collections.ObservableMap;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.schedule.Activity;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.PersonBuilder;
 
@@ -100,6 +104,8 @@ public class AddressBookTest {
     private static class AddressBookStub implements ReadOnlyAddressBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
         private final ObservableMap<Tag, UniquePersonList> tags = FXCollections.observableHashMap();
+        private final ObservableList<Activity> activityList = FXCollections.observableArrayList();
+        private final TreeMap<Date, ArrayList<Activity>> schedule = new TreeMap();
 
         AddressBookStub(Collection<Person> persons) {
             this.persons.setAll(persons);
@@ -112,6 +118,14 @@ public class AddressBookTest {
         @Override
         public ObservableMap<Tag, UniquePersonList> getTagList() {
             return tags;
+        }
+        @Override
+        public TreeMap<Date, ArrayList<Activity>> getSchedule() {
+            return schedule;
+        }
+        @Override
+        public ObservableList<Activity> getActivityList() {
+            return activityList;
         }
     }
 

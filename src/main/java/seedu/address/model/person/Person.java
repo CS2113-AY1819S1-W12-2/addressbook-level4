@@ -32,7 +32,6 @@ public class Person {
      */
     public Person(Name name, Phone phone, Email email, Address address, Position position, Kpi kpi,
                   Note note, Set<Tag> tags) {
-        //TODO check if position and Kpi is non null in their respective object class
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
@@ -155,8 +154,11 @@ public class Person {
             builder.append(" Note: ").append(getNote());
         }
         builder.append(" Tags: ");
-        getTags().forEach(builder::append);
-        return builder.toString();
+        for (Tag tag : getTags()) {
+            builder.append(tag).append(" ");
+
+        }
+        return builder.toString().trim();
     }
 
     /**

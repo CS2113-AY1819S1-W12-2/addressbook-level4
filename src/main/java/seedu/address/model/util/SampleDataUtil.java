@@ -14,6 +14,7 @@ import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Position;
+import seedu.address.model.schedule.Activity;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -42,11 +43,28 @@ public class SampleDataUtil {
                 new Note("Roy is a friend"), getTagSet("colleagues"))
         };
     }
+    public static Activity[] getSampleSchedule() {
+        return new Activity[]{
+            new Activity(Activity.toDate(1, 12, 1990), "sample activity 1"),
+            new Activity(Activity.toDate(2, 12, 1990), "sample activity 2"),
+            new Activity(Activity.toDate(3, 12, 1990), "sample activity 3"),
+            new Activity(Activity.toDate(4, 12, 1990), "sample activity 4"),
+            new Activity(Activity.toDate(5, 12, 1990), "sample activity 5"),
+            new Activity(Activity.toDate(6, 12, 1990), "sample activity 6"),
+            new Activity(Activity.toDate(7, 12, 1990), "sample activity 7"),
+            new Activity(Activity.toDate(8, 12, 1990), "sample activity 8"),
+            new Activity(Activity.toDate(9, 11, 1990), "sample activity 9"),
+            new Activity(Activity.toDate(1, 12, 1990), "sample activity 10")
+        };
+    }
 
     public static ReadOnlyAddressBook getSampleAddressBook() {
         AddressBook sampleAb = new AddressBook();
         for (Person samplePerson : getSamplePersons()) {
             sampleAb.addPerson(samplePerson);
+        }
+        for (Activity sampleActivity : getSampleSchedule()) {
+            sampleAb.addActivity(sampleActivity);
         }
         return sampleAb;
     }

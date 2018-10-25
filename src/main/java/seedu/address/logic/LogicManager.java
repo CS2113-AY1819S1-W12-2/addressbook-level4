@@ -1,6 +1,8 @@
 package seedu.address.logic;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -13,6 +15,7 @@ import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
+import seedu.address.model.schedule.Activity;
 
 /**
  * The main LogicManager of the app.
@@ -60,6 +63,12 @@ public class LogicManager extends ComponentManager implements Logic {
     @Override
     public ListElementPointer getHistorySnapshot() {
         return new ListElementPointer(history.getHistory());
+    }
+
+    //@@author LowGinWee
+    @Override
+    public TreeMap<Date, ArrayList<Activity>> getSchedule() {
+        return model.getSchedule();
     }
 
     //@@author lekoook

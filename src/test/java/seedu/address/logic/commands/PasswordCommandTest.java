@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,8 +31,10 @@ public class PasswordCommandTest {
 
     private static final Logger LOGGER = Logger.getLogger(PasswordCommandTest.class.getName());
 
-    private String password = "test1234";
-    private String tempFileName = "test.tmp";
+    private static String password = "test1234";
+    private static String wrongPassword = "test123";
+    private static String tempFileName = "test.tmp";
+
     private String toWrite = "Hello";
     private Model model;
     private CommandHistory commandHistory = new CommandHistory();
@@ -62,6 +64,7 @@ public class PasswordCommandTest {
         try {
             String message = feEncrypt.process(password);
             assertEquals(FileEncryptor.MESSAGE_ENCRYPTED, message);
+            assertEquals(true, feEncrypt.isLocked());
         } catch (FileEncryptorException fex) {
             LOGGER.log(Level.WARNING, fex.getLocalizedMessage());
         }
@@ -69,6 +72,7 @@ public class PasswordCommandTest {
         try {
             String message = feEncrypt.process(password);
             assertEquals(FileEncryptor.MESSAGE_DECRYPTED, message);
+            assertEquals(false, feEncrypt.isLocked());
         } catch (FileEncryptorException fex) {
             LOGGER.log(Level.WARNING, fex.getLocalizedMessage());
         }
@@ -78,11 +82,12 @@ public class PasswordCommandTest {
         reader.close();
     }
 
+
     /**
      * PasswordCommand unit test
      */
     @Test
-    public void passwordTest () {
+    public void passwordCommandAndExceptionTest () {
         assertPasswordCommandSuccess(
                 new PasswordCommand(password, tmpFile.getPath()),
                 model,
@@ -96,15 +101,33 @@ public class PasswordCommandTest {
                 commandHistory,
                 PasswordCommand.MESSAGE_DECRYPT_SUCCESS
         );
+
+        assertPasswordCommandSuccess(
+                new PasswordCommand(password, tmpFile.getPath()),
+                model,
+                commandHistory,
+                PasswordCommand.MESSAGE_ENCRYPT_SUCCESS
+        );
+
+        assertPasswordCommandFailure(
+                new PasswordCommand(wrongPassword, tmpFile.getPath()),
+                model,
+                commandHistory,
+                "Password mismatch!"
+        );
+
     }
+
 
     /**
      * Cleans up the temp file
      */
-    @After
-    public void cleanup () {
+    @AfterClass
+    public static void cleanup () {
         File tmpFile = new File(tempFileName);
+        File tmpFileWithExtension = new File(tempFileName + FileEncryptor.getExtension());
         tmpFile.delete();
+        tmpFileWithExtension.delete();
     }
 
 
@@ -123,6 +146,24 @@ public class PasswordCommandTest {
             assertEquals(expectedMessage, result.feedbackToUser);
         } catch (CommandException ce) {
             throw new AssertionError("Execution of command should not fail.", ce);
+        }
+    }
+
+
+    /**
+     * AssertCommand method to test the CommandException for PasswordCommand
+     * @param command
+     * @param actualModel
+     * @param actualCommandHistory
+     * @param expectedMessage
+     */
+    public static void assertPasswordCommandFailure(Command command, Model actualModel,
+                                                    CommandHistory actualCommandHistory,
+                                                    String expectedMessage) {
+        try {
+            CommandResult result = command.execute(actualModel, actualCommandHistory);
+        } catch (CommandException ce) {
+            assertEquals(ce.getLocalizedMessage(), expectedMessage);
         }
     }
 

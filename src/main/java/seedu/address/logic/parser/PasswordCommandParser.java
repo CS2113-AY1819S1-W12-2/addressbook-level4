@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+import seedu.address.commons.util.FileEncryptor;
 import seedu.address.logic.commands.PasswordCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.UserPrefs;
@@ -33,6 +34,11 @@ public class PasswordCommandParser implements Parser<PasswordCommand> {
         if (credentials.length < 1) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, PasswordCommand.MESSAGE_USAGE));
+        }
+
+        if (!FileEncryptor.isAlphanumeric(credentials[0])) {
+            throw new ParseException(
+                    String.format(FileEncryptor.MESSAGE_PASSWORD_ALNUM, PasswordCommand.MESSAGE_USAGE));
         }
 
         return new PasswordCommand(credentials[0], userPref.getAddressBookFilePath().toString());

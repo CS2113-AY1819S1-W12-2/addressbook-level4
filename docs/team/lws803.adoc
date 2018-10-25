@@ -1,0 +1,66 @@
+= Ler Wei Sheng - Project Portfolio
+:site-section: AboutUs
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: CorproC
+
+---
+
+== Overview
+
+CorpProC is an addressbook application which provides *you* with ease of access and increase in *your* productivity in the workplace. Users can interact with the addressbook using a command line interface and intuitive GUI create with JavaFX.
+
+== Summary of contributions
+
+* *Major enhancement*: added the ability to *encrypt or decrypt the addressbook data*.
+** What it does: password allows users to safely encrypt or decrypt the addressbook data using a secure cipher.
+** Justification: This feature ensures that you can lock up your addressbook and prevent others from accessing your sensitive information.
+** Highlights: This enhancement might affect the execution of other commands in a way that other commands cannot be executed while the addressbook is locked. An additional block of code should be added for future commands to keep with the standards.
+** Credits: adapted from Esailija [https://stackoverflow.com/questions/13673556/using-password-based-encryption-on-a-file-in-java[Stack overflow]]
+
+* *Minor enhancement*: added the ability to search by different attributes so that you can hone in on their search results to find the person you are looking for. Search is revamped to utilise Levenshtein distance which is a known algorithm for finding your closest search results based on your keywords.
+
+
+* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_ - TODO
+
+* *Other contributions*:
+
+** Project management:
+*** Managed releases `v1.3` - `v1.5rc` (3 releases) on GitHub - TODO
+** Enhancements to existing features:
+*** Updated the GUI color scheme (Pull requests https://github.com[#33], https://github.com[#34]) - TODO
+*** Wrote additional tests for existing features to increase coverage from 74.36% to 74.437% (Pull requests https://github.com/CS2113-AY1819S1-W12-3/main/pull/101[#101])
+** Documentation:
+*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com[#14] - TODO
+** Community:
+*** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42] - TODO
+*** Contributed to forum discussions (examples:  https://github.com[1], https://github.com[2], https://github.com[3], https://github.com[4]) - TODO
+*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3]) - TODO
+*** Some parts of the history feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2]) - TODO
+** Tools:
+*** Integrated a new Github plugin (Travis ci) to the team repo
+*** Integrated a new Github plugin (AppVeyor) to the team repo
+*** Integrated a new Github plugin (Coverall) to the team repo
+
+== Contributions to the User Guide
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+include::../UserGuide.adoc[tag=find]
+
+include::../UserGuide.adoc[tag=dataencryption]
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+include::../DeveloperGuide.adoc[tag=find]
+
+include::../DeveloperGuide.adoc[tag=dataencryption]
+
+

@@ -59,7 +59,6 @@ public class AddCommandParser implements Parser<AddCommand> {
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
 
         //@@author LowGinWee
-        //TODO update comments
         /**
          * Checks if note has been specified
          */

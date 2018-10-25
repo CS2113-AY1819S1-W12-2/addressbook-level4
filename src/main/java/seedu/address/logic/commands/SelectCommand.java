@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import seedu.address.commons.core.EventsCenter;
@@ -24,16 +25,18 @@ public class SelectCommand extends Command {
     public static final String COMMAND_WORD = CliSyntax.COMMAND_SELECT;
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Selects the person identified by the index number used in the displayed person list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+            + ": Selects single or multiple persons identified by the index numbers used "
+            + "in the displayed person list.\n"
+            + "Parameters: INDEX INDEX ... INDEX   or   START - END, ... , START - END\n"
+            + "Example: " + COMMAND_WORD + " 1 2 4 5   or   1 - 3, 5 - 9";
 
-    public static final String MESSAGE_SELECT_PERSON_SUCCESS = "Selected Person: %1$s";
+    public static final String MESSAGE_SELECT_PERSON_SUCCESS_MULTIPLE = "Selected %1$s persons.";
+    public static final String MESSAGE_SELECT_PERSON_SUCCESS_SINGLE = "Selected %1$s person.";
 
-    private final Index targetIndex;
+    private final ArrayList<Index> targetIndex;
 
-    public SelectCommand(Index targetIndex) {
-        this.targetIndex = targetIndex;
+    public SelectCommand(ArrayList<Index> targetIndex) {
+        this.targetIndex = new ArrayList<>(targetIndex);
     }
 
     @Override
@@ -49,12 +52,18 @@ public class SelectCommand extends Command {
 
         List<Person> filteredPersonList = model.getFilteredPersonList();
 
-        if (targetIndex.getZeroBased() >= filteredPersonList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        for (Index index : targetIndex) {
+            if (index.getZeroBased() >= filteredPersonList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            }
         }
 
         EventsCenter.getInstance().post(new JumpToListRequestEvent(targetIndex));
-        return new CommandResult(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased()));
+        int selectedCount = targetIndex.size();
+        if (selectedCount <= 1) {
+            return new CommandResult(String.format(MESSAGE_SELECT_PERSON_SUCCESS_SINGLE, selectedCount));
+        }
+        return new CommandResult(String.format(MESSAGE_SELECT_PERSON_SUCCESS_MULTIPLE, selectedCount));
 
     }
 
