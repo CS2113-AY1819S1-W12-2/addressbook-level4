@@ -176,7 +176,6 @@ public class AddCommandTest {
         public List<Person> getSelectedPersons() {
             throw new AssertionError("This method should not be called.");
         }
-        //@@author
 
         //@@author lws803
         @Override
@@ -184,7 +183,7 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
-        public void replaceData(Path path)  {
+        public void replaceData(Path path) {
             throw new AssertionError("This method should not be called.");
         }
 
