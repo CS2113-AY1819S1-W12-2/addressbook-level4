@@ -1,0 +1,435 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]--><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Asciidoctor 1.5.6.1"><title>Ler Wei Sheng - Project Portfolio</title><link rel="stylesheet" href="../stylesheets/gh-pages.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../stylesheets/coderay-asciidoctor.css"></head><body class="article"><div id="seedu-header"><nav class="navbar navbar-lg navbar-light bg-lighter"><div class="container"><a class="navbar-brand" href="https://se-edu.github.io/"><img src="../images/SeEduLogo.png" alt="SE-EDU"></a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level1">AB-1</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level2">AB-2</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level3">AB-3</a></li><li class="nav-item"><a class="nav-link active" href="../index.html">AB-4</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/collate">Collate</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/se-book">Book</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/learningresources">Resources</a></li></ul></div></nav></div><div id="site-header"><nav class="navbar navbar-light bg-light"><div class="container"><a class="navbar-brand" href="../index.html">AddressBook-Level4</a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="../UserGuide.html">User Guide</a></li><li class="nav-item"><a class="nav-link" href="../DeveloperGuide.html">Developer Guide</a></li><li class="nav-item"><a class="nav-link" href="../LearningOutcomes.html">LOs</a></li><li class="nav-item"><a class="nav-link active" href="../AboutUs.html">About Us</a></li><li class="nav-item"><a class="nav-link" href="../ContactUs.html">Contact Us</a></li><li class="navitem"><a class="nav-link" href="https://github.com/se-edu/addressbook-level4"><span class="fa fa-github fa-lg" aria-hidden="true"></span>&nbsp;View on GitHub</a></li></ul></div></nav></div><div id="header"><h1>Ler Wei Sheng - Project Portfolio</h1></div><div id="content"><div class="sect1">
+<h2 id="project-corproc"><a class="link" href="#project-corproc">PROJECT: CorproC</a></h2>
+<div class="sectionbody">
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="overview"><a class="link" href="#overview">Overview</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>CorpProC is an addressbook application which provides <strong>you</strong> with ease of access and increase in <strong>your</strong> productivity in the workplace. Users can interact with the addressbook using a command line interface and intuitive GUI create with JavaFX.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="summary-of-contributions"><a class="link" href="#summary-of-contributions">Summary of contributions</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Major enhancement</strong>: added the ability to <strong>encrypt or decrypt the addressbook data</strong>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: password allows users to safely encrypt or decrypt the addressbook data using a secure cipher.</p>
+</li>
+<li>
+<p>Justification: This feature ensures that you can lock up your addressbook and prevent others from accessing your sensitive information.</p>
+</li>
+<li>
+<p>Highlights: This enhancement might affect the execution of other commands in a way that other commands cannot be executed while the addressbook is locked. An additional block of code should be added for future commands to keep with the standards.</p>
+</li>
+<li>
+<p>Credits: adapted from Esailija [<a href="https://stackoverflow.com/questions/13673556/using-password-based-encryption-on-a-file-in-java">Stack overflow</a>]</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: added the ability to search by different attributes so that you can hone in on their search results to find the person you are looking for. Search is revamped to utilise Levenshtein distance which is a known algorithm for finding your closest search results based on your keywords.</p>
+</li>
+<li>
+<p><strong>Code contributed</strong>: [<a href="https://github.com">Functional code</a>] [<a href="https://github.com">Test code</a>] <em>{give links to collated code files}</em> - TODO</p>
+</li>
+<li>
+<p><strong>Other contributions</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Project management:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Managed releases <code>v1.3</code> - <code>v1.5rc</code> (3 releases) on GitHub - TODO</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Enhancements to existing features:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Updated the GUI color scheme (Pull requests <a href="https://github.com">#33</a>, <a href="https://github.com">#34</a>) - TODO</p>
+</li>
+<li>
+<p>Wrote additional tests for existing features to increase coverage from 74.36% to 74.437% (Pull requests <a href="https://github.com/CS2113-AY1819S1-W12-3/main/pull/101">#101</a>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Documentation:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Did cosmetic tweaks to existing contents of the User Guide: <a href="https://github.com">#14</a> - TODO</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Community:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>PRs reviewed (with non-trivial review comments): <a href="https://github.com">#12</a>, <a href="https://github.com">#32</a>, <a href="https://github.com">#19</a>, <a href="https://github.com">#42</a> - TODO</p>
+</li>
+<li>
+<p>Contributed to forum discussions (examples:  <a href="https://github.com">1</a>, <a href="https://github.com">2</a>, <a href="https://github.com">3</a>, <a href="https://github.com">4</a>) - TODO</p>
+</li>
+<li>
+<p>Reported bugs and suggestions for other teams in the class (examples:  <a href="https://github.com">1</a>, <a href="https://github.com">2</a>, <a href="https://github.com">3</a>) - TODO</p>
+</li>
+<li>
+<p>Some parts of the history feature I added was adopted by several other class mates (<a href="https://github.com">1</a>, <a href="https://github.com">2</a>) - TODO</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tools:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Integrated a new Github plugin (Travis ci) to the team repo</p>
+</li>
+<li>
+<p>Integrated a new Github plugin (AppVeyor) to the team repo</p>
+</li>
+<li>
+<p>Integrated a new Github plugin (Coverall) to the team repo</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-user-guide"><a class="link" href="#contributions-to-the-user-guide">Contributions to the User Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="encrypting-data-files-code-password-code"><a class="link" href="#encrypting-data-files-code-password-code">Encrypting data files : <code>password</code></a></h3>
+<div class="paragraph">
+<p>Encrypts the data file with your password.<br>
+Format: <code>password YOURPASSWORD</code><br>
+All commands will be disabled during encryption, your data will be safely protected.<br>
+Please close the application after encrypting to clear the application and prevent others from accessing your data.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="email-contacts-code-mail-code"><a class="link" href="#email-contacts-code-mail-code">Email contacts : <code>mail</code></a></h3>
+<div class="paragraph">
+<p>Opens your system&#8217;s default email application.<br>
+Format: <code>mail all/</code> or <code>mail t/TAG</code> or <code>mail</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>all/</code> flag can be specified to open the email application with <em>all contacts</em> as recipients.<br></p>
+</li>
+<li>
+<p><code>t/TAG</code> flag can be specified with a tag to open the email applications with <em>all contacts belonging to that tag</em> as recipients.<br></p>
+</li>
+<li>
+<p>If no flags are specified, selected contacts are chosen as recipients.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Examples:<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mail t/accountant</code><br>
+opens your email application with all accountants as recipients.<br></p>
+</li>
+<li>
+<p><code>select 3</code><br>
+<code>mail</code><br>
+opens your email application with person (3rd person in the list panel) as recipient.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="text-prediction"><a class="link" href="#text-prediction">Text prediction</a></h3>
+<div class="paragraph">
+<p>Text prediction feature allows you to complete your command faster with less typing.<br>
+Invoke this feature by pressing the <em>Tab</em> key on the keyboard.<br></p>
+</div>
+<div class="paragraph">
+<p>You can invoke this feature on:<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Command keywords (<code>mail</code>, <code>add</code>, <code>find</code>, etc.) .</p>
+</li>
+<li>
+<p>Flag arguments (<code>n/</code>, <code>a/</code>, <code>t/</code>, etc.) .</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example, given an address book consisting of a contact with the name <em>Alex Yeoh</em>:<br>
+Typing <code>m</code> in the box and pressing <em>Tab</em> will auto complete to the <code>mail</code> command. Then, typing <code>mail n/A</code> and pressing <em>Tab</em> will auto complete to <code>mail n/Alex Yeoh</code> for you.<br></p>
+</div>
+<div class="paragraph">
+<p>Note:<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If there are multiple predicted values, they will be listed down.<br></p>
+</li>
+<li>
+<p>If no argument flags are specified, the default value predicted is based on the command&#8217;s default argument.<br></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="faq"><a class="link" href="#faq">FAQ</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Q</strong>: How do I transfer my data to another Computer?<br>
+<strong>A</strong>: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Address Book folder.</p>
+</div>
+<div class="paragraph">
+<p><strong>Q</strong>: What happens if I forget my password?<br>
+<strong>A</strong>: Your Address book will not be recoverable. Just delete XML.decrypted</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="command-summary"><a class="link" href="#command-summary">Command Summary</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Add</strong> <code>add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]&#8230;&#8203;</code><br>
+e.g. <code>add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague</code></p>
+</li>
+<li>
+<p><strong>Clear</strong> : <code>clear</code></p>
+</li>
+<li>
+<p><strong>Delete</strong> : <code>delete INDEX</code><br>
+e.g. <code>delete 3</code></p>
+</li>
+<li>
+<p><strong>Edit</strong> : <code>edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]&#8230;&#8203;</code><br>
+e.g. <code>edit 2 n/James Lee e/jameslee@example.com</code></p>
+</li>
+<li>
+<p><strong>Find</strong> : <code>find KEYWORD [MORE_KEYWORDS]</code><br>
+e.g. <code>find James Jake</code></p>
+</li>
+<li>
+<p><strong>List</strong> : <code>list</code></p>
+</li>
+<li>
+<p><strong>Help</strong> : <code>help</code></p>
+</li>
+<li>
+<p><strong>Select</strong> : <code>select INDEX</code><br>
+e.g.<code>select 2</code></p>
+</li>
+<li>
+<p><strong>History</strong> : <code>history</code></p>
+</li>
+<li>
+<p><strong>Undo</strong> : <code>undo</code></p>
+</li>
+<li>
+<p><strong>Redo</strong> : <code>redo</code></p>
+</li>
+<li>
+<p><strong>Backup</strong> : <code>backup</code></p>
+</li>
+<li>
+<p><strong>Restore</strong> : <code>restore</code></p>
+</li>
+<li>
+<p><strong>Export</strong> : <code>export</code></p>
+</li>
+<li>
+<p><strong>Import</strong> : <code>import</code></p>
+</li>
+<li>
+<p><strong>Password</strong> : <code>password</code></p>
+</li>
+<li>
+<p><strong>Email</strong> : <code>mail</code><br>
+e.g. <code>mail all/</code> or <code>mail t/TAG</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-developer-guide"><a class="link" href="#contributions-to-the-developer-guide">Contributions to the Developer Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="flexible-search"><a class="link" href="#flexible-search">Flexible Search</a></h3>
+<div class="sect3">
+<h4 id="current-implementation"><a class="link" href="#current-implementation">Current Implementation</a></h4>
+<div class="paragraph">
+<p>The find function has been revamped to support prioritisation of search similarity.<br>
+<code>FindCommand</code> is now backed up by the <code>ClosestMatchList</code> class which uses <code>LevenshteinDistanceUtil</code> to generate an ordered set of Person names ordered by similarity.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
+<div class="sect4">
+<h5 id="aspect-how-find-command-executes"><a class="link" href="#aspect-how-find-command-executes">Aspect: How find command executes</a></h5>
+
+</div>
+<div class="sect4">
+<h5 id="aspect-data-structure-to-support-the-revamped-find-command"><a class="link" href="#aspect-data-structure-to-support-the-revamped-find-command">Aspect: Data structure to support the revamped Find command</a></h5>
+
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="data-encryption"><a class="link" href="#data-encryption">Data Encryption</a></h3>
+<div class="sect3">
+<h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">Current Implementation</a></h4>
+<div class="paragraph">
+<p>The encrypt/ decrypt mechanism is facilitated by <code>FileEncryptor</code>.
+It extends <code>AddressBook</code> with a encrypt/decrypt feature, maintained by <code>PasswordCommand</code>.
+Additionally, it implements the following operations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>FileEncryptor#process()</code>&#8201;&#8212;&#8201;Decrypts or encrypts the data file depending on its current state (encrypted or decrypted).</p>
+</li>
+<li>
+<p><code>VersionedAddressBook#decryptFile()</code>&#8201;&#8212;&#8201;encrypts a file given the path and password.</p>
+</li>
+<li>
+<p><code>VersionedAddressBook#encryptFile()</code>&#8201;&#8212;&#8201;decrypts a file given the path and password.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Given below is an example usage scenario and how the password mechanism behaves at each step.</p>
+</div>
+<div class="paragraph">
+<p>Step 1. The user enters the password command with a password.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the user enters a password which is non alpha-numeric, an error will be thrown at the CommandResult box. Only alpha-numeric passwords are supported by <code>FileEncryptor</code>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Step 2. The user closes the addressbook.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The user re-opens the addressbook. No data will be shown as XML data file is technically not present in the data folder.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. The user enters the password command with the right password. Addressbook will be refreshed and restored back to its former state (before encryption).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the user enters the wrong password, an error will be thrown at the CommandResult box.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
+<div class="sect4">
+<h5 id="aspect-how-encryption-and-decryption-is-done"><a class="link" href="#aspect-how-encryption-and-decryption-is-done">Aspect: How encryption and decryption is done</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>PBEKeySpec</code> is first specified using the "PBEWithMD5AndDES" specification.</p>
+</li>
+<li>
+<p>A secret key is generated from <code>SecretKeyFactory</code> using "PBEWithMD5AndDES" cipher.</p>
+</li>
+<li>
+<p>Then a <code>Cipher</code> is used to encrypt or decrypt the file with a given password and key specifications.</p>
+</li>
+<li>
+<p>Additional salt is used in the password to ensure that the password cannot be easily broken down by dictionary attacks.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-pros-and-cons-of-tight-security"><a class="link" href="#aspect-pros-and-cons-of-tight-security">Aspect: Pros and cons of tight security</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Your data is protected and it will be near impossible to use any third part tool to crack the data file.</p>
+</li>
+<li>
+<p>Cons: Data will be <strong>permanently</strong> lost if you forget the password.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-25 16:09:39 UTC</div></div></div></body></html>
