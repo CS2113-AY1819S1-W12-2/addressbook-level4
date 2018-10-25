@@ -241,7 +241,7 @@ public class ModelManager extends ComponentManager implements Model {
             logger.severe(io.getMessage());
         }
     }
-    
+
     //@@author LowGinWee
     /**
      * Get a list of unique tags of all persons in the addressbook
