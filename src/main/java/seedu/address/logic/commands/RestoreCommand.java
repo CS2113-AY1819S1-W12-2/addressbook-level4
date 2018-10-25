@@ -34,13 +34,10 @@ public class RestoreCommand extends Command {
     private Index index;
     private Map<Integer, File> fileMap;
     private List<String> fileName;
-    UserPrefs userPrefs;
-
 
     public RestoreCommand() {}
 
     public RestoreCommand(BackupList backupList, Index index) {
-        userPrefs = new UserPrefs();
         this.fileMap = backupList.getFileMap();
         this.fileName = backupList.getFileNames();
         this.index = index;
@@ -48,6 +45,7 @@ public class RestoreCommand extends Command {
 
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
+        UserPrefs userPrefs = new UserPrefs();
         FileEncryptor fe = new FileEncryptor(userPrefs.getAddressBookFilePath().toString());
 
         if (fe.isLocked()) {
