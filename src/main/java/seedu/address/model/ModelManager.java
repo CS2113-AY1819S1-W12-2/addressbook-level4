@@ -21,6 +21,7 @@ import seedu.address.model.autocomplete.CommandCompleter;
 import seedu.address.model.autocomplete.TextPrediction;
 import seedu.address.model.person.Person;
 import seedu.address.model.util.SampleDataUtil;
+import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.XmlAddressBookStorage;
 
 /**
@@ -199,6 +200,16 @@ public class ModelManager extends ComponentManager implements Model {
     public void reinitAddressbook() {
         UserPrefs userPref = new UserPrefs();
         Path path = Paths.get(userPref.getAddressBookFilePath().toString());
+        replaceData(path);
+    }
+
+    //@@author lws803
+    /**
+     * Method to replace data for reinitAddressbook and restoreAddressbook
+     * @param path path of .xml file
+     */
+    @Override
+    public void replaceData(Path path) {
         XmlAddressBookStorage storage = new XmlAddressBookStorage(path);
         ReadOnlyAddressBook initialData;
         try {
@@ -208,6 +219,22 @@ public class ModelManager extends ComponentManager implements Model {
             logger.warning(ioe.getMessage());
         } catch (DataConversionException dataE) {
             logger.warning(dataE.getMessage());
+        }
+    }
+
+    //@@author Limminghong
+    /**
+     * Create a backup snapshot in the ".backup" folder
+     * @param path to the snapshot
+     */
+    @Override
+    public void backUpAddressbook(Path path) {
+        try {
+            ReadOnlyAddressBook initialData = versionedAddressBook;
+            AddressBookStorage backupStorage = new XmlAddressBookStorage(path);
+            backupStorage.saveAddressBook(initialData);
+        } catch (IOException io) {
+            logger.severe(io.getMessage());
         }
     }
 }

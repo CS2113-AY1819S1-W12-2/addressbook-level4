@@ -41,10 +41,13 @@ public class RestoreCommand extends Command {
     private Index index;
     private Map<Integer, File> fileMap;
     private List<String> fileName;
+    UserPrefs userPrefs;
+
 
     public RestoreCommand() {}
 
     public RestoreCommand(BackupList backupList, Index index) {
+        userPrefs = new UserPrefs();
         this.fileMap = backupList.getFileMap();
         this.fileName = backupList.getFileNames();
         this.index = index;
@@ -52,11 +55,7 @@ public class RestoreCommand extends Command {
 
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
-        UserPrefs userPref = new UserPrefs();
-        FileEncryptor fe = new FileEncryptor(userPref.getAddressBookFilePath().toString());
-        Path path = Paths.get(userPref.getAddressBookFilePath().toString());
-        XmlAddressBookStorage storage = new XmlAddressBookStorage(path);
-        ReadOnlyAddressBook initialData;
+        FileEncryptor fe = new FileEncryptor(userPrefs.getAddressBookFilePath().toString());
 
         if (fe.isLocked()) {
             throw new CommandException(FileEncryptor.MESSAGE_ADDRESS_BOOK_LOCKED);
@@ -67,26 +66,22 @@ public class RestoreCommand extends Command {
         }
 
         try {
-            restoreFileFromIndex(userPref, fileMap, index);
-            initialData = storage.readAddressBook().orElseGet(SampleDataUtil::getSampleAddressBook);
-            model.resetData(initialData);
+            restoreFileFromIndex(model, fileMap, index);
+            model.reinitAddressbook();
             return new CommandResult(String.format(MESSAGE_RESTORED_SUCCESS, fileName.get(index.getZeroBased())));
         } catch (IOException io) {
-            throw new CommandException(Messages.MESSAGE_INVALID_SNAPSHOT_DISPLAYED_INDEX);
-        } catch (DataConversionException dataE) {
             throw new CommandException(Messages.MESSAGE_INVALID_SNAPSHOT_DISPLAYED_INDEX);
         }
     }
 
     /**
-     * @param userPrefs instance of the UserPref object to extract the AddressBook path
+     * Copy and pastes a backup snapshot from the chosen index to the destination
      * @param fileMap a map of the snapshots with indexes as keys
      * @param index the index of the file that is extracted
      * @throws IOException if either of the path does not exist
      */
-    private void restoreFileFromIndex(UserPrefs userPrefs, Map<Integer, File> fileMap, Index index) throws IOException {
+    private void restoreFileFromIndex(Model model, Map<Integer, File> fileMap, Index index) throws IOException {
         File newFile = fileMap.get(index.getZeroBased());
-        File dest = new File(userPrefs.getAddressBookFilePath().toString());
-        Files.copy(newFile.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        model.replaceData(Paths.get(newFile.toString()));
     }
 }
