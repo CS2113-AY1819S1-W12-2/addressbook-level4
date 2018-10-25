@@ -190,7 +190,7 @@ public class AddCommandTest {
 
         //@@author Limminghong
         @Override
-        public void backUpAddressbook(Path path)  {
+        public void backUpAddressbook(Path path) {
             throw new AssertionError("This method should not be called.");
         }
       
