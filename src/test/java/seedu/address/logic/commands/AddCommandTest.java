@@ -192,16 +192,18 @@ public class AddCommandTest {
         public void backUpAddressbook(Path path) {
             throw new AssertionError("This method should not be called.");
         }
-      
+
         //@@author LowGinWee
         @Override
         public List<Tag> getUniqueTagList() {
             throw new AssertionError("This method should not be called.");
         }
+
         @Override
         public TreeMap<Date, ArrayList<Activity>> getSchedule() {
             throw new AssertionError("This method should not be called.");
         }
+        
         @Override
         public void addActivity(Activity activity) {
             throw new AssertionError("This method should not be called.");
