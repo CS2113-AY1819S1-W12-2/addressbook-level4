@@ -240,8 +240,9 @@ public class ModelManager extends ComponentManager implements Model {
         } catch (IOException io) {
             logger.severe(io.getMessage());
         }
+    }
+    
     //@@author LowGinWee
-
     /**
      * Get a list of unique tags of all persons in the addressbook
      * @return a list of unique tags.
