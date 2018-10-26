@@ -188,7 +188,7 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
-        //@@author LimminghongS
+        //@@author Limminghong
         @Override
         public void backUpAddressbook(Path path) {
             throw new AssertionError("This method should not be called.");
