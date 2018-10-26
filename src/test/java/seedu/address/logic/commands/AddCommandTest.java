@@ -183,11 +183,12 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
+        @Override
         public void replaceData(Path path) {
             throw new AssertionError("This method should not be called.");
         }
 
-        //@@author Limminghong
+        //@@author LimminghongS
         @Override
         public void backUpAddressbook(Path path) {
             throw new AssertionError("This method should not be called.");
@@ -203,7 +204,7 @@ public class AddCommandTest {
         public TreeMap<Date, ArrayList<Activity>> getSchedule() {
             throw new AssertionError("This method should not be called.");
         }
-        
+
         @Override
         public void addActivity(Activity activity) {
             throw new AssertionError("This method should not be called.");
