@@ -48,6 +48,7 @@ public class CsvWriter {
     }
 
     /**
+     * File to stringList
      * @param file .csv File that is being converted to an array of strings
      * @throws IOException if file is not found
      */
@@ -63,8 +64,9 @@ public class CsvWriter {
     }
 
     /**
-     * @return The AddressBook in .csv format to the directory provided
-     * @throws IOException if {@code convertedFile} does not exist
+     * Creates a .csv file in the path
+     * @param pathName directory of the file
+     * @throws IOException file does not exist
      */
     public void convertToCsv(String pathName) throws IOException {
         File convertedFile = new File(pathName);

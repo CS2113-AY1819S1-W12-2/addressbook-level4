@@ -37,7 +37,6 @@ public class ImportCommand extends Command {
     public static final String MESSAGE_SUCCESS = "AddressBook is imported from %1$s.";
 
     private static final Logger logger = Logger.getLogger(ImportCommand.class.getName());
-    
     private File file;
     private String directory;
 
