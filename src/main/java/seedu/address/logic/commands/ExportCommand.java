@@ -33,8 +33,8 @@ public class ExportCommand extends Command {
     public static final String MESSAGE_FILE_NAME_EXIST = "A file with the name %1$s exists in this directory.";
     public static final String MESSAGE_SUCCESS = "AddressBook is exported to %1$s with the name %2$s.";
 
-    String directory;
-    String fileName;
+    private String directory;
+    private String fileName;
     private String fullDirectory;
 
     public ExportCommand() {}
