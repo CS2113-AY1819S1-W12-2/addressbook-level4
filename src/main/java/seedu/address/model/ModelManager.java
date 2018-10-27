@@ -242,6 +242,14 @@ public class ModelManager extends ComponentManager implements Model {
         }
     }
 
+    /**
+     * Get the person list from the addressbook
+     */
+    @Override
+    public ObservableList<Person> getPersonList() {
+        return this.versionedAddressBook.getPersonList();
+    }
+
     //@@author LowGinWee
     /**
      * Get a list of unique tags of all persons in the addressbook

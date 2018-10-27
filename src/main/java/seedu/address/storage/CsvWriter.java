@@ -38,25 +38,10 @@ public class CsvWriter {
     public CsvWriter(ObservableList<Person> personList) {
         stringList.add(CSV_HEADERS);
         for (Person p : personList) {
-            String personInformation = "\"" + p.getName().toString() + "\""
-                    + "," + "\"" + p.getPhone().toString() + "\""
-                    + "," + "\"" + p.getEmail().toString() + "\""
-                    + "," + "\"" + p.getAddress().toString() + "\""
-                    + "," + "\"" + p.getPosition().toString() + "\""
-                    + "," + "\"" + p.getKpi().toString() + "\""
-                    + "," + "\"" + p.getNote().toString() + "\"";
-            if (!p.getTags().isEmpty()) {
-                personInformation += "," + "\"";
-                int sizeOfTags = 0;
-                for (Tag t : p.getTags()) {
-                    sizeOfTags += 1;
-                    personInformation += t.toString();
-                    if (sizeOfTags != p.getTags().size()) {
-                        personInformation += ", ";
-                    }
-                }
-                personInformation += "\"";
-            }
+            List<String> specificInformation = new ArrayList<>();
+            String personInformation;
+            specificInformation = segmentInformation(p);
+            personInformation = concatInformation(specificInformation);
             stringList.add(personInformation);
         }
     }
@@ -77,11 +62,11 @@ public class CsvWriter {
     }
 
     /**
-     * @return The AddressBook in .csv format in "data" folder
+     * @return The AddressBook in .csv format to the directory provided
      * @throws IOException if {@code convertedFile} does not exist
      */
-    public File convertToCsv() throws IOException {
-        File convertedFile = new File("data\\addressbook.csv");
+    public File convertToCsv(String pathName) throws IOException {
+        File convertedFile = new File(pathName);
         if (!convertedFile.exists()) {
             convertedFile.createNewFile();
         }
@@ -144,5 +129,91 @@ public class CsvWriter {
             counter++;
         }
         return personList;
+    }
+
+    /**
+     * Segment the information of a person to a {@code List<person>}
+     * @param person information to be segmented
+     * @return a {@code List<>} of {@code String}
+     */
+    private List<String> segmentInformation(Person person) {
+        List<String> specificInformation = new ArrayList<>();
+
+        specificInformation.add(person.getName().toString());
+        specificInformation.add(person.getPhone().toString());
+        specificInformation.add(person.getEmail().toString());
+        specificInformation.add(person.getAddress().toString());
+
+        if (person.positionDoesExist()) {
+            specificInformation.add(person.getPosition().toString());
+        } else {
+            specificInformation.add("null");
+        }
+
+        if (person.kpiDoesExist()) {
+            specificInformation.add(person.getKpi().toString());
+        } else {
+            specificInformation.add("null");
+        }
+
+        if (person.noteDoesExist()) {
+            specificInformation.add(person.getNote().toString());
+        } else {
+            specificInformation.add("null");
+        }
+
+        if (!person.getTags().isEmpty()) {
+            specificInformation.add(tagsToString(person.getTags()));
+        } else {
+            specificInformation.add("null");
+        }
+
+        for (int i = 0; i < specificInformation.size(); i++) {
+            if (specificInformation.get(i).indexOf(',') > -1) {
+                String wrappedInformation = wrapQuotation(specificInformation.get(i));
+                specificInformation.set(i, wrappedInformation);
+            }
+        }
+
+        return specificInformation;
+    }
+
+    /**
+     * Concatenate the {@code List<String>} into one full {@code String} with commas
+     * @param specificInformation {@code List<String>} to be concatenated
+     * @return {@code String} with commas
+     */
+    private String concatInformation(List<String> specificInformation) {
+        String personInformation = "";
+        for (String information : specificInformation) {
+            personInformation += information + ",";
+        }
+        personInformation = personInformation.substring(0, personInformation.length() - 1);
+        return personInformation;
+    }
+
+    /**
+     * Wrap {@code String} with quotation marks
+     * @param s to be wrapped
+     * @return Wrapped {@code String}
+     */
+    private String wrapQuotation(String s) {
+        String wrappedString = "\"" + s + "\"";
+        return wrappedString;
+    }
+
+    /**
+     * Convert the {@code Tag} into {@code String} separated with commas
+     * @param tags Tags to be converted
+     * @return converted {@code String}
+     */
+    private String tagsToString(Set<Tag> tags) {
+        String tagsString = "";
+        for (Tag tag : tags) {
+            tagsString += tag.toString() + ", ";
+        }
+
+        tagsString = tagsString.substring(0, tagsString.length() - 2);
+        return tagsString;
     }
 }

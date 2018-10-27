@@ -123,6 +123,11 @@ public interface Model {
      */
     void backUpAddressbook(Path path);
 
+    /**
+     * Get the person list from the addressbook
+     */
+    ObservableList<Person> getPersonList();
+
     //@@author LowGinWee
     List<Tag> getUniqueTagList();
 
