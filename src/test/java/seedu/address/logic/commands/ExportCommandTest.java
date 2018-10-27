@@ -29,6 +29,9 @@ class ExportCommandTest {
     private String fullDirectory;
     private File tmpFile;
 
+    /**
+     * Set Up stubs
+     */
     @BeforeEach
     public void setUp() {
         model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
@@ -42,6 +45,9 @@ class ExportCommandTest {
         }
     }
 
+    /**
+     * Test for the execute function in ExportCommand
+     */
     @Test
     public void execute_success() {
         try {
@@ -52,6 +58,9 @@ class ExportCommandTest {
         }
     }
 
+    /**
+     * Destroy stubs
+     */
     @AfterEach
     public void tearDown() {
         File exportedFile = new File(fullDirectory);
