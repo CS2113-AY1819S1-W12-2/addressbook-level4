@@ -23,8 +23,6 @@ import seedu.address.storage.CsvWriter;
  * Imports a CSV file of the address book from a directory.
  */
 public class ImportCommand extends Command {
-    private static final Logger logger = Logger.getLogger(ImportCommand.class.getName());
-
     public static final String DUPLICATE_PERSON = "This is a duplicated person";
     public static final String COMMAND_WORD = CliSyntax.COMMAND_IMPORT;
     public static final String MESSAGE_USAGE = COMMAND_WORD
@@ -38,6 +36,8 @@ public class ImportCommand extends Command {
     public static final String MESSAGE_FAILURE = "Directory does not exists.";
     public static final String MESSAGE_SUCCESS = "AddressBook is imported from %1$s.";
 
+    private static final Logger logger = Logger.getLogger(ImportCommand.class.getName());
+    
     private File file;
     private String directory;
 
