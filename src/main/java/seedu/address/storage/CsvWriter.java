@@ -28,6 +28,7 @@ import seedu.address.model.tag.Tag;
  */
 public class CsvWriter {
     public static final String CSV_HEADERS = "Name, Phone, Email, Address, Position, Kpi, Note, Tagged";
+    public static final String WRONG_FORMAT = "The information in this file is of the wrong format";
 
     private List<String> stringList = new ArrayList<>();
 
@@ -38,7 +39,7 @@ public class CsvWriter {
     public CsvWriter(ObservableList<Person> personList) {
         stringList.add(CSV_HEADERS);
         for (Person p : personList) {
-            List<String> specificInformation = new ArrayList<>();
+            List<String> specificInformation;
             String personInformation;
             specificInformation = segmentInformation(p);
             personInformation = concatInformation(specificInformation);
@@ -65,7 +66,7 @@ public class CsvWriter {
      * @return The AddressBook in .csv format to the directory provided
      * @throws IOException if {@code convertedFile} does not exist
      */
-    public File convertToCsv(String pathName) throws IOException {
+    public void convertToCsv(String pathName) throws IOException {
         File convertedFile = new File(pathName);
         if (!convertedFile.exists()) {
             convertedFile.createNewFile();
@@ -75,55 +76,22 @@ public class CsvWriter {
             pw.println(s);
         }
         pw.close();
-        return convertedFile;
     }
 
     /**
      * @return a {@code List} of {@code Person}
      */
-    public List<Person> convertToList() {
+    public List<Person> convertToList() throws IOException {
         List<Person> personList = new ArrayList<>();
         int counter = 0;
         for (String line : stringList) {
             if (counter != 0) {
-                line = line.substring(0, line.length() - 1);
-                String[] sections = line.split("\",");
-
-                Name name = new Name(sections[0].substring(1).trim());
-                Phone phone = new Phone(sections[1].substring(1).trim());
-                Email email = new Email(sections[2].substring(1).trim());
-                Address address = new Address(sections[3].substring(1).trim());
-
-                Position position;
-                if (sections[4].substring(1).equals("null")) {
-                    position = new Position();
-                } else {
-                    position = new Position(sections[4].substring(1).trim());
+                line = formatLine(line);
+                List<String> sections = splitToSections(line);
+                if (sections.size() < 4 || sections.size() > 8) {
+                    throw new IOException(WRONG_FORMAT);
                 }
-
-                Kpi kpi;
-                if (sections[5].substring(1).equals("null")) {
-                    kpi = new Kpi();
-                } else {
-                    kpi = new Kpi(sections[5].substring(1).trim());
-                }
-
-                Note note;
-                if (sections[6].substring(1).equals("null")) {
-                    note = new Note();
-                } else {
-                    note = new Note(sections[6].substring(1).trim());
-                }
-
-                Set<Tag> tagList = new HashSet<>();
-                if (sections.length == 8) {
-                    String[] tags = sections[7].substring(1).split(", ");
-                    for (String tagName : tags) {
-                        Tag tag = new Tag(tagName.trim());
-                        tagList.add(tag);
-                    }
-                }
-                Person person = new Person(name, phone, email, address, position, kpi, note, tagList);
+                Person person = makeSectionsIntoPerson(sections);
                 personList.add(person);
             }
             counter++;
@@ -147,25 +115,25 @@ public class CsvWriter {
         if (person.positionDoesExist()) {
             specificInformation.add(person.getPosition().toString());
         } else {
-            specificInformation.add("null");
+            specificInformation.add("");
         }
 
         if (person.kpiDoesExist()) {
             specificInformation.add(person.getKpi().toString());
         } else {
-            specificInformation.add("null");
+            specificInformation.add("");
         }
 
         if (person.noteDoesExist()) {
             specificInformation.add(person.getNote().toString());
         } else {
-            specificInformation.add("null");
+            specificInformation.add("");
         }
 
         if (!person.getTags().isEmpty()) {
             specificInformation.add(tagsToString(person.getTags()));
         } else {
-            specificInformation.add("null");
+            specificInformation.add("");
         }
 
         for (int i = 0; i < specificInformation.size(); i++) {
@@ -203,6 +171,16 @@ public class CsvWriter {
     }
 
     /**
+     * Unwrap {@code String} from quotation marks
+     * @param information to be unwrapped
+     * @return Unwrapped {@code String}
+     */
+    private String unwrapQuotation(String information) {
+        String unwrappedString = information.substring(1, information.length() - 1);
+        return unwrappedString;
+    }
+
+    /**
      * Convert the {@code Tag} into {@code String} separated with commas
      * @param tags Tags to be converted
      * @return converted {@code String}
@@ -212,8 +190,99 @@ public class CsvWriter {
         for (Tag tag : tags) {
             tagsString += tag.toString() + ", ";
         }
-
         tagsString = tagsString.substring(0, tagsString.length() - 2);
         return tagsString;
+    }
+
+    /**
+     * Split the line of person information into an array of information
+     * @param line a single line of person information
+     * @return array of information in {@code String}
+     */
+    private List<String> splitToSections(String line) {
+        String[] initialSections = line.split(",");
+        List<String> sections = new ArrayList<>();
+
+        for (int i = 0; i < initialSections.length; i++) {
+            if (!initialSections[i].equals("") && initialSections[i].charAt(0) == '\"') {
+                String information = new String();
+                while (true) {
+                    information += "," + initialSections[i].trim();
+                    if (initialSections[i].charAt(initialSections[i].length() - 1) == '\"') {
+                        break;
+                    }
+                    i++;
+                }
+                information = information.substring(1);
+                information = unwrapQuotation(information);
+                sections.add(information);
+            } else {
+                sections.add(initialSections[i].trim());
+            }
+        }
+        return sections;
+    }
+
+    /**
+     * Convert an array of {@code ArrayList<String>} into a {@code Person} object
+     * @param sections information about a person
+     * @return {@code Person} object with values of {@param sections}
+     */
+    private Person makeSectionsIntoPerson(List<String> sections) throws IOException {
+        try {
+            Name name = new Name(sections.get(0));
+            Phone phone = new Phone(sections.get(1));
+            Email email = new Email(sections.get(2));
+            Address address = new Address(sections.get(3));
+
+            Position position;
+            if (sections.get(4).equals("null")) {
+                position = new Position();
+            } else {
+                position = new Position(sections.get(4).trim());
+            }
+
+            Kpi kpi;
+            if (sections.get(5).equals("null")) {
+                kpi = new Kpi();
+            } else {
+                kpi = new Kpi(sections.get(5).trim());
+            }
+
+            Note note;
+            if (sections.get(6).equals("null")) {
+                note = new Note();
+            } else {
+                note = new Note(sections.get(6).trim());
+            }
+
+            Set<Tag> tagList = new HashSet<>();
+            if (sections.size() == 8) {
+                String[] tags = sections.get(7).split(",");
+                for (String tagName : tags) {
+                    Tag tag = new Tag(tagName.trim());
+                    tagList.add(tag);
+                }
+            }
+            return new Person(name, phone, email, address, position, kpi, note, tagList);
+        } catch (IllegalArgumentException iae) {
+            throw new IOException(WRONG_FORMAT);
+        }
+    }
+
+    /**
+     * Format this line into a friendlier format for the parser
+     * @param line to be formatted
+     * @return formatted line
+     */
+    private String formatLine(String line) {
+        String formattedLine = new String();
+        for (int i = 0; i < line.length(); i++) {
+            formattedLine += line.charAt(i);
+            if (i != line.length() - 1 && line.charAt(i) == ',' && line.charAt(i + 1) == ',') {
+                formattedLine += "null";
+            }
+        }
+        return formattedLine;
     }
 }
