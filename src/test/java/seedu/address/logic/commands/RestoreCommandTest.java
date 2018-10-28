@@ -6,6 +6,8 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 import org.junit.jupiter.api.AfterEach;
@@ -30,24 +32,22 @@ class RestoreCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
     private CommandHistory commandHistory = new CommandHistory();
-    private BackUpCommand backUpCommand;
-    private String backupName;
     private File backupDir;
     private BackupList backupList;
+    private String fullDirectory;
 
     /**
      * Create backup files for the restore command to execute
      */
     @BeforeEach
     public void setUp() {
-        backUpCommand = new BackUpCommand(BACKUP_DIRECTORY);
-        backupName = backUpCommand.getFileName();
         try {
-            backUpCommand.execute(model, commandHistory);
+            String timeNow = Long.toString(System.currentTimeMillis());
+            fullDirectory = BACKUP_DIRECTORY + "\\" + timeNow + ".xml";
+            Path path = Paths.get(fullDirectory);
+            model.backUpAddressbook(path);
             backupDir = new File(BACKUP_DIRECTORY);
             backupList = new BackupList(backupDir);
-        } catch (CommandException ce) {
-            logger.severe(ce.getMessage());
         } catch (IOException io) {
             logger.severe(io.getMessage());
         }
@@ -67,6 +67,8 @@ class RestoreCommandTest {
             logger.severe(pe.getMessage());
         } catch (CommandException ce) {
             logger.severe(ce.getMessage());
+        } catch (NullPointerException npe) {
+            logger.severe(npe.getMessage());
         }
     }
 
@@ -83,6 +85,8 @@ class RestoreCommandTest {
             logger.severe(pe.getMessage());
         } catch (CommandException ce) {
             logger.severe(ce.getMessage());
+        } catch (NullPointerException npe) {
+            logger.severe(npe.getMessage());
         }
     }
 
@@ -91,7 +95,7 @@ class RestoreCommandTest {
      */
     @AfterEach
     public void tearDown() {
-        File deleteBackup = new File(backupName);
+        File deleteBackup = new File(fullDirectory);
         deleteBackup.delete();
         backupDir.delete();
     }

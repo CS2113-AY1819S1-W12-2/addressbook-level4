@@ -56,22 +56,18 @@ public class RestoreCommand extends Command {
             throw new CommandException(Messages.MESSAGE_INVALID_SNAPSHOT_DISPLAYED_INDEX);
         }
 
-        try {
-            restoreFileFromIndex(model, fileMap, index);
-            model.reinitAddressbook();
-            return new CommandResult(String.format(MESSAGE_RESTORED_SUCCESS, fileName.get(index.getZeroBased())));
-        } catch (IOException io) {
-            throw new CommandException(Messages.MESSAGE_INVALID_SNAPSHOT_DISPLAYED_INDEX);
-        }
+        restoreFileFromIndex(model, fileMap, index);
+        model.reinitAddressbook();
+        return new CommandResult(String.format(MESSAGE_RESTORED_SUCCESS, fileName.get(index.getZeroBased())));
     }
 
     /**
-     * Copy and pastes a backup snapshot from the chosen index to the destination
+     * Restores the model to the chosen snapshot
+     * @param model to be restored
      * @param fileMap a map of the snapshots with indexes as keys
      * @param index the index of the file that is extracted
-     * @throws IOException if either of the path does not exist
      */
-    private void restoreFileFromIndex(Model model, Map<Integer, File> fileMap, Index index) throws IOException {
+    private void restoreFileFromIndex(Model model, Map<Integer, File> fileMap, Index index) {
         File newFile = fileMap.get(index.getZeroBased());
         model.replaceData(Paths.get(newFile.toString()));
     }
