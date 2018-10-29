@@ -4,9 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_KPI;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_POSITION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.ArrayList;
@@ -36,6 +38,8 @@ public class CommandTestUtil {
     public static final String VALID_ADDRESS_AMY = "Block 312, Amy Street 1";
     public static final String VALID_ADDRESS_BOB = "Block 123, Bobby Street 3";
     public static final String VALID_NOTE = "Note sample";
+    public static final String VALID_POSITION = "Manager";
+    public static final String VALID_KPI = "3.2";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
 
@@ -49,6 +53,10 @@ public class CommandTestUtil {
     public static final String ADDRESS_DESC_BOB = " " + PREFIX_ADDRESS + VALID_ADDRESS_BOB;
     public static final String NOTE_DESC_AMY = " " + PREFIX_NOTE + VALID_NOTE;
     public static final String NOTE_DESC_BOB = " " + PREFIX_NOTE + VALID_NOTE;
+    public static final String POSITION_DESC_AMY = " " + PREFIX_POSITION + VALID_POSITION;
+    public static final String POSITION_DESC_BOB = " " + PREFIX_POSITION + VALID_POSITION;
+    public static final String KPI_DESC_AMY = " " + PREFIX_KPI + VALID_KPI;
+    public static final String KPI_DESC_BOB = " " + PREFIX_KPI + VALID_KPI;
 
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
@@ -57,6 +65,9 @@ public class CommandTestUtil {
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
+    public static final String INVALID_POSITION_DESC = " " + PREFIX_POSITION + "!"; // '!' not allowed in position
+    public static final String INVALID_KPI_DESC = " " + PREFIX_KPI + "a.0"; // 'a' not allowed in kpi
+    public static final String INVALID_NOTE_DESC = " " + PREFIX_NOTE + "/"; // '/' not allowed in note
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
@@ -64,6 +75,9 @@ public class CommandTestUtil {
 
     public static final EditCommand.EditPersonDescriptor DESC_AMY;
     public static final EditCommand.EditPersonDescriptor DESC_BOB;
+
+    public static final String ACTIVITY_ONE_NAME = "Write a Progress Report.";
+    public static final String ACTIVITY_TWO_NAME = "Give Alexia a raise.";
 
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)

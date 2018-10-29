@@ -19,8 +19,13 @@ public class PositionContainsKeywordsPredicate implements Predicate<Person> {
 
     @Override
     public boolean test(Person person) {
-        return keywords.stream()
-                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getPosition().value, keyword));
+        if (person.getPosition().value != null) {
+            return keywords.stream()
+                    .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getPosition().value, keyword));
+        } else {
+            return keywords.stream()
+                    .anyMatch(keyword -> StringUtil.containsWordIgnoreCase("", keyword));
+        }
     }
 
     @Override

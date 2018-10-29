@@ -4,11 +4,13 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_KPI;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NOTE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_POSITION;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
@@ -30,6 +32,8 @@ public class TypicalPersons {
             .withEmail("alice@example.com")
             .withPhone("94351253")
             .withNote("Sample note")
+            .withPosition("Boss")
+            .withKpi("4.5")
             .withTags("friends")
             .build();
     public static final Person BENSON = new PersonBuilder()
@@ -38,6 +42,8 @@ public class TypicalPersons {
             .withEmail("johnd@example.com")
             .withPhone("98765432")
             .withNote("Benson sample note")
+            .withPosition("Cleaner")
+            .withKpi("3.2")
             .withTags("owesMoney", "friends")
             .build();
     public static final Person CARL = new PersonBuilder()
@@ -46,6 +52,8 @@ public class TypicalPersons {
             .withEmail("heinz@example.com")
             .withAddress("wall street")
             .withNote("Carl sample note")
+            .withPosition("Worker")
+            .withKpi("4.0")
             .build();
     public static final Person DANIEL = new PersonBuilder()
             .withName("Daniel Meier")
@@ -53,6 +61,8 @@ public class TypicalPersons {
             .withEmail("cornelia@example.com")
             .withAddress("10th street")
             .withNote("Daniel sample note")
+            .withPosition("Manager")
+            .withKpi("3.8")
             .withTags("friends")
             .build();
     public static final Person ELLE = new PersonBuilder()
@@ -61,6 +71,8 @@ public class TypicalPersons {
             .withEmail("werner@example.com")
             .withAddress("michegan ave")
             .withNote("Elle sample note")
+            .withPosition("Director")
+            .withKpi("4.9")
             .build();
     public static final Person FIONA = new PersonBuilder()
             .withName("Fiona Kunz")
@@ -75,6 +87,17 @@ public class TypicalPersons {
             .withAddress("4th street")
             .withNote("No notes for this contact")
             .build();
+
+    //@@author lws803
+    // Sample created with no notes, just the barebones
+    public static final Person WILSON = new PersonBuilder()
+            .withName("Wilson")
+            .withPhone("9667777")
+            .withEmail("wow@gmail.com")
+            .withAddress("wow street")
+            .build();
+    //@@author
+
 
     // Manually added
     public static final Person HOON = new PersonBuilder()
@@ -96,7 +119,6 @@ public class TypicalPersons {
             .withPhone(VALID_PHONE_AMY)
             .withEmail(VALID_EMAIL_AMY)
             .withAddress(VALID_ADDRESS_AMY)
-            .withNote(VALID_NOTE)
             .withTags(VALID_TAG_FRIEND)
             .build();
     public static final Person BOB = new PersonBuilder()
@@ -105,7 +127,20 @@ public class TypicalPersons {
             .withEmail(VALID_EMAIL_BOB)
             .withAddress(VALID_ADDRESS_BOB)
             .withNote(VALID_NOTE)
+            .withKpi(VALID_KPI)
+            .withPosition(VALID_POSITION)
             .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
+            .build();
+
+    public static final Person ANNABELLE = new PersonBuilder()
+            .withName("Annabelle")
+            .withPhone("1968")
+            .withEmail("annabelle@warren.com")
+            .withAddress("Monroe, Connecticut")
+            .withPosition("ghost")
+            .withKpi("5")
+            .withNote("is a nightmare")
+            .withTags("scarer")
             .build();
 
     public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
@@ -124,6 +159,6 @@ public class TypicalPersons {
     }
 
     public static List<Person> getTypicalPersons() {
-        return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
+        return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, WILSON));
     }
 }

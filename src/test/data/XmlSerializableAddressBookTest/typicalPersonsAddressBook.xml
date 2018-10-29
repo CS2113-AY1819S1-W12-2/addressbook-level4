@@ -6,6 +6,8 @@
         <phone>94351253</phone>
         <email>alice@example.com</email>
         <address>123, Jurong West Ave 6, #08-111</address>
+        <position>Boss</position>
+        <kpi>4.5</kpi>
         <note>Sample note</note>
         <tagged>friends</tagged>
     </persons>
@@ -14,6 +16,8 @@
         <phone>98765432</phone>
         <email>johnd@example.com</email>
         <address>311, Clementi Ave 2, #02-25</address>
+        <position>Cleaner</position>
+        <kpi>3.2</kpi>
         <note>Benson sample note</note>
         <tagged>owesMoney</tagged>
         <tagged>friends</tagged>
@@ -24,12 +28,16 @@
         <email>heinz@example.com</email>
         <address>wall street</address>
         <note>Carl sample note</note>
+        <position>Worker</position>
+        <kpi>4.0</kpi>
     </persons>
     <persons>
         <name>Daniel Meier</name>
         <phone>87652533</phone>
         <email>cornelia@example.com</email>
         <address>10th street</address>
+        <position>Manager</position>
+        <kpi>3.8</kpi>
         <note>Daniel sample note</note>
         <tagged>friends</tagged>
     </persons>
@@ -38,6 +46,8 @@
         <phone>9482224</phone>
         <email>werner@example.com</email>
         <address>michegan ave</address>
+        <position>Director</position>
+        <kpi>4.9</kpi>
         <note>Elle sample note</note>
     </persons>
     <persons>
@@ -48,10 +58,9 @@
         <note>No notes for this contact</note>
     </persons>
     <persons>
-        <name>George Best</name>
-        <phone>9482442</phone>
-        <email>anna@example.com</email>
-        <address>4th street</address>
-        <note>No notes for this contact</note>
+        <name>Wilson</name>
+        <phone>9667777</phone>
+        <email>wow@gmail.com</email>
+        <address>wow street</address>
     </persons>
 </addressbook>

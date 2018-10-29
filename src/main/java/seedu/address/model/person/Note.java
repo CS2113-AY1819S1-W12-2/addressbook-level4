@@ -13,7 +13,6 @@ public class Note {
     public static final String MESSAGE_NOTE_CONSTRAINTS = "Notes or Descriptions "
             + "should only contain alphanumeric characters and spaces";
 
-    //TODO check regex and update to include fullstops.
     public static final String NOTE_VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*\\.*";
 
     public final String value;
@@ -63,6 +62,9 @@ public class Note {
 
     @Override
     public boolean equals(Object other) {
+        if (!doesExist() && !((Note) other).doesExist()) {
+            return true;
+        }
         return other == this // short circuit if same object
                 || (other instanceof Note // instanceof handles nulls
                 && value.equals(((Note) other).value)); // state check

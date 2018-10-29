@@ -135,6 +135,11 @@ public interface Model {
      */
     void deleteActivity(Activity activity);
     /**
+     * Replaces the given activity {@code target} with {@code editedActivity}.
+     * {@code target} must exist in the address book.
+     */
+    void updateActivity(Activity target, Activity editedActivity);
+    /**
      * Get the sorted list of activities in the schedule.
      * @return the list of activities.
      */

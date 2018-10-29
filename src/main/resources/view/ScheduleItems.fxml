@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox fx:id="scheduleItem">
+         <children>
+            <FlowPane style="-fx-background-color: grey;">
+               <children>
+                  <Label fx:id="dateLabel" />
+               </children>
+            </FlowPane>
+            <VBox fx:id="activities" />
+         </children>
+      </VBox>
+   </children>
+</StackPane>

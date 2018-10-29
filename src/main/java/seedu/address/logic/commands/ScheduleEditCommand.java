@@ -12,7 +12,7 @@ import seedu.address.model.schedule.Activity;
  * Edits an {@code Activity} to the schedule in the address book.
  */
 public class ScheduleEditCommand extends ScheduleCommand {
-    private static final String MESSAGE_SUCCESS = "Task \"%s\" on %s has been edited to \"%s\".";
+    public static final String MESSAGE_SUCCESS = "Task \"%s\" on %s has been edited to \"%s\".";
     private final String task;
     private final Index index;
 
@@ -30,8 +30,7 @@ public class ScheduleEditCommand extends ScheduleCommand {
     public CommandResult updateSchedule(Model model) throws CommandException {
         Activity toDelete = getActivityFromIndex(model, index);
         Activity toAdd = new Activity(toDelete.getDate(), task);
-        model.deleteActivity(toDelete);
-        model.addActivity(toAdd);
+        model.updateActivity(toDelete, toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS,
                 toDelete.getActivityName(),
                 Activity.getDateString(toAdd.getDate()),

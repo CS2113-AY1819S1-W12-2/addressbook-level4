@@ -31,11 +31,6 @@ public class PasswordCommandParser implements Parser<PasswordCommand> {
 
         String[] credentials = trimmedArgs.split("\\s+");
 
-        if (credentials.length < 1) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, PasswordCommand.MESSAGE_USAGE));
-        }
-
         if (!FileEncryptor.isAlphanumeric(credentials[0])) {
             throw new ParseException(
                     String.format(FileEncryptor.MESSAGE_PASSWORD_ALNUM, PasswordCommand.MESSAGE_USAGE));

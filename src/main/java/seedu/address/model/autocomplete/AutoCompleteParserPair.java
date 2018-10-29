@@ -28,4 +28,10 @@ public class AutoCompleteParserPair {
         }
         return input;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return this.predictionType.equals(((AutoCompleteParserPair) other).predictionType)
+                && this.prefixValue.equals(((AutoCompleteParserPair) other).prefixValue);
+    }
 }

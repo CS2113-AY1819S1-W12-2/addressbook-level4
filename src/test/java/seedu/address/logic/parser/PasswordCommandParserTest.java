@@ -21,7 +21,7 @@ public class PasswordCommandParserTest {
         String expectedMessage = String.format(
                 MESSAGE_INVALID_COMMAND_FORMAT, PasswordCommand.MESSAGE_USAGE);
         try {
-            parser.parse(""); // Empty password
+            parser.parse(" "); // Empty password
         } catch (ParseException pe) {
             assertEquals(expectedMessage, pe.getLocalizedMessage());
         }

@@ -23,6 +23,8 @@ public class PersonBuilder {
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "alice@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_POSITION = "Secretary";
+    public static final String DEFAULT_KPI = "3.2";
     public static final String DEFAULT_NOTE = "Person builder sample note";
 
     private Name name;
@@ -39,10 +41,9 @@ public class PersonBuilder {
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
-        //TODO add position and Kpi to person builder
-        position = null;
-        kpi = null;
-        note = new Note(DEFAULT_NOTE);
+        position = new Position();
+        kpi = new Kpi();
+        note = new Note();
         tags = new HashSet<>();
     }
 

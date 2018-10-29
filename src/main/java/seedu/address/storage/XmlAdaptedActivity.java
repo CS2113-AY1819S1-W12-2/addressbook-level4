@@ -50,14 +50,16 @@ public class XmlAdaptedActivity {
      */
     public Activity toModelType() throws IllegalValueException {
         if (date == null) {
-            throw new IllegalValueException((String.format(MISSING_FIELD_MESSAGE_FORMAT, "date")));
+            throw new IllegalValueException((String.format(MISSING_FIELD_MESSAGE_FORMAT, Date.class.getSimpleName())));
         }
         if (activity == null) {
-            throw new IllegalValueException((String.format(MISSING_FIELD_MESSAGE_FORMAT, "name")));
+            throw new IllegalValueException((String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Activity.class.getSimpleName())));
         }
-
+        if (!Activity.isValidActivity(activity)) {
+            throw new IllegalValueException(Activity.MESSAGE_ACTIVITY_CONSTRAINTS);
+        }
         return new Activity(date, activity);
-
     }
 
     @Override

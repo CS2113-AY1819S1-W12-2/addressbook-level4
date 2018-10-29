@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-  <ListView fx:id="personListView" VBox.vgrow="ALWAYS" />
+<VBox spacing="2.0" style="-fx-background-radius: 5 5 5 5; -fx-background-color: eeeeee; -fx-border-radius: 5 5 5 5;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <VBox style="-fx-background-color: white; -fx-background-radius: 5 5 0 0; -fx-border-radius: 5 5 0 0;">
+      <children>
+         <Label style="-fx-background-radius: 5 5 5 5; -fx-border-radius: 5 5 5 5;" text="Contacts">
+            <padding>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+         </Label>
+      </children>
+   </VBox>
+   <VBox prefWidth="248.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+      <children>
+        <ListView fx:id="personListView" style="-fx-background-color: white;" VBox.vgrow="ALWAYS" />
+      </children>
+   </VBox>
 </VBox>

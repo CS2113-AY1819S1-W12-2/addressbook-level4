@@ -182,6 +182,15 @@ public class AddressBook implements ReadOnlyAddressBook {
         schedule.delete(activity);
     }
 
+    /**
+     * Replaces the given activity {@code target} with {@code editedActivity}.
+     * {@code target} must exist in the address book.
+     */
+    public void updateActivity(Activity target, Activity editedActivity) {
+        schedule.delete(target);
+        schedule.add(editedActivity);
+    }
+
     @Override
     public ObservableList<Activity> getActivityList() {
         return schedule.getActivities();

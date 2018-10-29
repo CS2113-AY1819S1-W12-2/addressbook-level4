@@ -2,15 +2,20 @@ package seedu.address.commons.util;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import seedu.address.commons.core.index.Index;
 
 public class StringUtilTest {
 
@@ -155,5 +160,54 @@ public class StringUtilTest {
         StringUtil.getDetails(null);
     }
 
+    //@@author lekoook
+    @Test
+    public void tokenizeIndexWithSpace_validArgs_correctIndex() {
+        ArrayList<Index> actualOutput = StringUtil.tokenizeIndexWithSpace("  1 3   4 5      7");
+        ArrayList<Index> expectedOutput = new ArrayList<>(Arrays.asList(
+                Index.fromOneBased(1),
+                Index.fromOneBased(3),
+                Index.fromOneBased(4),
+                Index.fromOneBased(5),
+                Index.fromOneBased(7)));
 
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void tokenizeIndexWithRange_validArgs_correctIndex() {
+        ArrayList<Index> actualOutput = StringUtil.tokenizeIndexWithRange("     1 -    5");
+        ArrayList<Index> expectedOutput = new ArrayList<>(Arrays.asList(
+                Index.fromOneBased(1),
+                Index.fromOneBased(2),
+                Index.fromOneBased(3),
+                Index.fromOneBased(4),
+                Index.fromOneBased(5)));
+
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void areNonZeroUnsignedInteger_validArgs_returnCorrectBoolean() {
+        assertTrue(StringUtil.areNonZeroUnsignedInteger("1   2 3"));
+        assertFalse(StringUtil.areNonZeroUnsignedInteger("-1 2 3"));
+        assertFalse(StringUtil.areNonZeroUnsignedInteger("1 2 0 3"));
+    }
+
+    @Test
+    public void isRangeIndexFormat_validFormat_returnCorrectBoolean() {
+        assertTrue(StringUtil.isRangeIndexFormat(" 1  -    3"));
+        assertTrue(StringUtil.isRangeIndexFormat("1 -  3,   6 - 9"));
+        assertFalse(StringUtil.isRangeIndexFormat(" -  3, 6 - 10"));
+    }
+
+    @Test
+    public void isValidSelectSyntax_validFormat_returnCorrectBoolean() {
+        assertTrue(StringUtil.isValidSelectSyntax("1   2 3"));
+        assertFalse(StringUtil.isValidSelectSyntax("-1 2 3"));
+        assertFalse(StringUtil.isValidSelectSyntax("1 2 0 3"));
+        assertTrue(StringUtil.isValidSelectSyntax(" 1  -    3"));
+        assertTrue(StringUtil.isValidSelectSyntax("1 -  3,   6 - 9"));
+        assertFalse(StringUtil.isValidSelectSyntax(" -  3, 6 - 10"));
+    }
 }

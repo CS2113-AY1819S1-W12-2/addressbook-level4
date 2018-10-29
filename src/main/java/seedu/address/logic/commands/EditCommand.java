@@ -326,12 +326,24 @@ public class EditCommand extends Command {
             removePosition = true;
         }
 
+        public boolean isRemovePosition() {
+            return removePosition;
+        }
+
         public void setRemoveKpi() {
             removeKpi = true;
         }
 
+        public boolean isRemoveKpi() {
+            return removePosition;
+        }
+
         public void setRemoveNote() {
             removeNote = true;
+        }
+
+        public boolean isRemoveNote() {
+            return removePosition;
         }
         //@@author
 

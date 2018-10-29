@@ -430,7 +430,7 @@ Step 4. Prints the string. +
 [[Implementation-Restore]]
 
 // tag::find[]
-=== Flexible Search
+=== Find and Search
 ==== Current Implementation
 
 The find function has been revamped to support prioritisation of search similarity. +
@@ -439,10 +439,33 @@ The find function has been revamped to support prioritisation of search similari
 // TODO: Add more information here
 
 ==== Design Considerations
-
 ===== Aspect: How find command executes
+* **Alternative 1:** Find using only predicates
+** Pros: Easy to implement.
+** Cons: Search must be exact, cannot have typos or incomplete keywords
+* **Alternative 2 (current choice):** Store the search results in a `treeMap` ordered by their Levenshtein distances from the search keyword
+** Pros: Will also consider searches that are similar to what we want and will account for typos or incomplete keywords
+** Cons: Added complexities in finding and searching
+
+===== Aspect: Expanded features of find command
+* **Alternative 1:** Find only by name
+** Pros: Easy to implement.
+** Cons: Can only search by name of addressees
+
+* **Alternative 2:** Find by attributes
+** Pros: Can search by email, phone, address, etc instead of just the name of addressees
+** Cons: Can only search for one attribute at a time (i.e find by name or find by email)
+
+* **Alternative 3 (current choice):** Chain-able find attributes
+** Pros: Can search by email and phone and address, etc instead of just one at a time
+** Cons: Added complexities in find command
 
 ===== Aspect: Data structure to support the revamped Find command
+`treeMap` was used to store the search results ordered by their Levenshtein distances. +
+The results are then filtered and
+results furthest away from the top few are ignored. The searches will then be passed thru their respective predicates
+(`NameContainsKeywordsPredicate`, `AddressContainsKeywordsPredicate`, `EmailContainsKeywordsPredicate`, `KpiContainsKeywordPredicate`, `NoteContainsKeywordsPredicate`, `PhoneContainsKeywordPredicate`, `PositionContainsKeywordsPredicate`, `TagContainsKeywordsPredicate`)
+before filtering the list.
 
 // end::find[]
 

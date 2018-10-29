@@ -214,7 +214,10 @@ public class AddCommandTest {
         public void deleteActivity(Activity activity) {
             throw new AssertionError("This method should not be called.");
         }
-
+        @Override
+        public void updateActivity(Activity target, Activity editedActivity) {
+            throw new AssertionError("This method should not be called.");
+        }
         @Override
         public ObservableList<Activity> getActivityList() {
             throw new AssertionError("This method should not be called.");

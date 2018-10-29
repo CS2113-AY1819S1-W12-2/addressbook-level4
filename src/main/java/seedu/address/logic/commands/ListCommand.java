@@ -5,6 +5,7 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -110,5 +111,13 @@ public class ListCommand extends Command {
      */
     private Predicate<Person> showKpiPredicate(List<String> predicatesList) {
         return p -> predicatesList.contains(p.getKpi().value);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this || (other instanceof ListCommand
+                && this.listType == ((ListCommand) other).listType
+                && Objects.equals(this.predicatesList, ((ListCommand) other).predicatesList)
+                && Objects.equals(this.inputTags, ((ListCommand) other).inputTags));
     }
 }

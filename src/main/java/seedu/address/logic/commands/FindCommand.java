@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_KPI;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -25,6 +26,7 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.person.AddressContainsKeywordsPredicate;
 import seedu.address.model.person.ClosestMatchList;
 import seedu.address.model.person.EmailContainsKeywordsPredicate;
+import seedu.address.model.person.KpiContainsKeywordPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.NoteContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
@@ -69,6 +71,21 @@ public class FindCommand extends Command {
 
         Predicate<Person> combinedPredicate = PREDICATE_SHOW_ALL_PERSONS;
 
+        combinedPredicate = getPersonPredicate(model, combinedPredicate);
+
+        model.updateFilteredPersonList(combinedPredicate);
+
+        return new CommandResult(
+                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+    }
+
+    /**
+     * Gets the person's predicate based on attributes
+     * @param model
+     * @param combinedPredicate
+     * @return
+     */
+    private Predicate<Person> getPersonPredicate(Model model, Predicate<Person> combinedPredicate) {
         for (Prefix type : types) {
             ClosestMatchList closestMatch = new ClosestMatchList(model, type, prefixKeywordMap.get(type));
             String[] approvedList = closestMatch.getApprovedList();
@@ -101,13 +118,13 @@ public class FindCommand extends Command {
                 combinedPredicate = combinedPredicate.and(
                         new TagContainsKeywordsPredicate(Arrays.asList(approvedList))
                 );
+            } else if (type == PREFIX_KPI) {
+                combinedPredicate = combinedPredicate.and(
+                        new KpiContainsKeywordPredicate(Arrays.asList(approvedList))
+                );
             }
         }
-
-        model.updateFilteredPersonList(combinedPredicate);
-
-        return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+        return combinedPredicate;
     }
 
     @Override

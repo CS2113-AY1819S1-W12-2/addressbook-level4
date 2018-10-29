@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Orientation;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -19,7 +18,6 @@ import seedu.address.model.tag.Tag;
 public class PersonCard extends UiPart<Region> {
 
     private static final String FXML = "PersonListCard.fxml";
-    private static final int LABEL_HEIGHT = 18;
 
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
@@ -56,7 +54,6 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
-        //@@author LowGinWee
         List<Label> highPriorityTags = new ArrayList<>();
         List<Label> mediumPriorityTags = new ArrayList<>();;
         List<Label> lowPriorityTags = new ArrayList<>();;
@@ -85,23 +82,6 @@ public class PersonCard extends UiPart<Region> {
         for (Label label : lowPriorityTags) {
             tags.getChildren().add(label);
         }
-        //TODO find a btr way to find height
-        information.setOrientation(Orientation.VERTICAL);
-        int height = 0;
-        if (person.noteDoesExist()) {
-            information.getChildren().add(new Label("Note: " + person.getNote().value));
-            height += LABEL_HEIGHT;
-        }
-        if (person.positionDoesExist()) {
-            information.getChildren().add(new Label("Position: " + person.getPosition().value));
-            height += LABEL_HEIGHT;
-        }
-        if (person.kpiDoesExist()) {
-            information.getChildren().add(new Label("KPI: " + person.getKpi().value));
-            height += LABEL_HEIGHT;
-        }
-        information.setMaxHeight(height);
-        //@@author
     }
 
     @Override

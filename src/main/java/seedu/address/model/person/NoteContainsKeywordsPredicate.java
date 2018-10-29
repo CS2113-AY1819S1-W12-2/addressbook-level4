@@ -20,8 +20,13 @@ public class NoteContainsKeywordsPredicate implements Predicate<Person> {
 
     @Override
     public boolean test(Person person) {
-        return keywords.stream()
-                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getNote().value, keyword));
+        if (person.getNote().value != null) {
+            return keywords.stream()
+                    .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getNote().value, keyword));
+        } else {
+            return keywords.stream()
+                    .anyMatch(keyword -> StringUtil.containsWordIgnoreCase("", keyword));
+        }
     }
 
     @Override

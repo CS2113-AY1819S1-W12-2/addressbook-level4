@@ -58,7 +58,6 @@ public class Position {
         return value;
     }
 
-    //TODO To resolve issue when one is null and the other is not
     @Override
     public boolean equals(Object other) {
         if (!doesExist() && !((Position) other).doesExist()) {

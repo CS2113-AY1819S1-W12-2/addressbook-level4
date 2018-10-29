@@ -12,7 +12,7 @@ import seedu.address.model.schedule.Activity;
  * Deletes an {@code Activity} to the schedule in the address book.
  */
 public class ScheduleDeleteCommand extends ScheduleCommand {
-    private static final String MESSAGE_SUCCESS = "Task \"%s\" on %s has been deleted.";
+    public static final String MESSAGE_SUCCESS = "Task \"%s\" on %s has been deleted.";
     private final Index index;
 
     /**

@@ -62,7 +62,7 @@ public abstract class ScheduleCommand extends Command {
     public Activity getActivityFromIndex (Model model, Index index) throws CommandException {
         List<Activity> activities = model.getActivityList();
         if (index.getZeroBased() >= activities.size()) {
-            throw new CommandException(MESSAGE_INVALID_INDEX + " " + MESSAGE_USAGE);
+            throw new CommandException(MESSAGE_INVALID_INDEX);
         }
         return activities.get(index.getZeroBased());
     }

@@ -4,6 +4,8 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+import java.util.Objects;
+
 /**
  * Represents a Person's KPI(Key Performance Index) in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidKpi(String)}
@@ -54,12 +56,9 @@ public class Kpi {
     //TODO To resolve issue when one is null and the other is not
     @Override
     public boolean equals(Object other) {
-        if (!doesExist() && !((Kpi) other).doesExist()) {
-            return true;
-        }
         return other == this // short circuit if same object
                 || (other instanceof Kpi // instanceof handles nulls
-                && value.equals(((Kpi) other).value)); // state check
+                && Objects.equals(this.value, ((Kpi) other).value));
     }
 
     @Override

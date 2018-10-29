@@ -29,6 +29,7 @@ public class ResultDisplay extends UiPart<Region> {
     public ResultDisplay() {
         super(FXML);
         resultDisplay.textProperty().bind(displayed);
+        resultDisplay.setStyle("-fx-text-fill: black;");
         registerAsAnEventHandler(this);
     }
 

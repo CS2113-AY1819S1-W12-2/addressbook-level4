@@ -98,11 +98,22 @@ public class Activity {
         return test.matches(DATE_VALIDATION_REGEX);
     }
 
-
     /**
      * Checks if specified Activity name is valid
      */
     public static boolean isValidActivity(String test) {
         return test.matches(ACTIVITY_VALIDATION_REGEX);
+    }
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Activity // instanceof handles nulls
+                && activityName.equals(((Activity) other).activityName) // state check
+                && date.equals(((Activity) other).date)); // state check
+    }
+
+    @Override
+    public int hashCode() {
+        return (activityName + date).hashCode();
     }
 }

@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_KPI;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -17,6 +18,7 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Kpi;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Phone;
@@ -44,7 +46,8 @@ public class FindCommandParser implements Parser<FindCommand> {
                         PREFIX_ADDRESS,
                         PREFIX_NOTE,
                         PREFIX_POSITION,
-                        PREFIX_TAG
+                        PREFIX_TAG,
+                        PREFIX_KPI
                         );
 
         if (!arePrefixesPresent(argMultimap,
@@ -54,7 +57,8 @@ public class FindCommandParser implements Parser<FindCommand> {
                 PREFIX_EMAIL,
                 PREFIX_POSITION,
                 PREFIX_NOTE,
-                PREFIX_TAG)
+                PREFIX_TAG,
+                PREFIX_KPI)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
@@ -97,6 +101,11 @@ public class FindCommandParser implements Parser<FindCommand> {
             Tag tag = ParserUtil.parseTag(argMultimap.getValue(PREFIX_TAG).get());
             String[] keywords = tag.tagName.trim().split("\\s+");
             prefixKeywordMap.put(PREFIX_TAG, keywords);
+        }
+        if (arePrefixesPresent(argMultimap, PREFIX_KPI)) {
+            Kpi kpi = ParserUtil.parseKpi(argMultimap.getValue(PREFIX_KPI).get());
+            String[] keywords = kpi.value.trim().split("\\s+");
+            prefixKeywordMap.put(PREFIX_KPI, keywords);
         }
 
         if (prefixKeywordMap.isEmpty()) {

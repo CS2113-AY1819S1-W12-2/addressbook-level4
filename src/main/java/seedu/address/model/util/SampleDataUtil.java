@@ -1,9 +1,10 @@
 package seedu.address.model.util;
 
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
+import seedu.address.logic.parser.ParserUtil;
+import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Address;
@@ -40,7 +41,7 @@ public class SampleDataUtil {
                 new Note("Irfan is a friend"), getTagSet("classmates")),
             new Person(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"),
                 new Address("Blk 45 Aljunied Street 85, #11-31"), new Position("CEO"), new Kpi("0"),
-                new Note("Roy is a friend"), getTagSet("colleagues"))
+                new Note("Roy is a friend"), getTagSet("colleagues 1"))
         };
     }
     public static Activity[] getSampleSchedule() {
@@ -73,9 +74,16 @@ public class SampleDataUtil {
      * Returns a tag set containing the list of strings given.
      */
     public static Set<Tag> getTagSet(String... strings) {
-        return Arrays.stream(strings)
-            .map(Tag::new)
-            .collect(Collectors.toSet());
+        Set<Tag> tagSet = new HashSet<>();
+        try {
+            for (String tagString : strings) {
+                Tag tag = ParserUtil.parseTag(tagString);
+                tagSet.add(tag);
+            }
+        } catch (ParseException e) {
+            return new HashSet<>();
+        }
+        return tagSet;
     }
 
 }

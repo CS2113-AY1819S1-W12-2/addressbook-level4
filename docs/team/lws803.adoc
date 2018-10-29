@@ -3,7 +3,7 @@
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
-== PROJECT: CorproC
+== PROJECT: CorpProC
 
 ---
 
@@ -27,15 +27,14 @@ CorpProC is an addressbook application which provides *you* with ease of access 
 * *Other contributions*:
 
 ** Project management:
-*** Managed releases `v1.3` - `v1.5rc` (3 releases) on GitHub - TODO
+*** Managed releases `v1.1` - `v2.0` (5 releases) on GitHub
 ** Enhancements to existing features:
-*** Updated the GUI color scheme (Pull requests https://github.com[#33], https://github.com[#34]) - TODO
-*** Wrote additional tests for existing features to increase coverage from 74.36% to 74.437% (Pull requests https://github.com/CS2113-AY1819S1-W12-3/main/pull/101[#101])
+*** Enhanced find feature to include search by incomplete keywords and chaining of search attributes
+*** Implemented a security feature to lock the Address book and encrypt the data file
 ** Documentation:
-*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com[#14] - TODO
+*** Did cosmetic tweaks to existing contents of the User Guide
 ** Community:
 *** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42] - TODO
-*** Contributed to forum discussions (examples:  https://github.com[1], https://github.com[2], https://github.com[3], https://github.com[4]) - TODO
 *** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3]) - TODO
 *** Some parts of the history feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2]) - TODO
 ** Tools:

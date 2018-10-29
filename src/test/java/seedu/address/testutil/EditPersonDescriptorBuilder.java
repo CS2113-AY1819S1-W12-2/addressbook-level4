@@ -37,7 +37,21 @@ public class EditPersonDescriptorBuilder {
         descriptor.setPhone(person.getPhone());
         descriptor.setEmail(person.getEmail());
         descriptor.setAddress(person.getAddress());
-        descriptor.setNote(person.getNote());
+        if (person.noteDoesExist()) {
+            descriptor.setNote(person.getNote());
+        } else {
+            descriptor.setRemoveNote();
+        }
+        if (person.positionDoesExist()) {
+            descriptor.setPosition(person.getPosition());
+        } else {
+            descriptor.setRemovePosition();
+        }
+        if (person.kpiDoesExist()) {
+            descriptor.setKpi(person.getKpi());
+        } else {
+            descriptor.setRemoveKpi();
+        }
         descriptor.setTags(person.getTags());
     }
 

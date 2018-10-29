@@ -75,7 +75,10 @@ public class Person {
     }
 
     public Note getNote() {
-        return note;
+        if (noteDoesExist()) {
+            return note;
+        }
+        return new Note();
     }
     //@@author
 

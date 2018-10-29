@@ -268,6 +268,15 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
     /**
+     * Replaces the given activity {@code target} with {@code editedActivity}.
+     * {@code target} must exist in the address book.
+     */
+    @Override
+    public void updateActivity(Activity target, Activity editedActivity) {
+        versionedAddressBook.updateActivity(target, editedActivity);
+        indicateAddressBookChanged();
+    }
+    /**
      * Get the sorted list of activities in the schedule.
      * @return the list of activities.
      */

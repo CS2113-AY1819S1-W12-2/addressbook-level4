@@ -10,7 +10,7 @@ import seedu.address.model.schedule.Activity;
  * Adds an {@code Activity} to the schedule in the address book.
  */
 public class ScheduleAddCommand extends ScheduleCommand {
-    private static final String MESSAGE_SUCCESS = "Task \"%s\" on %s has been added to your schedule.";
+    public static final String MESSAGE_SUCCESS = "Task \"%s\" on %s has been added to your schedule.";
     private final Activity toAdd;
 
     /**
