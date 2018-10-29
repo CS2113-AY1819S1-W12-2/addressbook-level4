@@ -38,10 +38,16 @@ public class BackupList {
         }
     }
 
+    /**
+     * @return fileNames
+     */
     public List<String> getFileNames() {
         return this.fileNames;
     }
 
+    /**
+     * @return fileMap
+     */
     public Map<Integer, File> getFileMap() {
         return this.fileMap;
     }
@@ -50,7 +56,7 @@ public class BackupList {
      * Parses a (@code String millis) into an (@code String)
      * @return A converted and formatted form of date and time.
      */
-    public String millisToDateAndTime(String millis) {
+    private String millisToDateAndTime(String millis) {
         long timestamp = Long.parseLong(millis);
         LocalDateTime dateTime = LocalDateTime.ofInstant(
                 Instant.ofEpochMilli(timestamp),

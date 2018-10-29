@@ -24,33 +24,19 @@ public class BackUpCommand extends Command {
     private String fileName;
     private Path destPath;
     private UserPrefs userPref;
-    private String destFolder;
 
     public BackUpCommand() {
         userPref = new UserPrefs();
-        destFolder = DEST_PATH;
-        fileName = destFolder + "\\" + Long.toString(System.currentTimeMillis()) + ".xml";
-        destPath = Paths.get(fileName);
-    }
-
-    public BackUpCommand(String destination) {
-        userPref = new UserPrefs();
-        destFolder = destination;
-        fileName = destFolder + "\\" + Long.toString(System.currentTimeMillis()) + ".xml";
+        fileName = DEST_PATH + "\\" + Long.toString(System.currentTimeMillis()) + ".xml";
         destPath = Paths.get(fileName);
     }
 
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         FileEncryptor fe = new FileEncryptor(userPref.getAddressBookFilePath().toString());
-        File backupDest = new File(destFolder);
 
         if (fe.isLocked()) {
             throw new CommandException(FileEncryptor.MESSAGE_ADDRESS_BOOK_LOCKED);
-        }
-
-        if (!backupDest.exists()) {
-            new File(destFolder).mkdir();
         }
 
         model.backUpAddressbook(destPath);
