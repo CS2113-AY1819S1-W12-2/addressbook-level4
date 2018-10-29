@@ -17,7 +17,7 @@
 <li><a href="#adding-a-person-code-add-code">3.2. Adding a person: <code>add</code></a></li>
 <li><a href="#listing-all-persons-code-list-code">3.3. Listing all persons : <code>list</code></a></li>
 <li><a href="#editing-a-person-code-edit-code">3.4. Editing a person : <code>edit</code></a></li>
-<li><a href="#locating-persons-by-attribute-code-find-code">3.5. Locating persons by attribute: <code>find</code></a></li>
+<li><a href="#finding-persons-by-attribute-code-find-code">3.5. Finding persons by attribute : <code>find</code></a></li>
 <li><a href="#deleting-a-person-code-delete-code">3.6. Deleting a person : <code>delete</code></a></li>
 <li><a href="#selecting-a-person-code-select-code">3.7. Selecting a person : <code>select</code></a></li>
 <li><a href="#listing-entered-commands-code-history-code">3.8. Listing entered commands : <code>history</code></a></li>
@@ -29,15 +29,19 @@
 <li><a href="#imports-the-address-book-from-a-directory-code-import-code">3.14. Imports the address book from a directory : <code>import</code></a></li>
 <li><a href="#clearing-all-entries-code-clear-code">3.15. Clearing all entries : <code>clear</code></a></li>
 <li><a href="#exiting-the-program-code-exit-code">3.16. Exiting the program : <code>exit</code></a></li>
-<li><a href="#saving-the-data">3.17. Saving the data</a></li>
-<li><a href="#encrypting-data-files-code-password-code">3.18. Encrypting data files : <code>password</code></a></li>
-<li><a href="#email-contacts-code-mail-code">3.19. Email contacts : <code>mail</code></a></li>
-<li><a href="#text-prediction">3.20. Text prediction</a></li>
-<li><a href="#schedule">3.21. Schedule</a></li>
+<li><a href="#encrypting-data-files-code-password-code">3.17. Encrypting data files : <code>password</code></a></li>
+<li><a href="#email-contacts-code-mail-code">3.18. Email contacts : <code>mail</code></a></li>
+<li><a href="#schedule">3.19. Schedule</a></li>
 </ul>
 </li>
-<li><a href="#faq">4. FAQ</a></li>
-<li><a href="#command-summary">5. Command Summary</a></li>
+<li><a href="#appendix">4. Appendix</a>
+<ul class="sectlevel2">
+<li><a href="#text-prediction">4.1. Text prediction</a></li>
+<li><a href="#saving-the-data">4.2. Saving the data</a></li>
+</ul>
+</li>
+<li><a href="#faq">5. FAQ</a></li>
+<li><a href="#command-summary">6. Command Summary</a></li>
 </ul>
 </div>
 </div>
@@ -257,7 +261,7 @@ Replaces all listed persons' tag to be <code>friends</code> and edits their KPI 
 </div>
 </div>
 <div class="sect2">
-<h3 id="locating-persons-by-attribute-code-find-code"><a class="link" href="#locating-persons-by-attribute-code-find-code">3.5. Locating persons by attribute: <code>find</code></a></h3>
+<h3 id="finding-persons-by-attribute-code-find-code"><a class="link" href="#finding-persons-by-attribute-code-find-code">3.5. Finding persons by attribute : <code>find</code></a></h3>
 <div class="paragraph">
 <p>Finds persons whose names contain any of the given keywords.<br>
 Format: <code>find PREFIX KEYWORD [MORE_KEYWORDS]</code></p>
@@ -267,13 +271,13 @@ Format: <code>find PREFIX KEYWORD [MORE_KEYWORDS]</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p>The search is not case insensitive.</p>
+<p>The search is not case sensitive.</p>
 </li>
 <li>
 <p>The order of the keywords does not matter. e.g. <code>Hans Bo</code> will match <code>Bo Hans</code></p>
 </li>
 <li>
-<p>Only the name is searched.</p>
+<p>You can search by name, email, address, key performance index, position, phone number and tags</p>
 </li>
 <li>
 <p>Partial words or words with typos will be matched too eg. 'Hangs' will be matched to 'Hans'</p>
@@ -301,6 +305,34 @@ Returns any person having names <code>Betsy</code>, <code>Tim</code>, or <code>J
 <li>
 <p><code>find e/example@domain.com</code><br>
 Returns any person having the email <code>example@domain.com</code></p>
+</li>
+<li>
+<p><code>find p/912311231</code><br>
+Returns any person having the phone number <code>912311231</code></p>
+</li>
+<li>
+<p><code>find r/secretary</code><br>
+Returns any person who holds a <code>secretary</code> position</p>
+</li>
+<li>
+<p><code>find a/jurong west ave</code><br>
+Returns any person who lives in <code>jurong west ave</code></p>
+</li>
+<li>
+<p><code>find k/4.0</code><br>
+Returns any person who has a KPI of <code>4.0</code></p>
+</li>
+<li>
+<p><code>find d/John is forgetful</code><br>
+Returns any person who has a note containing <code>John is forgetful</code></p>
+</li>
+<li>
+<p><code>find t/friends</code><br>
+Returns any person who is tagged as <code>friends</code></p>
+</li>
+<li>
+<p><code>find n/John Betsy r/secretary a/jurong west ave</code><br>
+Returns any person having names <code>John</code> and <code>Betsy</code> who is a <code>secretary</code> and lives in <code>jurong west ave</code></p>
 </li>
 </ul>
 </div>
@@ -528,14 +560,7 @@ Format: <code>exit</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-the-data"><a class="link" href="#saving-the-data">3.17. Saving the data</a></h3>
-<div class="paragraph">
-<p>Address book data are saved in the hard disk automatically after any command that changes the data.<br>
-There is no need to save manually.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="encrypting-data-files-code-password-code"><a class="link" href="#encrypting-data-files-code-password-code">3.18. Encrypting data files : <code>password</code></a></h3>
+<h3 id="encrypting-data-files-code-password-code"><a class="link" href="#encrypting-data-files-code-password-code">3.17. Encrypting data files : <code>password</code></a></h3>
 <div class="paragraph">
 <p>Encrypts the data file with your password.<br>
 Format: <code>password YOURPASSWORD</code><br>
@@ -544,7 +569,7 @@ Please close the application after encrypting to clear the application and preve
 </div>
 </div>
 <div class="sect2">
-<h3 id="email-contacts-code-mail-code"><a class="link" href="#email-contacts-code-mail-code">3.19. Email contacts : <code>mail</code></a></h3>
+<h3 id="email-contacts-code-mail-code"><a class="link" href="#email-contacts-code-mail-code">3.18. Email contacts : <code>mail</code></a></h3>
 <div class="paragraph">
 <p>Opens your system&#8217;s default email application.<br>
 Format: <code>mail all/</code> or <code>mail t/TAG</code> or <code>mail</code></p>
@@ -580,44 +605,7 @@ opens your email application with person (3rd person in the list panel) as recip
 </div>
 </div>
 <div class="sect2">
-<h3 id="text-prediction"><a class="link" href="#text-prediction">3.20. Text prediction</a></h3>
-<div class="paragraph">
-<p>Text prediction feature allows you to complete your command faster with less typing.<br>
-Invoke this feature by pressing the <em>Tab</em> key on the keyboard.<br></p>
-</div>
-<div class="paragraph">
-<p>You can invoke this feature on:<br></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Command keywords (<code>mail</code>, <code>add</code>, <code>find</code>, etc.) .</p>
-</li>
-<li>
-<p>Flag arguments (<code>n/</code>, <code>a/</code>, <code>t/</code>, etc.) .</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>For example, given an address book consisting of a contact with the name <em>Alex Yeoh</em>:<br>
-Typing <code>m</code> in the box and pressing <em>Tab</em> will auto complete to the <code>mail</code> command. Then, typing <code>mail n/A</code> and pressing <em>Tab</em> will auto complete to <code>mail n/Alex Yeoh</code> for you.<br></p>
-</div>
-<div class="paragraph">
-<p>Note:<br></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>If there are multiple predicted values, they will be listed down.<br></p>
-</li>
-<li>
-<p>If no argument flags are specified, the default value predicted is based on the command&#8217;s default argument.<br></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="schedule"><a class="link" href="#schedule">3.21. Schedule</a></h3>
+<h3 id="schedule"><a class="link" href="#schedule">3.19. Schedule</a></h3>
 <div class="paragraph">
 <p>The Schedule feature helps you remember important activities by listing out important events and dates!<br></p>
 </div>
@@ -688,7 +676,56 @@ Format: <code>schedule</code> <code>delete</code> <code>INDEX</code><br></p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="faq"><a class="link" href="#faq">4. FAQ</a></h2>
+<h2 id="appendix"><a class="link" href="#appendix">4. Appendix</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="text-prediction"><a class="link" href="#text-prediction">4.1. Text prediction</a></h3>
+<div class="paragraph">
+<p>Text prediction feature allows you to complete your command faster with less typing.<br>
+Invoke this feature by pressing the <em>Tab</em> key on the keyboard.<br></p>
+</div>
+<div class="paragraph">
+<p>You can invoke this feature on:<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Command keywords (<code>mail</code>, <code>add</code>, <code>find</code>, etc.) .</p>
+</li>
+<li>
+<p>Flag arguments (<code>n/</code>, <code>a/</code>, <code>t/</code>, etc.) .</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example, given an address book consisting of a contact with the name <em>Alex Yeoh</em>:<br>
+Typing <code>m</code> in the box and pressing <em>Tab</em> will auto complete to the <code>mail</code> command. Then, typing <code>mail n/A</code> and pressing <em>Tab</em> will auto complete to <code>mail n/Alex Yeoh</code> for you.<br></p>
+</div>
+<div class="paragraph">
+<p>Note:<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If there are multiple predicted values, they will be listed down.<br></p>
+</li>
+<li>
+<p>If no argument flags are specified, the default value predicted is based on the command&#8217;s default argument.<br></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="saving-the-data"><a class="link" href="#saving-the-data">4.2. Saving the data</a></h3>
+<div class="paragraph">
+<p>Address book data are saved in the hard disk automatically after any command that changes the data.<br>
+There is no need to save manually.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="faq"><a class="link" href="#faq">5. FAQ</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><strong>Q</strong>: How do I transfer my data to another Computer?<br>
@@ -696,12 +733,12 @@ Format: <code>schedule</code> <code>delete</code> <code>INDEX</code><br></p>
 </div>
 <div class="paragraph">
 <p><strong>Q</strong>: What happens if I forget my password?<br>
-<strong>A</strong>: Your Address book will not be recoverable. Just delete XML.decrypted</p>
+<strong>A</strong>: Your Address book will not be recoverable. You will have to delete addressbook.xml.encrypted and choose a backup to restore from.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="command-summary"><a class="link" href="#command-summary">5. Command Summary</a></h2>
+<h2 id="command-summary"><a class="link" href="#command-summary">6. Command Summary</a></h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -721,7 +758,7 @@ e.g. <code>delete 3</code></p>
 e.g. <code>edit 2 n/James Lee e/jameslee@example.com</code></p>
 </li>
 <li>
-<p><strong>Find</strong> : <code>find KEYWORD [MORE_KEYWORDS]</code><br>
+<p><strong>Find</strong> : <code>find n/ KEYWORD [MORE_KEYWORDS]</code><br>
 e.g. <code>find James Jake</code></p>
 </li>
 <li>
@@ -765,4 +802,4 @@ e.g. <code>mail all/</code> or <code>mail t/TAG</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-28 16:04:32 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-29 09:52:27 UTC</div></div></div></body></html>

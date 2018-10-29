@@ -35,7 +35,7 @@
 <li><a href="#Implementation-Configuration">3.4. Configuration</a></li>
 <li><a href="#text-prediction">3.5. Text prediction</a></li>
 <li><a href="#back-up-and-restore">3.6. Back Up and Restore</a></li>
-<li><a href="#Implementation-Restore">3.7. Flexible Search</a></li>
+<li><a href="#Implementation-Restore">3.7. Find and Search</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a>
@@ -1012,7 +1012,7 @@ Step 4. Prints the string.<br></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="Implementation-Restore"><a class="link" href="#Implementation-Restore">3.7. Flexible Search</a></h3>
+<h3 id="Implementation-Restore"><a class="link" href="#Implementation-Restore">3.7. Find and Search</a></h3>
 <div class="sect3">
 <h4 id="current-implementation-3"><a class="link" href="#current-implementation-3">3.7.1. Current Implementation</a></h4>
 <div class="paragraph">
@@ -1024,11 +1024,92 @@ Step 4. Prints the string.<br></p>
 <h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.7.2. Design Considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-how-find-command-executes"><a class="link" href="#aspect-how-find-command-executes">Aspect: How find command executes</a></h5>
-
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1:</strong> Find using only predicates</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Easy to implement.</p>
+</li>
+<li>
+<p>Cons: Search must be exact, cannot have typos or incomplete keywords</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2 (current choice):</strong> Store the search results in a <code>treeMap</code> ordered by their Levenshtein distances from the search keyword</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Will also consider searches that are similar to what we want and will account for typos or incomplete keywords</p>
+</li>
+<li>
+<p>Cons: Added complexities in finding and searching</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-expanded-features-of-find-command"><a class="link" href="#aspect-expanded-features-of-find-command">Aspect: Expanded features of find command</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1:</strong> Find only by name</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Easy to implement.</p>
+</li>
+<li>
+<p>Cons: Can only search by name of addressees</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Find by attributes</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Can search by email, phone, address, etc instead of just the name of addressees</p>
+</li>
+<li>
+<p>Cons: Can only search for one attribute at a time (i.e find by name or find by email)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 3 (current choice):</strong> Chain-able find attributes</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Can search by email and phone and address, etc instead of just one at a time</p>
+</li>
+<li>
+<p>Cons: Added complexities in find command</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
 </div>
 <div class="sect4">
 <h5 id="aspect-data-structure-to-support-the-revamped-find-command"><a class="link" href="#aspect-data-structure-to-support-the-revamped-find-command">Aspect: Data structure to support the revamped Find command</a></h5>
-
+<div class="paragraph">
+<p><code>treeMap</code> was used to store the search results ordered by their Levenshtein distances.<br>
+The results are then filtered and
+results furthest away from the top few are ignored. The searches will then be passed thru their respective predicates
+(<code>NameContainsKeywordsPredicate</code>, <code>AddressContainsKeywordsPredicate</code>, <code>EmailContainsKeywordsPredicate</code>, <code>KpiContainsKeywordPredicate</code>, <code>NoteContainsKeywordsPredicate</code>, <code>PhoneContainsKeywordPredicate</code>, <code>PositionContainsKeywordsPredicate</code>, <code>TagContainsKeywordsPredicate</code>)
+before filtering the list.</p>
+</div>
 </div>
 </div>
 </div>
@@ -2942,4 +3023,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-28 16:04:32 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-29 09:52:27 UTC</div></div></div></body></html>
