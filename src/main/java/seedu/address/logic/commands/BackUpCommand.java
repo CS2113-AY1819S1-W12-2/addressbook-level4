@@ -1,7 +1,6 @@
 //@@author Limminghong
 package seedu.address.logic.commands;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
