@@ -12,6 +12,7 @@ import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.CliSyntax;
 import seedu.address.model.Model;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.storage.CsvWriter;
@@ -55,7 +56,8 @@ public class ExportCommand extends Command {
         }
 
         try {
-            ObservableList<Person> personList = model.getPersonList();
+            ReadOnlyAddressBook addressBook = model.getAddressBook();
+            ObservableList<Person> personList = addressBook.getPersonList();
             CsvWriter csvWriter = new CsvWriter(personList);
             csvWriter.convertToCsv(fullDirectory);
             return new CommandResult(String.format(MESSAGE_SUCCESS, directory, fileName));
