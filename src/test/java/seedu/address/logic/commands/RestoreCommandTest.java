@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.junit.rules.TemporaryFolder;
+
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.CommandHistory;
@@ -71,7 +72,7 @@ class RestoreCommandTest {
      * Test when the index is invalid
      */
     @Test
-    public void execute_index_invalid_throwsCommandException() {
+    public void execute_index_invalid() {
         try {
             Index index = ParserUtil.parseIndex("2");
             CommandResult result = new RestoreCommand(backupList, index).execute(model, commandHistory);

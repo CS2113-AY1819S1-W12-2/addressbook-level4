@@ -4,6 +4,7 @@ package seedu.address.model.autocomplete;
 import static org.junit.Assert.assertEquals;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -205,6 +206,17 @@ public class CommandCompleterTest {
         public void reinitAddressbook() {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void replaceData(Path path) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void backUpAddressbook(Path path) {
+            throw new AssertionError("This method should not be called.");
+        }
+
 
         @Override
         public TreeMap<Date, ArrayList<Activity>> getSchedule() {
