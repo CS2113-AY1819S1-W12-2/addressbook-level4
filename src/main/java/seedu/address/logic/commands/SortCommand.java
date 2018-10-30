@@ -2,20 +2,18 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Comparator;
 
+import seedu.address.commons.util.FileEncryptor;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.CliSyntax;
 import seedu.address.model.Model;
-import seedu.address.model.person.ReadPersonOnly;
+import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.EmptyPersonListException;
 
 /**
@@ -35,11 +33,21 @@ public class SortCommand extends Command {
             + "[PREFIX]\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + " " + REVERSE_ORDER;
 
+
+
     public static final String MESSAGE_SORT_SUCCESS = "Sorted address book by %1$s in %2$s order.";
     public static final String MESSAGE_SORT_EMPTY = "No person to sort in this attribute.";
 
+
+    public static final String PREFIX_NAME_ATTRIBUTE = "n/";
+    public static final String PREFIX_PHONE_ATTRIBUTE = "p/";
+    public static final String PREFIX_EMAIL_ATTRIBUTE = "e/";
+    public static final String PREFIX_ADDRESS_ATTRIBUTE = "a/";
+    public static final String PREFIX_TAG_ATTRIBUTE = "t/";
+    public static final String PREFIX_KPI_ATTRIBUTE = "k/";
+
     private final String attribute;
-    private final String isReverseOrder;
+    private final boolean isReverseOrder;
 
     // Default values for sorting
     private String sortBy = "name";
@@ -63,10 +71,18 @@ public class SortCommand extends Command {
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
 
-        Comparator<ReadPersonOnly> comparator = sortComparatorByPrefix(this.attribute);
+        UserPrefs userPref = new UserPrefs();
+        FileEncryptor fe = new FileEncryptor(userPref.getAddressBookFilePath().toString());
+
+        if (fe.isLocked()) {
+            throw new CommandException(FileEncryptor.MESSAGE_ADDRESS_BOOK_LOCKED);
+        }
+
+        Comparator<Person> comparator = sortComparatorByPrefix(this.attribute);
+
         try {
             model.sortPerson(comparator, isReverseOrder);
-        } catch (EmptyPersonListException eple) {
+        } catch (EmptyPersonListException npe) {
             throw new CommandException(MESSAGE_SORT_EMPTY);
         }
 
@@ -80,23 +96,26 @@ public class SortCommand extends Command {
     /**
      * Comparator depending on the attribute specified
      */
-    private Comparator<ReadPersonOnly> sortComparatorByPrefix(String attribute) {
+    private Comparator<Person> sortComparatorByPrefix(String attribute) {
         switch (attribute) {
-            case PREFIX_NAME:
+            case PREFIX_NAME_ATTRIBUTE:
                 this.sortBy = "name";
                 return (o1, o2) -> o1.getName().toString().compareToIgnoreCase(o2.getName().toString());
-            case PREFIX_PHONE:
+            case PREFIX_PHONE_ATTRIBUTE:
                 this.sortBy = "phone";
                 return (o1, o2) -> o1.getPhone().toString().compareToIgnoreCase(o2.getPhone().toString());
-            case PREFIX_EMAIL:
+            case PREFIX_EMAIL_ATTRIBUTE:
                 this.sortBy = "email";
                 return (o1, o2) -> o1.getEmail().toString().compareToIgnoreCase(o2.getEmail().toString());
-            case PREFIX_ADDRESS:
+            case PREFIX_ADDRESS_ATTRIBUTE:
                 this.sortBy = "address";
                 return (o1, o2) -> o1.getAddress().toString().compareToIgnoreCase(o2.getAddress().toString());
-            case PREFIX_TAG:
+            case PREFIX_TAG_ATTRIBUTE:
                 this.sortBy = "tag";
                 return (o1, o2) -> o1.getTags().toString().compareToIgnoreCase(o2.getTags().toString());
+            case PREFIX_KPI_ATTRIBUTE:
+                this.sortBy = "KPI";
+                return (o1, o2) -> o1.getKpi().toString().compareToIgnoreCase(o2.getTags().toString());
             default:
                 return (o1, o2) -> o1.getName().toString().compareToIgnoreCase(o2.getName().toString());
         }

@@ -17,11 +17,6 @@ public class CliSyntax {
     public static final Prefix PREFIX_ALL = new Prefix("all/");
     public static final Prefix PREFIX_COMMAND = new Prefix("command/");
     public static final Prefix PREFIX_INVALID = new Prefix("invalid/");
-    public static final Prefix PREFIX_KPI = new Prefix("k/");
-    public static final Prefix PREFIX_POSITION = new Prefix("r/");
-    public static final Prefix PREFIX_ALL = new Prefix("all/");
-    public static final Prefix PREFIX_COMMAND = new Prefix("command/");
-    public static final Prefix PREFIX_INVALID = new Prefix("invalid/");
     public static final Prefix PREFIX_DIRECTORY = new Prefix("d/");
     public static final Prefix PREFIX_DATE = new Prefix("d/");
     public static final Prefix PREFIX_ACTIVITY = new Prefix("a/");

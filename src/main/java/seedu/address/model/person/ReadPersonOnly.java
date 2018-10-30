@@ -2,8 +2,11 @@
 
 package seedu.address.model.person;
 
+import java.util.Set;
+
 import javafx.beans.property.ObjectProperty;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.UniqueTagList;
 
 /**
  * A read-only immutable interface for a Person in the addressbook.
@@ -19,6 +22,13 @@ public interface ReadPersonOnly {
     Email getEmail();
     ObjectProperty<Address> addressProperty();
     Address getAddress();
+    ObjectProperty<Position> positionProperty();
+    Kpi getPosition();
+    ObjectProperty<Kpi> kpiProperty();
+    Kpi getKpi();
+    ObjectProperty<Note> noteProperty();
+    Kpi getNote();
+    ObjectProperty<UniqueTagList> tagProperty();
     Set<Tag> getTags();
 
     /**
@@ -31,6 +41,11 @@ public interface ReadPersonOnly {
                 && other.getPhone().equals(this.getPhone())
                 && other.getEmail().equals(this.getEmail())
                 && other.getAddress().equals(this.getAddress())
+                && other.getPosition().equals(this.getPosition())
+                && other.getKpi().equals(this.getKpi())
+                && other.getNote().equals(this.getNote())
+                && other.getTags().equals(this.getTags())
+        );
     }
 
     /**
@@ -45,6 +60,13 @@ public interface ReadPersonOnly {
                 .append(getEmail())
                 .append(" Address: ")
                 .append(getAddress())
+                .append(" Position: ")
+                .append(getPosition())
+                .append(" KPI: ")
+                .append(getKpi())
+                .append(" Notes: ")
+                .append(getNote())
+                .append(getTags())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();

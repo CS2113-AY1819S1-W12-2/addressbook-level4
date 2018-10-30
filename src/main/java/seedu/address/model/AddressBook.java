@@ -3,6 +3,7 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
@@ -11,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.person.exceptions.EmptyPersonListException;
 import seedu.address.model.schedule.Activity;
 import seedu.address.model.schedule.Schedule;
 import seedu.address.model.tag.Tag;
@@ -199,5 +201,12 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public TreeMap<Date, ArrayList<Activity>> getSchedule() {
         return schedule.getSchedule();
+    }
+
+    /**
+     * Sort the contacts in the address book.
+     */
+    public void sortPerson(Comparator<Person> sortComparator, boolean isReverseOrder) throws EmptyPersonListException {
+        persons.sort(sortComparator, isReverseOrder);
     }
 }

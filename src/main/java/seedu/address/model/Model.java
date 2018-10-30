@@ -10,9 +10,10 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.model.autocomplete.TextPrediction;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.EmptyPersonListException;
 import seedu.address.model.schedule.Activity;
 import seedu.address.model.tag.Tag;
-import seedu.address.model.person.ReadPersonOnly;
+
 
 /**
  * The API of the Model component.
@@ -140,5 +141,5 @@ public interface Model {
 
     //@author peiying98
     /** Sorts address book list */
-    void sortPerson(Comparator<ReadPersonOnly> sortComparator, boolean isReverseOrder) throws NoPersonsException;
+    void sortPerson(Comparator<Person> sortComparator, boolean isReverseOrder) throws EmptyPersonListException;
 }

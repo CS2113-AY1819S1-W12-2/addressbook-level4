@@ -77,13 +77,13 @@ public class SortCommandParser implements Parser<SortCommand>{
             attribute = prefix.toString();
 
             if (s.equals(SortCommand.REVERSE_ORDER)) {
-                isReverseOrder = new Boolean.TRUE;
+                isReverseOrder = true;
                 return;
             } else {
-                isReverseOrder = new Boolean.FALSE;
+                isReverseOrder = false;
                 return;
             }
-        }
+        };
     }
 
     /**

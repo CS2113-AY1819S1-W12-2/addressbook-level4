@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
@@ -23,6 +24,7 @@ import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.autocomplete.CommandCompleter;
 import seedu.address.model.autocomplete.TextPrediction;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.EmptyPersonListException;
 import seedu.address.model.schedule.Activity;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
@@ -34,6 +36,7 @@ import seedu.address.storage.XmlAddressBookStorage;
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
+    private final AddressBook addressBook;
     private final VersionedAddressBook versionedAddressBook;
     private final FilteredList<Person> filteredPersons;
     private List<Person> selectedPersons;
@@ -47,6 +50,7 @@ public class ModelManager extends ComponentManager implements Model {
         requireAllNonNull(addressBook, userPrefs);
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
+        this.addressBook = new AddressBook(addressBook);
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
         textPrediction = new CommandCompleter(this);
@@ -266,5 +270,10 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public TreeMap<Date, ArrayList<Activity>> getSchedule() {
         return versionedAddressBook.getSchedule();
+    }
+
+    @Override
+    public void sortPerson(Comparator<Person> sortComparator, boolean isReverseOrder) throws EmptyPersonListException {
+        addressBook.sortPerson(sortComparator, isReverseOrder);
     }
 }
