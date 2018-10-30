@@ -29,15 +29,16 @@
 <li><a href="#exports-the-address-book-to-a-directory-code-export-code">4.13. Exports the address book to a directory : <code>export</code></a></li>
 <li><a href="#imports-the-address-book-from-a-directory-code-import-code">4.14. Imports the address book from a directory : <code>import</code></a></li>
 <li><a href="#clearing-all-entries-code-clear-code">4.15. Clearing all entries : <code>clear</code></a></li>
-<li><a href="#exiting-the-program-code-exit-code">4.16. Exiting the program : <code>exit</code></a></li>
-<li><a href="#encrypting-data-files-code-password-code">4.17. Encrypting data files : <code>password</code></a></li>
-<li><a href="#email-contacts-code-mail-code">4.18. Email contacts : <code>mail</code></a></li>
-<li><a href="#schedule-code-schedule-code">4.19. Schedule : <code>schedule</code></a></li>
-<li><a href="#text-prediction">4.20. Text prediction</a></li>
+<li><a href="#encrypting-data-files-code-password-code">4.16. Encrypting data files : <code>password</code></a></li>
+<li><a href="#email-contacts-code-mail-code">4.17. Email contacts : <code>mail</code></a></li>
+<li><a href="#schedule-code-schedule-code">4.18. Schedule : <code>schedule</code></a></li>
+<li><a href="#text-prediction">4.19. Text prediction</a></li>
+<li><a href="#exiting-the-program-code-exit-code">4.20. Exiting the program : <code>exit</code></a></li>
 <li><a href="#saving-the-data">4.21. Saving the data</a></li>
 </ul>
 </li>
 <li><a href="#faq">5. FAQ</a></li>
+<li><a href="#CSVFormat">Appendix A: Format of an exported CSV file</a></li>
 </ul>
 </div>
 </div>
@@ -148,13 +149,23 @@ e.g.<code>select 2</code> or <code>select 1 - 3, 5 - 7</code></p>
 <p><strong>Backup</strong> : <code>backup</code></p>
 </li>
 <li>
-<p><strong>Restore</strong> : <code>restore</code></p>
+<p><strong>Restore</strong> : <code>restore</code><br></p>
+<div class="ulist">
+<ul>
+<li>
+<p>List snapshots: <code>restore snapshots</code></p>
 </li>
 <li>
-<p><strong>Export</strong> : <code>export</code></p>
+<p>Restore chosen snapshots: <code>restore 1</code></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p><strong>Import</strong> : <code>import</code></p>
+<p><strong>Export</strong> : <code>export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE]</code></p>
+</li>
+<li>
+<p><strong>Import</strong> : <code>import d/ TARGET_PATH f/ NAME_OF_FILE</code></p>
 </li>
 <li>
 <p><strong>Password</strong> : <code>password</code></p>
@@ -617,29 +628,83 @@ The <code>redo</code> command fails as there are no <code>undo</code> commands e
 <div class="sect2">
 <h3 id="backing-up-all-data-code-backup-code"><a class="link" href="#backing-up-all-data-code-backup-code">4.11. Backing up all data : <code>backup</code></a></h3>
 <div class="paragraph">
-<p>Backup the data into a “.backup” folder which is invisible to users so as to enhance security.<br>
-Format: <code>backup</code></p>
+<p>The backup feature allows you to backup your address book and save the state for future restoration.<br>
+Format: <code>backup</code><br></p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="restore-data-from-backup-code-restore-code"><a class="link" href="#restore-data-from-backup-code-restore-code">4.12. Restore data from backup : <code>restore</code></a></h3>
 <div class="paragraph">
-<p>Restores data from a chosen backup snapshot from the ".backup" folder.<br>
+<p>The restore feature allows you to revert your address book back to a specific state int time (provided you backed up the state).<br>
+To list out all the available backups from latest to earliest:<br>
+Format: <code>restore snapshots</code><br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The time of backup is in the format of <code>INDEX</code> d MMM uuuu HH:mm:ss.</p>
+</li>
+<li>
+<p>Example: 1. 29 Oct 2018 00:16:31</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To restore your address book to the snapshot denoted by the <code>INDEX</code><br>
 Format: <code>restore INDEX</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>INDEX</code> refers to the index number denoting the date and time of the backup snapshot.</p>
+</li>
+<li>
+<p>The <code>INDEX</code> <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
 <h3 id="exports-the-address-book-to-a-directory-code-export-code"><a class="link" href="#exports-the-address-book-to-a-directory-code-export-code">4.13. Exports the address book to a directory : <code>export</code></a></h3>
 <div class="paragraph">
-<p>Export the data to a designated directory with choice of filters.<br>
+<p>You can export your address book contacts into a CSV file into any existing directory.<br>
 Format: <code>export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE]</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>OUTPUT_PATH</code> is the directory you want to export your contacts to.</p>
+</li>
+<li>
+<p><code>NAME_OF_FILE</code> is the name of the CSV file exported.</p>
+</li>
+<li>
+<p>If <code>OUTPUT_PATH</code> is not specified, it will create a <code>exports</code> folder and export into it.</p>
+</li>
+<li>
+<p>If <code>NAME_OF_FILE</code> is not specified, it will export to a CSV file named <code>export.csv</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Refer to <a href="#CSVFormat">Appendix A, <em>Format of an exported CSV file</em></a> for details of an exported CSV file.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="imports-the-address-book-from-a-directory-code-import-code"><a class="link" href="#imports-the-address-book-from-a-directory-code-import-code">4.14. Imports the address book from a directory : <code>import</code></a></h3>
 <div class="paragraph">
-<p>Import the data from a designated directory with choice of filters.<br>
+<p>You can import a CSV file and append it to your current address book.<br>
 Format: <code>import d/ TARGET_PATH f/ NAME_OF_FILE</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>TARGET_PATH</code> is the directory you want to import your file from.</p>
+</li>
+<li>
+<p><code>NAME_OF_FILE</code> is the name of the CSV file you want to import.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
@@ -650,14 +715,7 @@ Format: <code>clear</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">4.16. Exiting the program : <code>exit</code></a></h3>
-<div class="paragraph">
-<p>Exits the program.<br>
-Format: <code>exit</code></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="encrypting-data-files-code-password-code"><a class="link" href="#encrypting-data-files-code-password-code">4.17. Encrypting data files : <code>password</code></a></h3>
+<h3 id="encrypting-data-files-code-password-code"><a class="link" href="#encrypting-data-files-code-password-code">4.16. Encrypting data files : <code>password</code></a></h3>
 <div class="paragraph">
 <p>Encrypts the data file with your password.<br>
 Format: <code>password YOURPASSWORD</code><br>
@@ -666,7 +724,7 @@ Please close the application after encrypting to clear the application and preve
 </div>
 </div>
 <div class="sect2">
-<h3 id="email-contacts-code-mail-code"><a class="link" href="#email-contacts-code-mail-code">4.18. Email contacts : <code>mail</code></a></h3>
+<h3 id="email-contacts-code-mail-code"><a class="link" href="#email-contacts-code-mail-code">4.17. Email contacts : <code>mail</code></a></h3>
 <div class="paragraph">
 <p>Opens your system&#8217;s default email application.<br>
 Format: <code>mail all/</code> or <code>mail t/TAG</code> or <code>mail</code></p>
@@ -702,7 +760,7 @@ opens your email application with person (3rd person in the list panel) as recip
 </div>
 </div>
 <div class="sect2">
-<h3 id="schedule-code-schedule-code"><a class="link" href="#schedule-code-schedule-code">4.19. Schedule : <code>schedule</code></a></h3>
+<h3 id="schedule-code-schedule-code"><a class="link" href="#schedule-code-schedule-code">4.18. Schedule : <code>schedule</code></a></h3>
 <div class="paragraph">
 <p>The Schedule feature helps you remember important activities by listing out important events and dates!<br></p>
 </div>
@@ -795,7 +853,7 @@ Deletes the activity at <code>INDEX 1</code> in your schedule.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="text-prediction"><a class="link" href="#text-prediction">4.20. Text prediction</a></h3>
+<h3 id="text-prediction"><a class="link" href="#text-prediction">4.19. Text prediction</a></h3>
 <div class="paragraph">
 <p>Text prediction feature allows you to complete your command faster with less typing.<br>
 Invoke this feature by pressing the <em>Tab</em> key on the keyboard.<br></p>
@@ -832,6 +890,13 @@ Typing <code>m</code> in the box and pressing <em>Tab</em> will auto complete to
 </div>
 </div>
 <div class="sect2">
+<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">4.20. Exiting the program : <code>exit</code></a></h3>
+<div class="paragraph">
+<p>Exits the program.<br>
+Format: <code>exit</code></p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="saving-the-data"><a class="link" href="#saving-the-data">4.21. Saving the data</a></h3>
 <div class="paragraph">
 <p>Address book data are saved in the hard disk automatically after any command that changes the data.<br>
@@ -844,12 +909,45 @@ There is no need to save manually.</p>
 <h2 id="faq"><a class="link" href="#faq">5. FAQ</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
+<p><strong>Q</strong>: Oh no! I accidentally deleted an extremely important contact! How do i retrieve old information?<br>
+<strong>A</strong>: There are two ways in which you can retrieve old information.<br>
+Firstly, there is the undo/redo function in which you can undo a command.<br>
+Secondly, with the all new backup/restore feature, you can backup your address book at any time and restore it to that state whenever you want!.</p>
+</div>
+<div class="paragraph">
 <p><strong>Q</strong>: How do I transfer my data to another Computer?<br>
-<strong>A</strong>: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Address Book folder.</p>
+<strong>A</strong>: Now with the export/import function, you can export your old contacts into a CSV file and move the file to the new computer so you can import contacts from it. (Remember to download CorpPro on the other computer though!)</p>
 </div>
 <div class="paragraph">
 <p><strong>Q</strong>: What happens if I forget my password?<br>
 <strong>A</strong>: Your Address book will not be recoverable. You will have to delete addressbook.xml.encrypted and choose a backup to restore from.</p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 09:24:27 UTC</div></div></div></body></html>
+</div>
+<div class="sect1">
+<h2 id="CSVFormat"><a class="link" href="#CSVFormat">Appendix A: Format of an exported CSV file</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For more information about CSV files, you can refer to <a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV file</a></p>
+</div>
+<div class="paragraph">
+<p>When an address book is exported, it will be exported into a CSV file which can be read by excel or spreadsheet applications.</p>
+</div>
+<div class="paragraph">
+<p>Each row refers to a person.<br>
+Each column refers to a separate field of the person.<br>
+If a compulsory field is left blank, the address book will not allow the CSV file to be imported.<br></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Compulsory field includes: Name, Phone, Email and Address.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 13:47:48 UTC</div></div></div></body></html>
