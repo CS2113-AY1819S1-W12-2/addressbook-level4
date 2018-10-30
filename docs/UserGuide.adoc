@@ -427,8 +427,13 @@ There is no need to save manually.
 
 == FAQ
 
+*Q*: Oh no! I accidentally deleted an extremely important contact! How do i retrieve old information? +
+*A*: There are two ways in which you can retrieve old information. +
+Firstly, there is the undo/redo function in which you can undo a command. +
+Secondly, with the all new backup/restore feature, you can backup your address book at any time and restore it to that state whenever you want!.
+
 *Q*: How do I transfer my data to another Computer? +
-*A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Address Book folder.
+*A*: Now with the export/import function, you can export your old contacts into a CSV file and move the file to the new computer so you can import contacts from it. (Remember to download CorpPro on the other computer though!)
 
 *Q*: What happens if I forget my password? +
 *A*: Your Address book will not be recoverable. You will have to delete addressbook.xml.encrypted and choose a backup to restore from.
