@@ -89,6 +89,9 @@ public class UniqueTagList {
     public void remove(Person toRemove) {
         requireNonNull(toRemove);
         for (Tag t : toRemove.getTags()) {
+            if (!internalList.containsKey(t)) {
+                throw new TagNotFoundException();
+            }
             internalList.get(t).remove(toRemove);
             if (internalList.get(t).isEmpty()) {
                 internalList.remove(t);

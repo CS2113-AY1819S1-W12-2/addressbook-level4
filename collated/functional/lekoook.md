@@ -232,6 +232,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import seedu.address.commons.util.FileEncryptor;
 import seedu.address.logic.CommandHistory;
@@ -258,9 +259,9 @@ public class MailCommand extends Command {
     public static final int TYPE_GROUPS = 2;
     public static final int TYPE_ALL = 3;
 
-    private static final String MESSAGE_SUCCESS = "Mailing to: ";
-    private static final String MESSAGE_UNSUPPORTED = "System mail application is unsupported.";
-    private static final String MESSAGE_EMPTY_SELECTION = "No contacts selected! Select one or more and try again.";
+    public static final String MESSAGE_SUCCESS = "Mailing to: ";
+    public static final String MESSAGE_UNSUPPORTED = "System mail application is unsupported.";
+    public static final String MESSAGE_EMPTY_SELECTION = "No contacts selected! Select one or more and try again.";
 
     /**
      * Instance variables
@@ -423,6 +424,14 @@ public class MailCommand extends Command {
         }
         return output.toString();
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this || (other instanceof MailCommand
+                && this.mailType == ((MailCommand) other).mailType
+                && Objects.equals(this.mailArgs, ((MailCommand) other).mailArgs)
+                && Objects.equals(this.desktop, ((MailCommand) other).desktop));
+    }
 }
 ```
 ###### /java/seedu/address/logic/LogicManager.java
@@ -484,6 +493,12 @@ public class AutoCompleteParserPair {
             }
         }
         return input;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return this.predictionType.equals(((AutoCompleteParserPair) other).predictionType)
+                && this.prefixValue.equals(((AutoCompleteParserPair) other).prefixValue);
     }
 }
 ```

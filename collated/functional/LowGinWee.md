@@ -1,51 +1,4 @@
 # LowGinWee
-###### /java/seedu/address/ui/PersonCard.java
-``` java
-        List<Label> highPriorityTags = new ArrayList<>();
-        List<Label> mediumPriorityTags = new ArrayList<>();;
-        List<Label> lowPriorityTags = new ArrayList<>();;
-        person.getTags().forEach(tag -> {
-                Label newLabel = new Label(tag.tagName);
-                if (tag.priority.getZeroBased() == Tag.PRIORITY_HIGH) {
-                    newLabel.setStyle("-fx-border-color:red; -fx-background-color: red;");
-                    highPriorityTags.add(newLabel);
-                }
-                if (tag.priority.getZeroBased() == Tag.PRIORITY_MEDIUM) {
-                    newLabel.setStyle("-fx-text-fill:Black; -fx-border-color:yellow; -fx-background-color: yellow;");
-                    mediumPriorityTags.add(newLabel);
-                }
-                if (tag.priority.getZeroBased() == Tag.PRIORITY_LOW) {
-                    newLabel.setStyle("-fx-border-color:green; -fx-background-color: green;");
-                    lowPriorityTags.add(newLabel);
-                }
-            }
-        );
-        for (Label label : highPriorityTags) {
-            tags.getChildren().add(label);
-        }
-        for (Label label : mediumPriorityTags) {
-            tags.getChildren().add(label);
-        }
-        for (Label label : lowPriorityTags) {
-            tags.getChildren().add(label);
-        }
-        //TODO find a btr way to find height
-        information.setOrientation(Orientation.VERTICAL);
-        int height = 0;
-        if (person.noteDoesExist()) {
-            information.getChildren().add(new Label("Note: " + person.getNote().value));
-            height += LABEL_HEIGHT;
-        }
-        if (person.positionDoesExist()) {
-            information.getChildren().add(new Label("Position: " + person.getPosition().value));
-            height += LABEL_HEIGHT;
-        }
-        if (person.kpiDoesExist()) {
-            information.getChildren().add(new Label("KPI: " + person.getKpi().value));
-            height += LABEL_HEIGHT;
-        }
-        information.setMaxHeight(height);
-```
 ###### /java/seedu/address/logic/Logic.java
 ``` java
     /** @return the TreeMap of the Schedule */
@@ -719,13 +672,127 @@ public class Activity {
         return test.matches(DATE_VALIDATION_REGEX);
     }
 
-
     /**
      * Checks if specified Activity name is valid
      */
     public static boolean isValidActivity(String test) {
         return test.matches(ACTIVITY_VALIDATION_REGEX);
     }
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Activity // instanceof handles nulls
+                && activityName.equals(((Activity) other).activityName) // state check
+                && date.equals(((Activity) other).date)); // state check
+    }
+
+    @Override
+    public int hashCode() {
+        return (activityName + date).hashCode();
+    }
+}
+```
+###### /java/seedu/address/model/schedule/Schedule.java
+``` java
+package seedu.address.model.schedule;
+
+import static java.util.Objects.requireNonNull;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TreeMap;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+/**
+ * A TreeMap with Unique Dates of activities as keys. Each Date has a list of Activities, with the same date,
+ * as its value.
+ */
+public class Schedule {
+    private final TreeMap<Date, ArrayList<Activity>> schedule = new TreeMap<>();
+
+    /**
+     * Constructs the Schedule.
+     */
+    public Schedule() {
+    }
+
+    /**
+     * Sets the schedule based on a list of activities
+     */
+    public void setSchedule(List<Activity> activities) {
+        requireNonNull(activities);
+        schedule.clear();
+        for (Activity activity : activities) {
+            add(activity);
+        }
+    }
+
+    /**
+     * @return a list of all activities, sorted based on their dates
+     */
+    public ObservableList<Activity> getActivities() {
+        ObservableList<Activity> activities = FXCollections.observableArrayList();
+        for (Date date : schedule.keySet()) {
+            activities.addAll(schedule.get(date));
+        }
+        return FXCollections.unmodifiableObservableList(activities);
+    }
+
+    /**
+     * @return schedule.
+     */
+    public TreeMap<Date, ArrayList<Activity>> getSchedule() {
+        return schedule;
+    }
+
+    /**
+     * Adds an activity to the schedule.
+     * @param activity A valid activity.
+     */
+    public void add(Activity activity) {
+        requireNonNull(activity);
+        Date date = activity.getDate();
+        if (!contains(date)) {
+            schedule.put(date, new ArrayList<>());
+        }
+        schedule.get(date).add(activity);
+    }
+
+    /**
+     * Deletes an activity from the schedule.
+     * @param activity A valid activity.
+     */
+    public void delete(Activity activity) {
+        requireNonNull(activity);
+        schedule.get(activity.getDate()).remove(activity);
+        if (schedule.get(activity.getDate()).isEmpty()) {
+            schedule.remove(activity.getDate());
+        }
+    }
+
+    /**
+     * Checks if a date is unique in the schedule.
+     * @param date A valid date.
+     * @return A boolean if the date exists.
+     */
+    private boolean contains(Date date) {
+        if (schedule.containsKey(date)) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Schedule // instanceof handles nulls
+                && schedule.equals(((Schedule) other).schedule));
+    }
+
+
 }
 ```
 ###### /java/seedu/address/model/person/Position.java
@@ -812,6 +879,8 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+import java.util.Objects;
+
 /**
  * Represents a Person's KPI(Key Performance Index) in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidKpi(String)}
@@ -862,12 +931,9 @@ public class Kpi {
     //TODO To resolve issue when one is null and the other is not
     @Override
     public boolean equals(Object other) {
-        if (!doesExist() && !((Kpi) other).doesExist()) {
-            return true;
-        }
         return other == this // short circuit if same object
                 || (other instanceof Kpi // instanceof handles nulls
-                && value.equals(((Kpi) other).value)); // state check
+                && Objects.equals(this.value, ((Kpi) other).value));
     }
 
     @Override

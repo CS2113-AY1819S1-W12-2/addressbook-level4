@@ -1,4 +1,4 @@
-= AddressBook Level 4 - Developer Guide
+= CorpPro - Developer Guide
 :site-section: DeveloperGuide
 :toc:
 :toc-title:
@@ -14,7 +14,7 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/se-edu/addressbook-level4/tree/master
 
-By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
+By: `W12-3`      Since: `AUG 2018`      Licence: `MIT`
 
 == Setting up
 
@@ -468,7 +468,44 @@ results furthest away from the top few are ignored. The searches will then be pa
 before filtering the list.
 
 // end::find[]
+=== Schedule
+==== Current implementation
+Updating the Schedule is facilitated by the `ScheduleCommand` class which extends the `Command` class.
+`ScheduleAddCommand`, `ScheduleEditCommand` and `ScheduleDeleteCommand` further extends `ScheduleCommand` to add, edit and
+delete entries in the Schedule respectively.
 
+===== Activity
+
+Each entry in the Schedule is an `Activity`. It consist of a `String` which takes the name of the activity
+and the `Date`, of which the activity is due.
+
+===== Schedule
+The schedule is a `TreeMap` with `Date` of existing activities as its `key` and a `list` of activities, which is due on the same
+date, as its `value`. The schedule is instantiated in the `addressBook` and can be accessed through methods in the `modelManager`
+
+==== Design Considerations
+===== Aspect: Data structure of Schedule
+* **Alternative 1:** `List` of Activities
+** Pros: Easy to implement.
+** Cons: Need to sort each activity by its date whenever the schedule is updated.
+** Cons: Larger time complexity.
+
+* **Alternative 2 (Current choice):** `TreeMap` of Activities
+** Pros: Activities are automatically sorted by their dates whenever the schedule is updated.
+** Pros: Faster time complexity.
+** Cons: Harder to implement.
+** Cons: Larger space complexity.
+
+===== Aspect: Date of Activity
+* **Alternative 1:** `String` of date in DD/MM/YYYY format
+** Pros: Easy to implement and do not need to parse user input.
+** Cons: Need to implement comparators to sort the dates of activity.
+** Cons: Not flexible. Unable to include and sort by time in future implementations
+* **Alternative 2 (Current choice):** Usage of `java.util.Date`
+** Pros: Easy to implement.
+** Pros: Able to sort by time in future implementations.
+** Cons: Need to parse `Date` when converting it to `String`.
+** Cons: Need to parse user inputs to convert `String` to `Date`.
 
 == Documentation
 
