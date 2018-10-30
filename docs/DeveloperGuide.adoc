@@ -426,7 +426,7 @@ Step 2. Converts the names of file into the format DATE TIME and saves it in an 
 Step 3. Iterate through the array and form a string to print. +
 Step 4. Prints the string. +
 
-==== Restoring from the list
+// ==== Restoring from the list
 [[Implementation-Restore]]
 
 // tag::find[]
