@@ -319,7 +319,7 @@ Format: `export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE]`
 * If `OUTPUT_PATH` is not specified, it will create a `exports` folder and export into it.
 * If `NAME_OF_FILE` is not specified, it will export to a CSV file named `export.csv`.
 
-Refer to <<Appendix A>> for details of an exported CSV file.
+Refer to <<CSVFormat>> for details of an exported CSV file.
 
 === Imports the address book from a directory : `import`
 You can import a CSV file and append it to your current address book. +
@@ -433,3 +433,16 @@ There is no need to save manually.
 *Q*: What happens if I forget my password? +
 *A*: Your Address book will not be recoverable. You will have to delete addressbook.xml.encrypted and choose a backup to restore from.
 
+[[CSVFormat]]
+[appendix]
+== Format of an exported CSV file
+For more information about CSV files, you can refer to https://en.wikipedia.org/wiki/Comma-separated_values[CSV file]
+
+When an address book is exported, it will be exported into a CSV file which can be read by excel or spreadsheet applications.
+
+Each row refers to a person. +
+Each column refers to a separate field of the person. +
+If a compulsory field is left blank, the address book will not allow the CSV file to be imported. +
+****
+* Compulsory field includes: Name, Phone, Email and Address.
+****
