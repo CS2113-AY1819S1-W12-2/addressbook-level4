@@ -1,0 +1,77 @@
+= Lim Ming Hong - Project Portfolio
+:site-section: AboutUs
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: CorpPro
+
+---
+
+== Overview
+
+CorpPro is a desktop address book application which allows you to keep track of your colleague's information in the corporate world.
+You can `add`, `edit` and even `tag` your colleagues with the Command Line Interface (CLI) or the Graphical User Interface (GUI) that is created with JavaFX.
+
+== Summary of contributions
+
+* *Major enhancement 1*: added *the ability to export and import your contacts information.*
+** What it does: You can export your contacts to a CSV file in any existing directory. Vice versa, you can import CSV files from any existing directory and append it to your address book.
+** Justification: Changing systems will be much easier as you can package your address book into a easy to read format and move it between systems.
+** Highlights: CSV files can be read by other spreadsheet applications and these applications formats the file differently. Therefore, implementing this feature requires in depth analysis of how other applications read and write CSV files so as to coordinate on how CorpPro reads and writes those files.
+
+* *Major enhancement 2*: added *the ability to back up and restore your address book.*
+** What it does: You can back up your address book at any point in time. This allows you to revert your address book to any previous state if you wish to.
+** Justification: You might look for a contact but realised that you have deleted it. Therefore this feature allows you to retrieve any lost information.
+** Highlights: The security of the backups have to be taken into consideration as it might be a source for hackers to peek into confidential data. The backups are currently saved in a hidden directory.
+
+* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
+
+* *Other contributions*:
+
+** Project management:
+*** Managed releases `v1.3` - `v1.5rc` (3 releases) on GitHub
+** Enhancements to existing features:
+*** Updated the GUI color scheme (Pull requests https://github.com[#33], https://github.com[#34])
+*** Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests https://github.com[#36], https://github.com[#38])
+** Documentation:
+*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com[#14]
+** Community:
+*** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42]
+*** Contributed to forum discussions (examples:  https://github.com[1], https://github.com[2], https://github.com[3], https://github.com[4])
+*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3])
+*** Some parts of the history feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2])
+** Tools:
+*** Integrated a third party library (Natty) to the project (https://github.com[#42])
+*** Integrated a new Github plugin (CircleCI) to the team repo
+
+_{you can add/remove categories in the list above}_
+
+== Contributions to the User Guide
+
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+include::../UserGuide.adoc[tag=backuprestore]
+
+include::../UserGuide.adoc[tag=exportimport]
+
+include::../UserGuide.adoc[tag=appendixA]
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+include::../DeveloperGuide.adoc[tag=undoredo]
+
+include::../DeveloperGuide.adoc[tag=dataencryption]
+
+
+== PROJECT: PowerPointLabs
+
+---
+
+_{Optionally, you may include other projects in your portfolio.}_

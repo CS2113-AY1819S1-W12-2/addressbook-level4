@@ -292,6 +292,8 @@ The `redo` command fails as there are no `undo` commands executed previously.
 `redo` (reapplies the `clear` command) +
 // end::undoredo[]
 
+
+// tag::backuprestore[]
 === Backing up all data : `backup`
 The backup feature allows you to backup your address book and save the state for future restoration. +
 Format: `backup` +
@@ -309,7 +311,9 @@ Format: `restore INDEX`
 
 * `INDEX` refers to the index number denoting the date and time of the backup snapshot.
 * The `INDEX` *must be a positive integer* 1, 2, 3, ...
+// end::backuprestore[]
 
+// tag::exportimport[]
 === Exports the address book to a directory : `export`
 You can export your address book contacts into a CSV file into any existing directory. +
 Format: `export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE]`
@@ -327,6 +331,7 @@ Format: `import d/ TARGET_PATH f/ NAME_OF_FILE`
 
 * `TARGET_PATH` is the directory you want to import your file from.
 * `NAME_OF_FILE` is the name of the CSV file you want to import.
+// end::exportimport[]
 
 === Clearing all entries : `clear`
 
@@ -438,6 +443,7 @@ Secondly, with the all new backup/restore feature, you can backup your address b
 *Q*: What happens if I forget my password? +
 *A*: Your Address book will not be recoverable. You will have to delete addressbook.xml.encrypted and choose a backup to restore from.
 
+// tag::appendixA[]
 [[CSVFormat]]
 [appendix]
 == Format of an exported CSV file
@@ -451,3 +457,4 @@ If a compulsory field is left blank, the address book will not allow the CSV fil
 ****
 * Compulsory field includes: Name, Phone, Email and Address.
 ****
+// end::appendixA[]
