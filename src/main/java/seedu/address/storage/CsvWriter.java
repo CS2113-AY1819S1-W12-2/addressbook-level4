@@ -209,13 +209,13 @@ public class CsvWriter {
             if (!initialSections[i].equals("") && initialSections[i].charAt(0) == '\"') {
                 String information = new String();
                 while (true) {
-                    information += "," + initialSections[i].trim();
+                    information += ", " + initialSections[i].trim();
                     if (initialSections[i].charAt(initialSections[i].length() - 1) == '\"') {
                         break;
                     }
                     i++;
                 }
-                information = information.substring(1);
+                information = information.substring(2);
                 information = unwrapQuotation(information);
                 sections.add(information);
             } else {
@@ -260,7 +260,7 @@ public class CsvWriter {
 
             Set<Tag> tagList = new HashSet<>();
             if (sections.size() == 8) {
-                String[] tags = sections.get(7).split(",");
+                String[] tags = sections.get(7).split(", ");
                 for (String tagName : tags) {
                     Tag tag = new Tag(tagName.trim());
                     tagList.add(tag);
