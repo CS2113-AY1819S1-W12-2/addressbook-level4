@@ -293,26 +293,33 @@ The `redo` command fails as there are no `undo` commands executed previously.
 // end::undoredo[]
 
 === Backing up all data : `backup`
-The backup feature allows you to backup your address book and save the state for future restoration +
+The backup feature allows you to backup your address book and save the state for future restoration. +
 Format: `backup` +
 
 === Restore data from backup : `restore`
-The restore feature allows you to revert your address book back to a specific state int time (provided you backed up the state) +
+The restore feature allows you to revert your address book back to a specific state int time (provided you backed up the state). +
 To list out all the available backups from latest to earliest: +
 Format: `restore snapshots` +
 
-* The time of backup is in the format of `INDEX` d MMM uuuu HH:mm:ss +
+* The time of backup is in the format of `INDEX` d MMM uuuu HH:mm:ss.
 * Example: 1. 29 Oct 2018 00:16:31
 
 To restore your address book to the snapshot denoted by the `INDEX` +
 Format: `restore INDEX`
 
-* `INDEX` refers to the index number denoting the date and time of the backup snapshot
+* `INDEX` refers to the index number denoting the date and time of the backup snapshot.
 * The `INDEX` *must be a positive integer* 1, 2, 3, ...
 
 === Exports the address book to a directory : `export`
-Export the data to a designated directory with choice of filters. +
+You can export your address book contacts into a CSV file into any existing directory. +
 Format: `export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE]`
+
+* `OUTPUT_PATH` is the directory you want to export your contacts to.
+* `NAME_OF_FILE` is the name of the CSV file exported.
+* If `OUTPUT_PATH` is not specified, it will create a `exports` folder and export into it.
+* If `NAME_OF_FILE` is not specified, it will export to a CSV file named `export.csv`.
+
+Refer to <<Appendix A>> for details of a CSV file.
 
 === Imports the address book from a directory : `import`
 Import the data from a designated directory with choice of filters. +
@@ -322,11 +329,6 @@ Format: `import d/ TARGET_PATH f/ NAME_OF_FILE`
 
 Clears all entries from the address book. +
 Format: `clear`
-
-=== Exiting the program : `exit`
-
-Exits the program. +
-Format: `exit`
 
 // tag::dataencryption[]
 === Encrypting data files : `password`
@@ -410,6 +412,10 @@ Note: +
 * If there are multiple predicted values, they will be listed down. +
 * If no argument flags are specified, the default value predicted is based on the command's default argument. +
 
+=== Exiting the program : `exit`
+
+Exits the program. +
+Format: `exit`
 
 === Saving the data
 
