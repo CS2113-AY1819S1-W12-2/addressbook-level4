@@ -52,4 +52,5 @@ public class CliSyntax {
     public static final String COMMAND_SCHEDULE_DELETE = "schedule delete";
     public static final String COMMAND_SCHEDULE_EDIT = "schedule edit";
     public static final String COMMAND_SORT = "sort";
+    public static final String REVERSE_SEQUENCE = "descending";
 }

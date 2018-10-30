@@ -96,7 +96,7 @@ public class SortCommand extends Command {
                 return (o1, o2) -> o1.getAddress().toString().compareToIgnoreCase(o2.getAddress().toString());
             case PREFIX_TAG:
                 this.sortBy = "tag";
-                return (o1, o2) -> o1.getTags().toString().compareToIgnoreCase(o2.getTag().toString());
+                return (o1, o2) -> o1.getTags().toString().compareToIgnoreCase(o2.getTags().toString());
             default:
                 return (o1, o2) -> o1.getName().toString().compareToIgnoreCase(o2.getName().toString());
         }
