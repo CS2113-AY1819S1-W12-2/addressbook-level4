@@ -31,7 +31,7 @@
 <li><a href="#exiting-the-program-code-exit-code">3.16. Exiting the program : <code>exit</code></a></li>
 <li><a href="#encrypting-data-files-code-password-code">3.17. Encrypting data files : <code>password</code></a></li>
 <li><a href="#email-contacts-code-mail-code">3.18. Email contacts : <code>mail</code></a></li>
-<li><a href="#schedule">3.19. Schedule</a></li>
+<li><a href="#schedule-code-schedule-code">3.19. Schedule : <code>schedule</code></a></li>
 </ul>
 </li>
 <li><a href="#appendix">4. Appendix</a>
@@ -621,7 +621,7 @@ opens your email application with person (3rd person in the list panel) as recip
 </div>
 </div>
 <div class="sect2">
-<h3 id="schedule"><a class="link" href="#schedule">3.19. Schedule</a></h3>
+<h3 id="schedule-code-schedule-code"><a class="link" href="#schedule-code-schedule-code">3.19. Schedule : <code>schedule</code></a></h3>
 <div class="paragraph">
 <p>The Schedule feature helps you remember important activities by listing out important events and dates!<br></p>
 </div>
@@ -643,9 +643,17 @@ Format: <code>schedule</code>  <code>add</code> <code>d/DATE</code> <code>a/ACTI
 </div>
 </div>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>Example: <code>schedule add d/30/10/2018 a/Attend meeting with Alex.</code><br>
+Adds activity "Attend meeting with Alex." on "30/10/2018" to your schedule.<br></p>
+</li>
+</ul>
+</div>
 <div class="paragraph">
 <p>To edit an activity from your schedule:<br>
-Format: <code>schedule</code> <code>edit</code> <code>INDEX</code> <code>a/ACTIVITY</code><br></p>
+Format: <code>schedule edit INDEX a/ACTIVITY</code><br></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -667,9 +675,17 @@ Format: <code>schedule</code> <code>edit</code> <code>INDEX</code> <code>a/ACTIV
 </div>
 </div>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>Example: <code>schedule edit 1 a/Attend meeting with Alexia.</code><br>
+Edits activity name at <code>INDEX 1</code> to "Attend meeting with Alexia." in your schedule.<br></p>
+</li>
+</ul>
+</div>
 <div class="paragraph">
 <p>To delete an activity from your schedule:<br>
-Format: <code>schedule</code> <code>delete</code> <code>INDEX</code><br></p>
+Format: <code>schedule delete INDEX</code><br></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -687,6 +703,14 @@ Format: <code>schedule</code> <code>delete</code> <code>INDEX</code><br></p>
 </ul>
 </div>
 </div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Example: <code>schedule delete 1</code><br>
+Deletes the activity at <code>INDEX 1</code> in your schedule.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -759,8 +783,8 @@ There is no need to save manually.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Add</strong> <code>add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]&#8230;&#8203;</code><br>
-e.g. <code>add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague</code></p>
+<p><strong>Add</strong> <code>add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/POSITION] [k/KPI] [d/NOTE] [t/TAG [PRIORITY]]&#8230;&#8203;</code><br>
+e.g. <code>add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 r/Boss k/4.5 d/James is a good friend t/friend t/colleague 2</code></p>
 </li>
 <li>
 <p><strong>Clear</strong> : <code>clear</code></p>
@@ -770,7 +794,7 @@ e.g. <code>add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1
 e.g. <code>delete 3</code></p>
 </li>
 <li>
-<p><strong>Edit</strong> : <code>edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]&#8230;&#8203;</code><br>
+<p><strong>Edit</strong> : <code>edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/POSITION] [k/KPI] [d/NOTE] [t/TAG [PRIORITY]]…​</code><br>
 e.g. <code>edit 2 n/James Lee e/jameslee@example.com</code></p>
 </li>
 <li>
@@ -812,10 +836,29 @@ e.g.<code>select 2</code> or <code>select 1 - 3, 5 - 7</code></p>
 <p><strong>Password</strong> : <code>password</code></p>
 </li>
 <li>
+<p><strong>Schedule</strong> : <code>schedule</code><br></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Add</strong> : <code>schedule add</code><br>
+e.g. <code>schedule add d/30/10/2018 a/Attend Meeting.</code></p>
+</li>
+<li>
+<p><strong>Edit</strong> : <code>schedule edit</code><br>
+e.g. <code>schedule edit 1 a/Attend Meeting with Alex.</code></p>
+</li>
+<li>
+<p><strong>Delete</strong> : <code>schedule delete</code><br>
+e.g. <code>schedule delete 1</code><br></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
 <p><strong>Email</strong> : <code>mail</code><br>
 e.g. <code>mail all/</code> or <code>mail t/TAG</code></p>
 </li>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-29 17:17:18 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 05:04:30 UTC</div></div></div></body></html>
