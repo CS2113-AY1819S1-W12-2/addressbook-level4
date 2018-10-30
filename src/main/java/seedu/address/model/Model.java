@@ -1,8 +1,10 @@
 package seedu.address.model;
 
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Comparator;
+
 import java.util.List;
 import java.util.TreeMap;
 import java.util.function.Predicate;
@@ -13,7 +15,6 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.EmptyPersonListException;
 import seedu.address.model.schedule.Activity;
 import seedu.address.model.tag.Tag;
-
 
 /**
  * The API of the Model component.
@@ -105,6 +106,7 @@ public interface Model {
      */
     List<Person> getSelectedPersons();
 
+<<<<<<< HEAD
     //@@author lws803
     /**
      * Reinitialises the address book

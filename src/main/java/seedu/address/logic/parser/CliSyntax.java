@@ -41,11 +41,6 @@ public class CliSyntax {
     public static final String COMMAND_IMPORT = "import";
     public static final String COMMAND_EXPORT = "export";
     public static final String COMMAND_MAIL = "mail";
-    public static final String COMMAND_SNAPSHOTS = "snapshots";
-    public static final String COMMAND_SCHEDULE = "schedule";
-    public static final String COMMAND_SCHEDULE_ADD = "schedule add";
-    public static final String COMMAND_SCHEDULE_DELETE = "schedule delete";
-    public static final String COMMAND_SCHEDULE_EDIT = "schedule edit";
     public static final String COMMAND_SORT = "sort";
     public static final String REVERSE_SEQUENCE = "descending";
 }

@@ -77,6 +77,7 @@ public class SortCommandParser implements Parser<SortCommand>{
             attribute = prefix.toString();
 
             if (s.equals(SortCommand.REVERSE_ORDER)) {
+
                 isReverseOrder = true;
                 return;
             } else {
@@ -84,6 +85,7 @@ public class SortCommandParser implements Parser<SortCommand>{
                 return;
             }
         };
+
     }
 
     /**

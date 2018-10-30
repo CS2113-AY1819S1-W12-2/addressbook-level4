@@ -34,7 +34,6 @@ public class SortCommand extends Command {
             + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + " " + REVERSE_ORDER;
 
 
-
     public static final String MESSAGE_SORT_SUCCESS = "Sorted address book by %1$s in %2$s order.";
     public static final String MESSAGE_SORT_EMPTY = "No person to sort in this attribute.";
 
