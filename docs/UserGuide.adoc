@@ -293,8 +293,8 @@ The `redo` command fails as there are no `undo` commands executed previously.
 // end::undoredo[]
 
 === Backing up all data : `backup`
-Backup the data into a “.backup” folder which is invisible to users so as to enhance security. +
-Format: `backup`
+The backup feature allows you to backup your address book and save the state for future restoration +
+Format: `backup` +
 
 === Restore data from backup : `restore`
 The restore feature allows you to revert your address book back to a specific state int time (provided you backed up the state) +
