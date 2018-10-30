@@ -1004,8 +1004,6 @@ Functional Requirements:
 
 |`* * *` |user who values time |autocomplete my commands |execute commands faster.
 
-|`* * *` |forgetful user |look at the photos of my contacts |recognise the person.
-
 |`* * *` |forgetful user |approximate my search input |get the closest output suggestions I need.
 
 |`* * *` |employee |access the full profile of my clients |retrieve their information when required.
@@ -1031,6 +1029,8 @@ Functional Requirements:
 |`*` |user |schedule tasks in a calendar |notified of my appointments.
 
 |`*` |user |schedule tasks in a calendar |notified of when tasks are due.
+
+|`*` |forgetful user |look at the photos of my contacts |recognise the person.
 |=======================================================================
 
 [appendix]
