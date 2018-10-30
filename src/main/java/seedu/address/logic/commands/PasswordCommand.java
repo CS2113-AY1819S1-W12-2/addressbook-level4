@@ -44,7 +44,7 @@ public class PasswordCommand extends Command {
         }
 
         model.reinitAddressbook();
-        model.getTextPrediction().reinitialise();
+        model.reinitialisePrediction();
 
         if (message == FileEncryptor.MESSAGE_DECRYPTED) {
             return new CommandResult(MESSAGE_DECRYPT_SUCCESS);

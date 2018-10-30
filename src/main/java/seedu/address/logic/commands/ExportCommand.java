@@ -4,9 +4,7 @@ package seedu.address.logic.commands;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DIRECTORY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FILENAME;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.FileEncryptor;
@@ -14,6 +12,7 @@ import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.CliSyntax;
 import seedu.address.model.Model;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.storage.CsvWriter;
@@ -37,14 +36,14 @@ public class ExportCommand extends Command {
 
     private String directory;
     private String fileName;
-    private File file;
+    private String fullDirectory;
 
     public ExportCommand() {}
 
-    public ExportCommand(String directory, String fileName, File file) {
+    public ExportCommand(String directory, String fileName, String fullDirectory) {
         this.directory = directory;
         this.fileName = fileName;
-        this.file = file;
+        this.fullDirectory = fullDirectory;
     }
 
     @Override
@@ -57,16 +56,13 @@ public class ExportCommand extends Command {
         }
 
         try {
-            ObservableList<Person> personList = model.getAddressBook().getPersonList();
+            ReadOnlyAddressBook addressBook = model.getAddressBook();
+            ObservableList<Person> personList = addressBook.getPersonList();
             CsvWriter csvWriter = new CsvWriter(personList);
-            File srcCsv = csvWriter.convertToCsv();
-            Files.copy(srcCsv.toPath(), file.toPath());
-            srcCsv.delete();
+            csvWriter.convertToCsv(fullDirectory);
             return new CommandResult(String.format(MESSAGE_SUCCESS, directory, fileName));
         } catch (IOException io) {
             throw new CommandException("ERROR1");
-        } catch (Exception e) {
-            throw new CommandException("ERROR2");
         }
     }
 }

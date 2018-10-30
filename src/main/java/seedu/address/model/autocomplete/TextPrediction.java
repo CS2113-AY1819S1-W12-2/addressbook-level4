@@ -1,10 +1,8 @@
 package seedu.address.model.autocomplete;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import seedu.address.model.person.Person;
-import seedu.address.model.tag.Tag;
 
 /**
  * API of text prediction.
@@ -27,7 +25,7 @@ public interface TextPrediction {
      * Deletes a Person's attributes from the respective Trie instances for auto complete
      * @param person the person to delete
      */
-    void removePerson(Person person, List<Tag> uniqueTagList);
+    void removePerson(Person person);
 
     /**
      * Edits a Person's attributes in each respective Trie instances for auto complete.
@@ -35,7 +33,7 @@ public interface TextPrediction {
      * @param personToEdit the original person.
      * @param editedPerson the new person.
      */
-    void editPerson(Person personToEdit, Person editedPerson, List<Tag> uniqueTagList);
+    void editPerson(Person personToEdit, Person editedPerson);
 
     /**
      * Removes all entries in all Trie instances

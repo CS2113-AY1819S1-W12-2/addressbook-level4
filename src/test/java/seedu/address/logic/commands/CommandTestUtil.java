@@ -2,7 +2,9 @@ package seedu.address.logic.commands;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ACTIVITY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_KPI;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -77,7 +79,20 @@ public class CommandTestUtil {
     public static final EditCommand.EditPersonDescriptor DESC_BOB;
 
     public static final String ACTIVITY_ONE_NAME = "Write a Progress Report.";
+    public static final String ACTIVITY_ONE_DATE = "29/02/2016";
     public static final String ACTIVITY_TWO_NAME = "Give Alexia a raise.";
+    public static final String ACTIVITY_TWO_DATE = "01/01/2016";
+
+    public static final String INVALID_ACTIVITY_DESC = " " + PREFIX_ACTIVITY + ""; //empty string not allowed.
+    public static final String INVALID_DATE_DESC = " " + PREFIX_DATE + "31/02/2000"; //invalid date.
+
+    public static final String ACTIVITY_ONE_NAME_DESC = " " + PREFIX_ACTIVITY + ACTIVITY_ONE_NAME;
+    public static final String ACTIVITY_TWO_NAME_DESC = " " + PREFIX_ACTIVITY + ACTIVITY_TWO_NAME;
+    public static final String ACTIVITY_ONE_DATE_DESC = " " + PREFIX_DATE + ACTIVITY_ONE_DATE;
+    public static final String ACTIVITY_TWO_DATE_DESC = " " + PREFIX_DATE + ACTIVITY_TWO_DATE;
+
+
+
 
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)

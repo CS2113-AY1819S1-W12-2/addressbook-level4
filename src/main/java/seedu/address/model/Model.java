@@ -1,6 +1,8 @@
 package seedu.address.model;
 
 
+import java.nio.file.Path;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Comparator;
@@ -10,7 +12,6 @@ import java.util.TreeMap;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
-import seedu.address.model.autocomplete.TextPrediction;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.EmptyPersonListException;
 import seedu.address.model.schedule.Activity;
@@ -89,10 +90,40 @@ public interface Model {
 
     //@@author lekoook
     /**
-     * Get the TextPrediction instance.
-     * @return the TextPrediction instance used for text prediction.
+     * Gets the prediction given a command input string.
+     * @param input the command input string.
+     * @return the list of predictions.
      */
-    TextPrediction getTextPrediction();
+    ArrayList<String> predictText(String input);
+
+    /**
+     * Inserts a person's attributes into text prediction.
+     * @param person the person to insert.
+     */
+    void insertPersonIntoPrediction(Person person);
+
+    /**
+     * Removes a person's attributes from text prediction.
+     * @param person the person to remove.
+     */
+    void removePersonFromPrediction(Person person);
+
+    /**
+     * Edits a person's attributes in text prediction.
+     * @param personToEdit the original person to edit.
+     * @param editedPerson the edited version of original person.
+     */
+    void editPersonInPrediction(Person personToEdit, Person editedPerson);
+
+    /**
+     * Clear all data in text prediction.
+     */
+    void clearInPrediction();
+
+    /**
+     * Reinitialise all text prediction data.
+     */
+    void reinitialisePrediction();
 
     /**
      * Initialises the list of selected Persons in address book.
@@ -106,12 +137,26 @@ public interface Model {
      */
     List<Person> getSelectedPersons();
 
-<<<<<<< HEAD
+
     //@@author lws803
     /**
      * Reinitialises the address book
      */
-    void reinitAddressbook ();
+    void reinitAddressbook();
+
+    //@@author lws803
+    /**
+     * Method to replace data for reinitAddressbook and restoreAddressbook
+     * @param path path of .xml file
+     */
+    void replaceData(Path path);
+
+    //@@author Limminghong
+    /**
+     * Create a backup snapshot in the ".backup" folder
+     * @param path to the snapshot
+     */
+    void backUpAddressbook(Path path);
 
     //@@author LowGinWee
     List<Tag> getUniqueTagList();
@@ -139,7 +184,6 @@ public interface Model {
      * @return TreeMap of dates and activity lists.
      */
     TreeMap<Date, ArrayList<Activity>> getSchedule();
-
 
     //@author peiying98
     /** Sorts address book list */

@@ -1,3 +1,4 @@
+//@@author LowGinWee
 package seedu.address.model.tag;
 
 import static org.junit.Assert.assertEquals;
