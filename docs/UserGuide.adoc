@@ -64,8 +64,8 @@ e.g.`select 2` or `select 1 - 3, 5 - 7`
 * *Restore* : `restore` +
 ** List snapshots: `restore snapshots`
 ** Restore chosen snapshots: `restore 1`
-* *Export* : `export`
-* *Import* : `import`
+* *Export* : `export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE]`
+* *Import* : `import d/ TARGET_PATH f/ NAME_OF_FILE`
 * *Password* : `password`
 * *Schedule* : `schedule` +
 ** *Add* : `schedule add` +
@@ -319,11 +319,14 @@ Format: `export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE]`
 * If `OUTPUT_PATH` is not specified, it will create a `exports` folder and export into it.
 * If `NAME_OF_FILE` is not specified, it will export to a CSV file named `export.csv`.
 
-Refer to <<Appendix A>> for details of a CSV file.
+Refer to <<Appendix A>> for details of an exported CSV file.
 
 === Imports the address book from a directory : `import`
-Import the data from a designated directory with choice of filters. +
+You can import a CSV file and append it to your current address book. +
 Format: `import d/ TARGET_PATH f/ NAME_OF_FILE`
+
+* `TARGET_PATH` is the directory you want to import your file from.
+* `NAME_OF_FILE` is the name of the CSV file you want to import.
 
 === Clearing all entries : `clear`
 
