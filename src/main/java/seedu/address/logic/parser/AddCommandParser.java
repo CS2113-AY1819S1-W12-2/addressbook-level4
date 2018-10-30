@@ -13,6 +13,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
@@ -23,6 +24,7 @@ import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Position;
+import seedu.address.model.person.ReadPersonOnly;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -53,42 +55,46 @@ public class AddCommandParser implements Parser<AddCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
 
-        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
-        Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
-        Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
-        Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
+        try {
+            Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
+            Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
+            Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
+            Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
+            Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-        //@@author LowGinWee
-        /**
-         * Checks if note has been specified
-         */
-        Note note = new Note();
-        if (arePrefixesPresent(argMultimap, PREFIX_NOTE)) {
-            note = ParserUtil.parseNote(argMultimap.getValue(PREFIX_NOTE).get());
+
+            //@@author LowGinWee
+            /**
+             * Checks if note has been specified
+             */
+            Note note = new Note();
+            if (arePrefixesPresent(argMultimap, PREFIX_NOTE)) {
+                note = ParserUtil.parseNote(argMultimap.getValue(PREFIX_NOTE).get());
+            }
+
+            /**
+             * Checks if position has been specified
+             */
+            Position position = new Position();
+            if (arePrefixesPresent(argMultimap, PREFIX_POSITION)) {
+                position = ParserUtil.parsePosition(argMultimap.getValue(PREFIX_POSITION).get());
+            }
+
+            /**
+             * Checks if Kpi has been specified
+             */
+            Kpi kpi = new Kpi();
+            if (arePrefixesPresent(argMultimap, PREFIX_KPI)) {
+                kpi = ParserUtil.parseKpi(argMultimap.getValue(PREFIX_KPI).get());
+            }
+
+            Person person = new Person(name, phone, email, address, position, kpi, note, tagList);
+
+            return new AddCommand(person);
+
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
         }
-
-        /**
-         * Checks if position has been specified
-         */
-        Position position = new Position();
-        if (arePrefixesPresent(argMultimap, PREFIX_POSITION)) {
-            position = ParserUtil.parsePosition(argMultimap.getValue(PREFIX_POSITION).get());
-        }
-
-        /**
-         * Checks if Kpi has been specified
-         */
-        Kpi kpi = new Kpi();
-        if (arePrefixesPresent(argMultimap, PREFIX_KPI)) {
-            kpi = ParserUtil.parseKpi(argMultimap.getValue(PREFIX_KPI).get());
-        }
-        //@@author
-
-        Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-
-        Person person = new Person(name, phone, email, address, position, kpi, note, tagList);
-
-        return new AddCommand(person);
     }
 
     /**

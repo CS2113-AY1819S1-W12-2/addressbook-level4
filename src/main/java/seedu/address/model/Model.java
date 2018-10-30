@@ -1,14 +1,19 @@
 package seedu.address.model;
 
+
 import java.nio.file.Path;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Comparator;
+
 import java.util.List;
 import java.util.TreeMap;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.EmptyPersonListException;
 import seedu.address.model.schedule.Activity;
 import seedu.address.model.tag.Tag;
 
@@ -132,6 +137,7 @@ public interface Model {
      */
     List<Person> getSelectedPersons();
 
+
     //@@author lws803
     /**
      * Reinitialises the address book
@@ -178,4 +184,8 @@ public interface Model {
      * @return TreeMap of dates and activity lists.
      */
     TreeMap<Date, ArrayList<Activity>> getSchedule();
+
+    //@author peiying98
+    /** Sorts address book list */
+    void sortPerson(Comparator<Person> sortComparator, boolean isReverseOrder) throws EmptyPersonListException;
 }

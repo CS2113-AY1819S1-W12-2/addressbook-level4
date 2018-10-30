@@ -4,12 +4,16 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import java.util.Iterator;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.EmptyPersonListException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
@@ -109,6 +113,26 @@ public class UniquePersonList implements Iterable<Person> {
         }
 
         internalList.setAll(persons);
+    }
+
+    /**
+     * sorts the person in the list according to the comparator specified
+     * If isReverseOrder is true, the list will be in descending order
+     * @throws EmptyPersonListException if the list is empty
+     */
+    public void sort(Comparator comparator, Boolean isReverseOrder) throws EmptyPersonListException {
+        requireNonNull(comparator);
+        requireNonNull(isReverseOrder);
+
+        if (internalList.size() < 1) {
+            throw new EmptyPersonListException();
+        }
+
+        Collections.sort(internalList, comparator);
+
+        if (isReverseOrder) {
+            Collections.reverse(internalList);
+        }
     }
 
     /**
