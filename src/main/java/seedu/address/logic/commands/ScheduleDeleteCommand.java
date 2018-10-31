@@ -2,7 +2,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.COMMAND_SCHEDULE_DELETE;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -13,11 +12,7 @@ import seedu.address.model.schedule.Activity;
  * Deletes an {@code Activity} to the schedule in the address book.
  */
 public class ScheduleDeleteCommand extends ScheduleCommand {
-    public static final String COMMAND_WORD = COMMAND_SCHEDULE_DELETE;
     public static final String MESSAGE_SUCCESS = "Task \"%s\" on %s has been deleted.";
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes task, by index, from schedule.\n"
-            + "parameters: INDEX";
     private final Index index;
 
     /**

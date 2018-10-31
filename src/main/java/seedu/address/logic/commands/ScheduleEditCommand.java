@@ -2,8 +2,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.COMMAND_SCHEDULE_EDIT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ACTIVITY;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -14,11 +12,7 @@ import seedu.address.model.schedule.Activity;
  * Edits an {@code Activity} to the schedule in the address book.
  */
 public class ScheduleEditCommand extends ScheduleCommand {
-    public static final String COMMAND_WORD = COMMAND_SCHEDULE_EDIT;
     public static final String MESSAGE_SUCCESS = "Task \"%s\" on %s has been edited to \"%s\".";
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Edit task, by index, from schedule.\n"
-            + "parameters: INDEX " + PREFIX_ACTIVITY + "Task";
     private final String task;
     private final Index index;
 

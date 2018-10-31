@@ -426,7 +426,7 @@ Step 2. Converts the names of file into the format DATE TIME and saves it in an 
 Step 3. Iterate through the array and form a string to print. +
 Step 4. Prints the string. +
 
-// ==== Restoring from the list
+==== Restoring from the list
 [[Implementation-Restore]]
 
 // tag::find[]
@@ -1004,6 +1004,8 @@ Functional Requirements:
 
 |`* * *` |user who values time |autocomplete my commands |execute commands faster.
 
+|`* * *` |forgetful user |look at the photos of my contacts |recognise the person.
+
 |`* * *` |forgetful user |approximate my search input |get the closest output suggestions I need.
 
 |`* * *` |employee |access the full profile of my clients |retrieve their information when required.
@@ -1029,8 +1031,6 @@ Functional Requirements:
 |`*` |user |schedule tasks in a calendar |notified of my appointments.
 
 |`*` |user |schedule tasks in a calendar |notified of when tasks are due.
-
-|`*` |forgetful user |look at the photos of my contacts |recognise the person.
 |=======================================================================
 
 [appendix]

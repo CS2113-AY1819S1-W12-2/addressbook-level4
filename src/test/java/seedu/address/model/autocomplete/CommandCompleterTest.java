@@ -4,7 +4,6 @@ package seedu.address.model.autocomplete;
 import static org.junit.Assert.assertEquals;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -188,33 +187,8 @@ public class CommandCompleterTest {
         }
 
         @Override
-        public ArrayList<String> predictText(String input) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void insertPersonIntoPrediction(Person person) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void removePersonFromPrediction(Person person) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void editPersonInPrediction(Person personToEdit, Person editedPerson) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void clearInPrediction() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void reinitialisePrediction() {
-            throw new AssertionError("This method should not be called.");
+        public TextPrediction getTextPrediction() {
+            return new CommandCompleter(this);
         }
 
         @Override
@@ -231,17 +205,6 @@ public class CommandCompleterTest {
         public void reinitAddressbook() {
             throw new AssertionError("This method should not be called.");
         }
-
-        @Override
-        public void replaceData(Path path) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void backUpAddressbook(Path path) {
-            throw new AssertionError("This method should not be called.");
-        }
-
 
         @Override
         public TreeMap<Date, ArrayList<Activity>> getSchedule() {

@@ -127,7 +127,8 @@ public class EditCommand extends Command {
             }
 
             model.updatePerson(personToEdit, editedPerson);
-            model.editPersonInPrediction(personToEdit, editedPerson);
+            //TODO to enquire and merge with lekoook
+            //model.getTextPrediction().editPerson(personToEdit, editedPerson);
         }
 
         model.commitAddressBook();
@@ -157,7 +158,7 @@ public class EditCommand extends Command {
 
         model.commitAddressBook();
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        model.editPersonInPrediction(personToEdit, editedPerson);
+        model.getTextPrediction().editPerson(personToEdit, editedPerson, model.getUniqueTagList());
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedPerson));
     }
 
