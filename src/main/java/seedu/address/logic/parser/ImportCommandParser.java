@@ -3,7 +3,6 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DIRECTORY;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_FILENAME;
 
 import java.io.File;
 import java.util.stream.Stream;
@@ -25,27 +24,24 @@ public class ImportCommandParser implements Parser<ImportCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(
                         args,
-                        PREFIX_DIRECTORY,
-                        PREFIX_FILENAME);
+                        PREFIX_DIRECTORY);
 
         /**
          * Checks if prefixes are present
          */
-        if (!arePrefixesPresent(argMultimap, PREFIX_DIRECTORY, PREFIX_FILENAME)) {
+        if (!arePrefixesPresent(argMultimap, PREFIX_DIRECTORY)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE));
         }
 
         /**
          * Checks if file specified exists
          */
-        String fullDirectory = argMultimap.getValue(PREFIX_DIRECTORY).get().trim() + "\\"
-                + argMultimap.getValue(PREFIX_FILENAME).get().trim() + ".csv";
-        File file = new File(fullDirectory);
+        File file = new File(argMultimap.getValue(PREFIX_DIRECTORY).get().trim());
         if (!file.exists() || file.isDirectory()) {
             throw new ParseException(ImportCommand.MESSAGE_FAILURE);
         }
 
-        return new ImportCommand(fullDirectory, file);
+        return new ImportCommand(argMultimap.getValue(PREFIX_DIRECTORY).get().trim(), file);
     }
 
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {

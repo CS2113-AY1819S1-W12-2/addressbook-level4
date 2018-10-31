@@ -2,6 +2,9 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.COMMAND_SCHEDULE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ACTIVITY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 
 import java.util.List;
 
@@ -17,12 +20,35 @@ import seedu.address.model.schedule.Activity;
  * Updates the schedule in the address book.
  */
 public abstract class ScheduleCommand extends Command {
+
+    public static final String COMMAND_WORD = COMMAND_SCHEDULE;
+    public static final String COMMAND_WORD_ADD = "add";
+    public static final String COMMAND_WORD_DELETE = "delete";
+    public static final String COMMAND_WORD_EDIT = "edit";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": updates contents in your schedule.\n"
+            + "parameters: \"add\", \"edit\" or \"delete\"";
     //TODO to check for duplicates
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the schedule";
     public static final String MESSAGE_INVALID_INDEX = "Index is not valid";
-
-
-
+    public static final String MESSAGE_ADD = COMMAND_WORD
+            + " "
+            + COMMAND_WORD_ADD
+            + ": Adds a new task to your schedule.\n"
+            + "parameters: "
+            + PREFIX_DATE + "DD/MM/YYYY "
+            + PREFIX_ACTIVITY + "task";
+    public static final String MESSAGE_DELETE = COMMAND_WORD
+            + " "
+            + COMMAND_WORD_DELETE
+            + ": Deletes task, by index, from schedule.\n"
+            + "parameters: INDEX";
+    public static final String MESSAGE_EDIT = COMMAND_WORD
+            + " "
+            + COMMAND_WORD_EDIT
+            + ": Edit task, by index, from schedule.\n"
+            + "parameters: INDEX " + PREFIX_ACTIVITY + "Task";
 
     /**
      * Updates the schedule, add, edit or delete.

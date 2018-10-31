@@ -28,7 +28,6 @@ import seedu.address.model.person.exceptions.EmptyPersonListException;
 import seedu.address.model.schedule.Activity;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
-import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.XmlAddressBookStorage;
 
 /**
@@ -175,52 +174,13 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     //@@author lekoook
-    /**
-     * Gets the prediction given a command input string.
-     * @param input the command input string.
-     * @return the list of predictions.
-     */
-    public ArrayList<String> predictText(String input) {
-        return textPrediction.predictText(input);
-    }
 
     /**
-     * Inserts a person's attributes into text prediction.
-     * @param person the person to insert.
+     * Get the TextPrediction instance.
+     * @return the TextPrediction instance used for text prediction.
      */
-    public void insertPersonIntoPrediction(Person person) {
-        textPrediction.insertPerson(person);
-    }
-
-    /**
-     * Removes a person's attributes from text prediction.
-     * @param person the person to remove.
-     */
-    public void removePersonFromPrediction(Person person) {
-        textPrediction.removePerson(person);
-    }
-
-    /**
-     * Edits a person's attributes in text prediction.
-     * @param personToEdit the original person to edit.
-     * @param editedPerson the edited version of original person.
-     */
-    public void editPersonInPrediction(Person personToEdit, Person editedPerson) {
-        textPrediction.editPerson(personToEdit, editedPerson);
-    }
-
-    /**
-     * Clears all data in text prediction.
-     */
-    public void clearInPrediction() {
-        textPrediction.clearData();
-    }
-
-    /**
-     * Reinitialise all text prediction data.
-     */
-    public void reinitialisePrediction() {
-        textPrediction.reinitialise();
+    public TextPrediction getTextPrediction() {
+        return textPrediction;
     }
 
     /**
@@ -239,6 +199,7 @@ public class ModelManager extends ComponentManager implements Model {
         return this.selectedPersons;
     }
 
+
     //@@author lws803
     /**
      * Reinitialises the address book
@@ -247,16 +208,6 @@ public class ModelManager extends ComponentManager implements Model {
     public void reinitAddressbook() {
         UserPrefs userPref = new UserPrefs();
         Path path = Paths.get(userPref.getAddressBookFilePath().toString());
-        replaceData(path);
-    }
-
-    //@@author lws803
-    /**
-     * Method to replace data for reinitAddressbook and restoreAddressbook
-     * @param path path of .xml file
-     */
-    @Override
-    public void replaceData(Path path) {
         XmlAddressBookStorage storage = new XmlAddressBookStorage(path);
         ReadOnlyAddressBook initialData;
         try {
@@ -269,23 +220,8 @@ public class ModelManager extends ComponentManager implements Model {
         }
     }
 
-    //@@author Limminghong
-    /**
-     * Create a backup snapshot in the ".backup" folder
-     * @param path to the snapshot
-     */
-    @Override
-    public void backUpAddressbook(Path path) {
-        try {
-            ReadOnlyAddressBook initialData = versionedAddressBook;
-            AddressBookStorage backupStorage = new XmlAddressBookStorage(path);
-            backupStorage.saveAddressBook(initialData);
-        } catch (IOException io) {
-            logger.severe(io.getMessage());
-        }
-    }
-
     //@@author LowGinWee
+
     /**
      * Get a list of unique tags of all persons in the addressbook
      * @return a list of unique tags.

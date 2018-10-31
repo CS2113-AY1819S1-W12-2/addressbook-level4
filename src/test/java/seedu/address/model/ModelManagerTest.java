@@ -1,15 +1,12 @@
 package seedu.address.model;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.AMY;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.Rule;
@@ -83,80 +80,5 @@ public class ModelManagerTest {
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setAddressBookFilePath(Paths.get("differentFilePath"));
         assertTrue(modelManager.equals(new ModelManager(addressBook, differentUserPrefs)));
-    }
-
-    @Test
-    public void predictText_validArgs_success() {
-        ArrayList<String> actualOutput = modelManager.predictText("f");
-        ArrayList<String> expectedOutput = new ArrayList<>(Arrays.asList("ind "));
-
-        assertEquals(expectedOutput, actualOutput);
-    }
-
-    @Test
-    public void insertPersonIntoPrediction_returnCorrectPrediction() {
-        modelManager.insertPersonIntoPrediction(ALICE);
-
-        ArrayList<String> actualOutput = modelManager.predictText("find n/A");
-        ArrayList<String> expectedOutput = new ArrayList<>(Arrays.asList("lice Pauline "));
-
-        assertEquals(expectedOutput, actualOutput);
-    }
-
-    @Test
-    public void removePersonFromPrediction_returnCorrectPrediction() {
-        modelManager.insertPersonIntoPrediction(ALICE);
-        modelManager.insertPersonIntoPrediction(AMY);
-
-        ArrayList<String> actualOutputBeforeRemoval = modelManager.predictText("find n/A");
-        ArrayList<String> expectedOutputBeforeRemoval = new ArrayList<>(Arrays.asList("lice Pauline ", "my Bee "));
-        assertEquals(expectedOutputBeforeRemoval, actualOutputBeforeRemoval);
-
-        modelManager.removePersonFromPrediction(ALICE);
-        ArrayList<String> actualOutputAfterRemoval = modelManager.predictText("find n/A");
-        ArrayList<String> expectedOutputAfterRemoval = new ArrayList<>(Arrays.asList("my Bee "));
-        assertEquals(expectedOutputAfterRemoval, actualOutputAfterRemoval);
-    }
-
-    @Test
-    public void editPersonInPrediction_returnCorrectPrediction() {
-        modelManager.insertPersonIntoPrediction(ALICE);
-
-        ArrayList<String> actualOutputBeforeEdit = modelManager.predictText("find n/A");
-        ArrayList<String> expectedOutputBeforeEdit = new ArrayList<>(Arrays.asList("lice Pauline "));
-        assertEquals(expectedOutputBeforeEdit, actualOutputBeforeEdit);
-
-        modelManager.editPersonInPrediction(ALICE, AMY);
-        ArrayList<String> actualOutputAfterEdit = modelManager.predictText("find n/A");
-        ArrayList<String> expectedOutputAfterEdit = new ArrayList<>(Arrays.asList("my Bee "));
-        assertEquals(expectedOutputAfterEdit, actualOutputAfterEdit);
-    }
-
-    @Test
-    public void clearInPrediction_returnEmptyPrediction() {
-        modelManager.insertPersonIntoPrediction(ALICE);
-
-        ArrayList<String> actualOutputBeforeClear = modelManager.predictText("find n/A");
-        ArrayList<String> expectedOutputBeforeClear = new ArrayList<>(Arrays.asList("lice Pauline "));
-        assertEquals(expectedOutputBeforeClear, actualOutputBeforeClear);
-
-        modelManager.clearInPrediction();
-        ArrayList<String> actualOutputAfterClear = modelManager.predictText("find n/A");
-        ArrayList<String> expectedOutputAfterClear = new ArrayList<>();
-        assertEquals(expectedOutputAfterClear, actualOutputAfterClear);
-    }
-
-    @Test
-    public void reinitialisePrediction_returnCorrectPrediction() {
-        modelManager.addPerson(ALICE);
-
-        ArrayList<String> actualOutputBeforeReinit = modelManager.predictText("find n/A");
-        ArrayList<String> expectedOutputBeforeReinit = new ArrayList<>();
-        assertEquals(expectedOutputBeforeReinit, actualOutputBeforeReinit);
-
-        modelManager.reinitialisePrediction();
-        ArrayList<String> actualOutputAfterReinit = modelManager.predictText("find n/A");
-        ArrayList<String> expectedOutputAfterReinit = new ArrayList<>(Arrays.asList("lice Pauline "));
-        assertEquals(expectedOutputAfterReinit, actualOutputAfterReinit);
     }
 }

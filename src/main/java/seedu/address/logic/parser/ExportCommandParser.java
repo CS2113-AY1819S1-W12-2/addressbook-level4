@@ -35,7 +35,7 @@ public class ExportCommandParser implements Parser<ExportCommand> {
         File dest;
         String directory;
         if (arePrefixesPresent(argMultimap, PREFIX_DIRECTORY)) {
-            directory = argMultimap.getValue(PREFIX_DIRECTORY).get().trim();
+            directory = argMultimap.getValue(PREFIX_DIRECTORY).get();
             dest = new File(directory);
             if (!dest.exists()) {
                 throw new ParseException(ExportCommand.MESSAGE_FAILURE);
@@ -58,17 +58,16 @@ public class ExportCommandParser implements Parser<ExportCommand> {
         }
         fileName += ".csv";
         fileName = fileName.trim();
-        String fullDirectory = directory + "\\" + fileName;
 
         /**
          * Checks if a file with the same name in the same directory exist.
          */
-        File fullFile = new File(fullDirectory);
+        File fullFile = new File(directory + "/" + fileName);
         if (fullFile.exists()) {
             throw new ParseException(String.format(ExportCommand.MESSAGE_FILE_NAME_EXIST, fileName));
         }
 
-        return new ExportCommand(directory, fileName, fullDirectory);
+        return new ExportCommand(directory, fileName, fullFile);
     }
 
     /**
