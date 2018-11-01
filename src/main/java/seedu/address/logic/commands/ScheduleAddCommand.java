@@ -2,6 +2,9 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.COMMAND_SCHEDULE_ADD;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ACTIVITY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 
 import seedu.address.model.Model;
 import seedu.address.model.schedule.Activity;
@@ -10,7 +13,13 @@ import seedu.address.model.schedule.Activity;
  * Adds an {@code Activity} to the schedule in the address book.
  */
 public class ScheduleAddCommand extends ScheduleCommand {
+    public static final String COMMAND_WORD = COMMAND_SCHEDULE_ADD;
     public static final String MESSAGE_SUCCESS = "Task \"%s\" on %s has been added to your schedule.";
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Adds a new task to your schedule.\n"
+            + "parameters: "
+            + PREFIX_DATE + "DD/MM/YYYY "
+            + PREFIX_ACTIVITY + "task";
     private final Activity toAdd;
 
     /**

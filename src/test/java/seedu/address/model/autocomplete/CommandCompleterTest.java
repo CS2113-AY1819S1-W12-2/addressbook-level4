@@ -188,8 +188,33 @@ public class CommandCompleterTest {
         }
 
         @Override
-        public TextPrediction getTextPrediction() {
-            return new CommandCompleter(this);
+        public ArrayList<String> predictText(String input) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void insertPersonIntoPrediction(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removePersonFromPrediction(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void editPersonInPrediction(Person personToEdit, Person editedPerson) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void clearInPrediction() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void reinitialisePrediction() {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override

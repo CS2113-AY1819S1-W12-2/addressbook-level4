@@ -171,13 +171,52 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     //@@author lekoook
+    /**
+     * Gets the prediction given a command input string.
+     * @param input the command input string.
+     * @return the list of predictions.
+     */
+    public ArrayList<String> predictText(String input) {
+        return textPrediction.predictText(input);
+    }
 
     /**
-     * Get the TextPrediction instance.
-     * @return the TextPrediction instance used for text prediction.
+     * Inserts a person's attributes into text prediction.
+     * @param person the person to insert.
      */
-    public TextPrediction getTextPrediction() {
-        return textPrediction;
+    public void insertPersonIntoPrediction(Person person) {
+        textPrediction.insertPerson(person);
+    }
+
+    /**
+     * Removes a person's attributes from text prediction.
+     * @param person the person to remove.
+     */
+    public void removePersonFromPrediction(Person person) {
+        textPrediction.removePerson(person);
+    }
+
+    /**
+     * Edits a person's attributes in text prediction.
+     * @param personToEdit the original person to edit.
+     * @param editedPerson the edited version of original person.
+     */
+    public void editPersonInPrediction(Person personToEdit, Person editedPerson) {
+        textPrediction.editPerson(personToEdit, editedPerson);
+    }
+
+    /**
+     * Clears all data in text prediction.
+     */
+    public void clearInPrediction() {
+        textPrediction.clearData();
+    }
+
+    /**
+     * Reinitialise all text prediction data.
+     */
+    public void reinitialisePrediction() {
+        textPrediction.reinitialise();
     }
 
     /**

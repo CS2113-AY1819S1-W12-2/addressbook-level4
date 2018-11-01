@@ -8,7 +8,6 @@ import java.util.TreeMap;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
-import seedu.address.model.autocomplete.TextPrediction;
 import seedu.address.model.person.Person;
 import seedu.address.model.schedule.Activity;
 import seedu.address.model.tag.Tag;
@@ -86,10 +85,40 @@ public interface Model {
 
     //@@author lekoook
     /**
-     * Get the TextPrediction instance.
-     * @return the TextPrediction instance used for text prediction.
+     * Gets the prediction given a command input string.
+     * @param input the command input string.
+     * @return the list of predictions.
      */
-    TextPrediction getTextPrediction();
+    ArrayList<String> predictText(String input);
+
+    /**
+     * Inserts a person's attributes into text prediction.
+     * @param person the person to insert.
+     */
+    void insertPersonIntoPrediction(Person person);
+
+    /**
+     * Removes a person's attributes from text prediction.
+     * @param person the person to remove.
+     */
+    void removePersonFromPrediction(Person person);
+
+    /**
+     * Edits a person's attributes in text prediction.
+     * @param personToEdit the original person to edit.
+     * @param editedPerson the edited version of original person.
+     */
+    void editPersonInPrediction(Person personToEdit, Person editedPerson);
+
+    /**
+     * Clear all data in text prediction.
+     */
+    void clearInPrediction();
+
+    /**
+     * Reinitialise all text prediction data.
+     */
+    void reinitialisePrediction();
 
     /**
      * Initialises the list of selected Persons in address book.
