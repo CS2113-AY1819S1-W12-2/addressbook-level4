@@ -30,8 +30,11 @@ public class ImportCommand extends Command {
             + "Parameters: "
             + PREFIX_DIRECTORY + "Directory "
             + PREFIX_FILENAME + "File Name\n"
-            + "Example: " + COMMAND_WORD + " "
+            + "Example (For Windows): " + COMMAND_WORD + " "
             + PREFIX_DIRECTORY + "C:\\Users\\USER "
+            + PREFIX_FILENAME + "exportFile\n"
+            + "Example (For Mac/Unix): " + COMMAND_WORD + " "
+            + PREFIX_DIRECTORY + "/home/cs/class/ "
             + PREFIX_FILENAME + "exportFile";
     public static final String MESSAGE_FAILURE = "Directory does not exists or the file is of the wrong format.";
     public static final String MESSAGE_SUCCESS = "AddressBook is imported from %1$s.";

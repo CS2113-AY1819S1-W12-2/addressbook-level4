@@ -16,7 +16,8 @@ You can `add`, `edit` and even `tag` your colleagues with the Command Line Inter
 
 * *Major enhancement 1*: added *the ability to export and import your contacts information.*
 ** What it does: You can export your contacts to a CSV file in any existing directory. Vice versa, you can import CSV files from any existing directory and append it to your address book.
-** Justification: Changing systems will be much easier as you can package your address book into a easy to read format and move it between systems.
+** Justification: Changing systems will be much easier as you can package your address book into an
+easy to read format and move it between systems.
 ** Highlights: CSV files can be read by other spreadsheet applications and these applications formats the file differently. Therefore, implementing this feature requires in depth analysis of how other applications read and write CSV files so as to coordinate on how CorpPro reads and writes those files.
 
 * *Major enhancement 2*: added *the ability to back up and restore your address book.*
@@ -29,9 +30,8 @@ You can `add`, `edit` and even `tag` your colleagues with the Command Line Inter
 * *Other contributions*:
 
 ** Project management:
-*** Managed releases `v1.3` - `v1.5rc` (3 releases) on GitHub
+*** Managed releases `v1.1` - `v1.4` (4 releases) on GitHub
 ** Enhancements to existing features:
-*** Updated the GUI color scheme (Pull requests https://github.com[#33], https://github.com[#34])
 *** Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests https://github.com[#36], https://github.com[#38])
 ** Documentation:
 *** Did cosmetic tweaks to existing contents of the User Guide: https://github.com[#14]
@@ -40,14 +40,8 @@ You can `add`, `edit` and even `tag` your colleagues with the Command Line Inter
 *** Contributed to forum discussions (examples:  https://github.com[1], https://github.com[2], https://github.com[3], https://github.com[4])
 *** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3])
 *** Some parts of the history feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2])
-** Tools:
-*** Integrated a third party library (Natty) to the project (https://github.com[#42])
-*** Integrated a new Github plugin (CircleCI) to the team repo
-
-_{you can add/remove categories in the list above}_
 
 == Contributions to the User Guide
-
 
 |===
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
@@ -75,3 +69,5 @@ include::../DeveloperGuide.adoc[tag=dataencryption]
 ---
 
 _{Optionally, you may include other projects in your portfolio.}_
+
+// TODO: Ask how much should we write for other projects

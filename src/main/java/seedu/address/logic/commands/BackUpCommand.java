@@ -1,6 +1,7 @@
 //@@author Limminghong
 package seedu.address.logic.commands;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -26,7 +27,7 @@ public class BackUpCommand extends Command {
 
     public BackUpCommand() {
         userPref = new UserPrefs();
-        fileName = DEST_PATH + "\\" + Long.toString(System.currentTimeMillis()) + ".xml";
+        fileName = DEST_PATH + File.separator + Long.toString(System.currentTimeMillis()) + ".xml";
         destPath = Paths.get(fileName);
     }
 

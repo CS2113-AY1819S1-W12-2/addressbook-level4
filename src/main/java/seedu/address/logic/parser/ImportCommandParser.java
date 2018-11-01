@@ -38,7 +38,7 @@ public class ImportCommandParser implements Parser<ImportCommand> {
         /**
          * Checks if file specified exists
          */
-        String fullDirectory = argMultimap.getValue(PREFIX_DIRECTORY).get().trim() + "\\"
+        String fullDirectory = argMultimap.getValue(PREFIX_DIRECTORY).get().trim() + File.separator
                 + argMultimap.getValue(PREFIX_FILENAME).get().trim() + ".csv";
         File file = new File(fullDirectory);
         if (!file.exists() || file.isDirectory()) {

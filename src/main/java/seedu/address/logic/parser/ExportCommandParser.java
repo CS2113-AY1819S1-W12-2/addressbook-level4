@@ -58,7 +58,7 @@ public class ExportCommandParser implements Parser<ExportCommand> {
         }
         fileName += ".csv";
         fileName = fileName.trim();
-        String fullDirectory = directory + "\\" + fileName;
+        String fullDirectory = directory + File.separator + fileName;
 
         /**
          * Checks if a file with the same name in the same directory exist.
