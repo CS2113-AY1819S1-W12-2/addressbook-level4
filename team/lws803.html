@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]--><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Asciidoctor 1.5.6.1"><title>Ler Wei Sheng - Project Portfolio</title><link rel="stylesheet" href="../stylesheets/gh-pages.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="../stylesheets/coderay-asciidoctor.css"></head><body class="article"><div id="seedu-header"><nav class="navbar navbar-lg navbar-light bg-lighter"><div class="container"><a class="navbar-brand" href="https://se-edu.github.io/"><img src="../images/SeEduLogo.png" alt="SE-EDU"></a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level1">AB-1</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level2">AB-2</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level3">AB-3</a></li><li class="nav-item"><a class="nav-link active" href="../index.html">AB-4</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/collate">Collate</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/se-book">Book</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/learningresources">Resources</a></li></ul></div></nav></div><div id="site-header"><nav class="navbar navbar-light bg-light"><div class="container"><a class="navbar-brand" href="../index.html">AddressBook-Level4</a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="../UserGuide.html">User Guide</a></li><li class="nav-item"><a class="nav-link" href="../DeveloperGuide.html">Developer Guide</a></li><li class="nav-item"><a class="nav-link" href="../LearningOutcomes.html">LOs</a></li><li class="nav-item"><a class="nav-link active" href="../AboutUs.html">About Us</a></li><li class="nav-item"><a class="nav-link" href="../ContactUs.html">Contact Us</a></li><li class="navitem"><a class="nav-link" href="https://github.com/se-edu/addressbook-level4"><span class="fa fa-github fa-lg" aria-hidden="true"></span>&nbsp;View on GitHub</a></li></ul></div></nav></div><div id="header"><h1>Ler Wei Sheng - Project Portfolio</h1></div><div id="content"><div class="sect1">
-<h2 id="project-corpproc"><a class="link" href="#project-corpproc">PROJECT: CorpProC</a></h2>
+<h2 id="project-corppro"><a class="link" href="#project-corppro">PROJECT: CorpPro</a></h2>
 <div class="sectionbody">
 <hr>
 </div>
@@ -10,7 +10,9 @@
 <h2 id="overview"><a class="link" href="#overview">Overview</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>CorpProC is an addressbook application which provides <strong>you</strong> with ease of access and increase in <strong>your</strong> productivity in the workplace. Users can interact with the addressbook using a command line interface and intuitive GUI create with JavaFX.</p>
+<p>CorpPro is an addressbook for corporate users.<br>
+It provides a fast and efficient system for corporate users to store their contacts safely and securely. It is also easy to maneuver and access contacts.
+CorpPro is powered by JavaFX and boasts an intuitive GUI (Graphical User Interface) with easy-to-use CLI (Command Line Interface).</p>
 </div>
 </div>
 </div>
@@ -20,26 +22,58 @@
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Major enhancement</strong>: added the ability to <strong>encrypt or decrypt the addressbook data</strong>.</p>
+<p><strong>Feature 1</strong>: Added the ability for users to secure their addressbook by <strong>encrypting</strong> data.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>What it does: password allows users to safely encrypt or decrypt the addressbook data using a secure cipher.</p>
+<p>What it does: Upon entering the <code>password</code> command followed by a password, it will encrypt the addressbook data using <code>PBEWithMD5AndDES</code> cipher.</p>
 </li>
 <li>
-<p>Justification: This feature ensures that you can lock up your addressbook and prevent others from accessing your sensitive information.</p>
+<p>Justification: This feature was implemented so that corporate users can secure sensitive information in accordance to PDPA (Personal Data Protection Act) rules. Reducing the possibilities of data leaks and unwanted access.</p>
 </li>
 <li>
-<p>Highlights: This enhancement might affect the execution of other commands in a way that other commands cannot be executed while the addressbook is locked. An additional block of code should be added for future commands to keep with the standards.</p>
+<p>Highlights: This feature uses a well-known cipher <code>PBEWithMD5AndDES</code> and <code>PBEKeySpec</code> which accepts the user&#8217;s password. Once the file is encrypted, it will not be crackable unless done via brute forcing.</p>
 </li>
 <li>
-<p>Credits: adapted from Esailija [<a href="https://stackoverflow.com/questions/13673556/using-password-based-encryption-on-a-file-in-java">Stack overflow</a>]</p>
+<p>Credits: Code snippet adapted from Esailija [<a href="https://stackoverflow.com/questions/13673556/using-password-based-encryption-on-a-file-in-java">Stack overflow</a>]</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Minor enhancement</strong>: added the ability to search by different attributes so that you can hone in on their search results to find the person you are looking for. Search is revamped to utilise Levenshtein distance which is a known algorithm for finding your closest search results based on your keywords.</p>
+<p><strong>Feature 2</strong>: Implemented smart searching for <code>find</code> command.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: Users can now search for the contacts they want by roughly specifying other traits/ attributes of the contacts. For example, users can
+search for contacts who live in Jurong West and are tagged as friends.</p>
+</li>
+<li>
+<p>Justification: Corporate users might need to gather rough statistics of their clients or know which worker(s) to contact and assign work.</p>
+</li>
+<li>
+<p>Highlights: This feature uses Levenshtein Distance to find the closest match for the keywords entered. It will then sort the matches based on how close it is to the keywords entered.
+After which, it will perform a set intersection on the various contacts to find the contact which meets all the user&#8217;s search requirements.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Feature 3</strong>: Implemented the use of custom preference to specify custom path for addressbook.xml.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: Users can now specify the path they wish to save their addressbook.xml to.</p>
+</li>
+<li>
+<p>Justification: Corporate users might want to have separate addressbooks without the need of storing their application in different folders.
+They can instead change the preference file to decide what is the name and location they wish to store the addressbook.xml data file.</p>
+</li>
+<li>
+<p>Highlights: This feature requires implementing their json reader in <code>UserPrefs</code> class and storing it as a public variable for other classes to depend on.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>Code contributed</strong>: [<a href="https://github.com">Functional code</a>] [<a href="https://github.com">Test code</a>] <em>{give links to collated code files}</em> - TODO</p>
@@ -584,4 +618,4 @@ If the user enters the wrong password, an error will be thrown at the CommandRes
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-01 15:44:45 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-02 15:29:56 UTC</div></div></div></body></html>
