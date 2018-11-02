@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
-<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane minWidth="300.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <WebView fx:id="browser" opacity="0.0" prefHeight="200.0" prefWidth="200.0" />
       <VBox fx:id="display" prefHeight="500.0" prefWidth="600.0" spacing="5.0">

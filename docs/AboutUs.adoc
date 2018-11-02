@@ -38,7 +38,7 @@ Responsibilities: Documentation
 
 === Low Gin Wee
 image::LowGinWee.png[width="150", align="left"]
-{empty}[https://github.com/LowGinWee[github]]
+{empty}[https://github.com/LowGinWee[github]][<<LowGinWee#, portfolio>>]
 
 Role: Developer +
 Responsibilities: Deliverables and deadline
@@ -46,7 +46,7 @@ Responsibilities: Deliverables and deadline
 '''
 === Ler Wei Sheng
 image::lws803.png[width="150", align="left"]
-{empty}[https://github.com/lws803[github]]
+{empty}[https://github.com/lws803[github]][<<lws803#, portfolio>>]
 
 Role: Developer +
 Responsibilities: Testing, Integration

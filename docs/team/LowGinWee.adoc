@@ -1,0 +1,86 @@
+= Low Gin Wee - Project Portfolio
+:site-section: AboutUs
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: CorpPro
+
+---
+
+== Overview
+
+*CorpPro* is a desktop address book application which targets Corporate Users. It strives to help its users better manage
+their information to increase efficiency and to produce effective results. *CorpPro*’s features aid users to find relevant
+details quickly, in addition to being able to create a schedule to plan and set goals. Users can create and update entries
+in *CorpPro* through the command-line interface(CLI), as well as having an uncluttered user interface(UI) to display corresponding
+information. It is made using Java, a widely used programming language, with over 10 thousand lines written.
+
+== Summary of contributions
+
+* *Major enhancement*: Added *additional attributes* to each contact in the address book
+** What it does: The following attributes have been added:
+     *** Position/rank
+     *** Tag priority
+     *** Key Performance Index(KPI)
+     *** Note/Description
+** Justification: As a corporate user with many contacts, there is a need to tag or describe each contact to recognise or
+find them quickly. Tags now have priorities to better indicate the importance of each contact. The Key Performing Index (KPI)
+is also included in the attributes to better facilitate managers or supervisors in rating or ranking their employees.
+** Highlights: This feature affects existing commands and facilitates listing or finding contacts via these additional attributes.
+
+* *Major enhancement*: *Added schedule*
+** What it does: Users are able to create activities or tasks and add them to their schedule in *CorpPro*. These activities
+are sorted by date and can be edited or deleted when completed. The schedule is also saved when the user closes the application
+** Justification: Corporate users may need to organise their assignments in a schedule to maintain a methodical workstyle
+to increase efficiency and not to neglect any important tasks.
+** Highlights: This feature required the creation of additional commands and the implementation of exporting the schedule to save
+its contents after the user has exit the application.In addition, a unique data structure had to be used to maintain a sorted schedule(by date).
+
+* *Minor enhancement*: Enhanced the edit command to edit all listed entries in one command.
+
+* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
+
+* *Other contributions*:
+
+** Project management:
+
+** Enhancements to existing features:
+**** Updated the colour scheme(Pull Requests:)
+**** Cosmetic tweaks of UI
+**** Information panel
+**** Labels
+**** Schedule Panel
+**** Icon
+
+** Community:
+*** PRs reviewed (with non-trivial review comments):
+*** Contributed to forum discussions (examples: )
+*** Created meeting minutes during each team meeting (examples: )
+
+== Contributions to the User Guide
+
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+include::../UserGuide.adoc[tag=undoredo]
+
+include::../UserGuide.adoc[tag=dataencryption]
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+include::../DeveloperGuide.adoc[tag=undoredo]
+
+include::../DeveloperGuide.adoc[tag=dataencryption]
+
+
+== PROJECT: PowerPointLabs
+
+---
+
+_{Optionally, you may include other projects in your portfolio.}_
