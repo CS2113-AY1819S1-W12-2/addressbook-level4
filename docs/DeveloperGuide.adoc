@@ -416,10 +416,10 @@ Hence, calling `getPredictList("wom")` will return a list containing the element
 Creation of backups is done in `BackUpCommand` class. It extends the `Command` class with an overriding execute function. +
 The execute function does the following operations: +
 Step 1. The `BackUpCommand` class will check if a `.backup` directory exist. If it does not, a `.backup` will be created. +
-Step 2. The `backUpAddressbook()` method will be called on the current model.
-Step 3. The `ModelManager` will read the current address book into a `ReadOnlyAddressbook`
-Step 4. A `XmlAddressBookStorage` will be initialised with the path of `.backup` and the file name. The file name will be that of the time in milliseconds since epoch (1970).
-Step 5. A new `.xml` file will be saved in the path by invoking `saveAddressBook()` on the `ReadOnlyAddessbook` created.
+Step 2. The `backUpAddressbook()` method will be called on the current model. +
+Step 3. The `ModelManager` will read the current address book into a `ReadOnlyAddressbook` +
+Step 4. A `XmlAddressBookStorage` will be initialised with the path of `.backup` and the file name. The file name will be that of the time in milliseconds since epoch (1970). +
+Step 5. A new `.xml` file will be saved in the path by invoking `saveAddressBook()` on the `ReadOnlyAddessbook` created. +
 
 ==== Listing of backup snapshots
 Listing of the snapshots of backups is done with the `RestoreSnapshotsCommand` class. It also extends the `Command` class. +
@@ -429,6 +429,8 @@ Step 2. Converts the names of file into the format DATE TIME and saves it in an 
 Step 3. Iterate through the array and form a string to print. +
 Step 4. Prints the string. +
 
+The `BackupList` object holds a map of files with indexes as its keys. It also has an array of `String`. The position of the strings corresponds to the index of the file it represents in the map. +
+
 ==== Restoring from the list
 The restoration of backup snapshots is done in the `RestoreCommand` class. It extends the `Command` class with an overriding execute function. +
 The execute method will do the following operation: +
@@ -436,6 +438,21 @@ Step 1. `BackupList` and an `INDEX` input by the user. +
 Step 2. The `BackupList` contains a map of `File` with an `INDEX` attached to it. +
 Step 3. The chosen file based on the index will be converted in to a path and the current data in the address book will be replaced by the chosen file.
 
+// TODO: Add design considerations
+
+=== Export and Import
+==== Export to CSV
+The export function is facilitated by the `ExportCommand` class. It extends the `Command` class wit an overriding execute function. +
+The execute method will do the following operation: +
+Step 1. The current address book information will be instantiated into a new `ReadOnlyAddressbook` object. +
+Step 2. An `ObservableList<Person>` will be obtained from the address book. +
+Step 3. The `ObservableList<Person>` will be written onto a CSV file via the CsvWriter object. +
+
+`CsvWriter` is an object that takes in a path of where the export is to be saved and write a CSV file into the said path. +
+The conversion is as follows: +
+Step 1. The constructor converts an `ObservableList<Person>` into a `List<Person>`
+Step 2. The `convertToCsv()` method will be called in `ExportCommand` and a new CSV file will be written with the content of the created `List<Person>`. +
+Step 3. This file will be created in the path. +
 
 // tag::find[]
 === Find and Search

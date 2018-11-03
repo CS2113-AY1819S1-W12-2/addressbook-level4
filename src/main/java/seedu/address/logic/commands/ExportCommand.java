@@ -41,8 +41,6 @@ public class ExportCommand extends Command {
     private String fileName;
     private String fullDirectory;
 
-    public ExportCommand() {}
-
     public ExportCommand(String directory, String fileName, String fullDirectory) {
         this.directory = directory;
         this.fileName = fileName;
