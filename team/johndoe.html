@@ -218,8 +218,29 @@ The <code>redo</code> command fails as there are no <code>undo</code> commands e
 <div class="paragraph">
 <p>Encrypts the data file with your password.<br>
 Format: <code>password YOURPASSWORD</code><br>
-All commands will be disabled during encryption, your data will be safely protected.<br>
-Please close the application after encrypting to clear the application and prevent others from accessing your data.</p>
+All commands will be disabled during encryption, your data will be safely protected.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Note: You can use the same command to decrypt the file, just hit <code>password</code> and your correct password.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>password helloworld</code><br>
+Locks addressbook and clears all data.</p>
+</li>
+<li>
+<p><code>password helloworld</code><br>
+Unlocks addressbook and restores all data.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
@@ -386,6 +407,13 @@ Typing <code>m</code> in the box and pressing <em>Tab</em> will auto complete to
 <p>If no argument flags are specified, the default value predicted is based on the command&#8217;s default argument.<br></p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="custom-xml-path"><a class="link" href="#custom-xml-path">Custom XML path</a></h3>
+<div class="paragraph">
+<p>All addressbook data is stored in addressbook.xml file located in <strong>data/</strong> folder in the same directory as your jar file.
+To change where you wish to save the data file to, edit in <strong>preferences.json</strong>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -773,4 +801,4 @@ If the user enters the wrong password, an error will be thrown at the CommandRes
 <p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-03 04:23:58 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-03 13:52:18 UTC</div></div></div></body></html>

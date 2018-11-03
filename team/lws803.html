@@ -12,7 +12,8 @@
 <div class="paragraph">
 <p>CorpPro is an addressbook for corporate users.<br>
 It provides a fast and efficient system for corporate users to store their contacts safely and securely. It is also easy to maneuver and access contacts.
-CorpPro is powered by JavaFX and boasts an intuitive GUI (Graphical User Interface) with easy-to-use CLI (Command Line Interface).</p>
+CorpPro is powered by JavaFX and boasts an intuitive GUI (Graphical User Interface) with easy-to-use CLI (Command Line Interface).<br>
+This portfolio documents my ability to write java programs, user and developer guides.</p>
 </div>
 </div>
 </div>
@@ -32,7 +33,8 @@ CorpPro is powered by JavaFX and boasts an intuitive GUI (Graphical User Interfa
 <p>Justification: This feature was implemented so that corporate users can secure sensitive information in accordance to PDPA (Personal Data Protection Act) rules. Reducing the possibilities of data leaks and unwanted access.</p>
 </li>
 <li>
-<p>Highlights: This feature uses a well-known cipher <code>PBEWithMD5AndDES</code> and <code>PBEKeySpec</code> which accepts the user&#8217;s password. Once the file is encrypted, it will not be crackable unless done via brute forcing.</p>
+<p>Highlights: This feature uses a well-known cipher <code>PBEWithMD5AndDES</code> and <code>PBEKeySpec</code> which accepts the user&#8217;s password. Once the file is encrypted, it will not be crackable unless done via brute forcing.
+It also requires file type checking to make sure that I can compress both encryption and decryption process into one single <code>password</code> command much like a toggle so that users need not utilise 2 different commands for encrypting and decrypting.</p>
 </li>
 <li>
 <p>Credits: Code snippet adapted from Esailija [<a href="https://stackoverflow.com/questions/13673556/using-password-based-encryption-on-a-file-in-java">Stack overflow</a>]</p>
@@ -76,7 +78,7 @@ They can instead change the preference file to decide what is the name and locat
 </div>
 </li>
 <li>
-<p><strong>Code contributed</strong>: [<a href="https://github.com">Functional code</a>] [<a href="https://github.com">Test code</a>] <em>{give links to collated code files}</em> - TODO</p>
+<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/functional/lws803.md">Functional code</a>] [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/test/lws803.md">Test code</a>] [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/unused/lws803-unused.md">Unused code</a>]</p>
 </li>
 <li>
 <p><strong>Other contributions</strong>:</p>
@@ -88,19 +90,6 @@ They can instead change the preference file to decide what is the name and locat
 <ul>
 <li>
 <p>Managed releases <code>v1.1</code> - <code>v2.0</code> (5 releases) on GitHub</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Enhancements to existing features:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Enhanced find feature to include search by incomplete keywords and chaining of search attributes</p>
-</li>
-<li>
-<p>Implemented a security feature to lock the Address book and encrypt the data file</p>
 </li>
 </ul>
 </div>
@@ -126,7 +115,7 @@ They can instead change the preference file to decide what is the name and locat
 <p>Reported bugs and suggestions for other teams in the class (examples:  <a href="https://github.com">1</a>, <a href="https://github.com">2</a>, <a href="https://github.com">3</a>) - TODO</p>
 </li>
 <li>
-<p>Some parts of the history feature I added was adopted by several other class mates (<a href="https://github.com">1</a>, <a href="https://github.com">2</a>) - TODO</p>
+<p>Some parts of the file encryptor feature I added was adopted by several other class mates (<a href="https://github.com">1</a>, <a href="https://github.com">2</a>) - TODO</p>
 </li>
 </ul>
 </div>
@@ -168,238 +157,81 @@ They can instead change the preference file to decide what is the name and locat
 </tbody>
 </table>
 <div class="sect2">
+<h3 id="finding-persons-by-attribute-code-find-code"><a class="link" href="#finding-persons-by-attribute-code-find-code">Finding persons by attribute : <code>find</code></a></h3>
+<div class="paragraph">
+<p>Finds persons whose names contain any of the given keywords.<br>
+Format: <code>find PREFIX KEYWORD [MORE_KEYWORDS]</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>The search is not case sensitive.</p>
+</li>
+<li>
+<p>The order of the keywords does not matter. e.g. <code>Hans Bo</code> will match <code>Bo Hans</code></p>
+</li>
+<li>
+<p>You can search by name, email, address, key performance index, position, phone number and tags</p>
+</li>
+<li>
+<p>Partial words or words with typos will be matched too eg. 'Hangs' will be matched to 'Hans'</p>
+</li>
+<li>
+<p>Persons matching at least one keyword will be returned (i.e. <code>OR</code> search). e.g. <code>Hans Bo</code> will return <code>Hans Gruber</code>, <code>Bo Yang</code></p>
+</li>
+<li>
+<p>Finding with a keyword that yields no matches may result in address book displaying all contacts rather than 0 results</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>find a/jurong west ave</code><br>
+Displays any person who lives in <code>jurong west ave</code></p>
+</li>
+<li>
+<p><code>find n/John Betsy r/secretary a/jurong west ave</code><br>
+Displays any person having names <code>John</code> and <code>Betsy</code> who is a <code>secretary</code> and lives in <code>jurong west ave</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
 <h3 id="encrypting-data-files-code-password-code"><a class="link" href="#encrypting-data-files-code-password-code">Encrypting data files : <code>password</code></a></h3>
 <div class="paragraph">
 <p>Encrypts the data file with your password.<br>
 Format: <code>password YOURPASSWORD</code><br>
-All commands will be disabled during encryption, your data will be safely protected.<br>
-Please close the application after encrypting to clear the application and prevent others from accessing your data.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="email-contacts-code-mail-code"><a class="link" href="#email-contacts-code-mail-code">Email contacts : <code>mail</code></a></h3>
-<div class="paragraph">
-<p>Opens your system&#8217;s default email application.<br>
-Format: <code>mail all/</code> or <code>mail t/TAG</code> or <code>mail</code></p>
+All commands will be disabled during encryption, your data will be safely protected.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>all/</code> flag can be specified to open the email application with <em>all contacts</em> as recipients.<br></p>
-</li>
-<li>
-<p><code>t/TAG</code> flag can be specified with a tag to open the email applications with <em>all contacts belonging to that tag</em> as recipients.<br></p>
-</li>
-<li>
-<p>If no flags are specified, selected contacts are chosen as recipients.</p>
+<p>Note: You can use the same command to decrypt the file, just hit <code>password</code> and your correct password.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Examples:<br></p>
+<p>Examples:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>mail t/accountant</code><br>
-opens your email application with all accountants as recipients.<br></p>
+<p><code>password helloworld</code><br>
+Locks addressbook and clears all data.</p>
 </li>
 <li>
-<p><code>select 3</code><br>
-<code>mail</code><br>
-opens your email application with person (3rd person in the list panel) as recipient.</p>
+<p><code>password helloworld</code><br>
+Unlocks addressbook and restores all data.</p>
 </li>
 </ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="schedule-code-schedule-code"><a class="link" href="#schedule-code-schedule-code">Schedule : <code>schedule</code></a></h3>
-<div class="paragraph">
-<p>The Schedule feature helps you remember important activities by listing out important events and dates!<br></p>
-</div>
-<div class="paragraph">
-<p><strong>To add an activity to your schedule:</strong><br>
-Format: <code>schedule-add d/DATE a/ACTIVITY</code><br></p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>Date specified must be in the "DD/MM/YYYY" format.<br></p>
-</li>
-<li>
-<p>The activity name <strong>must contain only</strong> letters, numbers, spaces and fullstops.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Example: <code>schedule-add d/30/10/2018 a/Attend meeting with Alex.</code><br>
-Adds activity "Attend meeting with Alex." on "30/10/2018" to your schedule.<br></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><strong>To edit an activity from your schedule:</strong><br>
-Format: <code>schedule-edit INDEX a/ACTIVITY</code><br></p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>Edits the activity at the specified <code>INDEX</code>.</p>
-</li>
-<li>
-<p>The <code>INDEX</code> refers to the index number shown in the displayed schedule.</p>
-</li>
-<li>
-<p>The <code>INDEX</code> <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
-</li>
-<li>
-<p>The activity name <strong>must contain only</strong> letters, numbers, spaces and fullstops.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Example: <code>schedule-edit 1 a/Attend meeting with Alexia.</code><br>
-Edits activity name at <code>INDEX 1</code> to "Attend meeting with Alexia." in your schedule.<br></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><strong>To delete an activity from your schedule:</strong><br>
-Format: <code>schedule-delete INDEX</code><br></p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>Deletes the activity at the specified <code>INDEX</code>.</p>
-</li>
-<li>
-<p>The <code>INDEX</code> refers to the index number shown in the displayed schedule.</p>
-</li>
-<li>
-<p>The <code>INDEX</code> <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Example: <code>schedule-delete 1</code><br>
-Deletes the activity at <code>INDEX 1</code> in your schedule.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="text-prediction"><a class="link" href="#text-prediction">Text prediction</a></h3>
-<div class="paragraph">
-<p>Text prediction feature allows you to complete your command faster with less typing.<br>
-Invoke this feature by pressing the <em>Tab</em> key on the keyboard.<br></p>
-</div>
-<div class="paragraph">
-<p>You can invoke this feature on:<br></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Command keywords (<code>mail</code>, <code>add</code>, <code>find</code>, etc.) .</p>
-</li>
-<li>
-<p>Flag arguments (<code>n/</code>, <code>a/</code>, <code>t/</code>, etc.) .</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>For example, given an address book consisting of a contact with the name <em>Alex Yeoh</em>:<br>
-Typing <code>m</code> in the box and pressing <em>Tab</em> will auto complete to the <code>mail</code> command. Then, typing <code>mail n/A</code> and pressing <em>Tab</em> will auto complete to <code>mail n/Alex Yeoh</code> for you.<br></p>
-</div>
-<div class="paragraph">
-<p>Note:<br></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>If there are multiple predicted values, they will be listed down.<br></p>
-</li>
-<li>
-<p>If no argument flags are specified, the default value predicted is based on the command&#8217;s default argument.<br></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">Exiting the program : <code>exit</code></a></h3>
-<div class="paragraph">
-<p>Exits the program.<br>
-Format: <code>exit</code></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="saving-the-data"><a class="link" href="#saving-the-data">Saving the data</a></h3>
-<div class="paragraph">
-<p>Address book data are saved in the hard disk automatically after any command that changes the data.<br>
-There is no need to save manually.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="faq"><a class="link" href="#faq">FAQ</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><strong>Q</strong>: Oh no! I accidentally deleted an extremely important contact! How do i retrieve old information?<br>
-<strong>A</strong>: There are two ways in which you can retrieve old information.<br>
-Firstly, there is the undo/redo function in which you can undo a command.<br>
-Secondly, with the all new backup/restore feature, you can backup your address book at any time and restore it to that state whenever you want!.</p>
-</div>
-<div class="paragraph">
-<p><strong>Q</strong>: How do I transfer my data to another Computer?<br>
-<strong>A</strong>: Now with the export/import function, you can export your old contacts into a CSV file and move the file to the new computer so you can import contacts from it. (Remember to download CorpPro on the other computer though!)</p>
-</div>
-<div class="paragraph">
-<p><strong>Q</strong>: What happens if I forget my password?<br>
-<strong>A</strong>: Your Address book will not be recoverable. You will have to delete addressbook.xml.encrypted and choose a backup to restore from.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="CSVFormat"><a class="link" href="#CSVFormat">Appendix A: Format of an exported CSV file</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>For more information about CSV files, you can refer to <a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV file</a></p>
-</div>
-<div class="paragraph">
-<p>When an address book is exported, it will be exported into a CSV file which can be read by excel or spreadsheet applications.</p>
-</div>
-<div class="paragraph">
-<p>Each row refers to a person.<br>
-Each column refers to a separate field of the person.<br>
-If a compulsory field is left blank, the address book will not allow the CSV file to be imported.<br></p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>Compulsory field includes: Name, Phone, Email and Address.</p>
-</li>
-</ul>
-</div>
 </div>
 </div>
 </div>
@@ -417,205 +249,5 @@ If a compulsory field is left blank, the address book will not allow the CSV fil
 </tr>
 </tbody>
 </table>
-<div class="sect2">
-<h3 id="find-and-search"><a class="link" href="#find-and-search">Find and Search</a></h3>
-<div class="sect3">
-<h4 id="current-implementation"><a class="link" href="#current-implementation">Current Implementation</a></h4>
-<div class="paragraph">
-<p>The find function has been revamped to support prioritisation of search similarity.<br>
-<code>FindCommand</code> is now backed up by the <code>ClosestMatchList</code> class which uses <code>LevenshteinDistanceUtil</code> to generate an ordered set of Person names ordered by similarity.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
-<div class="sect4">
-<h5 id="aspect-how-find-command-executes"><a class="link" href="#aspect-how-find-command-executes">Aspect: How find command executes</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1:</strong> Find using only predicates</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Easy to implement.</p>
-</li>
-<li>
-<p>Cons: Search must be exact, cannot have typos or incomplete keywords</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 2 (current choice):</strong> Store the search results in a <code>treeMap</code> ordered by their Levenshtein distances from the search keyword</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Will also consider searches that are similar to what we want and will account for typos or incomplete keywords</p>
-</li>
-<li>
-<p>Cons: Added complexities in finding and searching</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="aspect-expanded-features-of-find-command"><a class="link" href="#aspect-expanded-features-of-find-command">Aspect: Expanded features of find command</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1:</strong> Find only by name</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Easy to implement.</p>
-</li>
-<li>
-<p>Cons: Can only search by name of addressees</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 2:</strong> Find by attributes</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Can search by email, phone, address, etc instead of just the name of addressees</p>
-</li>
-<li>
-<p>Cons: Can only search for one attribute at a time (i.e find by name or find by email)</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 3 (current choice):</strong> Chain-able find attributes</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Can search by email and phone and address, etc instead of just one at a time</p>
-</li>
-<li>
-<p>Cons: Added complexities in find command</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="aspect-data-structure-to-support-the-revamped-find-command"><a class="link" href="#aspect-data-structure-to-support-the-revamped-find-command">Aspect: Data structure to support the revamped Find command</a></h5>
-<div class="paragraph">
-<p><code>treeMap</code> was used to store the search results ordered by their Levenshtein distances.<br>
-The results are then filtered and
-results furthest away from the top few are ignored. The searches will then be passed thru their respective predicates
-(<code>NameContainsKeywordsPredicate</code>, <code>AddressContainsKeywordsPredicate</code>, <code>EmailContainsKeywordsPredicate</code>, <code>KpiContainsKeywordPredicate</code>, <code>NoteContainsKeywordsPredicate</code>, <code>PhoneContainsKeywordPredicate</code>, <code>PositionContainsKeywordsPredicate</code>, <code>TagContainsKeywordsPredicate</code>)
-before filtering the list.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="data-encryption"><a class="link" href="#data-encryption">Data Encryption</a></h3>
-<div class="sect3">
-<h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">Current Implementation</a></h4>
-<div class="paragraph">
-<p>The encrypt/ decrypt mechanism is facilitated by <code>FileEncryptor</code>.
-It extends <code>AddressBook</code> with a encrypt/decrypt feature, maintained by <code>PasswordCommand</code>.
-Additionally, it implements the following operations:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>FileEncryptor#process()</code>&#8201;&#8212;&#8201;Decrypts or encrypts the data file depending on its current state (encrypted or decrypted).</p>
-</li>
-<li>
-<p><code>VersionedAddressBook#decryptFile()</code>&#8201;&#8212;&#8201;encrypts a file given the path and password.</p>
-</li>
-<li>
-<p><code>VersionedAddressBook#encryptFile()</code>&#8201;&#8212;&#8201;decrypts a file given the path and password.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Given below is an example usage scenario and how the password mechanism behaves at each step.</p>
-</div>
-<div class="paragraph">
-<p>Step 1. The user enters the password command with a password.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If the user enters a password which is non alpha-numeric, an error will be thrown at the CommandResult box. Only alpha-numeric passwords are supported by <code>FileEncryptor</code>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Step 2. The user closes the addressbook.</p>
-</div>
-<div class="paragraph">
-<p>Step 3. The user re-opens the addressbook. No data will be shown as XML data file is technically not present in the data folder.</p>
-</div>
-<div class="paragraph">
-<p>Step 4. The user enters the password command with the right password. Addressbook will be refreshed and restored back to its former state (before encryption).</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If the user enters the wrong password, an error will be thrown at the CommandResult box.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
-<div class="sect4">
-<h5 id="aspect-how-encryption-and-decryption-is-done"><a class="link" href="#aspect-how-encryption-and-decryption-is-done">Aspect: How encryption and decryption is done</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p>The <code>PBEKeySpec</code> is first specified using the "PBEWithMD5AndDES" specification.</p>
-</li>
-<li>
-<p>A secret key is generated from <code>SecretKeyFactory</code> using "PBEWithMD5AndDES" cipher.</p>
-</li>
-<li>
-<p>Then a <code>Cipher</code> is used to encrypt or decrypt the file with a given password and key specifications.</p>
-</li>
-<li>
-<p>Additional salt is used in the password to ensure that the password cannot be easily broken down by dictionary attacks.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="aspect-pros-and-cons-of-tight-security"><a class="link" href="#aspect-pros-and-cons-of-tight-security">Aspect: Pros and cons of tight security</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Your data is protected and it will be near impossible to use any third part tool to crack the data file.</p>
-</li>
-<li>
-<p>Cons: Data will be <strong>permanently</strong> lost if you forget the password.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-03 04:23:58 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-03 13:52:18 UTC</div></div></div></body></html>
