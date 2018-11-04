@@ -1178,7 +1178,7 @@ by <code>Schedule#add()</code>.</p>
 <div class="paragraph">
 <p>In addition to the CRUD (create, read, update and delete) functions, the schedule is also saved to an <code>XML</code> file
 whenever you update it. This is facilitated by <code>XmlAdaptedActivity</code> which stores an <code>Activity</code> in an <code>XML</code> format.
-<code>XmlSerializableAddressBook</code> then appends each <code>XmlAdaptedActivity</code> into a <code>list</code> and is saved in <code>addressbook.xml</code>.</p>
+<code>XmlSerializableAddressBook</code> then appends each <code>XmlAdaptedActivity</code> into a list and is saved in <code>addressbook.xml</code>.</p>
 </div>
 </div>
 <div class="sect4">
@@ -1187,43 +1187,172 @@ whenever you update it. This is facilitated by <code>XmlAdaptedActivity</code> w
 <p>Given below is are examples of usage scenarios of how the schedule behaves when you carry out <code>schedule</code> commands.<br></p>
 </div>
 <div class="sect5">
-<h6 id="launching-corppro"><a class="link" href="#launching-corppro">Launching CorpPro:</a></h6>
+<h6 id="adding-an-activity"><a class="link" href="#adding-an-activity">Adding an Activity:</a></h6>
 <div class="paragraph">
-<p>Step 1. The user launches the application. The schedule will be set with the data read from <code>addressbook.xml</code>.<br>
-The following sequence diagram shows you how the operation works:</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="adding-an-code-activity-code"><a class="link" href="#adding-an-code-activity-code">Adding an <code>Activity</code>:</a></h6>
-<div class="paragraph">
-<p>Step 1. The user executes <code>schedule-add d/01/01/2018 a/Complete report.</code> to add an activity to their schedule. After being parsed by
-<code>addressbookParser</code> and <code>ScheduleAddCommandParser</code> respectively, the <code>ScheduleAddCommand</code> calls <code>Model#addActivity()</code> and the <code>activity</code>
-is added to the <code>schedule</code>.</p>
+<p>Step 1. The user executes <code>schedule-add d/01/01/2018 a/Complete report.</code> to add an activity to their schedule.<br></p>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows you how the add operation works:</p>
+<p>Step 2. The user input is first parsed by <code>AddressBookParser</code> which creates a new <code>ScheduleAddCommandParser</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p>Step 3. The arguments, <code>d/01/01/2018 a/Complete report.</code>, are then parsed by <code>ScheduleAddCommandParser</code>.<br></p>
+</div>
+<div class="paragraph">
+<p>Step 4. <code>ScheduleAddCommandParser</code> checks the validity of the date and activity as input by the user. It then creates an
+<code>Activity</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p>Step 5. <code>ScheduleAddCommandParser</code> then creates a new <code>ScheduleAddCommand</code> with the <code>activity</code> as its argument.<br></p>
+</div>
+<div class="paragraph">
+<p>Step 6. <code>ScheduleAddCommand</code> calls <code>Model#addActivity()</code> which creates the <code>activity</code> in the <code>schedule</code>.
+<code>indicateAddressBookChanged()</code> is called within <code>Model#addActivity()</code> to raise an <code>AddressBookChangedEvent</code> that the information within the
+address book is changed. <br></p>
+</div>
+<div class="paragraph">
+<p>Step 7. The <code>UI</code> object, <code>schedulePanel</code> which is subscribed to the event, receives this updated information and updates
+the display to show the correct information to the user.<br></p>
+</div>
+<div class="paragraph">
+<p>The following sequence diagrams shows you how the add operation works:<br></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/scheduleAddSequenceDiagramLogic.png" alt="scheduleAddSequenceDiagramLogic" width="900">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 1. Interactions inside the Logic Component for the <code>schedule-add d/01/01/2018 a/Complete report.</code> command</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The figure above illustrates the sequence from step 1. to step 5.<br>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the date or the activity name is not valid, an error would be returned to the user instead of creating an <code>Activity</code> object.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/scheduleAddSequenceDiagramStorage.png" alt="scheduleAddSequenceDiagramStorage" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 2. Interactions inside the Storage Component for the <code>schedule-add d/01/01/2018 a/Complete report.</code> command</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The figure above illustrates the sequence of step 6.<br>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/scheduleAddSequenceDiagramEvent.png" alt="scheduleAddSequenceDiagramEvent" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 3. Interactions between the EventCenter and the UI and Storage Component for the <code>schedule-add d/01/01/2018 a/Complete report.</code> command</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The figure above illustrates the sequence of step 7.<br>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Storage of each activity is facilitated by <code>XmlAdaptedActivity</code> which stores an <code>Activity</code> in an <code>XML</code> format. <code>XmlSerializableAddressBook</code> then appends each <code>XmlAdaptedActivity</code> into a list and is saved in <code>addressbook.xml</code>
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect5">
 <h6 id="deleting-an-code-activity-code"><a class="link" href="#deleting-an-code-activity-code">Deleting an <code>Activity</code>:</a></h6>
 <div class="paragraph">
-<p>Step 1. The user executes <code>schedule-delete 2</code> to delete the activity at <code>INDEX 2</code> in their schedule. After being parsed by
-<code>addressbookParser</code> and <code>ScheduleDeleteCommandParser</code> respectively, the <code>ScheduleDeleteCommand</code> calls <code>Model#deleteActivity()</code> and the <code>activity</code>
-is deleted from the <code>schedule</code>.</p>
+<p>Step 1. The user executes <code>schedule-delete 2</code> to delete the activity at <code>INDEX 2</code> in their schedule.<br></p>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows you how the delete operation works:</p>
+<p>Step 2. The user input is first parsed by <code>AddressBookParser</code> which creates a new <code>ScheduleDeleteCommandParser</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p>Step 3. <code>ScheduleDeleteCommandParser</code> checks the validity of the index as input by the user.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. <code>ScheduleDeleteCommandParser</code> then creates a new <code>ScheduleDeleteCommand</code> with the <code>INDEX</code> as its argument.<br></p>
+</div>
+<div class="paragraph">
+<p>Step 5. <code>ScheduleDeleteCommand</code> checks if the <code>INDEX</code> given is valid (within the size of the listed schedule) and calls
+<code>Model#deleteActivity()</code> which deletes the corresponding <code>activity</code> from the <code>schedule</code>.<code>indicateAddressBookChanged()</code> is called
+within <code>Model#deleteActivity()</code> to raise an <code>AddressBookChangedEvent</code> that the information within the
+address book is changed. <br></p>
+</div>
+<div class="paragraph">
+<p>Step 6. The <code>UI</code> object, <code>schedulePanel</code> which is subscribed to the event, receives this updated information and updates
+the display to show the correct information to the user.<br></p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="editing-an-code-activity-code"><a class="link" href="#editing-an-code-activity-code">Editing an <code>Activity</code>:</a></h6>
 <div class="paragraph">
-<p>Step 1. The user executes <code>schedule-edit 2 a/Interview intern.</code> to edit an activity at <code>INDEX 2</code> in their schedule. After being parsed by
-<code>addressbookParser</code> and <code>ScheduleEditCommandParser</code> respectively, the <code>ScheduleEditCommand</code> calls <code>Model#deleteActivity()</code>, followed by
-<code>Model#addActivity()</code> and the <code>activity</code> is edited in the <code>schedule</code>.</p>
+<p>Step 1. The user executes <code>schedule-edit 2 a/Interview intern.</code> to edit an activity at <code>INDEX 2</code> in their schedule.<br></p>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows you how the edit operation works:</p>
+<p>Step 2. The user input is first parsed by <code>AddressBookParser</code> which creates a new <code>ScheduleEditCommandParser</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p>Step 3. The arguments, <code>2 a/Interview intern.</code>, are then parsed by <code>ScheduleEditCommandParser</code>.<br></p>
+</div>
+<div class="paragraph">
+<p>Step 4. <code>ScheduleEditCommandParser</code> checks the validity of the index and activity as input by the user.<br></p>
+</div>
+<div class="paragraph">
+<p>Step 5. <code>ScheduleEditCommandParser</code> then creates a new <code>ScheduleEditCommand</code> with the <code>INDEX</code> and the activity
+ <code>String</code> as its argument.<br></p>
+</div>
+<div class="paragraph">
+<p>Step 6. <code>ScheduleEditCommand</code> checks if the <code>INDEX</code> given is valid (within the size of the listed schedule) and calls
+<code>Model#updateActivity()</code> which updates the corresponding <code>activity</code> in the <code>schedule</code>.
+<code>indicateAddressBookChanged()</code> is called within <code>Model#updateActivity()</code> to raise an <code>AddressBookChangedEvent</code> that the information within the
+address book is changed. <br></p>
+</div>
+<div class="paragraph">
+<p>Step 7. The <code>UI</code> object, <code>schedulePanel</code> which is subscribed to the event, receives this updated information and updates
+the display to show the correct information to the user.<br></p>
 </div>
 </div>
 </div>
@@ -3226,4 +3355,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-03 13:52:18 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-04 16:49:25 UTC</div></div></div></body></html>
