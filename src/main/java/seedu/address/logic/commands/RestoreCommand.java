@@ -23,8 +23,8 @@ public class RestoreCommand extends Command {
     public static final String COMMAND_WORD = CliSyntax.COMMAND_RESTORE;
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Restores the address book to a snapshot of choice.\n"
-            + "Parameters:" + " snapshots"
-            + " or" + " DD/MM/YYYY" + " time";
+            + "Parameters:"
+            + " INDEX";
     public static final String MESSAGE_RESTORED_SUCCESS = "AddressBook has been restored to that of %1$s";
 
     /**
@@ -33,8 +33,6 @@ public class RestoreCommand extends Command {
     private Index index;
     private Map<Integer, File> fileMap;
     private List<String> fileName;
-
-    public RestoreCommand() {}
 
     public RestoreCommand(BackupList backupList, Index index) {
         this.fileMap = backupList.getFileMap();

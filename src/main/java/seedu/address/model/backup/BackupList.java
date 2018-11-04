@@ -23,17 +23,22 @@ public class BackupList {
     private List<String> fileNames = new ArrayList<>();
     private Map<Integer, File> fileMap = new HashMap<>();
 
-    public BackupList(File backupDir) throws IOException {
-        List<File> backupFiles = Arrays.asList(backupDir.listFiles());
-        Collections.reverse(backupFiles);
-        for (File snapshots : backupFiles) {
-            String millis = snapshots.getName();
-            millis = millis.substring(0, millis.length() - 4);
-            String fileName = millisToDateAndTime(millis);
-            fileNames.add(fileName);
-            fileMap.put(fileNames.indexOf(fileName), snapshots);
-        }
-        if (fileNames.size() == 0) {
+    public BackupList(String backupString) throws IOException {
+        try {
+            File backupDir = new File(backupString);
+            List<File> backupFiles = Arrays.asList(backupDir.listFiles());
+            Collections.reverse(backupFiles);
+            for (File snapshots : backupFiles) {
+                String millis = snapshots.getName();
+                millis = millis.substring(0, millis.length() - 4);
+                String fileName = millisToDateAndTime(millis);
+                fileNames.add(fileName);
+                fileMap.put(fileNames.indexOf(fileName), snapshots);
+            }
+            if (fileNames.size() == 0) {
+                throw new IOException(MESSAGE_BACKUP_CONSTRAINTS);
+            }
+        } catch (NullPointerException npe) {
             throw new IOException(MESSAGE_BACKUP_CONSTRAINTS);
         }
     }

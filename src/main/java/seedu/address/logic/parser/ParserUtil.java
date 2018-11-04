@@ -3,8 +3,6 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -14,9 +12,7 @@ import java.util.StringTokenizer;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
-import seedu.address.logic.commands.BackUpCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.backup.BackupList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Kpi;
@@ -140,20 +136,6 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
-    }
-
-    //@@author Limminghong
-    /**
-     * Parses {@code String Snapshots} into a {@code Snapshots}.
-     * @throws IOException if the ".backup" directory does not exist.
-     */
-    public static BackupList parseBackup(String backupList) throws IOException {
-        requireNonNull(backupList);
-        File backupDir = new File(BackUpCommand.DEST_PATH);
-        if (!backupDir.exists()) {
-            throw new IOException(BackupList.MESSAGE_BACKUP_CONSTRAINTS);
-        }
-        return new BackupList(backupDir);
     }
 
     //@@author LowGinWee

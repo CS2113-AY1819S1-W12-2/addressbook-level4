@@ -23,6 +23,7 @@ import seedu.address.logic.commands.MailCommand;
 import seedu.address.logic.commands.PasswordCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.RestoreCommand;
+import seedu.address.logic.commands.RestoreSnapshotsCommand;
 import seedu.address.logic.commands.ScheduleAddCommand;
 import seedu.address.logic.commands.ScheduleDeleteCommand;
 import seedu.address.logic.commands.ScheduleEditCommand;
@@ -102,6 +103,9 @@ public class AddressBookParser {
         case RestoreCommand.COMMAND_WORD:
             return new RestoreCommandParser().parse(arguments);
 
+        case RestoreSnapshotsCommand.COMMAND_WORD:
+            return new RestoreSnapshotsCommand();
+
         case ImportCommand.COMMAND_WORD:
             return new ImportCommandParser().parse(arguments);
 
@@ -113,10 +117,13 @@ public class AddressBookParser {
 
         case ScheduleAddCommand.COMMAND_WORD:
             return new ScheduleAddCommandParser().parse(arguments);
+
         case ScheduleEditCommand.COMMAND_WORD:
             return new ScheduleEditCommandParser().parse(arguments);
+
         case ScheduleDeleteCommand.COMMAND_WORD:
             return new ScheduleDeleteCommandParser().parse(arguments);
+
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }

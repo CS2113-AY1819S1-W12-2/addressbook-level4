@@ -17,7 +17,7 @@ import seedu.address.model.Model;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.storage.CsvWriter;
+import seedu.address.storage.CsvReader;
 
 /**
  * Imports a CSV file of the address book from a directory.
@@ -45,8 +45,6 @@ public class ImportCommand extends Command {
     private File file;
     private String directory;
 
-    public ImportCommand() {}
-
     public ImportCommand(String directory, File file) {
         this.directory = directory;
         this.file = file;
@@ -62,8 +60,8 @@ public class ImportCommand extends Command {
         }
 
         try {
-            CsvWriter csvWriter = new CsvWriter(file);
-            List<Person> personList = csvWriter.convertToList();
+            CsvReader csvReader = new CsvReader(file);
+            List<Person> personList = csvReader.convertToList();
             for (Person toAdd : personList) {
                 try {
                     model.addPerson(toAdd);
@@ -75,7 +73,7 @@ public class ImportCommand extends Command {
             model.commitAddressBook();
             return new CommandResult(String.format(MESSAGE_SUCCESS, directory));
         } catch (IOException io) {
-            throw new CommandException(CsvWriter.WRONG_FORMAT);
+            throw new CommandException(CsvReader.WRONG_FORMAT);
         }
     }
 }

@@ -4,7 +4,6 @@ package seedu.address.logic.commands;
 import static org.junit.Assert.assertEquals;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -33,7 +32,6 @@ public class RestoreCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
     private CommandHistory commandHistory = new CommandHistory();
-    private File backupDir;
     private BackupList backupList;
     private Index trueIndex;
     private Index falseIndex;
@@ -45,8 +43,7 @@ public class RestoreCommandTest {
         try {
             trueIndex = ParserUtil.parseIndex("1");
             falseIndex = ParserUtil.parseIndex("2");
-            backupDir = new File(BACKUP_DIRECTORY);
-            backupList = new BackupList(backupDir);
+            backupList = new BackupList(BACKUP_DIRECTORY);
         } catch (IOException io) {
             logger.severe(io.getMessage());
         } catch (ParseException pe) {
