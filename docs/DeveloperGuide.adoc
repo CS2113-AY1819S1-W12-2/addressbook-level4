@@ -411,6 +411,7 @@ Hence, calling `getPredictList("wom")` will return a list containing the element
 * `"en"`
 * `"ble"`
 
+// tag::backuprestore[]
 === Back Up and Restore
 ==== Back Up
 Creation of backups is done in `BackUpCommand` class. It extends the `Command` class with an overriding execute function. +
@@ -440,6 +441,9 @@ Step 3. The chosen file based on the index will be converted in to a path and th
 
 // TODO: Add design considerations and sequence diagram
 
+// end::backuprestore[]
+
+// tag::exportimport[]
 === Export and Import
 ==== Export to CSV
 The export function is facilitated by the `ExportCommand` class. It extends the `Command` class wit an overriding execute function. +
@@ -469,6 +473,9 @@ Step 3. It then converts the strings into a persons. +
 Step 4. These persons are then stored in a `List<Person>` and returned. +
 
 // TODO: add design considerations and sequence diagram
+
+// end::exportimport[]
+
 // tag::find[]
 === Find and Search
 ==== Current Implementation
