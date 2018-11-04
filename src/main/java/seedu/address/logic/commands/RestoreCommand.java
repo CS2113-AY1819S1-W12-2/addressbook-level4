@@ -23,8 +23,10 @@ public class RestoreCommand extends Command {
     public static final String COMMAND_WORD = CliSyntax.COMMAND_RESTORE;
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Restores the address book to a snapshot of choice.\n"
-            + "Parameters:"
-            + " INDEX";
+            + "Parameters:" + " INDEX\n"
+            + "To list out all the snapshots, use "
+            + RestoreSnapshotsCommand.COMMAND_WORD
+            + " instead.";
     public static final String MESSAGE_RESTORED_SUCCESS = "AddressBook has been restored to that of %1$s";
 
     /**

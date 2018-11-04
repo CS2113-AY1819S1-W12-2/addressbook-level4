@@ -438,7 +438,7 @@ Step 1. `BackupList` and an `INDEX` input by the user. +
 Step 2. The `BackupList` contains a map of `File` with an `INDEX` attached to it. +
 Step 3. The chosen file based on the index will be converted in to a path and the current data in the address book will be replaced by the chosen file.
 
-// TODO: Add design considerations
+// TODO: Add design considerations and sequence diagram
 
 === Export and Import
 ==== Export to CSV
@@ -454,6 +454,21 @@ Step 1. The constructor converts an `ObservableList<Person>` into a `List<Person
 Step 2. The `convertToCsv()` method will be called in `ExportCommand` and a new CSV file will be written with the content of the created `List<Person>`. +
 Step 3. This file will be created in the path. +
 
+=== Import CSV to address book
+The import function is implemented with the `ImportCommand` class. It extends the `Command` class with an overriding execute method. +
+The execute method will fo the following operation: +
+Step 1. A `CsvReader` will be instantiated with the file corresponding to the path of CSV file provided by the user. +
+Step 2. The `CsvReader` will call the `convertToList` method which returns a `List<Person>`. +
+Step 3. It will then iterate through the `List<Person>` and add `Person` one by one into the `Model`. If there are any duplicates it will be skipped. +
+
+`CsvReader` is an object that takes in a CSV file and converts it into a  list of persons. +
+The conversion is as follows: +
+Step 1. The constructor reads a CSV file line by line. +
+Step 2. The `convertToList` method formats the file into a `Model` friendly format. +
+Step 3. It then converts the strings into a persons. +
+Step 4. These persons are then stored in a `List<Person>` and returned. +
+
+// TODO: add design considerations and sequence diagram
 // tag::find[]
 === Find and Search
 ==== Current Implementation
