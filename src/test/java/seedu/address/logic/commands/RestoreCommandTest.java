@@ -4,10 +4,11 @@ package seedu.address.logic.commands;
 import static org.junit.Assert.assertEquals;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -25,7 +26,10 @@ import seedu.address.model.backup.BackupList;
 
 public class RestoreCommandTest {
     private static final Logger logger = Logger.getLogger(RestoreCommand.class.getName());
-    private static final String BACKUP_DIRECTORY = "src\\test\\data\\RestoreTestXml";
+    private static final String BACKUP_DIRECTORY = "src" + File.separator
+        + "test" + File.separator
+        + "data" + File.separator
+        + "RestoreTestXml";
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -39,6 +43,7 @@ public class RestoreCommandTest {
     /**
      * Create backup files for the restore command to execute
      */
+    @Before
     public void setUp() {
         try {
             trueIndex = ParserUtil.parseIndex("1");
@@ -54,7 +59,6 @@ public class RestoreCommandTest {
     /**
      * Test when the index is valid
      */
-    @Ignore
     @Test
     public void execute_index_success() {
         try {
@@ -69,7 +73,6 @@ public class RestoreCommandTest {
     /**
      * Test when the index is invalid
      */
-    @Ignore
     @Test
     public void execute_index_invalid() throws Exception {
         thrown.expect(CommandException.class);
