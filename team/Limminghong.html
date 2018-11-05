@@ -141,7 +141,7 @@ Format: <code>backup</code><br></p>
 <div class="paragraph">
 <p>The restore feature allows you to revert your address book back to a specific state int time (provided you backed up the state).<br>
 To list out all the available backups from latest to earliest:<br>
-Format: <code>restore snapshots</code><br></p>
+Format: <code>restore-snapshots</code><br></p>
 </div>
 <div class="ulist">
 <ul>
@@ -254,303 +254,80 @@ If a compulsory field is left blank, the address book will not allow the CSV fil
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="undo-redo-feature"><a class="link" href="#undo-redo-feature">Undo/Redo feature</a></h3>
+<h3 id="back-up-and-restore"><a class="link" href="#back-up-and-restore">Back Up and Restore</a></h3>
 <div class="sect3">
-<h4 id="current-implementation"><a class="link" href="#current-implementation">Current Implementation</a></h4>
+<h4 id="back-up"><a class="link" href="#back-up">Back Up</a></h4>
 <div class="paragraph">
-<p>The undo/redo mechanism is facilitated by <code>VersionedAddressBook</code>.
-It extends <code>AddressBook</code> with an undo/redo history, stored internally as an <code>addressBookStateList</code> and <code>currentStatePointer</code>.
-Additionally, it implements the following operations:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>VersionedAddressBook#commit()</code>&#8201;&#8212;&#8201;Saves the current address book state in its history.</p>
-</li>
-<li>
-<p><code>VersionedAddressBook#undo()</code>&#8201;&#8212;&#8201;Restores the previous address book state from its history.</p>
-</li>
-<li>
-<p><code>VersionedAddressBook#redo()</code>&#8201;&#8212;&#8201;Restores a previously undone address book state from its history.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>These operations are exposed in the <code>Model</code> interface as <code>Model#commitAddressBook()</code>, <code>Model#undoAddressBook()</code> and <code>Model#redoAddressBook()</code> respectively.</p>
-</div>
-<div class="paragraph">
-<p>Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.</p>
-</div>
-<div class="paragraph">
-<p>Step 1. The user launches the application for the first time. The <code>VersionedAddressBook</code> will be initialized with the initial address book state, and the <code>currentStatePointer</code> pointing to that single address book state.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoStartingStateListDiagram.png" alt="UndoRedoStartingStateListDiagram" width="800">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 2. The user executes <code>delete 5</code> command to delete the 5th person in the address book. The <code>delete</code> command calls <code>Model#commitAddressBook()</code>, causing the modified state of the address book after the <code>delete 5</code> command executes to be saved in the <code>addressBookStateList</code>, and the <code>currentStatePointer</code> is shifted to the newly inserted address book state.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoNewCommand1StateListDiagram.png" alt="UndoRedoNewCommand1StateListDiagram" width="800">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 3. The user executes <code>add n/David &#8230;&#8203;</code> to add a new person. The <code>add</code> command also calls <code>Model#commitAddressBook()</code>, causing another modified address book state to be saved into the <code>addressBookStateList</code>.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoNewCommand2StateListDiagram.png" alt="UndoRedoNewCommand2StateListDiagram" width="800">
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If a command fails its execution, it will not call <code>Model#commitAddressBook()</code>, so the address book state will not be saved into the <code>addressBookStateList</code>.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the <code>undo</code> command. The <code>undo</code> command will call <code>Model#undoAddressBook()</code>, which will shift the <code>currentStatePointer</code> once to the left, pointing it to the previous address book state, and restores the address book to that state.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoExecuteUndoStateListDiagram.png" alt="UndoRedoExecuteUndoStateListDiagram" width="800">
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If the <code>currentStatePointer</code> is at index 0, pointing to the initial address book state, then there are no previous address book states to restore. The <code>undo</code> command uses <code>Model#canUndoAddressBook()</code> to check if this is the case. If so, it will return an error to the user rather than attempting to perform the undo.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>The following sequence diagram shows how the undo operation works:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoSequenceDiagram.png" alt="UndoRedoSequenceDiagram" width="800">
-</div>
-</div>
-<div class="paragraph">
-<p>The <code>redo</code> command does the opposite&#8201;&#8212;&#8201;it calls <code>Model#redoAddressBook()</code>, which shifts the <code>currentStatePointer</code> once to the right, pointing to the previously undone state, and restores the address book to that state.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If the <code>currentStatePointer</code> is at index <code>addressBookStateList.size() - 1</code>, pointing to the latest address book state, then there are no undone address book states to restore. The <code>redo</code> command uses <code>Model#canRedoAddressBook()</code> to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Step 5. The user then decides to execute the command <code>list</code>. Commands that do not modify the address book, such as <code>list</code>, will usually not call <code>Model#commitAddressBook()</code>, <code>Model#undoAddressBook()</code> or <code>Model#redoAddressBook()</code>. Thus, the <code>addressBookStateList</code> remains unchanged.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoNewCommand3StateListDiagram.png" alt="UndoRedoNewCommand3StateListDiagram" width="800">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 6. The user executes <code>clear</code>, which calls <code>Model#commitAddressBook()</code>. Since the <code>currentStatePointer</code> is not pointing at the end of the <code>addressBookStateList</code>, all address book states after the <code>currentStatePointer</code> will be purged. We designed it this way because it no longer makes sense to redo the <code>add n/David &#8230;&#8203;</code> command. This is the behavior that most modern desktop applications follow.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoNewCommand4StateListDiagram.png" alt="UndoRedoNewCommand4StateListDiagram" width="800">
-</div>
-</div>
-<div class="paragraph">
-<p>The following activity diagram summarizes what happens when a user executes a new command:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoActivityDiagram.png" alt="UndoRedoActivityDiagram" width="650">
-</div>
+<p>Creation of backups is done in <code>BackUpCommand</code> class. It extends the <code>Command</code> class with an overriding execute function.<br>
+The execute function does the following operations:<br>
+Step 1. The <code>BackUpCommand</code> class will check if a <code>.backup</code> directory exist. If it does not, a <code>.backup</code> will be created.<br>
+Step 2. The <code>backUpAddressbook()</code> method will be called on the current model.<br>
+Step 3. The <code>ModelManager</code> will read the current address book into a <code>ReadOnlyAddressbook</code><br>
+Step 4. A <code>XmlAddressBookStorage</code> will be initialised with the path of <code>.backup</code> and the file name. The file name will be that of the time in milliseconds since epoch (1970).<br>
+Step 5. A new <code>.xml</code> file will be saved in the path by invoking <code>saveAddressBook()</code> on the <code>ReadOnlyAddessbook</code> created.<br></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
-<div class="sect4">
-<h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">Aspect: How undo &amp; redo executes</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1 (current choice):</strong> Saves the entire address book.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Easy to implement.</p>
-</li>
-<li>
-<p>Cons: May have performance issues in terms of memory usage.</p>
-</li>
-</ul>
+<h4 id="listing-of-backup-snapshots"><a class="link" href="#listing-of-backup-snapshots">Listing of backup snapshots</a></h4>
+<div class="paragraph">
+<p>Listing of the snapshots of backups is done with the <code>RestoreSnapshotsCommand</code> class. It also extends the <code>Command</code> class.<br>
+The execute function does the following operations:<br>
+Step 1. Checks the <code>.backup</code> folder for all the snapshots and stores them in a <code>BackupList</code> class. Throws an exception if <code>.backup</code> does not exist or is empty.<br>
+Step 2. Converts the names of file into the format DATE TIME and saves it in an array.<br>
+Step 3. Iterate through the array and form a string to print.<br>
+Step 4. Prints the string.<br></p>
 </div>
-</li>
-<li>
-<p><strong>Alternative 2:</strong> Individual command knows how to undo/redo by itself.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Will use less memory (e.g. for <code>delete</code>, just save the person being deleted).</p>
-</li>
-<li>
-<p>Cons: We must ensure that the implementation of each individual command are correct.</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
+<div class="paragraph">
+<p>The <code>BackupList</code> object holds a map of files with indexes as its keys. It also has an array of <code>String</code>. The position of the strings corresponds to the index of the file it represents in the map.<br></p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="aspect-data-structure-to-support-the-undo-redo-commands"><a class="link" href="#aspect-data-structure-to-support-the-undo-redo-commands">Aspect: Data structure to support the undo/redo commands</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1 (current choice):</strong> Use a list to store the history of address book states.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.</p>
-</li>
-<li>
-<p>Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update both <code>HistoryManager</code> and <code>VersionedAddressBook</code>.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 2:</strong> Use <code>HistoryManager</code> for undo/redo</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: We do not need to maintain a separate list, and just reuse what is already in the codebase.</p>
-</li>
-<li>
-<p>Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as <code>HistoryManager</code> now needs to do two different things.</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
+<div class="sect3">
+<h4 id="restoring-from-the-list"><a class="link" href="#restoring-from-the-list">Restoring from the list</a></h4>
+<div class="paragraph">
+<p>The restoration of backup snapshots is done in the <code>RestoreCommand</code> class. It extends the <code>Command</code> class with an overriding execute function.<br>
+The execute method will do the following operation:<br>
+Step 1. <code>BackupList</code> and an <code>INDEX</code> input by the user.<br>
+Step 2. The <code>BackupList</code> contains a map of <code>File</code> with an <code>INDEX</code> attached to it.<br>
+Step 3. The chosen file based on the index will be converted in to a path and the current data in the address book will be replaced by the chosen file.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="data-encryption"><a class="link" href="#data-encryption">Data Encryption</a></h3>
+<h3 id="export-and-import"><a class="link" href="#export-and-import">Export and Import</a></h3>
 <div class="sect3">
-<h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">Current Implementation</a></h4>
+<h4 id="export-to-csv"><a class="link" href="#export-to-csv">Export to CSV</a></h4>
 <div class="paragraph">
-<p>The encrypt/ decrypt mechanism is facilitated by <code>FileEncryptor</code>.
-It extends <code>AddressBook</code> with a encrypt/decrypt feature, maintained by <code>PasswordCommand</code>.
-Additionally, it implements the following operations:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>FileEncryptor#process()</code>&#8201;&#8212;&#8201;Decrypts or encrypts the data file depending on its current state (encrypted or decrypted).</p>
-</li>
-<li>
-<p><code>VersionedAddressBook#decryptFile()</code>&#8201;&#8212;&#8201;encrypts a file given the path and password.</p>
-</li>
-<li>
-<p><code>VersionedAddressBook#encryptFile()</code>&#8201;&#8212;&#8201;decrypts a file given the path and password.</p>
-</li>
-</ul>
+<p>The export function is facilitated by the <code>ExportCommand</code> class. It extends the <code>Command</code> class wit an overriding execute function.<br>
+The execute method will do the following operation:<br>
+Step 1. The current address book information will be instantiated into a new <code>ReadOnlyAddressbook</code> object.<br>
+Step 2. An <code>ObservableList&lt;Person&gt;</code> will be obtained from the address book.<br>
+Step 3. The <code>ObservableList&lt;Person&gt;</code> will be written onto a CSV file via the CsvWriter object.<br></p>
 </div>
 <div class="paragraph">
-<p>Given below is an example usage scenario and how the password mechanism behaves at each step.</p>
+<p><code>CsvWriter</code> is an object that takes in a path of where the export is to be saved and write a CSV file into the said path.<br>
+The conversion is as follows:<br>
+Step 1. The constructor converts an <code>ObservableList&lt;Person&gt;</code> into a <code>List&lt;Person&gt;</code>
+Step 2. The <code>convertToCsv()</code> method will be called in <code>ExportCommand</code> and a new CSV file will be written with the content of the created <code>List&lt;Person&gt;</code>.<br>
+Step 3. This file will be created in the path.<br></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="import-csv-to-address-book"><a class="link" href="#import-csv-to-address-book">Import CSV to address book</a></h3>
+<div class="paragraph">
+<p>The import function is implemented with the <code>ImportCommand</code> class. It extends the <code>Command</code> class with an overriding execute method.<br>
+The execute method will fo the following operation:<br>
+Step 1. A <code>CsvReader</code> will be instantiated with the file corresponding to the path of CSV file provided by the user.<br>
+Step 2. The <code>CsvReader</code> will call the <code>convertToList</code> method which returns a <code>List&lt;Person&gt;</code>.<br>
+Step 3. It will then iterate through the <code>List&lt;Person&gt;</code> and add <code>Person</code> one by one into the <code>Model</code>. If there are any duplicates it will be skipped.<br></p>
 </div>
 <div class="paragraph">
-<p>Step 1. The user enters the password command with a password.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If the user enters a password which is non alpha-numeric, an error will be thrown at the CommandResult box. Only alpha-numeric passwords are supported by <code>FileEncryptor</code>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Step 2. The user closes the addressbook.</p>
-</div>
-<div class="paragraph">
-<p>Step 3. The user re-opens the addressbook. No data will be shown as XML data file is technically not present in the data folder.</p>
-</div>
-<div class="paragraph">
-<p>Step 4. The user enters the password command with the right password. Addressbook will be refreshed and restored back to its former state (before encryption).</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If the user enters the wrong password, an error will be thrown at the CommandResult box.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
-<div class="sect4">
-<h5 id="aspect-how-encryption-and-decryption-is-done"><a class="link" href="#aspect-how-encryption-and-decryption-is-done">Aspect: How encryption and decryption is done</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p>The <code>PBEKeySpec</code> is first specified using the "PBEWithMD5AndDES" specification.</p>
-</li>
-<li>
-<p>A secret key is generated from <code>SecretKeyFactory</code> using "PBEWithMD5AndDES" cipher.</p>
-</li>
-<li>
-<p>Then a <code>Cipher</code> is used to encrypt or decrypt the file with a given password and key specifications.</p>
-</li>
-<li>
-<p>Additional salt is used in the password to ensure that the password cannot be easily broken down by dictionary attacks.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="aspect-pros-and-cons-of-tight-security"><a class="link" href="#aspect-pros-and-cons-of-tight-security">Aspect: Pros and cons of tight security</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Your data is protected and it will be near impossible to use any third part tool to crack the data file.</p>
-</li>
-<li>
-<p>Cons: Data will be <strong>permanently</strong> lost if you forget the password.</p>
-</li>
-</ul>
-</div>
-</div>
+<p><code>CsvReader</code> is an object that takes in a CSV file and converts it into a  list of persons.<br>
+The conversion is as follows:<br>
+Step 1. The constructor reads a CSV file line by line.<br>
+Step 2. The <code>convertToList</code> method formats the file into a <code>Model</code> friendly format.<br>
+Step 3. It then converts the strings into a persons.<br>
+Step 4. These persons are then stored in a <code>List&lt;Person&gt;</code> and returned.<br></p>
 </div>
 </div>
 </div>
@@ -563,4 +340,4 @@ If the user enters the wrong password, an error will be thrown at the CommandRes
 <p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-05 11:44:27 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-05 11:49:42 UTC</div></div></div></body></html>
