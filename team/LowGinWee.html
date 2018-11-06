@@ -10,7 +10,7 @@
 <h2 id="overview"><a class="link" href="#overview">Overview</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>CorpPro</strong> is a desktop address book application which targets Corporate Users. It strives to help its users better manage
+<p><strong>CorpPro</strong> is a desktop address book application which targets Corporate Users. It helps its users better manage
 their information to increase efficiency and to produce effective results. <strong>CorpPro</strong>’s features aid users to find relevant
 details quickly, in addition to being able to create a schedule to plan and set goals. Users can create and update entries
 in <strong>CorpPro</strong> through the command-line interface(CLI), as well as having an uncluttered user interface(UI) to display corresponding
@@ -47,9 +47,9 @@ information. It is made using Java, a widely used programming language, with ove
 </div>
 </li>
 <li>
-<p>Justification: As a corporate user with many contacts, there is a need to tag or describe each contact to recognise or
-find them quickly. Tags now have priorities to better indicate the importance of each contact. The Key Performing Index (KPI)
-is also included in the attributes to better facilitate managers or supervisors in rating or ranking their employees.</p>
+<p>Justification: As a corporate user with many contacts, there is a need to tag or describe each contact to catagorize or
+search them quickly. Users can use tags to assign an importance level to each contact. The Key Performing Index (KPI)
+is also included in the attributes to enable managers or supervisors in rate or rank their employees.</p>
 </li>
 <li>
 <p>Highlights: This feature affects existing commands and facilitates listing or finding contacts via these additional attributes.</p>
@@ -80,7 +80,7 @@ its contents after the user has exit the application.In addition, a unique data 
 <p><strong>Minor enhancement</strong>: Enhanced the edit command to edit all listed entries in one command.</p>
 </li>
 <li>
-<p><strong>Code contributed</strong>: [<a href="https://github.com">Functional code</a>] [<a href="https://github.com">Test code</a>] <em>{give links to collated code files}</em></p>
+<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/functional/LowGinWee.md">Functional code</a>] [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/test/LowGinWee.md">Test code</a>]</p>
 </li>
 <li>
 <p><strong>Other contributions</strong>:</p>
@@ -150,149 +150,6 @@ its contents after the user has exit the application.In addition, a unique data 
 </tr>
 </tbody>
 </table>
-<div class="sect2">
-<h3 id="undoing-previous-command-code-undo-code"><a class="link" href="#undoing-previous-command-code-undo-code">Undoing previous command : <code>undo</code></a></h3>
-<div class="paragraph">
-<p>Restores the address book to the state before the previous <em>undoable</em> command was executed.<br>
-Format: <code>undo</code></p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Undoable commands: those commands that modify the address book&#8217;s content (<code>add</code>, <code>delete</code>, <code>edit</code> and <code>clear</code>).</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>delete 1</code><br>
-<code>list</code><br>
-<code>undo</code> (reverses the <code>delete 1</code> command)<br></p>
-</li>
-<li>
-<p><code>select 1</code><br>
-<code>list</code><br>
-<code>undo</code><br>
-The <code>undo</code> command fails as there are no undoable commands executed previously.</p>
-</li>
-<li>
-<p><code>delete 1</code><br>
-<code>clear</code><br>
-<code>undo</code> (reverses the <code>clear</code> command)<br>
-<code>undo</code> (reverses the <code>delete 1</code> command)<br></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="redoing-the-previously-undone-command-code-redo-code"><a class="link" href="#redoing-the-previously-undone-command-code-redo-code">Redoing the previously undone command : <code>redo</code></a></h3>
-<div class="paragraph">
-<p>Reverses the most recent <code>undo</code> command.<br>
-Format: <code>redo</code></p>
-</div>
-<div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>delete 1</code><br>
-<code>undo</code> (reverses the <code>delete 1</code> command)<br>
-<code>redo</code> (reapplies the <code>delete 1</code> command)<br></p>
-</li>
-<li>
-<p><code>delete 1</code><br>
-<code>redo</code><br>
-The <code>redo</code> command fails as there are no <code>undo</code> commands executed previously.</p>
-</li>
-<li>
-<p><code>delete 1</code><br>
-<code>clear</code><br>
-<code>undo</code> (reverses the <code>clear</code> command)<br>
-<code>undo</code> (reverses the <code>delete 1</code> command)<br>
-<code>redo</code> (reapplies the <code>delete 1</code> command)<br>
-<code>redo</code> (reapplies the <code>clear</code> command)<br></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="encrypting-data-files-code-password-code"><a class="link" href="#encrypting-data-files-code-password-code">Encrypting data files : <code>password</code></a></h3>
-<div class="paragraph">
-<p>Encrypts the data file with your password.<br>
-Format: <code>password YOURPASSWORD</code><br>
-All commands will be disabled during encryption, your data will be safely protected.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Note: You can use the same command to decrypt the file, just hit <code>password</code> and your correct password.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>password helloworld</code><br>
-Locks addressbook and clears all data.</p>
-</li>
-<li>
-<p><code>password helloworld</code><br>
-Unlocks addressbook and restores all data.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="email-contacts-code-mail-code"><a class="link" href="#email-contacts-code-mail-code">Email contacts : <code>mail</code></a></h3>
-<div class="paragraph">
-<p>Opens your system&#8217;s default email application.<br>
-Format: <code>mail all/</code> or <code>mail t/TAG</code> or <code>mail</code></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>all/</code> flag can be specified to open the email application with <em>all contacts</em> as recipients.<br></p>
-</li>
-<li>
-<p><code>t/TAG</code> flag can be specified with a tag to open the email applications with <em>all contacts belonging to that tag</em> as recipients.<br></p>
-</li>
-<li>
-<p>If no flags are specified, selected contacts are chosen as recipients.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Examples:<br></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>mail t/accountant</code><br>
-opens your email application with all accountants as recipients.<br></p>
-</li>
-<li>
-<p><code>select 3</code><br>
-<code>mail</code><br>
-opens your email application with person (3rd person in the list panel) as recipient.</p>
-</li>
-</ul>
-</div>
-</div>
 <div class="sect2">
 <h3 id="schedule-code-schedule-code"><a class="link" href="#schedule-code-schedule-code">Schedule : <code>schedule</code></a></h3>
 <div class="imageblock">
@@ -414,115 +271,6 @@ Deletes the following activity at <code>INDEX 1</code> in your schedule:</p>
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="text-prediction"><a class="link" href="#text-prediction">Text prediction</a></h3>
-<div class="paragraph">
-<p>Text prediction feature allows you to complete your command faster with less typing.<br>
-Invoke this feature by pressing the <em>Tab</em> key on the keyboard.<br></p>
-</div>
-<div class="paragraph">
-<p>You can invoke this feature on <em>most</em> command keywords and arguments:<br></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Command keywords (<code>mail</code>, <code>add</code>, <code>find</code>, etc.) .</p>
-</li>
-<li>
-<p>Flag arguments (<code>n/</code>, <code>a/</code>, <code>t/</code>, etc.) .</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>For example, given an address book consisting of a contact with the name <em>Alex Yeoh</em>:<br>
-Typing <code>m</code> in the box and pressing <em>Tab</em> will auto complete to the <code>mail</code> command. Then, typing <code>mail n/A</code> and pressing <em>Tab</em> will auto complete to <code>mail n/Alex Yeoh</code> for you.<br></p>
-</div>
-<div class="paragraph">
-<p>Note:<br></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>This feature does not work with some flag arguments when used with certain commands.<br>
-E.g. <code>add n/&#8230;&#8203;</code><br>
-If text prediction returns no predictions, it means text prediction is unsupported in that context.</p>
-</li>
-<li>
-<p>If there are multiple predicted values, they will be listed down.<br></p>
-</li>
-<li>
-<p>If no argument flags are specified, the default value predicted is based on the command&#8217;s default argument.<br></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="custom-xml-path"><a class="link" href="#custom-xml-path">Custom XML path</a></h3>
-<div class="paragraph">
-<p>All addressbook data is stored in addressbook.xml file located in <strong>data/</strong> folder in the same directory as your jar file.
-To change where you wish to save the data file to, edit in <strong>preferences.json</strong>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">Exiting the program : <code>exit</code></a></h3>
-<div class="paragraph">
-<p>Exits the program.<br>
-Format: <code>exit</code></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="saving-the-data"><a class="link" href="#saving-the-data">Saving the data</a></h3>
-<div class="paragraph">
-<p>Address book data are saved in the hard disk automatically after any command that changes the data.<br>
-There is no need to save manually.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="faq"><a class="link" href="#faq">FAQ</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><strong>Q</strong>: Oh no! I accidentally deleted an extremely important contact! How do i retrieve old information?<br>
-<strong>A</strong>: There are two ways in which you can retrieve old information.<br>
-Firstly, there is the undo/redo function in which you can undo a command.<br>
-Secondly, with the all new backup/restore feature, you can backup your address book at any time and restore it to that state whenever you want!.</p>
-</div>
-<div class="paragraph">
-<p><strong>Q</strong>: How do I transfer my data to another Computer?<br>
-<strong>A</strong>: Now with the export/import function, you can export your old contacts into a CSV file and move the file to the new computer so you can import contacts from it. (Remember to download CorpPro on the other computer though!)</p>
-</div>
-<div class="paragraph">
-<p><strong>Q</strong>: What happens if I forget my password?<br>
-<strong>A</strong>: Your Address book will not be recoverable. You will have to delete addressbook.xml.encrypted and choose a backup to restore from.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="CSVFormat"><a class="link" href="#CSVFormat">Appendix A: Format of an exported CSV file</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>For more information about CSV files, you can refer to <a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV file</a></p>
-</div>
-<div class="paragraph">
-<p>When an address book is exported, it will be exported into a CSV file which can be read by excel or spreadsheet applications.</p>
-</div>
-<div class="paragraph">
-<p>Each row refers to a person.<br>
-Each column refers to a separate field of the person.<br>
-If a compulsory field is left blank, the address book will not allow the CSV file to be imported.<br></p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>Compulsory field includes: Name, Phone, Email and Address.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -539,56 +287,118 @@ If a compulsory field is left blank, the address book will not allow the CSV fil
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="undo-redo-feature"><a class="link" href="#undo-redo-feature">Undo/Redo feature</a></h3>
+<h3 id="schedule"><a class="link" href="#schedule">Schedule</a></h3>
 <div class="sect3">
-<h4 id="current-implementation"><a class="link" href="#current-implementation">Current Implementation</a></h4>
+<h4 id="current-implementation"><a class="link" href="#current-implementation">Current implementation</a></h4>
 <div class="paragraph">
-<p>The undo/redo mechanism is facilitated by <code>VersionedAddressBook</code>.
-It extends <code>AddressBook</code> with an undo/redo history, stored internally as an <code>addressBookStateList</code> and <code>currentStatePointer</code>.
-Additionally, it implements the following operations:</p>
+<p>Updating the Schedule is facilitated by the <code>ScheduleCommand</code> class which extends the <code>Command</code> class.
+<code>ScheduleAddCommand</code>, <code>ScheduleEditCommand</code> and <code>ScheduleDeleteCommand</code> further extends <code>ScheduleCommand</code> to add, edit and
+delete entries in the Schedule respectively.</p>
+</div>
+<div class="sect4">
+<h5 id="activity"><a class="link" href="#activity">Activity</a></h5>
+<div class="paragraph">
+<p>Each entry in the Schedule is an <code>Activity</code>. It consist of a <code>String</code> which takes the name of the activity
+and the <code>Date</code>, of which the activity is due.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="schedule-2"><a class="link" href="#schedule-2">Schedule</a></h5>
+<div class="paragraph">
+<p><code>Schedule</code> is implemented with a <code>TreeMap</code>. It has the <code>Date</code> of activities as its <code>key</code> and a <code>list</code> of activities, which is due on the same
+date, as its <code>value</code>.</p>
+</div>
+<div class="paragraph">
+<p>Additionally, it implements the following main operations:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>VersionedAddressBook#commit()</code>&#8201;&#8212;&#8201;Saves the current address book state in its history.</p>
+<p><code>Schedule#add()</code>&#8201;&#8212;&#8201;Add an <code>Activity</code> to <code>schedule</code>.<br></p>
 </li>
 <li>
-<p><code>VersionedAddressBook#undo()</code>&#8201;&#8212;&#8201;Restores the previous address book state from its history.</p>
+<p><code>Schedule#delete()</code>&#8201;&#8212;&#8201;Deletes an <code>Activity</code> from <code>schedule</code>.<br></p>
 </li>
 <li>
-<p><code>VersionedAddressBook#redo()</code>&#8201;&#8212;&#8201;Restores a previously undone address book state from its history.</p>
+<p><code>Schedule#setSchedule</code>&#8201;&#8212;&#8201;Sets <code>schedule</code> from a <code>list</code> of activities. This operation is executed when importing data from an <code>XML</code> file.
+This happens when you first start <strong>CorpPro</strong>.</p>
+</li>
+<li>
+<p><code>Schedule#getSchedule()</code>&#8201;&#8212;&#8201;Returns the schedule with activities sorted by <code>Date</code> to be displayed in the GUI by <code>SchedulePanel</code> in the <code>UI</code> component.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>These operations are exposed in the <code>Model</code> interface as <code>Model#commitAddressBook()</code>, <code>Model#undoAddressBook()</code> and <code>Model#redoAddressBook()</code> respectively.</p>
+<p>The schedule is instantiated in the <code>AddressBook</code> and have the main operations exposed in the <code>Model</code> interface as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Model#addActivity()</code>&#8201;&#8212;&#8201;Exposes <code>Schedule#add()</code> .</p>
+</li>
+<li>
+<p><code>Model#deleteActivity()</code>&#8201;&#8212;&#8201;Exposes <code>Schedule#delete()</code>.</p>
+</li>
+<li>
+<p><code>Model#updateActivity()</code>&#8201;&#8212;&#8201;This operation edits an <code>Activity</code> in <code>schedule</code> by first executing <code>Schedule#delete()</code>, followed
+by <code>Schedule#add()</code>.</p>
+</li>
+<li>
+<p><code>Model#getSchedule()</code>&#8201;&#8212;&#8201;Exposes <code>Schedule#getSchedule()</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="storage"><a class="link" href="#storage">Storage</a></h5>
+<div class="paragraph">
+<p>In addition to the CRUD (create, read, update and delete) functions, the schedule is also saved to an <code>XML</code> file
+whenever you update it. This is facilitated by <code>XmlAdaptedActivity</code> which stores an <code>Activity</code> in an <code>XML</code> format.
+<code>XmlSerializableAddressBook</code> then appends each <code>XmlAdaptedActivity</code> into a list and is saved in <code>addressbook.xml</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="usage-scenarios"><a class="link" href="#usage-scenarios">Usage scenarios</a></h5>
+<div class="paragraph">
+<p>Given below is are examples of usage scenarios of how the schedule behaves when you carry out <code>schedule</code> commands.<br></p>
+</div>
+<div class="sect5">
+<h6 id="adding-an-activity"><a class="link" href="#adding-an-activity">Adding an activity:</a></h6>
+<div class="paragraph">
+<p><strong>Step 1.</strong> The user executes <code>schedule-add d/01/01/2018 a/Complete report.</code> to add an activity to their schedule.<br></p>
 </div>
 <div class="paragraph">
-<p>Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.</p>
+<p><strong>Step 2.</strong> The user input is first parsed by <code>AddressBookParser</code> which creates a new <code>ScheduleAddCommandParser</code> object.<br></p>
 </div>
 <div class="paragraph">
-<p>Step 1. The user launches the application for the first time. The <code>VersionedAddressBook</code> will be initialized with the initial address book state, and the <code>currentStatePointer</code> pointing to that single address book state.</p>
+<p><strong>Step 3.</strong> The arguments, <code>d/01/01/2018 a/Complete report.</code>, are then parsed by <code>ScheduleAddCommandParser</code>.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 4.</strong> <code>ScheduleAddCommandParser</code> checks the validity of the date and activity as input by the user. It then creates an
+<code>Activity</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 5.</strong> <code>ScheduleAddCommandParser</code> then creates a new <code>ScheduleAddCommand</code> with the <code>activity</code> as its argument.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 6.</strong> <code>ScheduleAddCommand</code> calls <code>Model#addActivity()</code> which creates the <code>activity</code> in the <code>schedule</code>.
+<code>indicateAddressBookChanged()</code> is called within <code>Model#addActivity()</code> to raise an <code>AddressBookChangedEvent</code> that the information within the
+address book is changed. <br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 7.</strong> The <code>UI</code> object, <code>schedulePanel</code> which is subscribed to the event, receives this updated information and updates
+the display to show the correct information to the user.<br></p>
+</div>
+<div class="paragraph">
+<p>The following sequence diagrams shows you how the add operation works:<br></p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoRedoStartingStateListDiagram.png" alt="UndoRedoStartingStateListDiagram" width="800">
+<img src="../images/scheduleAddSequenceDiagramLogic.png" alt="scheduleAddSequenceDiagramLogic" width="900">
 </div>
 </div>
 <div class="paragraph">
-<p>Step 2. The user executes <code>delete 5</code> command to delete the 5th person in the address book. The <code>delete</code> command calls <code>Model#commitAddressBook()</code>, causing the modified state of the address book after the <code>delete 5</code> command executes to be saved in the <code>addressBookStateList</code>, and the <code>currentStatePointer</code> is shifted to the newly inserted address book state.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoNewCommand1StateListDiagram.png" alt="UndoRedoNewCommand1StateListDiagram" width="800">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 3. The user executes <code>add n/David &#8230;&#8203;</code> to add a new person. The <code>add</code> command also calls <code>Model#commitAddressBook()</code>, causing another modified address book state to be saved into the <code>addressBookStateList</code>.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoNewCommand2StateListDiagram.png" alt="UndoRedoNewCommand2StateListDiagram" width="800">
-</div>
+<p>Figure 1. Interactions inside the Logic component for the <code>schedule-add d/01/01/2018 a/Complete report.</code> command</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -597,18 +407,10 @@ Additionally, it implements the following operations:</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If a command fails its execution, it will not call <code>Model#commitAddressBook()</code>, so the address book state will not be saved into the <code>addressBookStateList</code>.
+The figure above illustrates the sequence from <strong>Step 1.</strong> to <strong>Step 5.</strong><br>
 </td>
 </tr>
 </table>
-</div>
-<div class="paragraph">
-<p>Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the <code>undo</code> command. The <code>undo</code> command will call <code>Model#undoAddressBook()</code>, which will shift the <code>currentStatePointer</code> once to the left, pointing it to the previous address book state, and restores the address book to that state.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoExecuteUndoStateListDiagram.png" alt="UndoRedoExecuteUndoStateListDiagram" width="800">
-</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -617,21 +419,18 @@ If a command fails its execution, it will not call <code>Model#commitAddressBook
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If the <code>currentStatePointer</code> is at index 0, pointing to the initial address book state, then there are no previous address book states to restore. The <code>undo</code> command uses <code>Model#canUndoAddressBook()</code> to check if this is the case. If so, it will return an error to the user rather than attempting to perform the undo.
+If the date or the activity name is not valid, an error would be returned to the user instead of creating an <code>Activity</code> object.
 </td>
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>The following sequence diagram shows how the undo operation works:</p>
-</div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoRedoSequenceDiagram.png" alt="UndoRedoSequenceDiagram" width="800">
+<img src="../images/scheduleAddSequenceDiagramStorage.png" alt="scheduleAddSequenceDiagramStorage" width="800">
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>redo</code> command does the opposite&#8201;&#8212;&#8201;it calls <code>Model#redoAddressBook()</code>, which shifts the <code>currentStatePointer</code> once to the right, pointing to the previously undone state, and restores the address book to that state.</p>
+<p>Figure 2. Interactions inside the Storage component for the <code>schedule-add d/01/01/2018 a/Complete report.</code> command</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -640,64 +439,263 @@ If the <code>currentStatePointer</code> is at index 0, pointing to the initial a
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If the <code>currentStatePointer</code> is at index <code>addressBookStateList.size() - 1</code>, pointing to the latest address book state, then there are no undone address book states to restore. The <code>redo</code> command uses <code>Model#canRedoAddressBook()</code> to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
+The figure above illustrates the sequence of <strong>Step 6.</strong><br>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/scheduleAddSequenceDiagramEvent.png" alt="scheduleAddSequenceDiagramEvent" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 3. Interactions between the <code>EventCenter</code>, <code>UI</code> and <code>Storage</code> components for the <code>schedule-add d/01/01/2018 a/Complete report.</code> command</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The figure above illustrates the sequence of <strong>Step 7.</strong><br>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Storage of each activity is facilitated by <code>XmlAdaptedActivity</code> which stores an <code>Activity</code> in an <code>XML</code> format. <code>XmlSerializableAddressBook</code> then appends each <code>XmlAdaptedActivity</code> into a list and is saved in <code>addressbook.xml</code>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect5">
+<h6 id="deleting-an-activity"><a class="link" href="#deleting-an-activity">Deleting an activity:</a></h6>
+<div class="paragraph">
+<p><strong>Step 1.</strong> The user executes <code>schedule-delete 2</code> to delete the activity at <code>INDEX 2</code> in their schedule.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 2.</strong> The user input is first parsed by <code>AddressBookParser</code> which creates a new <code>ScheduleDeleteCommandParser</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 3.</strong> <code>ScheduleDeleteCommandParser</code> checks the validity of the index as input by the user.</p>
+</div>
+<div class="paragraph">
+<p><strong>Step 4.</strong> <code>ScheduleDeleteCommandParser</code> then creates a new <code>ScheduleDeleteCommand</code> with the <code>INDEX</code> as its argument.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 5.</strong> <code>ScheduleDeleteCommand</code> checks if the <code>INDEX</code> given is valid (within the size of the listed schedule) and calls
+<code>Model#deleteActivity()</code></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 6.</strong> <code>Model#deleteActivity</code> deletes the corresponding <code>activity</code> from the <code>schedule</code>. <code>indicateAddressBookChanged()</code> is called
+within <code>Model#deleteActivity()</code> to raise an <code>AddressBookChangedEvent</code>, that the information within the
+address book is changed. <br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 7.</strong> The <code>UI</code> object, <code>schedulePanel</code> which is subscribed to the event, receives this updated information and updates
+the display to show the correct information to the user.<br></p>
+</div>
+<div class="paragraph">
+<p>The following sequence diagrams shows you how the delete operation works:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/scheduleDeleteSequenceDiagramLogic.png" alt="scheduleDeleteSequenceDiagramLogic" width="900">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 4. Interactions inside the Logic component for the <code>schedule-delete 2</code> command</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The figure above illustrates the sequence from <strong>Step 1.</strong> to <strong>Step 5.</strong><br>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the index is not valid, i.e. out of range, an error would be returned to the user instead of deleting an activity.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/scheduleDeleteSequenceDiagramStorage.png" alt="scheduleDeleteSequenceDiagramStorage" width="900">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 5. Interactions inside the Model component for the <code>schedule-delete 2</code> command</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The figure above illustrates the sequence of <strong>Step 6.</strong><br>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Step 5. The user then decides to execute the command <code>list</code>. Commands that do not modify the address book, such as <code>list</code>, will usually not call <code>Model#commitAddressBook()</code>, <code>Model#undoAddressBook()</code> or <code>Model#redoAddressBook()</code>. Thus, the <code>addressBookStateList</code> remains unchanged.</p>
+<p>The interactions between the <code>EventCenter</code>, <code>UI</code> and <code>Storage</code> components for the <code>schedule-delete 2</code> command (<strong>Step 7.</strong>) are similar to <strong>adding
+an activity</strong> (see <strong>Figure 3.</strong>)</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="editing-an-activity"><a class="link" href="#editing-an-activity">Editing an activity:</a></h6>
+<div class="paragraph">
+<p><strong>Step 1.</strong> The user executes <code>schedule-edit 2 a/Interview intern.</code> to edit an activity at <code>INDEX 2</code> in their schedule.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 2.</strong> The user input is first parsed by <code>AddressBookParser</code> which creates a new <code>ScheduleEditCommandParser</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 3.</strong> The arguments, <code>2 a/Interview intern.</code>, are then parsed by <code>ScheduleEditCommandParser</code>.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 4.</strong> <code>ScheduleEditCommandParser</code> checks the validity of the index and activity as input by the user.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 5.</strong> <code>ScheduleEditCommandParser</code> then creates a new <code>ScheduleEditCommand</code> with the <code>INDEX</code> and the activity
+ <code>String</code> as its argument.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 6.</strong> <code>ScheduleEditCommand</code> checks if the <code>INDEX</code> given is valid (within the size of the listed schedule) and calls
+<code>Model#updateActivity()</code></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 7.</strong> <code>Model#updateActivity()</code> updates the corresponding <code>activity</code> in the <code>schedule</code>.
+<code>indicateAddressBookChanged()</code> is called within <code>Model#updateActivity()</code> to raise an <code>AddressBookChangedEvent</code> that the information within the
+address book is changed. <br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 8.</strong> The <code>UI</code> object, <code>schedulePanel</code> which is subscribed to the event, receives this updated information and
+updates the display to show the correct information to the user.<br></p>
+</div>
+<div class="paragraph">
+<p>The following sequence diagrams shows you how the edit operation works:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoRedoNewCommand3StateListDiagram.png" alt="UndoRedoNewCommand3StateListDiagram" width="800">
+<img src="../images/scheduleEditSequenceDiagramLogic.png" alt="scheduleEditSequenceDiagramLogic" width="900">
 </div>
 </div>
 <div class="paragraph">
-<p>Step 6. The user executes <code>clear</code>, which calls <code>Model#commitAddressBook()</code>. Since the <code>currentStatePointer</code> is not pointing at the end of the <code>addressBookStateList</code>, all address book states after the <code>currentStatePointer</code> will be purged. We designed it this way because it no longer makes sense to redo the <code>add n/David &#8230;&#8203;</code> command. This is the behavior that most modern desktop applications follow.</p>
+<p>Figure 6. Interactions inside the Logic component for the <code>schedule-edit 2 a/Interview intern.</code> command</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The figure above illustrates the sequence from <strong>Step 1.</strong> to <strong>Step 6.</strong><br>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the activity name or index is not valid, i.e. out of range, an error would be returned to the user instead of editing
+an activity.
+</td>
+</tr>
+</table>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoRedoNewCommand4StateListDiagram.png" alt="UndoRedoNewCommand4StateListDiagram" width="800">
+<img src="../images/scheduleEditSequenceDiagramStorage.png" alt="scheduleEditSequenceDiagramStorage" width="900">
 </div>
 </div>
 <div class="paragraph">
-<p>The following activity diagram summarizes what happens when a user executes a new command:</p>
+<p>Figure 7. Interactions inside the Model component for the <code>schedule-edit 2 a/Interview intern.</code> command</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoActivityDiagram.png" alt="UndoRedoActivityDiagram" width="650">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The figure above illustrates the sequence of  <strong>Step 7.</strong><br>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The interactions between the <code>EventCenter</code>, <code>UI</code> and <code>Storage</code> components for the <code>schedule-edit 2 a/Interview intern.</code>
+command (<strong>Step 8.</strong>) are similar to <strong>adding
+an activity</strong> (see <strong>Figure 3.</strong>)</p>
+</div>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">Aspect: How undo &amp; redo executes</a></h5>
+<h5 id="aspect-data-structure-of-schedule"><a class="link" href="#aspect-data-structure-of-schedule">Aspect: Data structure of Schedule</a></h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Saves the entire address book.</p>
+<p><strong>Alternative 1:</strong> <code>List</code> of Activities</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros: Easy to implement.</p>
 </li>
 <li>
-<p>Cons: May have performance issues in terms of memory usage.</p>
+<p>Cons: Need to sort each activity by its date whenever the schedule is updated.</p>
+</li>
+<li>
+<p>Cons: Larger time complexity.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Individual command knows how to undo/redo by itself.</p>
+<p><strong>Alternative 2 (Current choice):</strong> <code>TreeMap</code> of Activities</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: Will use less memory (e.g. for <code>delete</code>, just save the person being deleted).</p>
+<p>Pros: Activities are automatically sorted by their dates whenever the schedule is updated.</p>
 </li>
 <li>
-<p>Cons: We must ensure that the implementation of each individual command are correct.</p>
+<p>Pros: Faster time complexity.</p>
+</li>
+<li>
+<p>Cons: Harder to implement.</p>
+</li>
+<li>
+<p>Cons: Larger space complexity.</p>
 </li>
 </ul>
 </div>
@@ -706,132 +704,43 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-data-structure-to-support-the-undo-redo-commands"><a class="link" href="#aspect-data-structure-to-support-the-undo-redo-commands">Aspect: Data structure to support the undo/redo commands</a></h5>
+<h5 id="aspect-date-of-activity"><a class="link" href="#aspect-date-of-activity">Aspect: Date of Activity</a></h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Use a list to store the history of address book states.</p>
+<p><strong>Alternative 1:</strong> <code>String</code> of date in DD/MM/YYYY format</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.</p>
+<p>Pros: Easy to implement and do not need to parse user input.</p>
 </li>
 <li>
-<p>Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update both <code>HistoryManager</code> and <code>VersionedAddressBook</code>.</p>
+<p>Cons: Need to implement comparators to sort the dates of activity.</p>
+</li>
+<li>
+<p>Cons: Not flexible. Unable to include and sort by time in future implementations</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Use <code>HistoryManager</code> for undo/redo</p>
+<p><strong>Alternative 2 (Current choice):</strong> Usage of <code>java.util.Date</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: We do not need to maintain a separate list, and just reuse what is already in the codebase.</p>
+<p>Pros: Easy to implement.</p>
 </li>
 <li>
-<p>Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as <code>HistoryManager</code> now needs to do two different things.</p>
+<p>Pros: Able to sort by time in future implementations.</p>
+</li>
+<li>
+<p>Cons: Need to parse <code>Date</code> when converting it to <code>String</code>.</p>
+</li>
+<li>
+<p>Cons: Need to parse user inputs to convert <code>String</code> to <code>Date</code>.</p>
 </li>
 </ul>
 </div>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="data-encryption"><a class="link" href="#data-encryption">Data Encryption</a></h3>
-<div class="sect3">
-<h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">Current Implementation</a></h4>
-<div class="paragraph">
-<p>The encrypt/ decrypt mechanism is facilitated by <code>FileEncryptor</code>.
-It extends <code>AddressBook</code> with a encrypt/decrypt feature, maintained by <code>PasswordCommand</code>.
-Additionally, it implements the following operations:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>FileEncryptor#process()</code>&#8201;&#8212;&#8201;Decrypts or encrypts the data file depending on its current state (encrypted or decrypted).</p>
-</li>
-<li>
-<p><code>VersionedAddressBook#decryptFile()</code>&#8201;&#8212;&#8201;encrypts a file given the path and password.</p>
-</li>
-<li>
-<p><code>VersionedAddressBook#encryptFile()</code>&#8201;&#8212;&#8201;decrypts a file given the path and password.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Given below is an example usage scenario and how the password mechanism behaves at each step.</p>
-</div>
-<div class="paragraph">
-<p>Step 1. The user enters the password command with a password.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If the user enters a password which is non alpha-numeric, an error will be thrown at the CommandResult box. Only alpha-numeric passwords are supported by <code>FileEncryptor</code>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Step 2. The user closes the addressbook.</p>
-</div>
-<div class="paragraph">
-<p>Step 3. The user re-opens the addressbook. No data will be shown as XML data file is technically not present in the data folder.</p>
-</div>
-<div class="paragraph">
-<p>Step 4. The user enters the password command with the right password. Addressbook will be refreshed and restored back to its former state (before encryption).</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If the user enters the wrong password, an error will be thrown at the CommandResult box.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
-<div class="sect4">
-<h5 id="aspect-how-encryption-and-decryption-is-done"><a class="link" href="#aspect-how-encryption-and-decryption-is-done">Aspect: How encryption and decryption is done</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p>The <code>PBEKeySpec</code> is first specified using the "PBEWithMD5AndDES" specification.</p>
-</li>
-<li>
-<p>A secret key is generated from <code>SecretKeyFactory</code> using "PBEWithMD5AndDES" cipher.</p>
-</li>
-<li>
-<p>Then a <code>Cipher</code> is used to encrypt or decrypt the file with a given password and key specifications.</p>
-</li>
-<li>
-<p>Additional salt is used in the password to ensure that the password cannot be easily broken down by dictionary attacks.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="aspect-pros-and-cons-of-tight-security"><a class="link" href="#aspect-pros-and-cons-of-tight-security">Aspect: Pros and cons of tight security</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Your data is protected and it will be near impossible to use any third part tool to crack the data file.</p>
-</li>
-<li>
-<p>Cons: Data will be <strong>permanently</strong> lost if you forget the password.</p>
 </li>
 </ul>
 </div>
@@ -839,13 +748,4 @@ If the user enters the wrong password, an error will be thrown at the CommandRes
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="project-powerpointlabs"><a class="link" href="#project-powerpointlabs">PROJECT: PowerPointLabs</a></h2>
-<div class="sectionbody">
-<hr>
-<div class="paragraph">
-<p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
-</div>
-</div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-06 09:41:17 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-06 18:20:03 UTC</div></div></div></body></html>
