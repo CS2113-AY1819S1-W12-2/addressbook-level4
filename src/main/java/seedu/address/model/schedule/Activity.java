@@ -61,7 +61,7 @@ public class Activity {
     public static Date toDate(int day, int month, int year) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH, day);
-        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.MONTH, --month); //index of month start from 0. i.e. jan == 0.
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.HOUR, 0);
         cal.set(Calendar.MINUTE, 0);

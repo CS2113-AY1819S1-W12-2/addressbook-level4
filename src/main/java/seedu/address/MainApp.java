@@ -1,6 +1,9 @@
 package seedu.address;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.channels.FileLock;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -9,7 +12,9 @@ import com.google.common.eventbus.Subscribe;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.LogsCenter;
@@ -177,9 +182,31 @@ public class MainApp extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
+        // Ensure only one instance of this application is running
+        final File file = new File(".applock");
+        final RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
+        final FileLock fileLock = randomAccessFile.getChannel().tryLock();
+        if (fileLock == null) {
+            LogsCenter.removeDuplicateLogFile();
+            Platform.exit();
+            System.exit(1);
+        }
+
         logger.info("Starting AddressBook " + MainApp.VERSION);
         ui.start(primaryStage);
+
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                try {
+                    fileLock.release();
+                    randomAccessFile.close();
+                } catch (IOException e) {
+                    logger.info(e.getMessage());
+                }
+            }
+        });
     }
 
     @Override

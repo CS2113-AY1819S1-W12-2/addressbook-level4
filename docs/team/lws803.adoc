@@ -3,40 +3,50 @@
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
-== PROJECT: CorpProC
+== PROJECT: CorpPro
 
 ---
 
 == Overview
-
-CorpProC is an addressbook application which provides *you* with ease of access and increase in *your* productivity in the workplace. Users can interact with the addressbook using a command line interface and intuitive GUI create with JavaFX.
+CorpPro is an addressbook for corporate users. +
+It provides a fast and efficient system for corporate users to store their contacts safely and securely. It is also easy to maneuver and access contacts.
+CorpPro is powered by JavaFX and boasts an intuitive GUI (Graphical User Interface) with easy-to-use CLI (Command Line Interface). +
+This portfolio documents my ability to write java programs, user and developer guides.
 
 == Summary of contributions
 
-* *Major enhancement*: added the ability to *encrypt or decrypt the addressbook data*.
-** What it does: password allows users to safely encrypt or decrypt the addressbook data using a secure cipher.
-** Justification: This feature ensures that you can lock up your addressbook and prevent others from accessing your sensitive information.
-** Highlights: This enhancement might affect the execution of other commands in a way that other commands cannot be executed while the addressbook is locked. An additional block of code should be added for future commands to keep with the standards.
-** Credits: adapted from Esailija [https://stackoverflow.com/questions/13673556/using-password-based-encryption-on-a-file-in-java[Stack overflow]]
+* *Feature 1*: Added the ability for users to secure their addressbook by *encrypting* data.
+** What it does: Upon entering the `password` command followed by a password, it will encrypt the addressbook data using `PBEWithMD5AndDES` cipher.
+** Justification: This feature was implemented so that corporate users can secure sensitive information in accordance to PDPA (Personal Data Protection Act) rules. Reducing the possibilities of data leaks and unwanted access.
+** Highlights: This feature uses a well-known cipher `PBEWithMD5AndDES` and `PBEKeySpec` which accepts the user's password. Once the file is encrypted, it will not be crackable unless done via brute forcing.
+It also requires file type checking to make sure that I can compress both encryption and decryption process into one single `password` command much like a toggle so that users need not utilise 2 different commands for encrypting and decrypting.
+** Credits: Code snippet adapted from Esailija [https://stackoverflow.com/questions/13673556/using-password-based-encryption-on-a-file-in-java[Stack overflow]]
 
-* *Minor enhancement*: added the ability to search by different attributes so that you can hone in on their search results to find the person you are looking for. Search is revamped to utilise Levenshtein distance which is a known algorithm for finding your closest search results based on your keywords.
+* *Feature 2*: Implemented smart searching for `find` command.
+** What it does: Users can now search for the contacts they want by roughly specifying other traits/ attributes of the contacts. For example, users can
+search for contacts who live in Jurong West and are tagged as friends.
+** Justification: Corporate users might need to gather rough statistics of their clients or know which worker(s) to contact and assign work.
+** Highlights: This feature uses Levenshtein Distance to find the closest match for the keywords entered. It will then sort the matches based on how close it is to the keywords entered.
+After which, it will perform a set intersection on the various contacts to find the contact which meets all the user's search requirements.
 
+* *Feature 3*: Implemented the use of custom preference to specify custom path for addressbook.xml.
+** What it does: Users can now specify the path they wish to save their addressbook.xml to.
+** Justification: Corporate users might want to have separate addressbooks without the need of storing their application in different folders.
+They can instead change the preference file to decide what is the name and location they wish to store the addressbook.xml data file.
+** Highlights: This feature requires implementing their json reader in `UserPrefs` class and storing it as a public variable for other classes to depend on.
 
-* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_ - TODO
+* *Code contributed*: [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/functional/lws803.md[Functional code]] [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/test/lws803.md[Test code]] [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/unused/lws803-unused.md[Unused code]]
 
 * *Other contributions*:
 
 ** Project management:
 *** Managed releases `v1.1` - `v2.0` (5 releases) on GitHub
-** Enhancements to existing features:
-*** Enhanced find feature to include search by incomplete keywords and chaining of search attributes
-*** Implemented a security feature to lock the Address book and encrypt the data file
 ** Documentation:
 *** Did cosmetic tweaks to existing contents of the User Guide
 ** Community:
 *** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42] - TODO
 *** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3]) - TODO
-*** Some parts of the history feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2]) - TODO
+*** Some parts of the file encryptor feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2]) - TODO
 ** Tools:
 *** Integrated a new Github plugin (Travis ci) to the team repo
 *** Integrated a new Github plugin (AppVeyor) to the team repo
@@ -47,10 +57,42 @@ CorpProC is an addressbook application which provides *you* with ease of access 
 |===
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
+=== Finding persons by attribute : `find`
 
-include::../UserGuide.adoc[tag=find]
+Finds persons whose names contain any of the given keywords. +
+Format: `find PREFIX KEYWORD [MORE_KEYWORDS]`
 
-include::../UserGuide.adoc[tag=dataencryption]
+****
+* The search is not case sensitive.
+* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* You can search by name, email, address, key performance index, position, phone number and tags
+* Partial words or words with typos will be matched too eg. 'Hangs' will be matched to 'Hans'
+* Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Finding with a keyword that yields no matches may result in address book displaying all contacts rather than 0 results
+****
+
+Examples:
+
+* `find a/jurong west ave` +
+Displays any person who lives in `jurong west ave`
+* `find n/John Betsy r/secretary a/jurong west ave` +
+Displays any person having names `John` and `Betsy` who is a `secretary` and lives in `jurong west ave`
+
+=== Encrypting data files : `password`
+
+Encrypts the data file with your password. +
+Format: `password YOURPASSWORD` +
+All commands will be disabled during encryption, your data will be safely protected.
+
+** Note: You can use the same command to decrypt the file, just hit `password` and your correct password.
+
+Examples:
+
+* `password helloworld` +
+Locks addressbook and clears all data.
+* `password helloworld` +
+Unlocks addressbook and restores all data.
+
 
 == Contributions to the Developer Guide
 
@@ -58,8 +100,5 @@ include::../UserGuide.adoc[tag=dataencryption]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-include::../DeveloperGuide.adoc[tag=find]
-
-include::../DeveloperGuide.adoc[tag=dataencryption]
 
 

@@ -83,13 +83,6 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
                 + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
-        /* Case: add a person with all fields same as another person in the address book except phone and email
-         * -> added
-         */
-        toAdd = new PersonBuilder(AMY).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).build();
-        command = PersonUtil.getAddCommand(toAdd);
-        assertCommandSuccess(command, toAdd);
-
         /* Case: add to empty address book -> added */
         deleteAllPersons();
         assertCommandSuccess(ALICE);
@@ -124,6 +117,9 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         assertCommandSuccess(CARL);
 
         /* ----------------------------------- Perform invalid add operations --------------------------------------- */
+
+
+
         //TODO add invalid note test
         /* Case: add a duplicate person -> rejected */
         command = PersonUtil.getAddCommand(HOON);

@@ -14,7 +14,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import seedu.address.commons.core.Messages;
@@ -52,6 +54,7 @@ public class FindCommand extends Command {
     private final Predicate<Person> predicate = PREDICATE_SHOW_ALL_PERSONS;
     private Map<Prefix, String[]> prefixKeywordMap;
     private Prefix[] types;
+    private Set<String> actualMatchesStrings = new HashSet<>();
 
     public FindCommand(Map<Prefix, String[]> prefixKeywordMap,
                        Prefix[] types) {
@@ -77,19 +80,29 @@ public class FindCommand extends Command {
         model.updateFilteredPersonList(combinedPredicate);
 
         return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size())
+                + "\n"
+                + Integer.toString(actualMatchesStrings.size())
+                + " keyword(s) matched:"
+                + "\n"
+                + combinedMatchesString()
+        );
     }
 
     /**
      * Gets the person's predicate based on attributes
-     * @param model
-     * @param combinedPredicate
-     * @return
+     * @param model current model
+     * @param combinedPredicate total combined predicate of all the conditions
+     * @return returns the total combinedPredicate
      */
     private Predicate<Person> getPersonPredicate(Model model, Predicate<Person> combinedPredicate) {
         for (Prefix type : types) {
             ClosestMatchList closestMatch = new ClosestMatchList(model, type, prefixKeywordMap.get(type));
             String[] approvedList = closestMatch.getApprovedList();
+            String[] keywordsForType = prefixKeywordMap.get(type);
+            Arrays.sort(approvedList);
+            Arrays.sort(keywordsForType);
+            findActualMatches(approvedList, keywordsForType);
 
             if (type == PREFIX_PHONE) {
                 combinedPredicate = combinedPredicate.and(
@@ -127,6 +140,48 @@ public class FindCommand extends Command {
         }
         return combinedPredicate;
     }
+
+    /**
+     * Determine the number of actual keyword matches
+     * @param a one string array
+     * @param b another string array
+     */
+    private void findActualMatches (final String [] a, final String [] b) {
+        for (int i = 0, j = 0; i < a.length && j < b.length; ) {
+            int res = a[i].compareToIgnoreCase(b[j]);
+            if (res == 0) {
+                actualMatchesStrings.add(a[i]);
+                i++;
+                j++;
+            } else if (res < 0) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+    }
+
+    /**
+     * Combines the matches to form a string for output
+     * @return the combined string using StringBuilder
+     */
+    private String combinedMatchesString () {
+        StringBuilder output = new StringBuilder("{");
+        int count = 0;
+        for (String match: actualMatchesStrings) {
+            if (count == actualMatchesStrings.size() - 1) {
+                output.append(match);
+            } else {
+                output.append(match);
+                output.append(", ");
+            }
+            count++;
+        }
+
+        output.append("}");
+        return output.toString();
+    }
+
 
     @Override
     public boolean equals(Object other) {

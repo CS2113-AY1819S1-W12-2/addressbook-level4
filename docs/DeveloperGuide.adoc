@@ -522,13 +522,115 @@ Updating the Schedule is facilitated by the `ScheduleCommand` class which extend
 delete entries in the Schedule respectively.
 
 ===== Activity
-
 Each entry in the Schedule is an `Activity`. It consist of a `String` which takes the name of the activity
 and the `Date`, of which the activity is due.
 
 ===== Schedule
-The schedule is a `TreeMap` with `Date` of existing activities as its `key` and a `list` of activities, which is due on the same
-date, as its `value`. The schedule is instantiated in the `addressBook` and can be accessed through methods in the `modelManager`
+`Schedule` is implemented with a `TreeMap`. It has the `Date` of activities as its `key` and a `list` of activities, which is due on the same
+date, as its `value`.
+
+Additionally, it implements the following main operations:
+
+* `Schedule#add()` -- Add an `Activity` to `schedule`. +
+* `Schedule#delete()` -- Deletes an `Activity` from `schedule`. +
+* `Schedule#setSchedule` -- Sets `schedule` from a `list` of activities. This operation is executed when importing data from an `XML` file.
+ This happens when you first start *CorpPro*.
+* `Schedule#getSchedule()` -- Returns the schedule with activities sorted by `Date` to be displayed in the GUI by `SchedulePanel` in the `UI` component.
+
+The schedule is instantiated in the `AddressBook` and have the main operations exposed in the `Model` interface as follows:
+
+* `Model#addActivity()` -- Exposes `Schedule#add()` .
+* `Model#deleteActivity()` -- Exposes `Schedule#delete()`.
+* `Model#updateActivity()` -- This operation edits an `Activity` in `schedule` by first executing `Schedule#delete()`, followed
+by `Schedule#add()`.
+* `Model#getSchedule()` -- Exposes `Schedule#getSchedule()`.
+
+===== Storage
+In addition to the CRUD (create, read, update and delete) functions, the schedule is also saved to an `XML` file
+whenever you update it. This is facilitated by `XmlAdaptedActivity` which stores an `Activity` in an `XML` format.
+`XmlSerializableAddressBook` then appends each `XmlAdaptedActivity` into a list and is saved in `addressbook.xml`.
+
+===== Usage scenarios
+Given below is are examples of usage scenarios of how the schedule behaves when you carry out `schedule` commands. +
+
+====== Adding an Activity:
+Step 1. The user executes `schedule-add d/01/01/2018 a/Complete report.` to add an activity to their schedule. +
+
+Step 2. The user input is first parsed by `AddressBookParser` which creates a new `ScheduleAddCommandParser` object. +
+
+Step 3. The arguments, `d/01/01/2018 a/Complete report.`, are then parsed by `ScheduleAddCommandParser`. +
+
+Step 4. `ScheduleAddCommandParser` checks the validity of the date and activity as input by the user. It then creates an
+`Activity` object. +
+
+Step 5. `ScheduleAddCommandParser` then creates a new `ScheduleAddCommand` with the `activity` as its argument. +
+
+Step 6. `ScheduleAddCommand` calls `Model#addActivity()` which creates the `activity` in the `schedule`.
+`indicateAddressBookChanged()` is called within `Model#addActivity()` to raise an `AddressBookChangedEvent` that the information within the
+address book is changed.  +
+
+Step 7. The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and updates
+the display to show the correct information to the user. +
+
+The following sequence diagrams shows you how the add operation works: +
+
+image::scheduleAddSequenceDiagramLogic.png[width="900"]
+Figure 1. Interactions inside the Logic Component for the `schedule-add d/01/01/2018 a/Complete report.` command
+[NOTE]
+The figure above illustrates the sequence from step 1. to step 5. +
+
+[NOTE]
+If the date or the activity name is not valid, an error would be returned to the user instead of creating an `Activity` object.
+
+image::scheduleAddSequenceDiagramStorage.png[width="800"]
+Figure 2. Interactions inside the Storage Component for the `schedule-add d/01/01/2018 a/Complete report.` command
+[NOTE]
+The figure above illustrates the sequence of step 6. +
+
+image::scheduleAddSequenceDiagramEvent.png[width="800"]
+Figure 3. Interactions between the EventCenter and the UI and Storage Component for the `schedule-add d/01/01/2018 a/Complete report.` command
+[NOTE]
+The figure above illustrates the sequence of step 7. +
+
+[NOTE]
+Storage of each activity is facilitated by `XmlAdaptedActivity` which stores an `Activity` in an `XML` format. `XmlSerializableAddressBook` then appends each `XmlAdaptedActivity` into a list and is saved in `addressbook.xml`
+
+====== Deleting an `Activity`:
+Step 1. The user executes `schedule-delete 2` to delete the activity at `INDEX 2` in their schedule. +
+
+Step 2. The user input is first parsed by `AddressBookParser` which creates a new `ScheduleDeleteCommandParser` object. +
+
+Step 3. `ScheduleDeleteCommandParser` checks the validity of the index as input by the user.
+
+Step 4. `ScheduleDeleteCommandParser` then creates a new `ScheduleDeleteCommand` with the `INDEX` as its argument. +
+
+Step 5. `ScheduleDeleteCommand` checks if the `INDEX` given is valid (within the size of the listed schedule) and calls
+`Model#deleteActivity()` which deletes the corresponding `activity` from the `schedule`.`indicateAddressBookChanged()` is called
+within `Model#deleteActivity()` to raise an `AddressBookChangedEvent` that the information within the
+address book is changed.  +
+
+Step 6. The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and updates
+the display to show the correct information to the user. +
+
+====== Editing an `Activity`:
+Step 1. The user executes `schedule-edit 2 a/Interview intern.` to edit an activity at `INDEX 2` in their schedule. +
+
+Step 2. The user input is first parsed by `AddressBookParser` which creates a new `ScheduleEditCommandParser` object. +
+
+Step 3. The arguments, `2 a/Interview intern.`, are then parsed by `ScheduleEditCommandParser`. +
+
+Step 4. `ScheduleEditCommandParser` checks the validity of the index and activity as input by the user. +
+
+Step 5. `ScheduleEditCommandParser` then creates a new `ScheduleEditCommand` with the `INDEX` and the activity
+ `String` as its argument. +
+
+Step 6. `ScheduleEditCommand` checks if the `INDEX` given is valid (within the size of the listed schedule) and calls
+`Model#updateActivity()` which updates the corresponding `activity` in the `schedule`.
+`indicateAddressBookChanged()` is called within `Model#updateActivity()` to raise an `AddressBookChangedEvent` that the information within the
+address book is changed.  +
+
+Step 7. The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and updates
+the display to show the correct information to the user. +
 
 ==== Design Considerations
 ===== Aspect: Data structure of Schedule

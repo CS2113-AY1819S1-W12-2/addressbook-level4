@@ -46,16 +46,12 @@ public class SampleDataUtil {
     }
     public static Activity[] getSampleSchedule() {
         return new Activity[]{
-            new Activity(Activity.toDate(1, 12, 1990), "sample activity 1"),
-            new Activity(Activity.toDate(2, 12, 1990), "sample activity 2"),
-            new Activity(Activity.toDate(3, 12, 1990), "sample activity 3"),
-            new Activity(Activity.toDate(4, 12, 1990), "sample activity 4"),
-            new Activity(Activity.toDate(5, 12, 1990), "sample activity 5"),
-            new Activity(Activity.toDate(6, 12, 1990), "sample activity 6"),
-            new Activity(Activity.toDate(7, 12, 1990), "sample activity 7"),
-            new Activity(Activity.toDate(8, 12, 1990), "sample activity 8"),
-            new Activity(Activity.toDate(9, 11, 1990), "sample activity 9"),
-            new Activity(Activity.toDate(1, 12, 1990), "sample activity 10")
+            new Activity(Activity.toDate(30, 10, 2018), "Write report."),
+            new Activity(Activity.toDate(30, 10, 2018), "Attend meeting with Alexia."),
+            new Activity(Activity.toDate(31, 10, 2018), "Check inventory."),
+            new Activity(Activity.toDate(31, 10, 2018), "Walk the ground."),
+            new Activity(Activity.toDate(01, 11, 2018), "Prepare speech."),
+            new Activity(Activity.toDate(11, 11, 2018), "Project due."),
         };
     }
 

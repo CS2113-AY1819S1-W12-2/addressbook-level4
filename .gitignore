@@ -22,3 +22,4 @@ out/
 .backup/
 /exports/
 /META-INF
+.applock

@@ -98,7 +98,10 @@ Adds a person to the address book +
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/POSITION] [k/KPI] [d/NOTE] [t/TAG [PRIORITY]]...`
 
 [TIP]
-KPI scores should be a number from 0 - 5
+KPI refers to https://en.wikipedia.org/wiki/Performance_indicator[Key Performance Index].
+
+[TIP]
+KPI scores should be a number from 0 - 5.
 
 [TIP]
 A person can have any number of tags (including 0). Priorities, high(2) or medium(1), can be added after the tag.
@@ -344,8 +347,17 @@ Format: `clear`
 
 Encrypts the data file with your password. +
 Format: `password YOURPASSWORD` +
-All commands will be disabled during encryption, your data will be safely protected. +
-Please close the application after encrypting to clear the application and prevent others from accessing your data.
+All commands will be disabled during encryption, your data will be safely protected.
+
+** Note: You can use the same command to decrypt the file, just hit `password` and your correct password.
+
+Examples:
+
+* `password helloworld` +
+Locks addressbook and clears all data.
+* `password helloworld` +
+Unlocks addressbook and restores all data.
+
 
 === Email contacts : `mail`
 
@@ -368,6 +380,7 @@ opens your email application with all accountants as recipients. +
 opens your email application with person (3rd person in the list panel) as recipient.
 
 === Schedule : `schedule`
+image::scheduleExample.png[width="400"]
 
 The Schedule feature helps you remember important activities by listing out important events and dates! +
 
@@ -378,7 +391,9 @@ Format: `schedule-add d/DATE a/ACTIVITY` +
 * The activity name *must contain only* letters, numbers, spaces and fullstops.
 ****
 * Example: `schedule-add d/30/10/2018 a/Attend meeting with Alex.` +
-Adds activity "Attend meeting with Alex." on "30/10/2018" to your schedule. +
+Adds activity "Attend meeting with Alex." on "30/10/2018" to your schedule:
++
+image::scheduleAddExample.png[width="400"]
 
 *To edit an activity from your schedule:* +
 Format: `schedule-edit INDEX a/ACTIVITY` +
@@ -390,7 +405,13 @@ Format: `schedule-edit INDEX a/ACTIVITY` +
 ****
 
 * Example: `schedule-edit 1 a/Attend meeting with Alexia.` +
-Edits activity name at `INDEX 1` to "Attend meeting with Alexia." in your schedule. +
+To edit the following activity at `INDEX 1`:
++
+image::scheduleEditExample.png[width="400"]
++
+to "Attend meeting with Alexia.":
++
+image::scheduleResultExample.png[width="400"]
 
 *To delete an activity from your schedule:* +
 Format: `schedule-delete INDEX` +
@@ -401,14 +422,16 @@ Format: `schedule-delete INDEX` +
 ****
 
 * Example: `schedule-delete 1` +
-Deletes the activity at `INDEX 1` in your schedule.
+Deletes the following activity at `INDEX 1` in your schedule:
++
+image::scheduleDeleteExample.png[width="400"]
 
 === Text prediction
 
 Text prediction feature allows you to complete your command faster with less typing. +
 Invoke this feature by pressing the _Tab_ key on the keyboard. +
 
-You can invoke this feature on: +
+You can invoke this feature on _most_ command keywords and arguments: +
 
 * Command keywords (`mail`, `add`, `find`, etc.) .
 * Flag arguments (`n/`, `a/`, `t/`, etc.) .
@@ -418,8 +441,16 @@ Typing `m` in the box and pressing _Tab_ will auto complete to the `mail` comman
 
 Note: +
 
+* This feature does not work with some flag arguments when used with certain commands. +
+E.g. `add n/...` +
+If text prediction returns no predictions, it means text prediction is unsupported in that context.
 * If there are multiple predicted values, they will be listed down. +
 * If no argument flags are specified, the default value predicted is based on the command's default argument. +
+
+=== Custom XML path
+All addressbook data is stored in addressbook.xml file located in *data/* folder in the same directory as your jar file.
+To change where you wish to save the data file to, edit in *preferences.json*.
+
 
 === Exiting the program : `exit`
 

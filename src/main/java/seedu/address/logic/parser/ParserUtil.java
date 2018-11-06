@@ -51,11 +51,19 @@ public class ParserUtil {
      */
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
-        String trimmedName = name.trim();
+        String trimmedName = name.trim().toLowerCase();
         if (!Name.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_NAME_CONSTRAINTS);
         }
-        return new Name(trimmedName);
+        String parsedName = new String();
+        StringTokenizer st = new StringTokenizer(trimmedName);
+        while (st.hasMoreTokens()) {
+            String str = st.nextToken();
+            str = Character.toUpperCase(str.charAt(0)) + str.substring(1);
+            parsedName += str + " ";
+        }
+        parsedName = parsedName.trim();
+        return new Name(parsedName);
     }
 
     /**
@@ -194,7 +202,7 @@ public class ParserUtil {
         int day = Integer.parseInt(tokens.nextToken());
         int month = Integer.parseInt(tokens.nextToken());
         int year = Integer.parseInt(tokens.nextToken());
-        return Activity.toDate(day, --month, year);
+        return Activity.toDate(day, month, year);
     }
 
     /**

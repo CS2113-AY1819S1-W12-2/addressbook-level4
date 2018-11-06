@@ -84,9 +84,12 @@ public class FindCommandTest {
         // assertFalse(findFirstCommand.equals(findSecondCommand));
     }
 
+    //@@author lws803
     @Test
     public void execute_zeroKeywords_noPersonFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
+        expectedMessage += combinedActualMatches(0, "{}");
+
         NameContainsKeywordsPredicate predicate = preparePredicate(" ");
         String[] names = {};
         Map<Prefix, String[]> prefixKeywordsMap = new HashMap<>();
@@ -104,6 +107,7 @@ public class FindCommandTest {
     public void execute_multipleKeywords_multiplePersonsFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
         NameContainsKeywordsPredicate predicate = preparePredicate("Kurz Elle Kunz");
+        expectedMessage += combinedActualMatches(2, "{Elle, Kurz}");
 
         String[] names = {"Kurz", "Elle", " Kunz"};
         Map<Prefix, String[]> prefixKeywordsMap = new HashMap<>();
@@ -116,7 +120,6 @@ public class FindCommandTest {
         assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredPersonList());
     }
 
-    //@@author lws803
     @Test
     public void execute_multipleAttributes_multiplePersonsFound() {
         Map<Prefix, String[]> prefixKeywordMap = new HashMap<>();
@@ -140,6 +143,10 @@ public class FindCommandTest {
         Set<Prefix> keys = prefixKeywordMap.keySet();
         Prefix[] types = keys.toArray(new Prefix[0]);
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
+        expectedMessage += combinedActualMatches(
+                6,
+                "{heinz@example.com, Kurz, Kunz, 4.0, 95352563, Worker}"
+        );
 
         Predicate<Person> combinedPredicate = PREDICATE_SHOW_ALL_PERSONS;
         FindCommand command = new FindCommand(prefixKeywordMap, keys.toArray(new Prefix[0]));
@@ -160,6 +167,7 @@ public class FindCommandTest {
         Set<Prefix> keys = prefixKeywordMap.keySet();
         Prefix[] types = keys.toArray(new Prefix[0]);
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
+        expectedMessage += combinedActualMatches(1, "{wow@gmail.com}");
 
         Predicate<Person> combinedPredicate = PREDICATE_SHOW_ALL_PERSONS;
         FindCommand command = new FindCommand(prefixKeywordMap, keys.toArray(new Prefix[0]));
@@ -235,6 +243,24 @@ public class FindCommandTest {
     }
 
     //@@author lws803
+
+    /**
+     * Combined the actual matches. To be used together with results
+     * @param keywordsMatched number of keywords matched
+     * @param matchedKeywordsString keyword matched string
+     * @return output String
+     */
+    private String combinedActualMatches(Integer keywordsMatched, String matchedKeywordsString) {
+        StringBuilder output = new StringBuilder();
+        output.append("\n");
+        output.append(keywordsMatched);
+        output.append(" keyword(s) matched:");
+        output.append("\n");
+        output.append(matchedKeywordsString);
+        return output.toString();
+    }
+
+
     @Test
     public void closestMatchListTest () {
         String[] names = {"Kurz"};
