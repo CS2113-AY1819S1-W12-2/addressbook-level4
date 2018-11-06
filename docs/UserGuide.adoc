@@ -455,6 +455,9 @@ When an address book is exported, it will be exported into a CSV file which can 
 Each row refers to a person. +
 Each column refers to a separate field of the person. +
 If a compulsory field is left blank, the address book will not allow the CSV file to be imported. +
+
+image::CSV_Format.png[width="790"]
+
 ****
 * Compulsory field includes: Name, Phone, Email and Address.
 ****
