@@ -10,6 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import seedu.address.commons.core.index.Index;
+import seedu.address.logic.parser.ParserUtil;
+import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Kpi;
@@ -24,7 +27,6 @@ import seedu.address.model.tag.Tag;
  * Converts the file from a CSV file to {@code Model}
  */
 public class CsvReader {
-    public static final String CSV_HEADERS = "Name, Phone, Email, Address, Position, Kpi, Note, Tagged";
     public static final String WRONG_FORMAT = "The information in this file is of the wrong format";
 
     private List<String> stringList = new ArrayList<>();
@@ -142,13 +144,35 @@ public class CsvReader {
             if (sections.size() == 8) {
                 String[] tags = sections.get(7).split(", ");
                 for (String tagName : tags) {
-                    Tag tag = new Tag(tagName.trim());
+                    Tag tag;
+                    if (havePriority(tagName)) {
+                        String[] tagSections = tagName.trim().split(" ");
+                        Index priority = Index.fromZeroBased(Integer.parseInt(tagSections[1]));
+                        tag = new Tag(tagSections[0], priority);
+                    } else {
+                        tag = new Tag(tagName.trim());
+                    }
+
                     tagList.add(tag);
                 }
             }
             return new Person(name, phone, email, address, position, kpi, note, tagList);
         } catch (IllegalArgumentException iae) {
             throw new IOException(WRONG_FORMAT);
+        }
+    }
+
+    /**
+     * Check if the tag have priority
+     * @param tagName string of tag
+     * @return true if have priority, false if does not have priority
+     */
+    private boolean havePriority(String tagName) {
+        String[] split = tagName.split(" ");
+        if (split.length == 2) {
+            return true;
+        } else {
+            return false;
         }
     }
 

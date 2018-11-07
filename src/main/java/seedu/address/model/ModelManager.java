@@ -273,9 +273,8 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void backUpAddressbook(Path path) {
         try {
-            ReadOnlyAddressBook initialData = versionedAddressBook;
             AddressBookStorage backupStorage = new XmlAddressBookStorage(path);
-            backupStorage.saveAddressBook(initialData);
+            backupStorage.saveAddressBook(versionedAddressBook);
         } catch (IOException io) {
             logger.severe(io.getMessage());
         }
