@@ -227,6 +227,13 @@ All commands will be disabled during encryption, your data will be safely protec
 </li>
 </ul>
 </div>
+<div class="sect4">
+<h5 id="safe-analogy"><a class="link" href="#safe-analogy">Safe analogy</a></h5>
+<div class="imageblock">
+<div class="content">
+<img src="../images/safe.png" alt="safe" width="200">
+</div>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -234,10 +241,14 @@ All commands will be disabled during encryption, your data will be safely protec
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-This feature does not actually store passwords. You will have to reenter the command followed by a password again after decryption to secure it.
+This feature does not actually store passwords. You will have to secure it with a password again after decryption to secure it.<br>
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>Treat this feature as if it is a <strong>safe</strong>, once you have locked it, you have to remember the password in order to unlock it again.<br>
+And once you have unlocked it, you are free to set a new password.</p>
 </div>
 <div class="paragraph">
 <p>Examples:</p>
@@ -253,6 +264,7 @@ Locks addressbook and clears all data.</p>
 Unlocks addressbook and restores all data.</p>
 </li>
 </ul>
+</div>
 </div>
 </div>
 </div>
@@ -528,7 +540,7 @@ If the user enters a password which is non alpha-numeric, an error will be throw
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If the user enters the wrong password, an error will be thrown at the CommandResult box.
+If the user enters the wrong password , an error will be thrown at the CommandResult box.
 </td>
 </tr>
 </table>
@@ -567,6 +579,65 @@ If the user enters the wrong password, an error will be thrown at the CommandRes
 </li>
 </ul>
 </div>
+<div class="sect5">
+<h6 id="encrypting-the-address-book"><a class="link" href="#encrypting-the-address-book">Encrypting the address book:</a></h6>
+<div class="paragraph">
+<p><strong>Step 1.</strong> The user executes <code>password test</code> to encrypt the address book with <code>test</code> as the password.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 2.</strong> <code>PasswordCommandParser</code> checks for the validity of the input password (if its alpha-numeric)<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 3.</strong> If password is acceptable, it is parsed to the <code>PasswordCommand</code> object<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 4.</strong> Within the <code>PasswordCommand</code> object, a new <code>FileEncryptor</code> object is created and it will check if the address book is currently in a locked state<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 5.</strong> If not, it will create a cipher and begin encrypting the address book with the input password.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 6.</strong> Previous <code>addressbook.xml</code> will be deleted whereas a new <code>addressbook.xml.encrypted</code> file will be created.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 7.</strong> A new <code>emptyPredicate</code> object will be instantiated and <code>model.updateFilteredPersonList(emptyPredicate)</code> will be called to clear the address book list.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 8.</strong> A <code>CommandResult</code> object will be created to notify the user that the encryption was successful<br></p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="accessing-commands-post-encryption"><a class="link" href="#accessing-commands-post-encryption">Accessing commands post encryption:</a></h6>
+<div class="paragraph">
+<p><strong>Step 1.</strong> The user executes <code>list</code> to list out all the contacts in the address book.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 2.</strong> The user input is parsed by <code>AddressBookParser</code> which creates a new <code>ListCommandParser</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 3.</strong> The arguments are then parsed by the <code>ListCommandParser</code>.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 4.</strong> <code>ListCommandParser</code> then checks the validity of the arguments before it creates the <code>ListCommand</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 5.</strong> <code>ListCommand</code> creates a <code>FileEncryptor</code> object to check if the address book is in a locked state by calling the <code>islocked()</code> method.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 6.</strong> Assuming we have encrypted it earlier, isLocked() will return true.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 7.</strong> A <code>CommandException</code> will be thrown to warn the user that the address book is in a locked state.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/passwordCommand_seq.png" alt="passwordCommand seq" width="600">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 1. Interactions inside the logic component for the <code>password</code> command.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -580,4 +651,4 @@ If the user enters the wrong password, an error will be thrown at the CommandRes
 <p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-08 16:16:15 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-09 16:14:03 UTC</div></div></div></body></html>

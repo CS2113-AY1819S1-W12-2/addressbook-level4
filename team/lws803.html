@@ -10,10 +10,10 @@
 <h2 id="overview"><a class="link" href="#overview">Overview</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>CorpPro is an addressbook for corporate users.<br>
+<p>CorpPro is an address book for corporate users.<br>
 It provides a fast and efficient system for corporate users to store their contacts safely and securely. It is also easy to maneuver and access contacts.
 CorpPro is powered by JavaFX and boasts an intuitive GUI (Graphical User Interface) with easy-to-use CLI (Command Line Interface).<br>
-This portfolio documents my ability to write java programs, user and developer guides.</p>
+This portfolio documents my ability to write java programs, as well as documentation in the form of user and developer guides.</p>
 </div>
 </div>
 </div>
@@ -54,7 +54,7 @@ search for contacts who live in Jurong West and are tagged as friends.</p>
 <p>Justification: Corporate users might need to gather rough statistics of their clients or know which worker(s) to contact and assign work.</p>
 </li>
 <li>
-<p>Highlights: This feature uses Levenshtein Distance to find the closest match for the keywords entered. It will then sort the matches based on how close it is to the keywords entered.
+<p>Highlights: This feature uses Levenshtein and Hamming Distance to find the closest match for the keywords entered. It will then sort the matches based on how close it is to the keywords entered.
 After which, it will perform a set intersection on the various contacts to find the contact which meets all the user&#8217;s search requirements.</p>
 </li>
 </ul>
@@ -182,7 +182,7 @@ Format: <code>find PREFIX KEYWORD [MORE_KEYWORDS]</code></p>
 <p>Persons matching at least one keyword will be returned (i.e. <code>OR</code> search). e.g. <code>Hans Bo</code> will return <code>Hans Gruber</code>, <code>Bo Yang</code></p>
 </li>
 <li>
-<p>Finding with a keyword that yields no matches may result in address book displaying all contacts rather than 0 results</p>
+<p>Only one tag at a time can be searched, eg. <code>find t/helloWorld</code> will find tags cotaining <code>helloWorld</code> and <code>find t/helloWorld t/world</code> will find tags containing <code>world</code>. <strong><code>find</code> will only register the last tag entered</strong>.</p>
 </li>
 </ul>
 </div>
@@ -194,14 +194,99 @@ Format: <code>find PREFIX KEYWORD [MORE_KEYWORDS]</code></p>
 <div class="ulist">
 <ul>
 <li>
+<p><code>find n/John</code><br>
+Displays <code>john</code> and <code>John Doe</code></p>
+</li>
+<li>
+<p><code>find n/Betsy Tim John</code><br>
+Displays any person having names <code>Betsy</code>, <code>Tim</code>, or <code>John</code></p>
+</li>
+<li>
+<p><code>find e/example@domain.com</code><br>
+Displays any person having the email <code>example@domain.com</code></p>
+</li>
+<li>
+<p><code>find p/912311231</code><br>
+Displays any person having the phone number <code>912311231</code></p>
+</li>
+<li>
+<p><code>find r/secretary</code><br>
+Displays any person who holds a <code>secretary</code> position</p>
+</li>
+<li>
 <p><code>find a/jurong west ave</code><br>
-Displays any person who lives in <code>jurong west ave</code></p>
+Displays any person who lives in <code>jurong</code>, <code>west</code>, <code>ave</code>.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+To better your experience with search, you should search for specific keywords to get to your results faster. Words such as <code>Jurong</code> would yield closer results compared to <code>Jurong West Ave</code>
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>find k/4.0</code><br>
+Displays any person who has a KPI of <code>4.0</code></p>
+</li>
+<li>
+<p><code>find d/John is forgetful</code><br>
+Displays any person who has a note containing <code>John is forgetful</code></p>
+</li>
+<li>
+<p><code>find t/friends</code><br>
+Displays any person who is tagged as <code>friends</code></p>
 </li>
 <li>
 <p><code>find n/John Betsy r/secretary a/jurong west ave</code><br>
 Displays any person having names <code>John</code> and <code>Betsy</code> who is a <code>secretary</code> and lives in <code>jurong west ave</code></p>
 </li>
 </ul>
+</div>
+<div class="sect3">
+<h4 id="search-guessing"><a class="link" href="#search-guessing">Search guessing</a></h4>
+<div class="paragraph">
+<p>This feature will also display actual <strong>Keywords matched</strong> and <strong>Keywords guessed</strong> to give you a good indicator of which results were guessed.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/find_feature1.png" alt="find feature1" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p>From the above results we can see that <code>Bernicc</code> yields <code>Keywords guessed: {Bernice}</code> whereas <code>Alex</code> yields <code>Keywords matched: {Alex}</code></p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>find p/9123</code><br>
+Displays any person having the phone number similar to <code>9123</code> eg. <code>91231231</code>, <code>91231234</code>, and so on.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+To narrow down your searches, try to be more specific in the phone number you wish to search for.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -217,6 +302,29 @@ All commands will be disabled during encryption, your data will be safely protec
 <p>Note: You can use the same command to decrypt the file, just hit <code>password</code> and your correct password.</p>
 </li>
 </ul>
+</div>
+<div class="sect4">
+<h5 id="safe-analogy"><a class="link" href="#safe-analogy">Safe analogy</a></h5>
+<div class="imageblock">
+<div class="content">
+<img src="../images/safe.png" alt="safe" width="200">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This feature does not actually store passwords. You will have to secure it with a password again after decryption to secure it.<br>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Treat this feature as if it is a <strong>safe</strong>, once you have locked it, you have to remember the password in order to unlock it again.<br>
+And once you have unlocked it, you are free to set a new password.</p>
 </div>
 <div class="paragraph">
 <p>Examples:</p>
@@ -236,6 +344,7 @@ Unlocks addressbook and restores all data.</p>
 </div>
 </div>
 </div>
+</div>
 <div class="sect1">
 <h2 id="contributions-to-the-developer-guide"><a class="link" href="#contributions-to-the-developer-guide">Contributions to the Developer Guide</a></h2>
 <div class="sectionbody">
@@ -249,5 +358,330 @@ Unlocks addressbook and restores all data.</p>
 </tr>
 </tbody>
 </table>
+<div class="sect2">
+<h3 id="find-and-search"><a class="link" href="#find-and-search">Find and Search</a></h3>
+<div class="sect3">
+<h4 id="current-implementation"><a class="link" href="#current-implementation">Current Implementation</a></h4>
+<div class="paragraph">
+<p>The find function has been revamped to support prioritisation of search similarity.<br>
+<code>FindCommand</code> is now backed up by the <code>ClosestMatchList</code> class which uses <code>LevenshteinDistanceUtil</code> and <code>HammingDistanceUtil</code> to generate an ordered set of Person attributes ordered by similarity.<br>
+It also supports searching by other attributes and chaining.</p>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-08 16:16:15 UTC</div></div></div></body></html>
+</div>
+<div class="sect3">
+<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
+<div class="sect4">
+<h5 id="aspect-how-find-command-executes"><a class="link" href="#aspect-how-find-command-executes">Aspect: How find command executes</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1:</strong> Find using only predicates</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Easy to implement.</p>
+</li>
+<li>
+<p>Cons: Search must be exact, cannot have typos or incomplete keywords</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Store the search results in a <code>treeMap</code> ordered by their Levenshtein or Hamming distances from the search keyword</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Will also consider searches that are similar to what we want and will account for typos or incomplete keywords</p>
+</li>
+<li>
+<p>Cons: Added complexities in finding and searching, can be vague when searching for number attributes</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 3 (current choice):</strong> Same as alternative 2 but we use <strong>Hamming distance</strong> for phone numbers and KPI attributes instead.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Phone number and KPI searches are now more precise</p>
+</li>
+<li>
+<p>Cons: Added complexities in finding and searching</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-expanded-features-of-find-command"><a class="link" href="#aspect-expanded-features-of-find-command">Aspect: Expanded features of find command</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1:</strong> Find only by name</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Easy to implement.</p>
+</li>
+<li>
+<p>Cons: Can only search by name of addressees</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Find by attributes</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Can search by email, phone, address, etc instead of just the name of addressees</p>
+</li>
+<li>
+<p>Cons: Can only search for one attribute at a time (i.e find by name or find by email)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 3 (current choice):</strong> Chain-able find attributes</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Can search by email and phone and address, etc instead of just one at a time</p>
+</li>
+<li>
+<p>Cons: Added complexities in find command</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-data-structure-to-support-the-revamped-find-command"><a class="link" href="#aspect-data-structure-to-support-the-revamped-find-command">Aspect: Data structure to support the revamped Find command</a></h5>
+<div class="paragraph">
+<p><code>treeMap</code> was used to store the search results ordered by their Levenshtein distances.<br>
+The results are then filtered and
+results furthest away from the top few are ignored. The searches will then be passed thru their respective predicates
+(<code>NameContainsKeywordsPredicate</code>, <code>AddressContainsKeywordsPredicate</code>, <code>EmailContainsKeywordsPredicate</code>, <code>KpiContainsKeywordPredicate</code>, <code>NoteContainsKeywordsPredicate</code>, <code>PhoneContainsKeywordPredicate</code>, <code>PositionContainsKeywordsPredicate</code>, <code>TagContainsKeywordsPredicate</code>)
+before filtering the list.</p>
+</div>
+<div class="sect5">
+<h6 id="searching-for-a-contact"><a class="link" href="#searching-for-a-contact">Searching for a contact:</a></h6>
+<div class="paragraph">
+<p><strong>Step 1.</strong> The user executes <code>find a/Clementi t/owesMoney</code> to find all contacts staying in Clementi and bearing the <code>owesMoney</code> tag.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 2.</strong> The user input is parsed by <code>AddressBookParser</code> which creates a new <code>FindCommandParser</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 3.</strong> The arguments <code>a/Clementi t/owesMoney</code> are then parsed by the <code>FindCommandParser</code>.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 4.</strong> <code>FindCommandParser</code> then checks the validity of the arguments before it creates the <code>FindCommand</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 5.</strong> <code>FindCommand</code> creates a <code>FileEncryptor</code> object to check if the address book is in a locked state by calling the <code>islocked()</code> method.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 6.</strong> If not, it then proceeds to create <code>ClosestMatchList</code> objects.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 7.</strong> It uses the list of keywords obtained from <code>ClosestMatchList</code> to create <code>AddressContainsKeywordsPredicate</code> and <code>TagContainsKeywordsPredicate</code>.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 8.</strong> These predicates are combined into a <code>combinedPredicate</code> object using the AND operation.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 9.</strong> The model is then updated by calling <code>model.updateFilteredPersonList(combinedPredicate)</code> together with the combined predicate obtained in step 8.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 10.</strong> A <code>CommandResult</code> object will be created and an internal method <code>findActualMatches</code> will be called to generate a string of keywords that are exact matches and keywords that are guessed.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 11.</strong> Model update event will be called and the address book UI will update accordingly. It will also display commandResult based on the <code>CommandResult</code> object created in Step 10.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/findFeature_seq.png" alt="findFeature seq" width="900">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 1. Interactions inside the logic component for the <code>find a/Clementi t/owesMoney</code> command.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/closestMatchList_seq.png" alt="closestMatchList seq" width="500">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 2. Interactions inside the <code>ClosestMatchList</code> class</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="data-encryption"><a class="link" href="#data-encryption">Data Encryption</a></h3>
+<div class="sect3">
+<h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">Current Implementation</a></h4>
+<div class="paragraph">
+<p>The encrypt/ decrypt mechanism is facilitated by <code>FileEncryptor</code>.
+It extends <code>AddressBook</code> with a encrypt/decrypt feature, maintained by <code>PasswordCommand</code>.
+Additionally, it implements the following operations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>FileEncryptor#process()</code>&#8201;&#8212;&#8201;Decrypts or encrypts the data file depending on its current state (encrypted or decrypted).</p>
+</li>
+<li>
+<p><code>VersionedAddressBook#decryptFile()</code>&#8201;&#8212;&#8201;encrypts a file given the path and password.</p>
+</li>
+<li>
+<p><code>VersionedAddressBook#encryptFile()</code>&#8201;&#8212;&#8201;decrypts a file given the path and password.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Given below is an example usage scenario and how the password mechanism behaves at each step.</p>
+</div>
+<div class="paragraph">
+<p>Step 1. The user enters the password command with a password.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the user enters a password which is non alpha-numeric, an error will be thrown at the CommandResult box. Only alpha-numeric passwords are supported by <code>FileEncryptor</code>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Step 2. The user closes the addressbook.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The user re-opens the addressbook. No data will be shown as XML data file is technically not present in the data folder.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. The user enters the password command with the right password. Addressbook will be refreshed and restored back to its former state (before encryption).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the user enters the wrong password , an error will be thrown at the CommandResult box.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
+<div class="sect4">
+<h5 id="aspect-how-encryption-and-decryption-is-done"><a class="link" href="#aspect-how-encryption-and-decryption-is-done">Aspect: How encryption and decryption is done</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>PBEKeySpec</code> is first specified using the "PBEWithMD5AndDES" specification.</p>
+</li>
+<li>
+<p>A secret key is generated from <code>SecretKeyFactory</code> using "PBEWithMD5AndDES" cipher.</p>
+</li>
+<li>
+<p>Then a <code>Cipher</code> is used to encrypt or decrypt the file with a given password and key specifications.</p>
+</li>
+<li>
+<p>Additional salt is used in the password to ensure that the password cannot be easily broken down by dictionary attacks.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-pros-and-cons-of-tight-security"><a class="link" href="#aspect-pros-and-cons-of-tight-security">Aspect: Pros and cons of tight security</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Your data is protected and it will be near impossible to use any third part tool to crack the data file.</p>
+</li>
+<li>
+<p>Cons: Data will be <strong>permanently</strong> lost if you forget the password.</p>
+</li>
+</ul>
+</div>
+<div class="sect5">
+<h6 id="encrypting-the-address-book"><a class="link" href="#encrypting-the-address-book">Encrypting the address book:</a></h6>
+<div class="paragraph">
+<p><strong>Step 1.</strong> The user executes <code>password test</code> to encrypt the address book with <code>test</code> as the password.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 2.</strong> <code>PasswordCommandParser</code> checks for the validity of the input password (if its alpha-numeric)<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 3.</strong> If password is acceptable, it is parsed to the <code>PasswordCommand</code> object<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 4.</strong> Within the <code>PasswordCommand</code> object, a new <code>FileEncryptor</code> object is created and it will check if the address book is currently in a locked state<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 5.</strong> If not, it will create a cipher and begin encrypting the address book with the input password.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 6.</strong> Previous <code>addressbook.xml</code> will be deleted whereas a new <code>addressbook.xml.encrypted</code> file will be created.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 7.</strong> A new <code>emptyPredicate</code> object will be instantiated and <code>model.updateFilteredPersonList(emptyPredicate)</code> will be called to clear the address book list.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 8.</strong> A <code>CommandResult</code> object will be created to notify the user that the encryption was successful<br></p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="accessing-commands-post-encryption"><a class="link" href="#accessing-commands-post-encryption">Accessing commands post encryption:</a></h6>
+<div class="paragraph">
+<p><strong>Step 1.</strong> The user executes <code>list</code> to list out all the contacts in the address book.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 2.</strong> The user input is parsed by <code>AddressBookParser</code> which creates a new <code>ListCommandParser</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 3.</strong> The arguments are then parsed by the <code>ListCommandParser</code>.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 4.</strong> <code>ListCommandParser</code> then checks the validity of the arguments before it creates the <code>ListCommand</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 5.</strong> <code>ListCommand</code> creates a <code>FileEncryptor</code> object to check if the address book is in a locked state by calling the <code>islocked()</code> method.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 6.</strong> Assuming we have encrypted it earlier, isLocked() will return true.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 7.</strong> A <code>CommandException</code> will be thrown to warn the user that the address book is in a locked state.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/passwordCommand_seq.png" alt="passwordCommand seq" width="600">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 1. Interactions inside the logic component for the <code>password</code> command.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-09 16:14:03 UTC</div></div></div></body></html>

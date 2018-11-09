@@ -838,7 +838,7 @@ If the user enters a password which is non alpha-numeric, an error will be throw
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If the user enters the wrong password, an error will be thrown at the CommandResult box.
+If the user enters the wrong password , an error will be thrown at the CommandResult box.
 </td>
 </tr>
 </table>
@@ -876,6 +876,65 @@ If the user enters the wrong password, an error will be thrown at the CommandRes
 <p>Cons: Data will be <strong>permanently</strong> lost if you forget the password.</p>
 </li>
 </ul>
+</div>
+<div class="sect5">
+<h6 id="encrypting-the-address-book"><a class="link" href="#encrypting-the-address-book">Encrypting the address book:</a></h6>
+<div class="paragraph">
+<p><strong>Step 1.</strong> The user executes <code>password test</code> to encrypt the address book with <code>test</code> as the password.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 2.</strong> <code>PasswordCommandParser</code> checks for the validity of the input password (if its alpha-numeric)<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 3.</strong> If password is acceptable, it is parsed to the <code>PasswordCommand</code> object<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 4.</strong> Within the <code>PasswordCommand</code> object, a new <code>FileEncryptor</code> object is created and it will check if the address book is currently in a locked state<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 5.</strong> If not, it will create a cipher and begin encrypting the address book with the input password.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 6.</strong> Previous <code>addressbook.xml</code> will be deleted whereas a new <code>addressbook.xml.encrypted</code> file will be created.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 7.</strong> A new <code>emptyPredicate</code> object will be instantiated and <code>model.updateFilteredPersonList(emptyPredicate)</code> will be called to clear the address book list.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 8.</strong> A <code>CommandResult</code> object will be created to notify the user that the encryption was successful<br></p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="accessing-commands-post-encryption"><a class="link" href="#accessing-commands-post-encryption">Accessing commands post encryption:</a></h6>
+<div class="paragraph">
+<p><strong>Step 1.</strong> The user executes <code>list</code> to list out all the contacts in the address book.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 2.</strong> The user input is parsed by <code>AddressBookParser</code> which creates a new <code>ListCommandParser</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 3.</strong> The arguments are then parsed by the <code>ListCommandParser</code>.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 4.</strong> <code>ListCommandParser</code> then checks the validity of the arguments before it creates the <code>ListCommand</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 5.</strong> <code>ListCommand</code> creates a <code>FileEncryptor</code> object to check if the address book is in a locked state by calling the <code>islocked()</code> method.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 6.</strong> Assuming we have encrypted it earlier, isLocked() will return true.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 7.</strong> A <code>CommandException</code> will be thrown to warn the user that the address book is in a locked state.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/passwordCommand_seq.png" alt="passwordCommand seq" width="600">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 1. Interactions inside the logic component for the <code>password</code> command.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1070,7 +1129,8 @@ Step 4. These persons are then stored in a <code>List&lt;Person&gt;</code> and r
 <h4 id="current-implementation-3"><a class="link" href="#current-implementation-3">3.9.1. Current Implementation</a></h4>
 <div class="paragraph">
 <p>The find function has been revamped to support prioritisation of search similarity.<br>
-<code>FindCommand</code> is now backed up by the <code>ClosestMatchList</code> class which uses <code>LevenshteinDistanceUtil</code> to generate an ordered set of Person names ordered by similarity.</p>
+<code>FindCommand</code> is now backed up by the <code>ClosestMatchList</code> class which uses <code>LevenshteinDistanceUtil</code> and <code>HammingDistanceUtil</code> to generate an ordered set of Person attributes ordered by similarity.<br>
+It also supports searching by other attributes and chaining.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1093,11 +1153,24 @@ Step 4. These persons are then stored in a <code>List&lt;Person&gt;</code> and r
 </div>
 </li>
 <li>
-<p><strong>Alternative 2 (current choice):</strong> Store the search results in a <code>treeMap</code> ordered by their Levenshtein distances from the search keyword</p>
+<p><strong>Alternative 2:</strong> Store the search results in a <code>treeMap</code> ordered by their Levenshtein or Hamming distances from the search keyword</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros: Will also consider searches that are similar to what we want and will account for typos or incomplete keywords</p>
+</li>
+<li>
+<p>Cons: Added complexities in finding and searching, can be vague when searching for number attributes</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 3 (current choice):</strong> Same as alternative 2 but we use <strong>Hamming distance</strong> for phone numbers and KPI attributes instead.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Phone number and KPI searches are now more precise</p>
 </li>
 <li>
 <p>Cons: Added complexities in finding and searching</p>
@@ -1162,6 +1235,58 @@ The results are then filtered and
 results furthest away from the top few are ignored. The searches will then be passed thru their respective predicates
 (<code>NameContainsKeywordsPredicate</code>, <code>AddressContainsKeywordsPredicate</code>, <code>EmailContainsKeywordsPredicate</code>, <code>KpiContainsKeywordPredicate</code>, <code>NoteContainsKeywordsPredicate</code>, <code>PhoneContainsKeywordPredicate</code>, <code>PositionContainsKeywordsPredicate</code>, <code>TagContainsKeywordsPredicate</code>)
 before filtering the list.</p>
+</div>
+<div class="sect5">
+<h6 id="searching-for-a-contact"><a class="link" href="#searching-for-a-contact">Searching for a contact:</a></h6>
+<div class="paragraph">
+<p><strong>Step 1.</strong> The user executes <code>find a/Clementi t/owesMoney</code> to find all contacts staying in Clementi and bearing the <code>owesMoney</code> tag.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 2.</strong> The user input is parsed by <code>AddressBookParser</code> which creates a new <code>FindCommandParser</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 3.</strong> The arguments <code>a/Clementi t/owesMoney</code> are then parsed by the <code>FindCommandParser</code>.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 4.</strong> <code>FindCommandParser</code> then checks the validity of the arguments before it creates the <code>FindCommand</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 5.</strong> <code>FindCommand</code> creates a <code>FileEncryptor</code> object to check if the address book is in a locked state by calling the <code>islocked()</code> method.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 6.</strong> If not, it then proceeds to create <code>ClosestMatchList</code> objects.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 7.</strong> It uses the list of keywords obtained from <code>ClosestMatchList</code> to create <code>AddressContainsKeywordsPredicate</code> and <code>TagContainsKeywordsPredicate</code>.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 8.</strong> These predicates are combined into a <code>combinedPredicate</code> object using the AND operation.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 9.</strong> The model is then updated by calling <code>model.updateFilteredPersonList(combinedPredicate)</code> together with the combined predicate obtained in step 8.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 10.</strong> A <code>CommandResult</code> object will be created and an internal method <code>findActualMatches</code> will be called to generate a string of keywords that are exact matches and keywords that are guessed.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 11.</strong> Model update event will be called and the address book UI will update accordingly. It will also display commandResult based on the <code>CommandResult</code> object created in Step 10.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/findFeature_seq.png" alt="findFeature seq" width="900">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 1. Interactions inside the logic component for the <code>find a/Clementi t/owesMoney</code> command.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/closestMatchList_seq.png" alt="closestMatchList seq" width="500">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 2. Interactions inside the <code>ClosestMatchList</code> class</p>
+</div>
 </div>
 </div>
 </div>
@@ -3537,4 +3662,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-08 16:16:15 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-09 16:14:03 UTC</div></div></div></body></html>
