@@ -42,6 +42,7 @@ public class ImportCommand extends Command {
     private static final Logger logger = Logger.getLogger(ImportCommand.class.getName());
     private File file;
     private String directory;
+    private List<Person> personList;
 
     public ImportCommand(String directory, File file) {
         this.directory = directory;
@@ -59,7 +60,7 @@ public class ImportCommand extends Command {
 
         try {
             CsvReader csvReader = new CsvReader(file);
-            List<Person> personList = csvReader.convertToList();
+            personList = csvReader.convertToList();
             for (Person toAdd : personList) {
                 try {
                     model.addPerson(toAdd);
@@ -73,5 +74,14 @@ public class ImportCommand extends Command {
         } catch (IOException io) {
             throw new CommandException(CsvReader.WRONG_FORMAT);
         }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof ImportCommand // instanceof handles nulls
+                && file.equals(((ImportCommand) other).file)
+                && directory.equals(((ImportCommand) other).directory)
+                && personList.equals(((ImportCommand) other).personList));
     }
 }

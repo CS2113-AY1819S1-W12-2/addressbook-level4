@@ -12,7 +12,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 
-class RestoreSnapshotsCommandTest {
+public class RestoreSnapshotsCommandTest {
     private static final Logger logger = Logger.getLogger(RestoreCommand.class.getName());
     private static final String BACKUP_DIRECTORY = "src" + File.separator
             + "test" + File.separator

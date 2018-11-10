@@ -6,15 +6,15 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.util.logging.Logger;
 
+import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 
-class BackUpCommandTest {
+public class BackUpCommandTest {
     private static final Logger logger = Logger.getLogger(BackUpCommand.class.getName());
 
     private Model model = new ModelManager();

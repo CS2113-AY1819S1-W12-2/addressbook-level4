@@ -9,21 +9,23 @@
 
 == Overview
 
-CorpPro is a desktop address book application which allows you to keep track of your colleague's information in the corporate world.
-You can `add`, `edit` and even `tag` your colleagues with the Command Line Interface (CLI) or the Graphical User Interface (GUI) that is created with JavaFX.
+CorpPro is a desktop address book application which targets small to medium corporates and allow their workers to keep track of colleague information in the office.
+CorpPro allows users to `add`, `edit` and `tag` with the Command Line Interface (CLI) or the Graphical User Interface (GUI) that is created with JavaFX.
+This portfolio contains the contributions i had made towards the improvement of the basic Address Book provided to us. +
 
 == Summary of contributions
 
 * *Major enhancement 1*: added *the ability to export and import your contacts information.*
-** What it does: You can export your contacts to a CSV file in any existing directory. Vice versa, you can import CSV files from any existing directory and append it to your address book.
-** Justification: Changing systems will be much easier as you can package your address book into an
-easy to read format and move it between systems.
-** Highlights: CSV files can be read by other spreadsheet applications and these applications formats the file differently. Therefore, implementing this feature requires in depth analysis of how other applications read and write CSV files so as to coordinate on how CorpPro reads and writes those files.
+** What it does: Allows the user export contacts to a CSV file in any existing directory. Vice versa, CSV files can also be imported from any existing directory and be appended to the address book.
+** Justification: Changing systems will be much easier as contact information can be packaged into an
+easy to read format and exchanged between systems.
+** Highlights: In order to ensure that the exported file can be read by other applications, CorpPro have to write the file in a way that it can be easily adapted by the other spreadsheet applications. +
+When files are imported from other applications, in depth analysis have to be made to ensure that it can read the format of the file formatted by these spreadsheet applications.
 
 * *Major enhancement 2*: added *the ability to back up and restore your address book.*
-** What it does: You can back up your address book at any point in time. This allows you to revert your address book to any previous state if you wish to.
-** Justification: You might look for a contact but realised that you have deleted it. Therefore this feature allows you to retrieve any lost information.
-** Highlights: The security of the backups have to be taken into consideration as it might be a source for hackers to peek into confidential data. The backups are currently saved in a hidden directory.
+** What it does: Allow the user to back up their address book at any point in time. This allows them to revert their address book to any previous state if they wish to.
+** Justification: This feature allows the user to retrieve any lost information if they have accidentally deleted any.
+** Highlights: Careful planning has to be done as saving the folders in a separate directory will result in the database being easily accessible. Therefore, we have to protect the folder the backups are saved by making the directory unknown.
 
 * *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
 
@@ -36,10 +38,8 @@ easy to read format and move it between systems.
 ** Documentation:
 *** Did cosmetic tweaks to existing contents of the User Guide: https://github.com[#14]
 ** Community:
-*** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42]
-*** Contributed to forum discussions (examples:  https://github.com[1], https://github.com[2], https://github.com[3], https://github.com[4])
-*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3])
-*** Some parts of the history feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2])
+*** PRs reviewed (with non-trivial review comments): https://github.com/CS2113-AY1819S1-W12-3/main/pull/73[#17]
+*** Reported bugs and suggestions for other teams in the class
 
 == Contributions to the User Guide
 
@@ -62,12 +62,3 @@ include::../UserGuide.adoc[tag=appendixA]
 include::../DeveloperGuide.adoc[tag=backuprestore]
 
 include::../DeveloperGuide.adoc[tag=exportimport]
-
-
-== PROJECT: PowerPointLabs
-
----
-
-_{Optionally, you may include other projects in your portfolio.}_
-
-// TODO: Ask how much should we write for other projects
