@@ -47,12 +47,13 @@ information. It is made using Java, a widely used programming language, with ove
 </div>
 </li>
 <li>
-<p>Justification: As a corporate user with many contacts, there is a need to tag or describe each contact to catagorize or
-search them quickly. Users can use tags to assign an importance level to each contact. The Key Performing Index (KPI)
-is also included in the attributes to enable managers or supervisors in rate or rank their employees.</p>
+<p>Justification: As a corporate user with many contacts, there is a need have additional fields and attributes to catagorize or
+search for them quickly. Users can use tags to assign an importance level to each contact. The Key Performing Index (KPI)
+is also included in the attributes to enable managers or supervisors to rate or rank their employees.</p>
 </li>
 <li>
-<p>Highlights: This feature affects existing commands and facilitates listing or finding contacts via these additional attributes.</p>
+<p>Highlights: This feature required the creation of additional <strong>application programming interfaces</strong> (API) to facilitate other features
+such as listing or finding contacts via these additional attributes.</p>
 </li>
 </ul>
 </div>
@@ -71,16 +72,17 @@ to increase efficiency and not to neglect any important tasks.</p>
 </li>
 <li>
 <p>Highlights: This feature required the creation of additional commands and the implementation of exporting the schedule to save
-its contents after the user has exit the application.In addition, a unique data structure had to be used to maintain a sorted schedule(by date).</p>
+its contents after the user has exit the application. In addition, a unique data structure had to be used to maintain a sorted schedule(by date).</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Minor enhancement</strong>: Enhanced the edit command to edit all listed entries in one command.</p>
+<p><strong>Minor enhancement</strong>: Enhanced the edit command to edit all listed entries in one command. This enables users to quickly update contacts in a similar category all at once, saving time and increasing
+efficiency.</p>
 </li>
 <li>
-<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/functional/LowGinWee.md">Functional code</a>] [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/test/LowGinWee.md">Test code</a>]</p>
+<p><strong>Code contributed</strong>: [<a href="https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&amp;search=lowginwee">RepoSense</a>] [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/functional/LowGinWee.md">Functional code</a>] [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/test/LowGinWee.md">Test code</a>]</p>
 </li>
 <li>
 <p><strong>Other contributions</strong>:</p>
@@ -88,28 +90,20 @@ its contents after the user has exit the application.In addition, a unique data 
 <ul>
 <li>
 <p>Project management:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Managed releases <code>v1.2</code> - <code>v1.4</code> (3 releases) on GitHub</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p>Enhancements to existing features:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Updated the colour scheme(Pull Requests:)</p>
-</li>
-<li>
-<p>Cosmetic tweaks of UI</p>
-</li>
-<li>
-<p>Information panel</p>
-</li>
-<li>
-<p>Labels</p>
-</li>
-<li>
-<p>Schedule Panel</p>
-</li>
-<li>
-<p>Icon</p>
+<p>Updated the colour scheme, made cosmetic tweaks of UI, Icon and labels (Pull Requests: <a href="https://github.com/CS2113-AY1819S1-W12-3/main/pull/118">#118</a>, <a href="https://github.com/CS2113-AY1819S1-W12-3/main/pull/120">#120</a>, <a href="https://github.com/CS2113-AY1819S1-W12-3/main/pull/130">#130</a>, <a href="https://github.com/CS2113-AY1819S1-W12-3/main/pull/138">#138</a>)</p>
 </li>
 </ul>
 </div>
@@ -119,13 +113,10 @@ its contents after the user has exit the application.In addition, a unique data 
 <div class="ulist">
 <ul>
 <li>
-<p>PRs reviewed (with non-trivial review comments):</p>
+<p>PRs reviewed (with non-trivial review comments): (Pull Requests: <a href="https://github.com/CS2113-AY1819S1-W12-3/main/pull/70">#70</a>, <a href="https://github.com/CS2113-AY1819S1-W12-3/main/pull/86">#86</a>)</p>
 </li>
 <li>
-<p>Contributed to forum discussions (examples: )</p>
-</li>
-<li>
-<p>Created meeting minutes during each team meeting (examples: )</p>
+<p>Reported bugs and suggestions for other teams in the class (examples:  <a href="https://github.com/CS2113-AY1819S1-T16-2/main/issues/105">1</a>, <a href="https://github.com/CS2113-AY1819S1-T16-2/main/issues/101">2</a>)</p>
 </li>
 </ul>
 </div>
@@ -218,8 +209,8 @@ Format: <code>schedule-edit INDEX a/ACTIVITY</code><br></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Example: <code>schedule-edit 1 a/Attend meeting with Alexia.</code><br>
-To edit the following activity at <code>INDEX 1</code>:</p>
+<p>Example: <code>schedule-edit 2 a/Attend meeting with Alexia.</code><br>
+To edit the following activity "Attend meeting." at index <code>2</code>:</p>
 <div class="imageblock">
 <div class="content">
 <img src="../images/scheduleEditExample.png" alt="scheduleEditExample" width="400">
@@ -261,7 +252,7 @@ Format: <code>schedule-delete INDEX</code><br></p>
 <ul>
 <li>
 <p>Example: <code>schedule-delete 1</code><br>
-Deletes the following activity at <code>INDEX 1</code> in your schedule:</p>
+Deletes the following activity, "Do report", at index <code>1</code> in your schedule:</p>
 <div class="imageblock">
 <div class="content">
 <img src="../images/scheduleDeleteExample.png" alt="scheduleDeleteExample" width="400">
@@ -291,14 +282,14 @@ Deletes the following activity at <code>INDEX 1</code> in your schedule:</p>
 <div class="sect3">
 <h4 id="current-implementation"><a class="link" href="#current-implementation">Current implementation</a></h4>
 <div class="paragraph">
-<p>Updating the Schedule is facilitated by the <code>ScheduleCommand</code> class which extends the <code>Command</code> class.
+<p>Updating the <strong>Schedule</strong> is facilitated by the <code>ScheduleCommand</code> class which extends the <code>Command</code> class.
 <code>ScheduleAddCommand</code>, <code>ScheduleEditCommand</code> and <code>ScheduleDeleteCommand</code> further extends <code>ScheduleCommand</code> to add, edit and
-delete entries in the Schedule respectively.</p>
+delete entries in the <strong>Schedule</strong> respectively.</p>
 </div>
 <div class="sect4">
 <h5 id="activity"><a class="link" href="#activity">Activity</a></h5>
 <div class="paragraph">
-<p>Each entry in the Schedule is an <code>Activity</code>. It consist of a <code>String</code> which takes the name of the activity
+<p>Each entry in the <strong>Schedule</strong> is an <code>Activity</code>. It consists of a <code>String</code> which takes the name of the activity
 and the <code>Date</code>, of which the activity is due.</p>
 </div>
 </div>
@@ -360,7 +351,7 @@ whenever you update it. This is facilitated by <code>XmlAdaptedActivity</code> w
 <div class="sect4">
 <h5 id="usage-scenarios"><a class="link" href="#usage-scenarios">Usage scenarios</a></h5>
 <div class="paragraph">
-<p>Given below is are examples of usage scenarios of how the schedule behaves when you carry out <code>schedule</code> commands.<br></p>
+<p>Given below are examples of usage scenarios of how the schedule behaves when you carry out <code>schedule</code> commands.<br></p>
 </div>
 <div class="sect5">
 <h6 id="adding-an-activity"><a class="link" href="#adding-an-activity">Adding an activity:</a></h6>
@@ -377,16 +368,43 @@ whenever you update it. This is facilitated by <code>XmlAdaptedActivity</code> w
 <p><strong>Step 4.</strong> <code>ScheduleAddCommandParser</code> checks the validity of the date and activity as input by the user. It then creates an
 <code>Activity</code> object.<br></p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the date or the activity name is not valid, an error would be returned to the user instead of creating an <code>Activity</code> object.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p><strong>Step 5.</strong> <code>ScheduleAddCommandParser</code> then creates a new <code>ScheduleAddCommand</code> with the <code>activity</code> as its argument.<br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 6.</strong> <code>ScheduleAddCommand</code> calls <code>Model#addActivity()</code> which creates the <code>activity</code> in the <code>schedule</code>.
-<code>indicateAddressBookChanged()</code> is called within <code>Model#addActivity()</code> to raise an <code>AddressBookChangedEvent</code> that the information within the
+<p><strong>Step 6.</strong> <code>ScheduleAddCommand</code> is executed and calls <code>Model#addActivity()</code> which creates the <code>activity</code> in the <code>schedule</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Before calling <code>Model#addActivity()</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
+It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>Step 7.</strong> <code>indicateAddressBookChanged()</code> is called within <code>Model#addActivity()</code> to raise an <code>AddressBookChangedEvent</code>, that the information within the
 address book is changed. <br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 7.</strong> The <code>UI</code> object, <code>schedulePanel</code> which is subscribed to the event, receives this updated information and updates
+<p><strong>Step 8.</strong> The <code>UI</code> object, <code>schedulePanel</code> which is subscribed to the event, receives this updated information and updates
 the display to show the correct information to the user.<br></p>
 </div>
 <div class="paragraph">
@@ -398,7 +416,7 @@ the display to show the correct information to the user.<br></p>
 </div>
 </div>
 <div class="paragraph">
-<p>Figure 1. Interactions inside the Logic component for the <code>schedule-add d/01/01/2018 a/Complete report.</code> command</p>
+<p>Figure 1. Interactions inside the Logic component for the <code>schedule-add d/01/01/2018 a/Complete report.</code> command.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -412,21 +430,9 @@ The figure above illustrates the sequence from <strong>Step 1.</strong> to <stro
 </tr>
 </table>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If the date or the activity name is not valid, an error would be returned to the user instead of creating an <code>Activity</code> object.
-</td>
-</tr>
-</table>
-</div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/scheduleAddSequenceDiagramStorage.png" alt="scheduleAddSequenceDiagramStorage" width="800">
+<img src="../images/scheduleAddSequenceDiagramStorage.png" alt="scheduleAddSequenceDiagramStorage" width="700">
 </div>
 </div>
 <div class="paragraph">
@@ -439,14 +445,14 @@ If the date or the activity name is not valid, an error would be returned to the
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The figure above illustrates the sequence of <strong>Step 6.</strong><br>
+The figure above illustrates the sequence of <strong>Step 6.</strong> and <strong>Step 7.</strong><br>
 </td>
 </tr>
 </table>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/scheduleAddSequenceDiagramEvent.png" alt="scheduleAddSequenceDiagramEvent" width="800">
+<img src="../images/scheduleAddSequenceDiagramEvent.png" alt="scheduleAddSequenceDiagramEvent" width="700">
 </div>
 </div>
 <div class="paragraph">
@@ -459,7 +465,7 @@ The figure above illustrates the sequence of <strong>Step 6.</strong><br>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The figure above illustrates the sequence of <strong>Step 7.</strong><br>
+The figure above illustrates the sequence of <strong>Step 8.</strong><br>
 </td>
 </tr>
 </table>
@@ -475,93 +481,6 @@ Storage of each activity is facilitated by <code>XmlAdaptedActivity</code> which
 </td>
 </tr>
 </table>
-</div>
-</div>
-<div class="sect5">
-<h6 id="deleting-an-activity"><a class="link" href="#deleting-an-activity">Deleting an activity:</a></h6>
-<div class="paragraph">
-<p><strong>Step 1.</strong> The user executes <code>schedule-delete 2</code> to delete the activity at <code>INDEX 2</code> in their schedule.<br></p>
-</div>
-<div class="paragraph">
-<p><strong>Step 2.</strong> The user input is first parsed by <code>AddressBookParser</code> which creates a new <code>ScheduleDeleteCommandParser</code> object.<br></p>
-</div>
-<div class="paragraph">
-<p><strong>Step 3.</strong> <code>ScheduleDeleteCommandParser</code> checks the validity of the index as input by the user.</p>
-</div>
-<div class="paragraph">
-<p><strong>Step 4.</strong> <code>ScheduleDeleteCommandParser</code> then creates a new <code>ScheduleDeleteCommand</code> with the <code>INDEX</code> as its argument.<br></p>
-</div>
-<div class="paragraph">
-<p><strong>Step 5.</strong> <code>ScheduleDeleteCommand</code> checks if the <code>INDEX</code> given is valid (within the size of the listed schedule) and calls
-<code>Model#deleteActivity()</code></p>
-</div>
-<div class="paragraph">
-<p><strong>Step 6.</strong> <code>Model#deleteActivity</code> deletes the corresponding <code>activity</code> from the <code>schedule</code>. <code>indicateAddressBookChanged()</code> is called
-within <code>Model#deleteActivity()</code> to raise an <code>AddressBookChangedEvent</code>, that the information within the
-address book is changed. <br></p>
-</div>
-<div class="paragraph">
-<p><strong>Step 7.</strong> The <code>UI</code> object, <code>schedulePanel</code> which is subscribed to the event, receives this updated information and updates
-the display to show the correct information to the user.<br></p>
-</div>
-<div class="paragraph">
-<p>The following sequence diagrams shows you how the delete operation works:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/scheduleDeleteSequenceDiagramLogic.png" alt="scheduleDeleteSequenceDiagramLogic" width="900">
-</div>
-</div>
-<div class="paragraph">
-<p>Figure 4. Interactions inside the Logic component for the <code>schedule-delete 2</code> command</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The figure above illustrates the sequence from <strong>Step 1.</strong> to <strong>Step 5.</strong><br>
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If the index is not valid, i.e. out of range, an error would be returned to the user instead of deleting an activity.
-</td>
-</tr>
-</table>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/scheduleDeleteSequenceDiagramStorage.png" alt="scheduleDeleteSequenceDiagramStorage" width="900">
-</div>
-</div>
-<div class="paragraph">
-<p>Figure 5. Interactions inside the Model component for the <code>schedule-delete 2</code> command</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The figure above illustrates the sequence of <strong>Step 6.</strong><br>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>The interactions between the <code>EventCenter</code>, <code>UI</code> and <code>Storage</code> components for the <code>schedule-delete 2</code> command (<strong>Step 7.</strong>) are similar to <strong>adding
-an activity</strong> (see <strong>Figure 3.</strong>)</p>
 </div>
 </div>
 <div class="sect5">
@@ -586,38 +505,6 @@ an activity</strong> (see <strong>Figure 3.</strong>)</p>
 <p><strong>Step 6.</strong> <code>ScheduleEditCommand</code> checks if the <code>INDEX</code> given is valid (within the size of the listed schedule) and calls
 <code>Model#updateActivity()</code></p>
 </div>
-<div class="paragraph">
-<p><strong>Step 7.</strong> <code>Model#updateActivity()</code> updates the corresponding <code>activity</code> in the <code>schedule</code>.
-<code>indicateAddressBookChanged()</code> is called within <code>Model#updateActivity()</code> to raise an <code>AddressBookChangedEvent</code> that the information within the
-address book is changed. <br></p>
-</div>
-<div class="paragraph">
-<p><strong>Step 8.</strong> The <code>UI</code> object, <code>schedulePanel</code> which is subscribed to the event, receives this updated information and
-updates the display to show the correct information to the user.<br></p>
-</div>
-<div class="paragraph">
-<p>The following sequence diagrams shows you how the edit operation works:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/scheduleEditSequenceDiagramLogic.png" alt="scheduleEditSequenceDiagramLogic" width="900">
-</div>
-</div>
-<div class="paragraph">
-<p>Figure 6. Interactions inside the Logic component for the <code>schedule-edit 2 a/Interview intern.</code> command</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The figure above illustrates the sequence from <strong>Step 1.</strong> to <strong>Step 6.</strong><br>
-</td>
-</tr>
-</table>
-</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -631,13 +518,58 @@ an activity.
 </tr>
 </table>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Before calling <code>Model#updateActivity()</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
+It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>Step 7.</strong> <code>Model#updateActivity()</code> updates the corresponding <code>activity</code> in the <code>schedule</code>.
+<code>indicateAddressBookChanged()</code> is called within <code>Model#updateActivity()</code> to raise an <code>AddressBookChangedEvent</code> that the information within the
+address book is changed. <br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 8.</strong> The <code>UI</code> object, <code>schedulePanel</code> which is subscribed to the event, receives this updated information and
+updates the display to show the correct information to the user.<br></p>
+</div>
+<div class="paragraph">
+<p>The following sequence diagrams shows how the edit operation works:</p>
+</div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/scheduleEditSequenceDiagramStorage.png" alt="scheduleEditSequenceDiagramStorage" width="900">
+<img src="../images/scheduleEditSequenceDiagramLogic.png" alt="scheduleEditSequenceDiagramLogic" width="900">
 </div>
 </div>
 <div class="paragraph">
-<p>Figure 7. Interactions inside the Model component for the <code>schedule-edit 2 a/Interview intern.</code> command</p>
+<p>Figure 4. Interactions inside the Logic component for the <code>schedule-edit 2 a/Interview intern.</code> command</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The figure above illustrates the sequence from <strong>Step 1.</strong> to <strong>Step 6.</strong><br>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/scheduleEditSequenceDiagramStorage.png" alt="scheduleEditSequenceDiagramStorage" width="700">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 5. Interactions inside the Model component for the <code>schedule-edit 2 a/Interview intern.</code> command</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -653,8 +585,64 @@ The figure above illustrates the sequence of  <strong>Step 7.</strong><br>
 </div>
 <div class="paragraph">
 <p>The interactions between the <code>EventCenter</code>, <code>UI</code> and <code>Storage</code> components for the <code>schedule-edit 2 a/Interview intern.</code>
-command (<strong>Step 8.</strong>) are similar to <strong>adding
-an activity</strong> (see <strong>Figure 3.</strong>)</p>
+command (<strong>Step 8.</strong>) are similar to <strong>adding an activity</strong> (see <strong>Figure 3.</strong>)</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="deleting-an-activity"><a class="link" href="#deleting-an-activity">Deleting an activity:</a></h6>
+<div class="paragraph">
+<p><strong>Step 1.</strong> The user executes <code>schedule-delete 2</code> to delete the activity at <code>INDEX 2</code> in their schedule.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 2.</strong> The user input is first parsed by <code>AddressBookParser</code> which creates a new <code>ScheduleDeleteCommandParser</code> object.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 3.</strong> <code>ScheduleDeleteCommandParser</code> checks the validity of the index as input by the user.</p>
+</div>
+<div class="paragraph">
+<p><strong>Step 4.</strong> <code>ScheduleDeleteCommandParser</code> then creates a new <code>ScheduleDeleteCommand</code> with the <code>INDEX</code> as its argument.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 5.</strong> <code>ScheduleDeleteCommand</code> checks if the <code>INDEX</code> given is valid (within the size of the listed schedule) and calls
+<code>Model#deleteActivity()</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the activity name or index is not valid, i.e. out of range, an error would be returned to the user instead of editing
+an activity.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Before calling <code>Model#deleteActivity()</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
+It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>Step 6.</strong> <code>Model#deleteActivity</code> deletes the corresponding <code>activity</code> from the <code>schedule</code>. <code>indicateAddressBookChanged()</code> is called
+within <code>Model#deleteActivity()</code> to raise an <code>AddressBookChangedEvent</code>, that the information within the
+address book is changed. <br></p>
+</div>
+<div class="paragraph">
+<p><strong>Step 7.</strong> The <code>UI</code> object, <code>schedulePanel</code> which is subscribed to the event, receives this updated information and updates
+the display to show the correct information to the user.<br></p>
+</div>
+<div class="paragraph">
+<p>The sequence of deleting an activity is similar to editing an activity. Instead of updating the activity, it is deleted. (see <strong>Figure 4.</strong> and <strong>Figure 5.</strong>)</p>
 </div>
 </div>
 </div>
@@ -748,4 +736,4 @@ an activity</strong> (see <strong>Figure 3.</strong>)</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-09 16:14:03 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-10 10:04:58 UTC</div></div></div></body></html>
