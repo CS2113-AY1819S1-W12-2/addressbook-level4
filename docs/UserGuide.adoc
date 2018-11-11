@@ -101,10 +101,10 @@ Adds a person to the address book +
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/POSITION] [k/KPI] [d/NOTE] [t/TAG [PRIORITY]]...`
 
 [TIP]
-KPI refers to https://en.wikipedia.org/wiki/Performance_indicator[Key Performance Index].
+`KPI` refers to https://en.wikipedia.org/wiki/Performance_indicator[Key Performance Index].
 
 [TIP]
-KPI scores should be a number from 0 - 5.
+`KPI` scores should be a number from 0 - 5.
 
 [TIP]
 A person can have any number of tags (including 0). Priorities, high(2) or medium(1), can be added after the tag.
@@ -117,20 +117,51 @@ Examples:
 // tag::sort[]
 === Sorting all persons : `sort`
 
-Sorts the address book by the respective attributes specified.
+Sorts the address book by the respective attributes specified alphabetically and/or numerically. +
 Format: `sort s/ATTRIBUTE [o/ORDER]`
 
-****
-* Deletes the person at the specified `INDEX`.
-* The `INDEX` refers to the index number shown in the displayed person list.
-* The `INDEX` *must be a positive integer* 1, 2, 3, ...
-****
+[TIP]
+`ATTRIBUTE` refers to the name, phone, email, address, position and KPI of the contacts in the address book.
+
+* You must key one of the following for `ATTRIBUTE`:
+** `name`
+** `phone`
+** `email`
+** `address`
+** `position`
+** `kpi`
+
+[TIP]
+`ORDER` refers to the sorting the address book in ascending or descending order.
+
+* You can key one of the following for `ORDER`:
+** Ascending order:
+**** `asc`
+** Descending order:
+**** `des`
+
+[TIP]
+By default, the sort command sorts the address book according to the attribute in ascending order if no `ORDER` is specified.
 
 Examples:
 
+* `sort s/name` +
+Sorts the address book in ascending order according to the names of the contacts.
 
+image::sort_name_example1.png[width="400"]
+
+* `sort s/name o/asc` +
+Sorts the address book in ascending order according to the names of the contacts.
+
+image::sort_name_example2.png[width="400"]
+
+* `sort s/phone o/des` +
+Sorts the address book in descending order according to the phone number of the contacts.
+
+image::sort_phone_example1.png[width="400"]
 
 // end::sort[]
+
 === Listing all persons : `list`
 
 Displays a list of persons in your address book. +
@@ -211,12 +242,7 @@ Displays any person having names `John` and `Betsy` who is a `secretary` and liv
 ==== Search guessing
 This feature will also display actual *Keywords matched* and *Keywords guessed* to give you a good indicator of which results were guessed.
 
-<<<<<<< HEAD
 image::find_feature1.png[width="400"]
-=======
-image::find_feature1.png[width="250"]
->>>>>>> 701b2102d87cbdf8bfc0db19fbf51b0be905971c
-
 
 From the above results we can see that `Bernicc` yields `Keywords guessed: {Bernice}` whereas `Alex` yields `Keywords matched: {Alex}`
 
