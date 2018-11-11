@@ -76,6 +76,9 @@ e.g. `schedule-edit 1 a/Attend Meeting with Alex.`
 e.g. `schedule-delete 1` +
 * *Email* : `mail` +
 e.g. `mail all/` or `mail t/TAG`
+* *Sort* : `sort s/ATTRIBUTE [o/ORDER]` +
+e.g. `sort s/name` or `sort s/kpi o/des`
+
 
 == Features
 
@@ -111,6 +114,23 @@ Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 r/Secretary k/4.99 d/John is forgetful t/friends t/owesMoney 2`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 r/prisoner t/criminal`
 
+// tag::sort[]
+=== Sorting all persons : `sort`
+
+Sorts the address book by the respective attributes specified.
+Format: `sort s/ATTRIBUTE [o/ORDER]`
+
+****
+* Deletes the person at the specified `INDEX`.
+* The `INDEX` refers to the index number shown in the displayed person list.
+* The `INDEX` *must be a positive integer* 1, 2, 3, ...
+****
+
+Examples:
+
+
+
+// end::sort[]
 === Listing all persons : `list`
 
 Displays a list of persons in your address book. +
