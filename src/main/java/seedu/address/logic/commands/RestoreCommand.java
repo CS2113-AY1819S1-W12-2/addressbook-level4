@@ -56,7 +56,6 @@ public class RestoreCommand extends Command {
         }
 
         restoreFileFromIndex(model, fileMap, index);
-        model.reinitAddressbook();
         return new CommandResult(String.format(MESSAGE_RESTORED_SUCCESS, fileName.get(index.getZeroBased())));
     }
 

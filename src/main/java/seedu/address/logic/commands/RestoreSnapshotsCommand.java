@@ -50,7 +50,7 @@ public class RestoreSnapshotsCommand extends Command {
     }
 
     /**
-     * Read a Backuplist from the given destination path {@code String}
+     * Read a BackupList from the given destination path {@code String}
      * @param destination {@code String} of the path of the destination
      * @throws ParseException if ".backup" does not exists or there are no files
      */

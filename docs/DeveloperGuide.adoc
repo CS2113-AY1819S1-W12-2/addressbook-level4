@@ -452,33 +452,106 @@ Hence, calling `getPredictList("wom")` will return a list containing the element
 
 // tag::backuprestore[]
 === Back Up and Restore
-==== Back Up
+==== Current implementation of backup
 Creation of backups is done in `BackUpCommand` class. It extends the `Command` class with an overriding execute function. +
-The execute function does the following operations: +
-Step 1. The `BackUpCommand` class will check if a `.backup` directory exist. If it does not, a `.backup` will be created. +
-Step 2. The `backUpAddressbook()` method will be called on the current model. +
-Step 3. The `ModelManager` will read the current address book into a `ReadOnlyAddressbook` +
-Step 4. A `XmlAddressBookStorage` will be initialised with the path of `.backup` and the file name. The file name will be that of the time in milliseconds since epoch (1970). +
-Step 5. A new `.xml` file will be saved in the path by invoking `saveAddressBook()` on the `ReadOnlyAddessbook` created. +
 
-==== Listing of backup snapshots
+===== Model
+This feature implements a new method in `Model` +
+
+* `Model#backUpAddressbook(Path)` -- Saves a copy of the address book into the path in a `XML` format. +
+
+==== Current implementation of Listing of backup snapshots
 Listing of the snapshots of backups is done with the `RestoreSnapshotsCommand` class. It also extends the `Command` class. +
-The execute function does the following operations: +
-Step 1. Checks the `.backup` folder for all the snapshots and stores them in a `BackupList` class. Throws an exception if `.backup` does not exist or is empty. +
-Step 2. Converts the names of file into the format DATE TIME and saves it in an array. +
-Step 3. Iterate through the array and form a string to print. +
-Step 4. Prints the string. +
 
+===== BackupList
 The `BackupList` object holds a map of files with indexes as its keys. It also has an array of `String`. The position of the strings corresponds to the index of the file it represents in the map. +
 
-==== Restoring from the list
-The restoration of backup snapshots is done in the `RestoreCommand` class. It extends the `Command` class with an overriding execute function. +
-The execute method will do the following operation: +
-Step 1. `BackupList` and an `INDEX` input by the user. +
-Step 2. The `BackupList` contains a map of `File` with an `INDEX` attached to it. +
-Step 3. The chosen file based on the index will be converted in to a path and the current data in the address book will be replaced by the chosen file.
+* `BackupList#getFileName()` -- returns a list of the names of the snapshots. +
+* `BackupList#getFileMap()` -- returns a map of the snapshots, each denoted with an `INDEX` +
+* `BackupList#millisToDateAndTime(String)` -- converts a timestamp in milliseconds to a formatted date and time format. +
 
-// TODO: Add design considerations and sequence diagram
+==== Current implementation of Restoring from the list
+The restoration of backup snapshots is done in the `RestoreCommand` class. It extends the `Command` class with an overriding execute function. +
+
+===== Model
+This feature implements a new method in `Model` +
+
+* `Model#replaceData(Path)` -- Overrides the current address book information with another `XML` file. +
+
+==== Usage Scenarios
+Given below is the sequence of actions done by the address book when you back up and restore your data. +
+
+====== Saving a Backup
+*Step 1.* The user executes `backup` to create a backup snapshot +
+
+*Step 2.* The user input is first parsed by `AddressBookParser` which creates a new `BackupCommand` object. +
+
+*Step 3.* `BackupCommand` is executed and calls `Model#backUpAddressbook(Path)` with the path of the `.backup` folder as the argument. This creates a copy of the address book data in the folder as an `XML` file. +
+
+*Step 4.* An `AddressBookStorage` will be created in the `Model#backUpAddressbook(Path)` method which facilitates the saving of the data of address book. +
+
+*Step 5.* `saveAddressBook()` will be called to save the data of the address book. +
+
+[NOTE]
+`AddressBookStorage` will check if the `.backup` folder exists. If not it will create the folder. +
+
+The following sequence diagrams shows you how the add operation works: +
+
+image::backupSequenceDiagramLogic.png[width="900"]
+Figure 1. Interactions inside the Logic component for the `backup` command.
+
+image::backupSequenceDiagramStorage.png[width="700"]
+Figure 2. Interactions inside the Storage component for the `backup` command.
+
+===== Listing all the snapshots
+*Step 1.* The user executes `restore-snapshots` to get a list of all backup snapshots +
+
+*Step 2.* The user input is first parsed by `AddressBookParser` which creates a new `RestoreSnapshotsCommand` object. +
+
+*Step 3.* `RestoreSnapshotsCommand` is executed and calls `readBackupList(String)` with the directory of the `.backup` folder as the argument. This reads a `BackupList` from the given destination path. A list of formatted file names will be created which will be shown to the user. +
+
+The following sequence diagrams shows you how the add operation works: +
+
+image::restoreSnapshotsSequenceDiagramLogic.png[width="900"]
+Figure 3. Interactions inside the Logic component for the `restore-snapshots` command.
+
+====== Restoring from a backup
+*Step 1.* The user executes `restore 1` to restore their data with a backup snapshot denoted by an `index of 1` +
+
+*Step 2.* The user input is first parsed by `AddressBookParser` which creates a new `RestoreCommandParser` object. +
+
+*Step 3.* The argument, `1`, is then parsed by `RestoreCommandParser`. +
+
+*Step 4.* `RestoreCommandParser` checks the validity of the index as input by the user. It then creates a
+`BackupList` object. +
+
+[NOTE]
+If the index is not valid, an error would be returned to the user instead of creating a `RestoreCommand` object.
+
+*Step 5.* `RestoreCommandParser` then creates a new `RestoreCommand` with the `BackupList` and index as its arguments. +
+
+*Step 6.* `RestoreCommand` is executed and calls `Model#replaceData(Path)` which replaces the data of the address book with the `XML` file denoted by the `Path`.
+
+[NOTE]
+Before calling `Model#replaceData(Path)`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
+It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
+
+*Step 7.* A `XmlAddressBookStorage` will be initialised which helps to read the data of the `XML` file. +
+
+*Step 8.* The address book will be overwritten with the new data by calling `resetData` with the new data as its argument. +
+
+image::restoreSequenceDiagramLogic.png[width="900"]
+Figure 1. Interactions inside the Logic component for the `restore 1` command.
+
+image::restoreSequenceDiagramStorage.png[width="700"]
+Figure 2. Interactions inside the Storage component for the `restore 1` command.
+
+==== Design Considerations
+===== Aspect: How to save data from the address book
+* **Alternative 1:** Copy and paste from the data folder. +
+
+** Pros: Easy to implement. +
+** Cons: Backups cannot be created without a `XML` file. This means that this feature cannot be used when the application runs for the first time. +
 
 // end::backuprestore[]
 
@@ -486,11 +559,8 @@ Step 3. The chosen file based on the index will be converted in to a path and th
 === Export and Import
 ==== Export to CSV
 The export function is facilitated by the `ExportCommand` class. It extends the `Command` class wit an overriding execute function. +
-The execute method will do the following operation: +
-Step 1. The current address book information will be instantiated into a new `ReadOnlyAddressbook` object. +
-Step 2. An `ObservableList<Person>` will be obtained from the address book. +
-Step 3. The `ObservableList<Person>` will be written onto a CSV file via the CsvWriter object. +
 
+===== CsvWriter
 `CsvWriter` is an object that takes in a path of where the export is to be saved and write a CSV file into the said path. +
 The conversion is as follows: +
 Step 1. The constructor converts an `ObservableList<Person>` into a `List<Person>`
@@ -499,11 +569,8 @@ Step 3. This file will be created in the path. +
 
 === Import CSV to address book
 The import function is implemented with the `ImportCommand` class. It extends the `Command` class with an overriding execute method. +
-The execute method will fo the following operation: +
-Step 1. A `CsvReader` will be instantiated with the file corresponding to the path of CSV file provided by the user. +
-Step 2. The `CsvReader` will call the `convertToList` method which returns a `List<Person>`. +
-Step 3. It will then iterate through the `List<Person>` and add `Person` one by one into the `Model`. If there are any duplicates it will be skipped. +
 
+===== CsvReader
 `CsvReader` is an object that takes in a CSV file and converts it into a  list of persons. +
 The conversion is as follows: +
 Step 1. The constructor reads a CSV file line by line. +

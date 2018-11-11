@@ -246,7 +246,6 @@ public class ModelManager extends ComponentManager implements Model {
         replaceData(path);
     }
 
-    //@@author lws803
     /**
      * Method to replace data for reinitAddressbook and restoreAddressbook
      * @param path path of .xml file
