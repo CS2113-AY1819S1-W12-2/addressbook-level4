@@ -9,31 +9,13 @@
 
 == Overview
 
-<<<<<<< HEAD
-CorpPro is a desktop address book application which allows you to keep track of your colleague's information in the corporate world.
-You can `add`, `edit` and even `tag` your colleagues with the Command Line Interface (CLI) or the Graphical User Interface (GUI) that is created with JavaFX.
-=======
 CorpPro is a desktop address book application which targets small to medium corporates and allow their workers to keep track of colleague information in the office.
 CorpPro allows users to `add`, `edit` and `tag` with the Command Line Interface (CLI) or the Graphical User Interface (GUI) that is created with JavaFX.
 This portfolio contains the contributions i had made towards the improvement of the basic Address Book provided to us. +
->>>>>>> 701b2102d87cbdf8bfc0db19fbf51b0be905971c
 
 == Summary of contributions
 
 * *Major enhancement 1*: added *the ability to export and import your contacts information.*
-<<<<<<< HEAD
-** What it does: You can export your contacts to a CSV file in any existing directory. Vice versa, you can import CSV files from any existing directory and append it to your address book.
-** Justification: Changing systems will be much easier as you can package your address book into an
-easy to read format and move it between systems.
-** Highlights: CSV files can be read by other spreadsheet applications and these applications formats the file differently. Therefore, implementing this feature requires in depth analysis of how other applications read and write CSV files so as to coordinate on how CorpPro reads and writes those files.
-
-* *Major enhancement 2*: added *the ability to back up and restore your address book.*
-** What it does: You can back up your address book at any point in time. This allows you to revert your address book to any previous state if you wish to.
-** Justification: You might look for a contact but realised that you have deleted it. Therefore this feature allows you to retrieve any lost information.
-** Highlights: The security of the backups have to be taken into consideration as it might be a source for hackers to peek into confidential data. The backups are currently saved in a hidden directory.
-
-* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
-=======
 ** What it does: Allows the user export contacts to a CSV file in any existing directory. Vice versa, CSV files can also be imported from any existing directory and be appended to the address book.
 ** Justification: Changing systems will be much easier as contact information can be packaged into an
 easy to read format and exchanged between systems.
@@ -46,23 +28,12 @@ When files are imported from other applications, in depth analysis have to be ma
 ** Highlights: Careful planning has to be done as saving the folders in a separate directory will result in the database being easily accessible. Therefore, we have to protect the folder the backups are saved by making the directory unknown.
 
 * *Code contributed*: [https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=limminghong[RepoSense]] [https://github.com/CS2113-AY1819S1-W12-3/main/pulls?q=is%3Apr+is%3Aclosed+author%3ALimminghong[Pull Requests]]
->>>>>>> 701b2102d87cbdf8bfc0db19fbf51b0be905971c
 
 * *Other contributions*:
 
 ** Project management:
 *** Managed releases `v1.1` - `v1.4` (4 releases) on GitHub
 ** Enhancements to existing features:
-<<<<<<< HEAD
-*** Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests https://github.com[#36], https://github.com[#38])
-** Documentation:
-*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com[#14]
-** Community:
-*** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42]
-*** Contributed to forum discussions (examples:  https://github.com[1], https://github.com[2], https://github.com[3], https://github.com[4])
-*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3])
-*** Some parts of the history feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2])
-=======
 *** Wrote additional tests for existing features to increase coverage from 71% to 86% (Pull requests https://github.com/CS2113-AY1819S1-W12-3/main/pull/123[#123], https://github.com/CS2113-AY1819S1-W12-3/main/pull/158[#158])
 *** Issues resolved [https://github.com/CS2113-AY1819S1-W12-3/main/issues?q=is%3Aissue+author%3ALimminghong+is%3Aclosed[Issues]]
 ** Documentation:
@@ -70,16 +41,11 @@ When files are imported from other applications, in depth analysis have to be ma
 ** Community:
 *** PRs reviewed (with non-trivial review comments): https://github.com/CS2113-AY1819S1-W12-3/main/pull/73[#17]
 *** Reported bugs and suggestions for other teams in the class
->>>>>>> 701b2102d87cbdf8bfc0db19fbf51b0be905971c
 
 == Contributions to the User Guide
 
 |===
-<<<<<<< HEAD
-|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
-=======
 |_Given below are sections I contributed to the User Guide. I have added the description of all the features i have implemented and added a appendix which helps the user to understand how a CSV file works._
->>>>>>> 701b2102d87cbdf8bfc0db19fbf51b0be905971c
 |===
 
 include::../UserGuide.adoc[tag=backuprestore]
@@ -91,25 +57,9 @@ include::../UserGuide.adoc[tag=appendixA]
 == Contributions to the Developer Guide
 
 |===
-<<<<<<< HEAD
-|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
-=======
 |_Given below are sections I contributed to the Developer Guide. I have written on the logic behind on how I have implemented the features that were tasked to me. It also showcases my  ability to draw sequence diagrams._
->>>>>>> 701b2102d87cbdf8bfc0db19fbf51b0be905971c
 |===
 
 include::../DeveloperGuide.adoc[tag=backuprestore]
 
 include::../DeveloperGuide.adoc[tag=exportimport]
-<<<<<<< HEAD
-
-
-== PROJECT: PowerPointLabs
-
----
-
-_{Optionally, you may include other projects in your portfolio.}_
-
-// TODO: Ask how much should we write for other projects
-=======
->>>>>>> 701b2102d87cbdf8bfc0db19fbf51b0be905971c
