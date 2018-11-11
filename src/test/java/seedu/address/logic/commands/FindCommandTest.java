@@ -55,11 +55,6 @@ public class FindCommandTest {
 
     @Test
     public void equals() {
-        NameContainsKeywordsPredicate firstPredicate =
-                new NameContainsKeywordsPredicate(Collections.singletonList("first"));
-        NameContainsKeywordsPredicate secondPredicate =
-                new NameContainsKeywordsPredicate(Collections.singletonList("second"));
-
         String[] namesFirst = {"first", "second"};
         Prefix[] prefixArray = {PREFIX_NAME};
         Map<Prefix, String[]> prefixKeywordsMap = new HashMap<>();
@@ -88,7 +83,7 @@ public class FindCommandTest {
     @Test
     public void execute_zeroKeywords_noPersonFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
-        expectedMessage += combinedActualMatches(0, "{}");
+        expectedMessage += combinedActualMatches("{}", "{}");
 
         NameContainsKeywordsPredicate predicate = preparePredicate(" ");
         String[] names = {};
@@ -107,7 +102,7 @@ public class FindCommandTest {
     public void execute_multipleKeywords_multiplePersonsFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
         NameContainsKeywordsPredicate predicate = preparePredicate("Kurz Elle Kunz");
-        expectedMessage += combinedActualMatches(2, "{Elle, Kurz}");
+        expectedMessage += combinedActualMatches("{Kurz, Elle}", "{Kunz}");
 
         String[] names = {"Kurz", "Elle", " Kunz"};
         Map<Prefix, String[]> prefixKeywordsMap = new HashMap<>();
@@ -144,8 +139,9 @@ public class FindCommandTest {
         Prefix[] types = keys.toArray(new Prefix[0]);
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
         expectedMessage += combinedActualMatches(
-                6,
-                "{heinz@example.com, Kurz, Kunz, 4.0, 95352563, Worker}"
+
+                "{heinz@example.com, Kurz, Kunz, 4.0, 95352563, Worker}",
+                "{Sample, street, sample}"
         );
 
         Predicate<Person> combinedPredicate = PREDICATE_SHOW_ALL_PERSONS;
@@ -167,7 +163,7 @@ public class FindCommandTest {
         Set<Prefix> keys = prefixKeywordMap.keySet();
         Prefix[] types = keys.toArray(new Prefix[0]);
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
-        expectedMessage += combinedActualMatches(1, "{wow@gmail.com}");
+        expectedMessage += combinedActualMatches("{wow@gmail.com}", "{}");
 
         Predicate<Person> combinedPredicate = PREDICATE_SHOW_ALL_PERSONS;
         FindCommand command = new FindCommand(prefixKeywordMap, keys.toArray(new Prefix[0]));
@@ -244,19 +240,21 @@ public class FindCommandTest {
 
     //@@author lws803
 
+
     /**
      * Combined the actual matches. To be used together with results
-     * @param keywordsMatched number of keywords matched
-     * @param matchedKeywordsString keyword matched string
-     * @return output String
+     * @param matchedKeywordsString actual keyword matches
+     * @param guessedKeywordsString guesses made by ClosestMatchList
+     * @return returns the combined output
      */
-    private String combinedActualMatches(Integer keywordsMatched, String matchedKeywordsString) {
+    private String combinedActualMatches(String matchedKeywordsString, String guessedKeywordsString) {
         StringBuilder output = new StringBuilder();
         output.append("\n");
-        output.append(keywordsMatched);
-        output.append(" keyword(s) matched:");
-        output.append("\n");
+        output.append("Keywords matched: ");
         output.append(matchedKeywordsString);
+        output.append("\n");
+        output.append("Keywords guessed: ");
+        output.append(guessedKeywordsString);
         return output.toString();
     }
 
@@ -266,6 +264,31 @@ public class FindCommandTest {
         String[] names = {"Kurz"};
         ClosestMatchList closestMatch = new ClosestMatchList(model, PREFIX_NAME, names);
         assertEquals(closestMatch.getApprovedList().length, 2);
+        assertEqualsArray(closestMatch.getApprovedList(), new String[] {"Kurz", "Kunz"});
+
+        String[] phones = {"87652533"};
+        closestMatch = new ClosestMatchList(model, PREFIX_PHONE, phones);
+        assertEquals(closestMatch.getApprovedList().length, 1);
+        assertEqualsArray(closestMatch.getApprovedList(), new String[] {"87652533"});
+
+        String[] phonesPartial = {"948"};
+        closestMatch = new ClosestMatchList(model, PREFIX_PHONE, phonesPartial);
+        assertEquals(closestMatch.getApprovedList().length, 2);
+        assertEqualsArray(closestMatch.getApprovedList(), new String[] {"9482224", "9482427"});
+
     }
+
+    /**
+     * Checks if an array of strings match exactly
+     * @param actual actual array of strings
+     * @param expected expected array of strings
+     */
+    private void assertEqualsArray (String[] actual, String[] expected) {
+        assertEquals(actual.length, expected.length);
+        for (int i = 0; i < expected.length; i++) {
+            assertEquals(actual[i], expected[i]);
+        }
+    }
+
     //@@author
 }

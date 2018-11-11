@@ -18,7 +18,7 @@ public class SelectCommandParser implements Parser<SelectCommand> {
      */
     public SelectCommand parse(String args) throws ParseException {
         try {
-            ArrayList<Index> indexArrayList = ParserUtil.parseSelectIndex(args);
+            ArrayList<Index> indexArrayList = ParserUtil.parseIndices(args);
             return new SelectCommand(indexArrayList);
         } catch (ParseException pe) {
             throw new ParseException(

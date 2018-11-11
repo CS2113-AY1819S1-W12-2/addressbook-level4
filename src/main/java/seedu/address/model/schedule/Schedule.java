@@ -4,6 +4,7 @@ package seedu.address.model.schedule;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
@@ -60,7 +61,7 @@ public class Schedule {
     public void add(Activity activity) {
         requireNonNull(activity);
         Date date = activity.getDate();
-        if (!contains(date)) {
+        if (!containsDate(date)) {
             schedule.put(date, new ArrayList<>());
         }
         schedule.get(date).add(activity);
@@ -79,11 +80,22 @@ public class Schedule {
     }
 
     /**
+     * updates an activity from the schedule.
+     * @param toDelete A valid activity in the schedule
+     * @param toAdd A valid activity that falls on the same date as the activity to be edited
+     */
+    public void update(Activity toDelete, Activity toAdd) {
+        requireNonNull(toAdd);
+        requireNonNull(toDelete);
+        Collections.replaceAll(schedule.get(toDelete.getDate()), toDelete, toAdd);
+    }
+
+    /**
      * Checks if a date is unique in the schedule.
      * @param date A valid date.
      * @return A boolean if the date exists.
      */
-    private boolean contains(Date date) {
+    private boolean containsDate(Date date) {
         if (schedule.containsKey(date)) {
             return true;
         }

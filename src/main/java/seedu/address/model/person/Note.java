@@ -11,9 +11,9 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Note {
 
     public static final String MESSAGE_NOTE_CONSTRAINTS = "Notes or Descriptions "
-            + "should only contain alphanumeric characters and spaces";
+            + "should only contain alphanumeric characters, spaces and fullstops";
 
-    public static final String NOTE_VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*\\.*";
+    public static final String NOTE_VALIDATION_REGEX = "([\\p{Alnum}]|\\.)([\\p{Alnum} ]|\\.\\s*)*";
 
     public final String value;
 

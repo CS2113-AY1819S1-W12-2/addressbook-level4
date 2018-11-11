@@ -20,6 +20,7 @@ import java.util.TreeSet;
 
 import javafx.collections.ObservableList;
 
+import seedu.address.commons.util.HammingDistanceUtil;
 import seedu.address.commons.util.LevenshteinDistanceUtil;
 import seedu.address.logic.parser.Prefix;
 import seedu.address.model.Model;
@@ -34,7 +35,6 @@ import seedu.address.model.Model;
  */
 public class ClosestMatchList {
     private int lowestDist = Integer.MAX_VALUE;
-    private ObservableList<Person> listToFilter;
     private List<String> approvedNames = new ArrayList<String>();
     private Map<String, Integer> discoveredNames = new TreeMap<String, Integer>();
 
@@ -79,13 +79,21 @@ public class ClosestMatchList {
      * and arguments
      */
     public ClosestMatchList (Model model, Prefix type, String[] searchKeys) {
-        this.listToFilter = model.getAddressBook().getPersonList();
+        ObservableList<Person> listToFilter;
+        listToFilter = model.getAddressBook().getPersonList();
 
         for (Person person: listToFilter) {
             generateNameMapFromAttrib(searchKeys, person, type);
         }
 
         addToApprovedNamesList();
+    }
+
+    /**
+     * Enum for choosing the algorithm to use
+     */
+    private enum Algorithm {
+        Levensthein, Hamming
     }
 
 
@@ -95,12 +103,19 @@ public class ClosestMatchList {
      * similarity indexes using levensthein distances together with nameSegment
      */
     private void generateNameMapFromAttrib (String[] searchKey, Person person, Prefix myPrefix) {
-        String compareString = person.getName().fullName;
+        String compareString = null;
+        int threshold = Integer.MAX_VALUE;
+        Algorithm algorithm = Algorithm.Levensthein;
 
-        if (myPrefix == PREFIX_NAME) {
-            compareString = person.getName().fullName;
-        } else if (myPrefix == PREFIX_PHONE) {
+        if (myPrefix == PREFIX_PHONE) {
             compareString = person.getPhone().value;
+            threshold = 0;
+            algorithm = Algorithm.Hamming;
+
+        } else if (myPrefix == PREFIX_NAME) {
+
+            compareString = person.getName().fullName;
+
         } else if (myPrefix == PREFIX_EMAIL) {
             compareString = person.getEmail().value;
         } else if (myPrefix == PREFIX_ADDRESS) {
@@ -119,12 +134,13 @@ public class ClosestMatchList {
                 compareString = person.getStringTags();
             }
         } else if (myPrefix == PREFIX_KPI) {
+            algorithm = Algorithm.Hamming;
+            threshold = 0;
             if (person.getKpi().value != null) {
                 compareString = person.getKpi().value;
             }
         }
-
-        generateNameMap(searchKey, compareString);
+        generateNameMap(searchKey, compareString, threshold, algorithm);
     }
 
 
@@ -133,33 +149,52 @@ public class ClosestMatchList {
      * @param searchKey obtained from arguments in FindCommand
      * @param compareString obtained from personList as per attribute
      */
-    // TODO: Add it such that when accurate names are typed out, the results wont show the rest.
-    private void generateNameMap(String[] searchKey, String compareString) {
+    private void generateNameMap(String[] searchKey, String compareString, Integer threshold, Algorithm algorithm) {
+        if (compareString == null) {
+            return;
+        }
         String[] stringSplitted = compareString.split("\\s+");
+
         for (String nameSegment: stringSplitted) {
 
             for (String nameArg: searchKey) {
-                int dist = LevenshteinDistanceUtil.levenshteinDistance(nameArg.toLowerCase(),
-                        nameSegment.toLowerCase());
 
-                if (dist < lowestDist) {
-                    lowestDist = dist;
+                Pair distNamePair = null;
+                int dist = Integer.MAX_VALUE;
+
+                if (algorithm == Algorithm.Levensthein) {
+                    dist = LevenshteinDistanceUtil.levenshteinDistance(nameArg.toLowerCase(),
+                            nameSegment.toLowerCase());
+
+                    if (dist <= threshold) {
+                        distNamePair = new Pair(dist, nameSegment);
+                    }
+
+                } else if (algorithm == Algorithm.Hamming) {
+                    dist = HammingDistanceUtil.getDistance(nameArg, nameSegment);
+
+                    if (dist <= threshold) {
+                        distNamePair = new Pair(threshold, nameSegment);
+                    }
                 }
 
-                Pair distNamePair = new Pair(dist, nameSegment);
+                if (distNamePair != null) {
+                    if (!discoveredNames.containsKey(nameSegment)) {
+                        nameMap.add(distNamePair);
+                        discoveredNames.put(nameSegment, dist);
+                    } else if (discoveredNames.get(nameSegment) > dist) {
+                        discoveredNames.replace(nameSegment, dist); // Replace with the new dist
+                        nameMap.add(distNamePair); // Check to see if this will replace
+                    }
 
-                if (!discoveredNames.containsKey(nameSegment)) {
-                    nameMap.add(distNamePair);
-                    discoveredNames.put(nameSegment, dist);
-                } else if (discoveredNames.get(nameSegment) > dist) {
-                    discoveredNames.replace(nameSegment, dist); // Replace with the new dist
-                    nameMap.add(distNamePair); // Check to see if this will replace
+                    if (dist < lowestDist) {
+                        lowestDist = dist;
+                    }
                 }
             }
 
         }
     }
-
     /**
      * Add the contents in the tree to a name list
      */

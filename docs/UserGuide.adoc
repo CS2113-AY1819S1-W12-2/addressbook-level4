@@ -149,6 +149,7 @@ Edits the name of the 2nd person to be `Betsy Crower` and clears current positio
 * `edit all/ t/friends k/1.0` +
 Replaces all listed persons' tag to be `friends` and edits their KPI to be `1.0`. +
 
+// tag::search[]
 === Finding persons by attribute : `find`
 
 Finds persons whose names contain any of the given keywords. +
@@ -160,8 +161,9 @@ Format: `find PREFIX KEYWORD [MORE_KEYWORDS]`
 * You can search by name, email, address, key performance index, position, phone number and tags
 * Partial words or words with typos will be matched too eg. 'Hangs' will be matched to 'Hans'
 * Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
-* Finding with a keyword that yields no matches may result in address book displaying all contacts rather than 0 results
+* Only one tag at a time can be searched, eg. `find t/helloWorld` will find tags cotaining `helloWorld` and `find t/helloWorld t/world` will find tags containing `world`. *`find` will only register the last tag entered*.
 ****
+
 
 Examples:
 
@@ -176,7 +178,10 @@ Displays any person having the phone number `912311231`
 * `find r/secretary` +
 Displays any person who holds a `secretary` position
 * `find a/jurong west ave` +
-Displays any person who lives in `jurong west ave`
+Displays any person who lives in `jurong`, `west`, `ave`.
+
+TIP: To better your experience with search, you should search for specific keywords to get to your results faster. Words such as `Jurong` would yield closer results compared to `Jurong West Ave`
+
 * `find k/4.0` +
 Displays any person who has a KPI of `4.0`
 * `find d/John is forgetful` +
@@ -187,6 +192,23 @@ Displays any person who is tagged as `friends`
 Displays any person having names `John` and `Betsy` who is a `secretary` and lives in `jurong west ave`
 
 
+==== Search guessing
+This feature will also display actual *Keywords matched* and *Keywords guessed* to give you a good indicator of which results were guessed.
+
+image::find_feature1.png[width="400"]
+
+
+From the above results we can see that `Bernicc` yields `Keywords guessed: {Bernice}` whereas `Alex` yields `Keywords matched: {Alex}`
+
+
+Examples:
+
+* `find p/9123` +
+Displays any person having the phone number similar to `9123` eg. `91231231`, `91231234`, and so on.
+
+TIP: To narrow down your searches, try to be more specific in the phone number you wish to search for.
+
+// end::search[]
 
 === Deleting a person : `delete`
 
@@ -231,7 +253,7 @@ Selects from the 1st to the 3rd person in the address book.
 * `list` +
 `select 1 - 3, 6 - 9` +
 Selects from the 1st to the 3rd person and 6th to the 9th person in the address book.
-* `find Betsy` +
+* `find n/Betsy` +
 `select 1` +
 Selects the 1st person in the results of the `find` command.
 
@@ -349,15 +371,30 @@ Encrypts the data file with your password. +
 Format: `password YOURPASSWORD` +
 All commands will be disabled during encryption, your data will be safely protected.
 
-** Note: You can use the same command to decrypt the file, just hit `password` and your correct password.
+NOTE: You can use the same command to decrypt the file, just hit `password` and your correct password.
+
+===== Safe analogy
+
+image::safe.png[width="200"]
+
+NOTE: This feature does not actually store passwords. You will have to secure it with a password again after decryption to secure it. +
+Passwords can only be alpha-numeric.
+
+Treat this feature as if it is a *safe*, once you have locked it, you have to remember the password in order to unlock it again. +
+And once you have unlocked it, you are free to set a new password.
+
 
 Examples:
 
 * `password helloworld` +
-Locks addressbook and clears all data.
-* `password helloworld` +
-Unlocks addressbook and restores all data.
 
+NOTE: Locks address book with a password string and clears all data.
+
+* `password helloworld` +
+
+NOTE: Entering `password helloworld` unlocks the  address book and restores all data.
+
+// end::dataencryption[]
 
 === Email contacts : `mail`
 
@@ -379,6 +416,7 @@ opens your email application with all accountants as recipients. +
 `mail` +
 opens your email application with person (3rd person in the list panel) as recipient.
 
+// tag::schedule[]
 === Schedule : `schedule`
 image::scheduleExample.png[width="400"]
 
@@ -404,8 +442,8 @@ Format: `schedule-edit INDEX a/ACTIVITY` +
 * The activity name *must contain only* letters, numbers, spaces and fullstops.
 ****
 
-* Example: `schedule-edit 1 a/Attend meeting with Alexia.` +
-To edit the following activity at `INDEX 1`:
+* Example: `schedule-edit 2 a/Attend meeting with Alexia.` +
+To edit the following activity "Attend meeting." at index `2`:
 +
 image::scheduleEditExample.png[width="400"]
 +
@@ -422,9 +460,10 @@ Format: `schedule-delete INDEX` +
 ****
 
 * Example: `schedule-delete 1` +
-Deletes the following activity at `INDEX 1` in your schedule:
+Deletes the following activity, "Do report", at index `1` in your schedule:
 +
 image::scheduleDeleteExample.png[width="400"]
+// end::schedule[]
 
 === Text prediction
 

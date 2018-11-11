@@ -74,7 +74,6 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
 
         //@@author LowGinWee
-        //TODO Refactor this 2 methods, remove if null/empty
         if (argMultimap.getValue(PREFIX_POSITION).isPresent()) {
             if (argMultimap.getValue(PREFIX_POSITION).get().isEmpty()) {
                 editPersonDescriptor.setRemovePosition();
@@ -89,7 +88,6 @@ public class EditCommandParser implements Parser<EditCommand> {
                 editPersonDescriptor.setKpi(ParserUtil.parseKpi(argMultimap.getValue(PREFIX_KPI).get()));
             }
         }
-        //TODO to reset notes if empty field
         if (argMultimap.getValue(PREFIX_NOTE).isPresent()) {
             if (argMultimap.getValue(PREFIX_NOTE).get().isEmpty()) {
                 editPersonDescriptor.setRemoveNote();

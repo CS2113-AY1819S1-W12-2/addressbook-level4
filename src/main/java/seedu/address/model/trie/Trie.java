@@ -202,7 +202,7 @@ public class Trie {
      */
     private StringBuilder buildSingleStack(TrieNode startNode) {
         StringBuilder charStack = new StringBuilder();
-        while (startNode.getChildrenSize() == 1) {
+        while (startNode.getChildrenSize() == 1 && !startNode.isEndNode()) {
             charStack.append(startNode.getFirstChild().getValue());
             startNode = startNode.getFirstChild();
         }

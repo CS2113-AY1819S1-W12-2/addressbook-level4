@@ -93,6 +93,7 @@ public class CommandCompleter implements TextPrediction {
         commandList.add(CliSyntax.COMMAND_MAIL);
         commandList.add(CliSyntax.COMMAND_BACKUP);
         commandList.add(CliSyntax.COMMAND_RESTORE);
+        commandList.add(CliSyntax.COMMAND_SNAPSHOTS);
         commandList.add(CliSyntax.COMMAND_IMPORT);
         commandList.add(CliSyntax.COMMAND_EXPORT);
         commandList.add(CliSyntax.COMMAND_SCHEDULE_ADD);

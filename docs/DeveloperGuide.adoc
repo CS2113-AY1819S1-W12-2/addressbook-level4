@@ -329,34 +329,73 @@ Additionally, it implements the following operations:
 
 Given below is an example usage scenario and how the password mechanism behaves at each step.
 
-// TODO: Add more images here
 
-Step 1. The user enters the password command with a password.
+*Step 1.* The user enters the password command with a password.
 
 [NOTE]
 If the user enters a password which is non alpha-numeric, an error will be thrown at the CommandResult box. Only alpha-numeric passwords are supported by `FileEncryptor`
 
-Step 2. The user closes the addressbook.
+*Step 2.* The user closes the address book.
 
-Step 3. The user re-opens the addressbook. No data will be shown as XML data file is technically not present in the data folder.
+*Step 3.* The user re-opens the address book. No data will be shown as the `XML data file` is technically not present in the data folder.
 
-Step 4. The user enters the password command with the right password. Addressbook will be refreshed and restored back to its former state (before encryption).
+*Step 4.* The user enters the password command with the right password. Address book will be refreshed and restored back to its former state (before encryption).
 
 [NOTE]
-If the user enters the wrong password, an error will be thrown at the CommandResult box.
+If the user enters the wrong password , an error will be thrown at the CommandResult box.
 
 
 ==== Design Considerations
 
 ===== Aspect: How encryption and decryption is done
-** The `PBEKeySpec` is first specified using the "PBEWithMD5AndDES" specification.
-** A secret key is generated from `SecretKeyFactory` using "PBEWithMD5AndDES" cipher.
-** Then a `Cipher` is used to encrypt or decrypt the file with a given password and key specifications.
-** Additional salt is used in the password to ensure that the password cannot be easily broken down by dictionary attacks.
+1. The `PBEKeySpec` is first specified using the "PBEWithMD5AndDES" specification.
+2. A secret key is generated from `SecretKeyFactory` using "PBEWithMD5AndDES" cipher.
+3. A `Cipher` is then used to encrypt or decrypt the file with a given password and key specifications.
+4. Additional salt is used in the password to ensure that the password cannot be easily broken down by dictionary attacks.
 
 ===== Aspect: Pros and cons of tight security
 ** Pros: Your data is protected and it will be near impossible to use any third part tool to crack the data file.
 ** Cons: Data will be *permanently* lost if you forget the password.
+
+====== Encrypting the address book:
+
+*Step 1.* The user executes `password test` to encrypt the address book with `test` as the password. +
+
+*Step 2.* `PasswordCommandParser` checks for the validity of the input password (if its alpha-numeric) +
+
+*Step 3.* If the password is acceptable, it is parsed to the `PasswordCommand` object +
+
+*Step 4.* Within the `PasswordCommand` object, a new `FileEncryptor` object is created and it will check *if* the address book is currently in a locked state +
+
+*Step 5.* If it is not currently locked, it will create a cipher and begin encrypting the address book with the input password. +
+
+*Step 6.* Previous `addressbook.xml` will be deleted whereas a new `addressbook.xml.encrypted` file will be created. +
+
+*Step 7.* A new `emptyPredicate` object will be instantiated and `model.updateFilteredPersonList(emptyPredicate)` will be called to clear the address book list. +
+
+*Step 8.* A `CommandResult` object will be created to notify the user that the encryption was successful +
+
+
+====== Accessing commands post encryption:
+
+*Step 1.* The user executes `list` to list out all the contacts in the address book. +
+
+*Step 2.* The user input is parsed by `AddressBookParser` which creates a new `ListCommandParser` object. +
+
+*Step 3.* The arguments are then parsed by the `ListCommandParser`. +
+
+*Step 4.* `ListCommandParser` then checks the validity of the arguments before it creates the `ListCommand` object. +
+
+*Step 5.* `ListCommand` creates a `FileEncryptor` object to check if the address book is in a locked state by calling the `islocked()` method. +
+
+*Step 6.* isLocked() will return true. +
+
+*Step 7.* A `CommandException` will be thrown to warn the user that the address book is in a locked state.
+
+
+image::passwordCommand_seq.png[width="500"]
+Figure 1. Interactions inside the logic component for the `password` command.
+
 
 // end::dataencryption[]
 
@@ -476,22 +515,23 @@ Step 4. These persons are then stored in a `List<Person>` and returned. +
 
 // end::exportimport[]
 
-// tag::find[]
+// tag::search[]
 === Find and Search
 ==== Current Implementation
 
-The find function has been revamped to support prioritisation of search similarity. +
-`FindCommand` is now backed up by the `ClosestMatchList` class which uses `LevenshteinDistanceUtil` to generate an ordered set of Person names ordered by similarity.
-
-// TODO: Add more information here
+The find function has been revamped to support search guessing and search by attributes. +
+`FindCommand` is now backed up by the `ClosestMatchList` class which uses `LevenshteinDistanceUtil` and `HammingDistanceUtil` to generate an ordered set of `Person` attributes ordered by similarity.
 
 ==== Design Considerations
 ===== Aspect: How find command executes
 * **Alternative 1:** Find using only predicates
 ** Pros: Easy to implement.
 ** Cons: Search must be exact, cannot have typos or incomplete keywords
-* **Alternative 2 (current choice):** Store the search results in a `treeMap` ordered by their Levenshtein distances from the search keyword
+* **Alternative 2:** Store the search results in a `treeMap` ordered by their Levenshtein or Hamming distances from the search keyword
 ** Pros: Will also consider searches that are similar to what we want and will account for typos or incomplete keywords
+** Cons: Added complexities in finding and searching, can be vague when searching for number attributes
+* **Alternative 3 (current choice):** Same as alternative 2 but we use *Hamming distance* for phone numbers and KPI attributes instead.
+** Pros: Phone number and KPI searches are now more precise
 ** Cons: Added complexities in finding and searching
 
 ===== Aspect: Expanded features of find command
@@ -508,21 +548,49 @@ The find function has been revamped to support prioritisation of search similari
 ** Cons: Added complexities in find command
 
 ===== Aspect: Data structure to support the revamped Find command
-`treeMap` was used to store the search results ordered by their Levenshtein distances. +
+`treeMap` was used to store the search results ordered by their Levenshtein or Hamming distances. +
 The results are then filtered and
 results furthest away from the top few are ignored. The searches will then be passed thru their respective predicates
 (`NameContainsKeywordsPredicate`, `AddressContainsKeywordsPredicate`, `EmailContainsKeywordsPredicate`, `KpiContainsKeywordPredicate`, `NoteContainsKeywordsPredicate`, `PhoneContainsKeywordPredicate`, `PositionContainsKeywordsPredicate`, `TagContainsKeywordsPredicate`)
 before filtering the list.
 
-// end::find[]
+====== Searching for a contact:
+
+*Step 1.* The user executes `find a/Clementi t/owesMoney` to find all contacts staying in Clementi and bearing the `owesMoney` tag. +
+
+*Step 2.* The user input is parsed by `AddressBookParser` which creates a new `FindCommandParser` object. +
+
+*Step 3.* The arguments `a/Clementi t/owesMoney` are then parsed by the `FindCommandParser`. +
+
+*Step 4.* `FindCommandParser` then checks the validity of the arguments before it creates the `FindCommand` object. +
+
+*Step 5.* `FindCommand` then proceeds to create `ClosestMatchList` objects. +
+
+*Step 6.* It uses the list of keywords obtained from `ClosestMatchList` to create `AddressContainsKeywordsPredicate` and `TagContainsKeywordsPredicate`. +
+
+*Step 7.* These predicates are combined into a `combinedPredicate` object using the "AND" operation. +
+
+*Step 8.* The model is then updated by calling `model.updateFilteredPersonList(combinedPredicate)` together with the combined predicate obtained in *Step 8.* +
+
+*Step 9.* A `CommandResult` object will be created and an internal method `findActualMatches()` will be called to generate a string of keywords that are exact matches and keywords that are guessed. +
+
+image::findFeature_seq.png[width="900"]
+Figure 1. Interactions inside the logic component for the `find a/Clementi t/owesMoney` command.
+
+image::closestMatchList_seq.png[width="500"]
+Figure 2. Interactions inside the `ClosestMatchList` class
+
+// end::search[]
+
+// tag::schedule[]
 === Schedule
 ==== Current implementation
-Updating the Schedule is facilitated by the `ScheduleCommand` class which extends the `Command` class.
+Updating the *Schedule* is facilitated by the `ScheduleCommand` class which extends the `Command` class.
 `ScheduleAddCommand`, `ScheduleEditCommand` and `ScheduleDeleteCommand` further extends `ScheduleCommand` to add, edit and
-delete entries in the Schedule respectively.
+delete entries in the *Schedule* respectively.
 
 ===== Activity
-Each entry in the Schedule is an `Activity`. It consist of a `String` which takes the name of the activity
+Each entry in the *Schedule* is an `Activity`. It consists of a `String` which takes the name of the activity
 and the `Date`, of which the activity is due.
 
 ===== Schedule
@@ -551,86 +619,128 @@ whenever you update it. This is facilitated by `XmlAdaptedActivity` which stores
 `XmlSerializableAddressBook` then appends each `XmlAdaptedActivity` into a list and is saved in `addressbook.xml`.
 
 ===== Usage scenarios
-Given below is are examples of usage scenarios of how the schedule behaves when you carry out `schedule` commands. +
+Given below are examples of usage scenarios of how the schedule behaves when you carry out `schedule` commands. +
 
-====== Adding an Activity:
-Step 1. The user executes `schedule-add d/01/01/2018 a/Complete report.` to add an activity to their schedule. +
+====== Adding an activity:
+*Step 1.* The user executes `schedule-add d/01/01/2018 a/Complete report.` to add an activity to their schedule. +
 
-Step 2. The user input is first parsed by `AddressBookParser` which creates a new `ScheduleAddCommandParser` object. +
+*Step 2.* The user input is first parsed by `AddressBookParser` which creates a new `ScheduleAddCommandParser` object. +
 
-Step 3. The arguments, `d/01/01/2018 a/Complete report.`, are then parsed by `ScheduleAddCommandParser`. +
+*Step 3.* The arguments, `d/01/01/2018 a/Complete report.`, are then parsed by `ScheduleAddCommandParser`. +
 
-Step 4. `ScheduleAddCommandParser` checks the validity of the date and activity as input by the user. It then creates an
+*Step 4.* `ScheduleAddCommandParser` checks the validity of the date and activity as input by the user. It then creates an
 `Activity` object. +
 
-Step 5. `ScheduleAddCommandParser` then creates a new `ScheduleAddCommand` with the `activity` as its argument. +
+[NOTE]
+If the date or the activity name is not valid, an error would be returned to the user instead of creating an `Activity` object.
 
-Step 6. `ScheduleAddCommand` calls `Model#addActivity()` which creates the `activity` in the `schedule`.
-`indicateAddressBookChanged()` is called within `Model#addActivity()` to raise an `AddressBookChangedEvent` that the information within the
+*Step 5.* `ScheduleAddCommandParser` then creates a new `ScheduleAddCommand` with the `activity` as its argument. +
+
+*Step 6.* `ScheduleAddCommand` is executed and calls `Model#addActivity()` which creates the `activity` in the `schedule`.
+
+[NOTE]
+Before calling `Model#addActivity()`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
+It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
+
+*Step 7.* `indicateAddressBookChanged()` is called within `Model#addActivity()` to raise an `AddressBookChangedEvent`, that the information within the
 address book is changed.  +
 
-Step 7. The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and updates
+*Step 8.* The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and updates
 the display to show the correct information to the user. +
 
 The following sequence diagrams shows you how the add operation works: +
 
 image::scheduleAddSequenceDiagramLogic.png[width="900"]
-Figure 1. Interactions inside the Logic Component for the `schedule-add d/01/01/2018 a/Complete report.` command
+Figure 1. Interactions inside the Logic component for the `schedule-add d/01/01/2018 a/Complete report.` command.
 [NOTE]
-The figure above illustrates the sequence from step 1. to step 5. +
+The figure above illustrates the sequence from *Step 1.* to *Step 5.* +
 
+image::scheduleAddSequenceDiagramStorage.png[width="700"]
+Figure 2. Interactions inside the Storage component for the `schedule-add d/01/01/2018 a/Complete report.` command
 [NOTE]
-If the date or the activity name is not valid, an error would be returned to the user instead of creating an `Activity` object.
+The figure above illustrates the sequence of *Step 6.* and *Step 7.* +
 
-image::scheduleAddSequenceDiagramStorage.png[width="800"]
-Figure 2. Interactions inside the Storage Component for the `schedule-add d/01/01/2018 a/Complete report.` command
+image::scheduleAddSequenceDiagramEvent.png[width="700"]
+Figure 3. Interactions between the `EventCenter`, `UI` and `Storage` components for the `schedule-add d/01/01/2018 a/Complete report.` command
 [NOTE]
-The figure above illustrates the sequence of step 6. +
-
-image::scheduleAddSequenceDiagramEvent.png[width="800"]
-Figure 3. Interactions between the EventCenter and the UI and Storage Component for the `schedule-add d/01/01/2018 a/Complete report.` command
-[NOTE]
-The figure above illustrates the sequence of step 7. +
+The figure above illustrates the sequence of *Step 8.* +
 
 [NOTE]
 Storage of each activity is facilitated by `XmlAdaptedActivity` which stores an `Activity` in an `XML` format. `XmlSerializableAddressBook` then appends each `XmlAdaptedActivity` into a list and is saved in `addressbook.xml`
 
-====== Deleting an `Activity`:
-Step 1. The user executes `schedule-delete 2` to delete the activity at `INDEX 2` in their schedule. +
+====== Editing an activity:
+*Step 1.* The user executes `schedule-edit 2 a/Interview intern.` to edit an activity at `INDEX 2` in their schedule. +
 
-Step 2. The user input is first parsed by `AddressBookParser` which creates a new `ScheduleDeleteCommandParser` object. +
+*Step 2.* The user input is first parsed by `AddressBookParser` which creates a new `ScheduleEditCommandParser` object. +
 
-Step 3. `ScheduleDeleteCommandParser` checks the validity of the index as input by the user.
+*Step 3.* The arguments, `2 a/Interview intern.`, are then parsed by `ScheduleEditCommandParser`. +
 
-Step 4. `ScheduleDeleteCommandParser` then creates a new `ScheduleDeleteCommand` with the `INDEX` as its argument. +
+*Step 4.* `ScheduleEditCommandParser` checks the validity of the index and activity as input by the user. +
 
-Step 5. `ScheduleDeleteCommand` checks if the `INDEX` given is valid (within the size of the listed schedule) and calls
-`Model#deleteActivity()` which deletes the corresponding `activity` from the `schedule`.`indicateAddressBookChanged()` is called
-within `Model#deleteActivity()` to raise an `AddressBookChangedEvent` that the information within the
-address book is changed.  +
-
-Step 6. The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and updates
-the display to show the correct information to the user. +
-
-====== Editing an `Activity`:
-Step 1. The user executes `schedule-edit 2 a/Interview intern.` to edit an activity at `INDEX 2` in their schedule. +
-
-Step 2. The user input is first parsed by `AddressBookParser` which creates a new `ScheduleEditCommandParser` object. +
-
-Step 3. The arguments, `2 a/Interview intern.`, are then parsed by `ScheduleEditCommandParser`. +
-
-Step 4. `ScheduleEditCommandParser` checks the validity of the index and activity as input by the user. +
-
-Step 5. `ScheduleEditCommandParser` then creates a new `ScheduleEditCommand` with the `INDEX` and the activity
+*Step 5.* `ScheduleEditCommandParser` then creates a new `ScheduleEditCommand` with the `INDEX` and the activity
  `String` as its argument. +
 
-Step 6. `ScheduleEditCommand` checks if the `INDEX` given is valid (within the size of the listed schedule) and calls
-`Model#updateActivity()` which updates the corresponding `activity` in the `schedule`.
+*Step 6.* `ScheduleEditCommand` checks if the `INDEX` given is valid (within the size of the listed schedule) and calls
+`Model#updateActivity()`
+
+[NOTE]
+If the activity name or index is not valid, i.e. out of range, an error would be returned to the user instead of editing
+an activity.
+
+[NOTE]
+Before calling `Model#updateActivity()`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
+It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
+
+*Step 7.* `Model#updateActivity()` updates the corresponding `activity` in the `schedule`.
 `indicateAddressBookChanged()` is called within `Model#updateActivity()` to raise an `AddressBookChangedEvent` that the information within the
 address book is changed.  +
 
-Step 7. The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and updates
+*Step 8.* The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and
+updates the display to show the correct information to the user. +
+
+The following sequence diagrams shows how the edit operation works:
+
+image::scheduleEditSequenceDiagramLogic.png[width="900"]
+Figure 4. Interactions inside the Logic component for the `schedule-edit 2 a/Interview intern.` command
+[NOTE]
+The figure above illustrates the sequence from *Step 1.* to *Step 6.* +
+
+image::scheduleEditSequenceDiagramStorage.png[width="700"]
+Figure 5. Interactions inside the Model component for the `schedule-edit 2 a/Interview intern.` command
+[NOTE]
+The figure above illustrates the sequence of  *Step 7.* +
+
+The interactions between the `EventCenter`, `UI` and `Storage` components for the `schedule-edit 2 a/Interview intern.`
+command (*Step 8.*) are similar to *adding an activity* (see *Figure 3.*)
+
+====== Deleting an activity:
+*Step 1.* The user executes `schedule-delete 2` to delete the activity at `INDEX 2` in their schedule. +
+
+*Step 2.* The user input is first parsed by `AddressBookParser` which creates a new `ScheduleDeleteCommandParser` object. +
+
+*Step 3.* `ScheduleDeleteCommandParser` checks the validity of the index as input by the user.
+
+*Step 4.* `ScheduleDeleteCommandParser` then creates a new `ScheduleDeleteCommand` with the `INDEX` as its argument. +
+
+*Step 5.* `ScheduleDeleteCommand` checks if the `INDEX` given is valid (within the size of the listed schedule) and calls
+`Model#deleteActivity()`
+
+[NOTE]
+If the index is not valid, i.e. out of range, an error would be returned to the user instead of deleting
+an activity.
+
+[NOTE]
+Before calling `Model#deleteActivity()`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
+It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
+
+*Step 6.* `Model#deleteActivity` deletes the corresponding `activity` from the `schedule`. `indicateAddressBookChanged()` is called
+within `Model#deleteActivity()` to raise an `AddressBookChangedEvent`, that the information within the
+address book is changed.  +
+
+*Step 7.* The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and updates
 the display to show the correct information to the user. +
+
+The sequence of deleting an activity is similar to editing an activity. Instead of updating the activity, it is deleted. (see *Figure 4.* and *Figure 5.*)
 
 ==== Design Considerations
 ===== Aspect: Data structure of Schedule
@@ -655,6 +765,7 @@ the display to show the correct information to the user. +
 ** Pros: Able to sort by time in future implementations.
 ** Cons: Need to parse `Date` when converting it to `String`.
 ** Cons: Need to parse user inputs to convert `String` to `Date`.
+// end::schedule[]
 
 == Documentation
 
@@ -1229,6 +1340,28 @@ Use case ends.
 Use case ends.
 
 [discrete]
+=== Use case: Find persons
+*MSS*
+
+1. User requests to search by address
+2. Address book shows a list of persons living under that address
+3. User requests to search for a specific tag and the previous address
+4. Address book refines the search results by displaying people who live in the specified address and is tagged
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. No similar keywords within the address book.
++
+[none]
+** 2a1. Address book shows list of persons with similar keywords to the one originally searched.
++
+Use case resumes at step 3.
+
+
+[discrete]
 === Use case: Delete person
 
 *MSS*
@@ -1330,18 +1463,18 @@ Use case ends.
 Use case ends.
 
 [discrete]
-=== Use case: Encrypt addressbook
+=== Use case: Lock address book
 *MSS*
 
 1. User requests to encrypt addressbook with password
-2. Addressbook shows encrypted message
+2. Address book shows encrypted message
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 1a. Addressbook is already encrypted.
+* 1a. Address book is already encrypted.
 +
 [none]
 ** 1a1. Address book will decrypt the data instead with the given password.
@@ -1349,18 +1482,18 @@ Use case ends.
 Use case ends.
 
 [discrete]
-=== Use case: Decrypt addressbook
+=== Use case: Unlock address book
 *MSS*
 
-1. User requests to decrypt addressbook with password
-2. Addressbook shows decrypted message
+1. User requests to decrypt address book with password
+2. Address book shows decrypted message
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 1a. Addressbook is already decrypted.
+* 1a. Address book is already decrypted.
 +
 [none]
 ** 1a1. Address book will encrypt the data instead with the given password.
@@ -1369,7 +1502,7 @@ Use case ends.
 * 1b. Incorrect password entered.
 +
 [none]
-** 1b1. Addressbook will display incorrect password message.
+** 1b1. Address book will display incorrect password message.
 +
 Use case ends.
 

@@ -136,7 +136,6 @@ public class EditCommand extends Command {
 
         model.commitAddressBook();
 
-        //TODO change this to show only edited stuff and format
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_ALL_SUCCESS, personsToCopy.size()));
     }

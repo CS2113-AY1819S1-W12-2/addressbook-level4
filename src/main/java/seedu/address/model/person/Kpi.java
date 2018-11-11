@@ -53,9 +53,11 @@ public class Kpi {
         return value;
     }
 
-    //TODO To resolve issue when one is null and the other is not
     @Override
     public boolean equals(Object other) {
+        if (!doesExist() && !((Kpi) other).doesExist()) {
+            return true;
+        }
         return other == this // short circuit if same object
                 || (other instanceof Kpi // instanceof handles nulls
                 && Objects.equals(this.value, ((Kpi) other).value));

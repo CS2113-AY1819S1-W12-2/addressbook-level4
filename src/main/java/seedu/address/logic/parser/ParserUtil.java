@@ -263,10 +263,10 @@ public class ParserUtil {
      * @return the list of {@code Index} to return.
      * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
      */
-    public static ArrayList<Index> parseSelectIndex(String oneBasedIndex) throws ParseException {
+    public static ArrayList<Index> parseIndices(String oneBasedIndex) throws ParseException {
 
         // Perform a syntax check here
-        if (!StringUtil.isValidSelectSyntax(oneBasedIndex)) {
+        if (!StringUtil.isValidMultipleIndexFormat(oneBasedIndex)) {
             throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
         }
 
