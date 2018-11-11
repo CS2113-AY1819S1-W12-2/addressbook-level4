@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addressbook>
+    <persons>
+        <name>Alex Yeoh</name>
+        <phone>87438807</phone>
+        <email>alexyeoh@example.com</email>
+        <address>Blk 30 Geylang Street 29, #06-40</address>
+        <position>CEO</position>
+        <kpi>0</kpi>
+        <note>Alex is a friend</note>
+        <tagged>friends</tagged>
+    </persons>
+    <persons>
+        <name>Bernice Yu</name>
+        <phone>99272758</phone>
+        <email>berniceyu@example.com</email>
+        <address>Blk 30 Lorong 3 Serangoon Gardens, #07-18</address>
+        <position>CEO</position>
+        <kpi>0</kpi>
+        <note>Bernice is a friend</note>
+        <tagged>colleagues</tagged>
+        <tagged>friends</tagged>
+    </persons>
+    <persons>
+        <name>Charlotte Oliveiro</name>
+        <phone>93210283</phone>
+        <email>charlotte@example.com</email>
+        <address>Blk 11 Ang Mo Kio Street 74, #11-04</address>
+        <position>CEO</position>
+        <kpi>0</kpi>
+        <note>Charlotte is a friend</note>
+        <tagged>neighbours</tagged>
+    </persons>
+    <persons>
+        <name>David Li</name>
+        <phone>91031282</phone>
+        <email>lidavid@example.com</email>
+        <address>Blk 436 Serangoon Gardens Street 26, #16-43</address>
+        <position>CEO</position>
+        <kpi>0</kpi>
+        <note>David is a friend</note>
+        <tagged>family</tagged>
+    </persons>
+    <persons>
+        <name>Irfan Ibrahim</name>
+        <phone>92492021</phone>
+        <email>irfan@example.com</email>
+        <address>Blk 47 Tampines Street 20, #17-35</address>
+        <position>CEO</position>
+        <kpi>0</kpi>
+        <note>Irfan is a friend</note>
+        <tagged>classmates</tagged>
+    </persons>
+    <persons>
+        <name>Roy Balakrishnan</name>
+        <phone>92624417</phone>
+        <email>royb@example.com</email>
+        <address>Blk 45 Aljunied Street 85, #11-31</address>
+        <position>CEO</position>
+        <kpi>0</kpi>
+        <note>Roy is a friend</note>
+        <tagged>colleagues</tagged>
+    </persons>
+    <activities>
+        <date>1990-12-09T12:00:00+08:00</date>
+        <activity>sample activity 9</activity>
+    </activities>
+    <activities>
+        <date>1991-01-01T12:00:00+08:00</date>
+        <activity>sample activity 1</activity>
+    </activities>
+    <activities>
+        <date>1991-01-01T12:00:00+08:00</date>
+        <activity>sample activity 10</activity>
+    </activities>
+    <activities>
+        <date>1991-01-02T12:00:00+08:00</date>
+        <activity>sample activity 2</activity>
+    </activities>
+    <activities>
+        <date>1991-01-03T12:00:00+08:00</date>
+        <activity>sample activity 3</activity>
+    </activities>
+    <activities>
+        <date>1991-01-04T12:00:00+08:00</date>
+        <activity>sample activity 4</activity>
+    </activities>
+    <activities>
+        <date>1991-01-05T12:00:00+08:00</date>
+        <activity>sample activity 5</activity>
+    </activities>
+    <activities>
+        <date>1991-01-06T12:00:00+08:00</date>
+        <activity>sample activity 6</activity>
+    </activities>
+    <activities>
+        <date>1991-01-07T12:00:00+08:00</date>
+        <activity>sample activity 7</activity>
+    </activities>
+    <activities>
+        <date>1991-01-08T12:00:00+08:00</date>
+        <activity>sample activity 8</activity>
+    </activities>
+</addressbook>
