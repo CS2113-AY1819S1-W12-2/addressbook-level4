@@ -32,7 +32,7 @@ such as listing or finding contacts via these additional attributes.
 * *Major enhancement*: *Added schedule*
 ** What it does: Users are able to create activities or tasks and add them to their schedule in *CorpPro*. These activities
 are sorted by date and can be edited or deleted when completed. The schedule is also saved when the user closes the application
-** Justification: Corporate users may need to organise their assignments in a schedule to maintain a methodical workstyle
+** Justification: Corporate users may need to organise their assignments in a schedule to maintain a methodical work style
 to increase efficiency and not to neglect any important tasks.
 ** Highlights: This feature required the creation of additional commands and the implementation of exporting the schedule to save
 its contents after the user has exit the application. In addition, a unique data structure had to be used to maintain a sorted schedule (by date).

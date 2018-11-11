@@ -943,17 +943,17 @@ Figure 1. Interactions inside the Logic component for the `schedule-add d/01/01/
 The figure above illustrates the sequence from *Step 1.* to *Step 5.* +
 
 image::scheduleAddSequenceDiagramStorage.png[width="650"]
-Figure 2. Interactions inside the Storage component for the `schedule-add d/01/01/2018 a/Complete report.` command
+Figure 2. Interactions inside the Storage component for the `schedule-add d/01/01/2018 a/Complete report.` command.
 [NOTE]
 The figure above illustrates the sequence of *Step 6.* and *Step 7.* +
 
 image::scheduleAddSequenceDiagramEvent.png[width="650"]
-Figure 3. Interactions between the `EventCenter`, `UI` and `Storage` components for the `schedule-add d/01/01/2018 a/Complete report.` command
+Figure 3. Interactions between the `EventCenter`, `UI` and `Storage` components for the `schedule-add d/01/01/2018 a/Complete report.` command.
 [NOTE]
 The figure above illustrates the sequence of *Step 8.* +
 
 [NOTE]
-Storage of each activity is facilitated by `XmlAdaptedActivity` which stores an `Activity` in an `XML` format. `XmlSerializableAddressBook` then appends each `XmlAdaptedActivity` into a list and is saved in `addressbook.xml`
+Storage of each activity is facilitated by `XmlAdaptedActivity` which stores an `Activity` in an `XML` format. `XmlSerializableAddressBook` then appends each `XmlAdaptedActivity` into a list and is saved in `addressbook.xml`.
 
 ====== Editing an activity:
 *Step 1.* The user executes `schedule-edit 2 a/Interview intern.` to edit an activity at `INDEX 2` in their schedule. +
@@ -972,7 +972,7 @@ an activity.
  `String` as its argument. +
 
 *Step 6.* `ScheduleEditCommand` gets `target`, the activity to be edited, via `ScheduleCommand#getActivityFromIndex(model, index)` and creates `editedActivity`, the new activity.
- It then calls `Model#updateActivity(target, editedActivity)`
+ It then calls `Model#updateActivity(target, editedActivity)`.
 
 [NOTE]
 If the index is not valid, i.e. out of range of the displayed schedule, an error would be returned to the user instead of editing
@@ -992,16 +992,16 @@ updates the display to show the correct information to the user. +
 The following sequence diagrams shows how the edit operation works:
 
 image::scheduleEditSequenceDiagramLogic.png[width="900"]
-Figure 4. Interactions inside the Logic component for the `schedule-edit 2 a/Interview intern.` command
+Figure 4. Interactions inside the Logic component for the `schedule-edit 2 a/Interview intern.` command.
 [NOTE]
 The figure above illustrates the sequence from *Step 1.* to *Step 6.* +
 
 image::scheduleEditSequenceDiagramStorage.png[width="650"]
-Figure 5. Interactions inside the Model component for the `schedule-edit 2 a/Interview intern.` command
+Figure 5. Interactions inside the Model component for the `schedule-edit 2 a/Interview intern.` command.
 [NOTE]
 The figure above illustrates the sequence of  *Step 7.* +
 
-The interactions between the `EventCenter`, `UI` and `Storage` components for `editing an activity` (*Step 8.*) are similar to *adding an activity* (see *Figure 3.*)
+The interactions between the `EventCenter`, `UI` and `Storage` components for `editing an activity` (*Step 8.*) are similar to *adding an activity* (see *Figure 3.*).
 
 ====== Deleting an activity:
 *Step 1.* The user executes `schedule-delete 2` to delete the activity at `INDEX 2` in their schedule. +
@@ -1013,7 +1013,7 @@ The interactions between the `EventCenter`, `UI` and `Storage` components for `e
 *Step 4.* `ScheduleDeleteCommandParser` then creates a new `ScheduleDeleteCommand` with the `INDEX` as its argument. +
 
 *Step 5.* `ScheduleDeleteCommand` gets the `activity`, to be deleted, via `ScheduleCommand#getActivityFromIndex(model, index)` and calls
-`Model#deleteActivity(activity)`
+`Model#deleteActivity(activity)`.
 
 [NOTE]
 If the index is not valid, i.e. out of range of the displayed schedule, an error would be returned to the user instead of deleting
@@ -1030,9 +1030,9 @@ address book is changed.  +
 *Step 7.* The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and updates
 the display to show the correct information to the user. +
 
-The sequence of deleting an activity is similar to editing an activity. Instead of updating the activity , it is deleted. (see *Figure 4.* and *Figure 5.*)
+The sequence of deleting an activity is similar to editing an activity. Instead of updating the activity , it is deleted (see *Figure 4.* and *Figure 5.*).
 
-The interactions between the `EventCenter`, `UI` and `Storage` components for *deleting an activity* (*Step 7.*) are similar to *adding an activity* (see *Figure 3.*) 
+The interactions between the `EventCenter`, `UI` and `Storage` components for *deleting an activity* (*Step 7.*) are similar to *adding an activity* (see *Figure 3.*).
 
 ==== Design Considerations
 ===== Aspect: Data structure of Schedule
@@ -1051,7 +1051,7 @@ The interactions between the `EventCenter`, `UI` and `Storage` components for *d
 * **Alternative 1:** `String` of date in DD/MM/YYYY format
 ** Pros: Easy to implement and do not need to parse user input.
 ** Cons: Need to implement comparators to sort the dates of activity.
-** Cons: Not flexible. Unable to include and sort by time in future implementations
+** Cons: Not flexible. Unable to include and sort by time in future implementations.
 * **Alternative 2 (Current choice):** Usage of `java.util.Date`
 ** Pros: Easy to implement.
 ** Pros: Able to sort by time in future implementations.
