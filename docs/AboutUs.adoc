@@ -20,7 +20,7 @@ Responsibilities: Scheduling and Tracking
 
 === Lim Ming Hong
 image::limminghong.png[width="150", align="left"]
-{empty}[https://github.com/Limminghong[github]]
+{empty}[https://github.com/Limminghong[github]][<<limminghong#, portfolio>>]
 
 Role: Developer +
 Responsibilities: Code quality assurance

@@ -541,10 +541,10 @@ It the address book is locked, an error would be displayed to the user instead o
 *Step 8.* The address book will be overwritten with the new data by calling `resetData` with the new data as its argument. +
 
 image::restoreSequenceDiagramLogic.png[width="900"]
-Figure 1. Interactions inside the Logic component for the `restore 1` command.
+Figure 4. Interactions inside the Logic component for the `restore 1` command.
 
 image::restoreSequenceDiagramStorage.png[width="700"]
-Figure 2. Interactions inside the Storage component for the `restore 1` command.
+Figure 5. Interactions inside the Storage component for the `restore 1` command.
 
 ==== Design Considerations
 ===== Aspect: How to save data from the address book
@@ -552,33 +552,100 @@ Figure 2. Interactions inside the Storage component for the `restore 1` command.
 
 ** Pros: Easy to implement. +
 ** Cons: Backups cannot be created without a `XML` file. This means that this feature cannot be used when the application runs for the first time. +
-
 // end::backuprestore[]
 
 // tag::exportimport[]
 === Export and Import
-==== Export to CSV
+==== Current implementation of Export
 The export function is facilitated by the `ExportCommand` class. It extends the `Command` class wit an overriding execute function. +
 
 ===== CsvWriter
 `CsvWriter` is an object that takes in a path of where the export is to be saved and write a CSV file into the said path. +
 The conversion is as follows: +
-Step 1. The constructor converts an `ObservableList<Person>` into a `List<Person>`
-Step 2. The `convertToCsv()` method will be called in `ExportCommand` and a new CSV file will be written with the content of the created `List<Person>`. +
-Step 3. This file will be created in the path. +
+*Step 1.* The constructor converts an `ObservableList<Person>` into a `List<Person>`
+*Step 2.* The `convertToCsv()` method will be called in `ExportCommand` and a new CSV file will be written with the content of the created `List<Person>`. +
+*Step 3.* This file will be created in the path. +
 
-=== Import CSV to address book
+==== Current implementation of Import
 The import function is implemented with the `ImportCommand` class. It extends the `Command` class with an overriding execute method. +
 
 ===== CsvReader
 `CsvReader` is an object that takes in a CSV file and converts it into a  list of persons. +
 The conversion is as follows: +
-Step 1. The constructor reads a CSV file line by line. +
-Step 2. The `convertToList` method formats the file into a `Model` friendly format. +
-Step 3. It then converts the strings into a persons. +
-Step 4. These persons are then stored in a `List<Person>` and returned. +
+*Step 1.* The constructor reads a CSV file line by line. +
+*Step 2.* The `convertToList` method formats the file into a `Model` friendly format. +
+*Step 3.* It then converts the strings into a persons. +
+*Step 4.* These persons are then stored in a `List<Person>` and returned. +
 
-// TODO: add design considerations and sequence diagram
+==== Usage Scenarios
+Given below is the sequence of actions done by the address book when you export and import an address book. +
+
+====== Exporting your address book
+*Step 1.* The user executes `export d/C:\Users\USER\Desktop\DemoExport f/test` to export their data to the directory with the file name the user wants. +
+
+*Step 2.* The user input is first parsed by `AddressBookParser` which creates a new `ExportCommandParser` object. +
+
+*Step 3.* The argument, `d/C:\Users\USER\Desktop\DemoExport f/test`, is then parsed by `ExportCommandParser`. +
+
+*Step 4.* `ExportCommandParser` checks the validity of the directory as input by the user. It then creates a
+`ExportCommand` object with the directory and file name as its arguments. +
+
+[NOTE]
+If the directory is not valid or a file with the same file name exists in the directory, an error would be returned to the user instead of creating a `ExportCommand` object. +
+
+*Step 5.* `ExportCommand` is executed and creates a `CsvWriter` object. The `CsvWriter` object is created with a copy of the address book taken from `Model` +
+
+*Step 6.* `convertToCsv(String)` is called with the full directory as the argument which writes the data of the address book to a file of `CSV` format. +
+
+[NOTE]
+Before calling `convertToCsv(String)`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
+It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
+
+The following sequence diagrams shows you how the add operation works: +
+
+image::exportSequenceDiagramLogic.png[width="900"]
+Figure 1. Interactions inside the Logic component for the `export d/C:\Users\USER\Desktop\DemoExport f/test` command.
+
+image::exportSequenceDiagramStorage.png[width="700"]
+Figure 2. Interactions inside the Storage component for the `export d/C:\Users\USER\Desktop\DemoExport f/test` command.
+
+====== Importing to your address book
+*Step 1.* The user executes `import d/C:\Users\USER\Desktop\DemoExport f/test` to import their data from the directory with the name of the file. +
+
+*Step 2.* The user input is first parsed by `AddressBookParser` which creates a new `ImportCommandParser` object. +
+
+*Step 3.* The argument, `d/C:\Users\USER\Desktop\DemoExport f/test`, is then parsed by `ImportCommandParser`. +
+
+*Step 4.* `ImportCommandParser` checks the validity of the directory as input by the user. It then creates a
+`ImportCommand` object with the directory and file. +
+
+[NOTE]
+If the directory is not valid or a file with the name does not exists in the directory, an error would be returned to the user instead of creating a `ImportCommand` object.
+
+[NOTE]
+If the file is of the wrong format, an error would also be returned to the user instead of creating a `ImportCommand` object.
+
+*Step 5.* `ImportCommand` is executed and creates a `CsvReader` object. The `CsvReader` object is created with the file identified +
+
+*Step 6.* `convertToList()` is called which creates a list of persons that can be added. +
+
+[NOTE]
+Before calling `convertToCsv(String)`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
+It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
+
+*Step 7.* There is a loop that iterates through the list and add the persons into the address book. All duplicated persons will be skipped. +
+
+The following sequence diagrams shows you how the add operation works: +
+
+image::importSequenceDiagramLogic.png[width="900"]
+Figure 1. Interactions inside the Logic component for the `import d/C:\Users\USER\Desktop\DemoExport f/test` command.
+
+==== Design Considerations
+===== Aspect: How to extract data from the address book
+* **Alternative 1:** Convert straight from the `XML` file in the `data` folder
+** Pros: Easy to implement.
+** Cons: Uses libraries.
+** Cons: Not flexible as some of the attributes have commas in them.
 
 // end::exportimport[]
 

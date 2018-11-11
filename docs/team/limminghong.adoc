@@ -27,16 +27,17 @@ When files are imported from other applications, in depth analysis have to be ma
 ** Justification: This feature allows the user to retrieve any lost information if they have accidentally deleted any.
 ** Highlights: Careful planning has to be done as saving the folders in a separate directory will result in the database being easily accessible. Therefore, we have to protect the folder the backups are saved by making the directory unknown.
 
-* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
+* *Code contributed*: [https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=limminghong[RepoSense]] [https://github.com/CS2113-AY1819S1-W12-3/main/pulls?q=is%3Apr+is%3Aclosed+author%3ALimminghong[Pull Requests]]
 
 * *Other contributions*:
 
 ** Project management:
 *** Managed releases `v1.1` - `v1.4` (4 releases) on GitHub
 ** Enhancements to existing features:
-*** Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests https://github.com[#36], https://github.com[#38])
+*** Wrote additional tests for existing features to increase coverage from 71% to 86% (Pull requests https://github.com/CS2113-AY1819S1-W12-3/main/pull/123[#123], https://github.com/CS2113-AY1819S1-W12-3/main/pull/158[#158])
+*** Issues resolved [https://github.com/CS2113-AY1819S1-W12-3/main/issues?q=is%3Aissue+author%3ALimminghong+is%3Aclosed[Issues]]
 ** Documentation:
-*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com[#14]
+*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com/CS2113-AY1819S1-W12-3/main/pull/158[#158]
 ** Community:
 *** PRs reviewed (with non-trivial review comments): https://github.com/CS2113-AY1819S1-W12-3/main/pull/73[#17]
 *** Reported bugs and suggestions for other teams in the class
@@ -44,7 +45,7 @@ When files are imported from other applications, in depth analysis have to be ma
 == Contributions to the User Guide
 
 |===
-|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|_Given below are sections I contributed to the User Guide. I have added the description of all the features i have implemented and added a appendix which helps the user to understand how a CSV file works._
 |===
 
 include::../UserGuide.adoc[tag=backuprestore]
@@ -56,7 +57,7 @@ include::../UserGuide.adoc[tag=appendixA]
 == Contributions to the Developer Guide
 
 |===
-|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|_Given below are sections I contributed to the Developer Guide. I have written on the logic behind on how I have implemented the features that were tasked to me. It also showcases my  ability to draw sequence diagrams._
 |===
 
 include::../DeveloperGuide.adoc[tag=backuprestore]
