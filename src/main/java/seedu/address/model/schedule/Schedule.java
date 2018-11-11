@@ -81,13 +81,13 @@ public class Schedule {
 
     /**
      * updates an activity from the schedule.
-     * @param toDelete A valid activity in the schedule
-     * @param toAdd A valid activity that falls on the same date as the activity to be edited
+     * @param target A valid activity in the schedule
+     * @param editedActivity A valid activity that falls on the same date as the activity to be edited
      */
-    public void update(Activity toDelete, Activity toAdd) {
-        requireNonNull(toAdd);
-        requireNonNull(toDelete);
-        Collections.replaceAll(schedule.get(toDelete.getDate()), toDelete, toAdd);
+    public void update(Activity target, Activity editedActivity) {
+        requireNonNull(editedActivity);
+        requireNonNull(target);
+        Collections.replaceAll(schedule.get(target.getDate()), target, editedActivity);
     }
 
     /**
