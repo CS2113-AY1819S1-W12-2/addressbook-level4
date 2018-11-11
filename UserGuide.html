@@ -787,12 +787,17 @@ Format: <code>clear</code></p>
 Format: <code>password YOURPASSWORD</code><br>
 All commands will be disabled during encryption, your data will be safely protected.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Note: You can use the same command to decrypt the file, just hit <code>password</code> and your correct password.</p>
-</li>
-</ul>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You can use the same command to decrypt the file, just hit <code>password</code> and your correct password.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect4">
 <h5 id="safe-analogy"><a class="link" href="#safe-analogy">Safe analogy</a></h5>
@@ -809,6 +814,7 @@ All commands will be disabled during encryption, your data will be safely protec
 </td>
 <td class="content">
 This feature does not actually store passwords. You will have to secure it with a password again after decryption to secure it.<br>
+Passwords can only be alpha-numeric.
 </td>
 </tr>
 </table>
@@ -823,14 +829,40 @@ And once you have unlocked it, you are free to set a new password.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>password helloworld</code><br>
-Locks addressbook and clears all data.</p>
-</li>
-<li>
-<p><code>password helloworld</code><br>
-Unlocks addressbook and restores all data.</p>
+<p><code>password helloworld</code><br></p>
 </li>
 </ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Locks address book with a password string and clears all data.
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>password helloworld</code><br></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Entering <code>password helloworld</code> unlocks the  address book and restores all data.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -1106,4 +1138,4 @@ If a compulsory field is left blank, the address book will not allow the CSV fil
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 07:37:05 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 08:19:09 UTC</div></div></div></body></html>

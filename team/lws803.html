@@ -23,18 +23,18 @@ This portfolio documents my ability to write java programs, as well as documenta
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Feature 1</strong>: Added the ability for users to secure their addressbook by <strong>encrypting</strong> data.</p>
+<p><strong>Feature 1</strong>: Added the ability for users to secure their address book by <strong>encrypting</strong> data.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>What it does: Upon entering the <code>password</code> command followed by a password, it will encrypt the addressbook data using <code>PBEWithMD5AndDES</code> cipher.</p>
+<p>What it does: Upon entering the <code>password</code> command followed by a password, it will encrypt the address book data using <code>PBEWithMD5AndDES</code> cipher.</p>
 </li>
 <li>
-<p>Justification: This feature was implemented so that corporate users can secure sensitive information in accordance to PDPA (Personal Data Protection Act) rules. Reducing the possibilities of data leaks and unwanted access.</p>
+<p>Justification: This feature was implemented so that corporate users can secure sensitive information in accordance to PDPA (Personal Data Protection Act) rules. This reduces the possibilities of data leaks and unwanted access.</p>
 </li>
 <li>
-<p>Highlights: This feature uses a well-known cipher <code>PBEWithMD5AndDES</code> and <code>PBEKeySpec</code> which accepts the user&#8217;s password. Once the file is encrypted, it will not be crackable unless done via brute forcing.
-It also requires file type checking to make sure that I can compress both encryption and decryption process into one single <code>password</code> command much like a toggle so that users need not utilise 2 different commands for encrypting and decrypting.</p>
+<p>Highlights: This feature implements a well-known cipher <code>PBEWithMD5AndDES</code> and <code>PBEKeySpec</code> which accepts the user&#8217;s password. Once the file is encrypted, it will not be crackable unless done via brute forcing.
+It also requires file type checking to make sure that the user can compress both encryption and decryption process into one single <code>password</code> command much like a toggle so that users need not utilise 2 different commands for encrypting and decrypting.</p>
 </li>
 <li>
 <p>Credits: Code snippet adapted from Esailija [<a href="https://stackoverflow.com/questions/13673556/using-password-based-encryption-on-a-file-in-java">Stack overflow</a>]</p>
@@ -47,7 +47,7 @@ It also requires file type checking to make sure that I can compress both encryp
 <div class="ulist">
 <ul>
 <li>
-<p>What it does: Users can now search for the contacts they want by roughly specifying other traits/ attributes of the contacts. For example, users can
+<p>What it does: Users can now search for the contacts they want by approximately specifying other traits/ attributes of the contacts. For example, users can
 search for contacts who live in Jurong West and are tagged as friends.</p>
 </li>
 <li>
@@ -55,30 +55,30 @@ search for contacts who live in Jurong West and are tagged as friends.</p>
 </li>
 <li>
 <p>Highlights: This feature uses Levenshtein and Hamming Distance to find the closest match for the keywords entered. It will then sort the matches based on how close it is to the keywords entered.
-After which, it will perform a set intersection on the various contacts to find the contact which meets all the user&#8217;s search requirements.</p>
+After which, it will perform a <strong>set intersection</strong> on the search results to narrow it down before displaying it to the user.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Feature 3</strong>: Implemented the use of custom preference to specify custom path for addressbook.xml.</p>
+<p><strong>Feature 3</strong>: Implemented custom paths for data storage.</p>
 <div class="ulist">
 <ul>
 <li>
 <p>What it does: Users can now specify the path they wish to save their addressbook.xml to.</p>
 </li>
 <li>
-<p>Justification: Corporate users might want to have separate addressbooks without the need of storing their application in different folders.
-They can instead change the preference file to decide what is the name and location they wish to store the addressbook.xml data file.</p>
+<p>Justification: Corporate users might want to have separate address books without the need of storing their application in different folders.
+They can instead edit the preference file to change the name and location of their data storage file path.</p>
 </li>
 <li>
-<p>Highlights: This feature requires implementing their json reader in <code>UserPrefs</code> class and storing it as a public variable for other classes to depend on.</p>
+<p>Highlights: This feature requires implementing the json reader in <code>UserPrefs</code> class and storing it as a public variable for other classes to depend on.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/functional/lws803.md">Functional code</a>] [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/test/lws803.md">Test code</a>] [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/unused/lws803-unused.md">Unused code</a>]</p>
+<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/functional/lws803.md">Functional code</a>] [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/test/lws803.md">Test code</a>]</p>
 </li>
 <li>
 <p><strong>Other contributions</strong>:</p>
@@ -109,13 +109,10 @@ They can instead change the preference file to decide what is the name and locat
 <div class="ulist">
 <ul>
 <li>
-<p>PRs reviewed (with non-trivial review comments): <a href="https://github.com">#12</a>, <a href="https://github.com">#32</a>, <a href="https://github.com">#19</a>, <a href="https://github.com">#42</a> - TODO</p>
+<p><a href="https://github.com/CS2113-AY1819S1-W12-3/main/pulls?q=is%3Apr+assignee%3Alws803+author%3Alws803+is%3Aclosed">PRs made</a></p>
 </li>
 <li>
-<p>Reported bugs and suggestions for other teams in the class (examples:  <a href="https://github.com">1</a>, <a href="https://github.com">2</a>, <a href="https://github.com">3</a>) - TODO</p>
-</li>
-<li>
-<p>Some parts of the file encryptor feature I added was adopted by several other class mates (<a href="https://github.com">1</a>, <a href="https://github.com">2</a>) - TODO</p>
+<p><a href="https://github.com/CS2113-AY1819S1-W12-3/main/issues?q=is%3Aissue+is%3Aclosed+author%3Alws803">Reported bugs and suggestions for other teams in the class</a></p>
 </li>
 </ul>
 </div>
@@ -296,12 +293,17 @@ To narrow down your searches, try to be more specific in the phone number you wi
 Format: <code>password YOURPASSWORD</code><br>
 All commands will be disabled during encryption, your data will be safely protected.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Note: You can use the same command to decrypt the file, just hit <code>password</code> and your correct password.</p>
-</li>
-</ul>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You can use the same command to decrypt the file, just hit <code>password</code> and your correct password.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect4">
 <h5 id="safe-analogy"><a class="link" href="#safe-analogy">Safe analogy</a></h5>
@@ -318,6 +320,7 @@ All commands will be disabled during encryption, your data will be safely protec
 </td>
 <td class="content">
 This feature does not actually store passwords. You will have to secure it with a password again after decryption to secure it.<br>
+Passwords can only be alpha-numeric.
 </td>
 </tr>
 </table>
@@ -332,14 +335,40 @@ And once you have unlocked it, you are free to set a new password.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>password helloworld</code><br>
-Locks addressbook and clears all data.</p>
-</li>
-<li>
-<p><code>password helloworld</code><br>
-Unlocks addressbook and restores all data.</p>
+<p><code>password helloworld</code><br></p>
 </li>
 </ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Locks address book with a password string and clears all data.
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>password helloworld</code><br></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Entering <code>password helloworld</code> unlocks the  address book and restores all data.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -363,9 +392,8 @@ Unlocks addressbook and restores all data.</p>
 <div class="sect3">
 <h4 id="current-implementation"><a class="link" href="#current-implementation">Current Implementation</a></h4>
 <div class="paragraph">
-<p>The find function has been revamped to support prioritisation of search similarity.<br>
-<code>FindCommand</code> is now backed up by the <code>ClosestMatchList</code> class which uses <code>LevenshteinDistanceUtil</code> and <code>HammingDistanceUtil</code> to generate an ordered set of Person attributes ordered by similarity.<br>
-It also supports searching by other attributes and chaining.</p>
+<p>The find function has been revamped to support search guessing and search by attributes.<br>
+<code>FindCommand</code> is now backed up by the <code>ClosestMatchList</code> class which uses <code>LevenshteinDistanceUtil</code> and <code>HammingDistanceUtil</code> to generate an ordered set of <code>Person</code> attributes ordered by similarity.</p>
 </div>
 </div>
 <div class="sect3">
@@ -465,7 +493,7 @@ It also supports searching by other attributes and chaining.</p>
 <div class="sect4">
 <h5 id="aspect-data-structure-to-support-the-revamped-find-command"><a class="link" href="#aspect-data-structure-to-support-the-revamped-find-command">Aspect: Data structure to support the revamped Find command</a></h5>
 <div class="paragraph">
-<p><code>treeMap</code> was used to store the search results ordered by their Levenshtein distances.<br>
+<p><code>treeMap</code> was used to store the search results ordered by their Levenshtein or Hamming distances.<br>
 The results are then filtered and
 results furthest away from the top few are ignored. The searches will then be passed thru their respective predicates
 (<code>NameContainsKeywordsPredicate</code>, <code>AddressContainsKeywordsPredicate</code>, <code>EmailContainsKeywordsPredicate</code>, <code>KpiContainsKeywordPredicate</code>, <code>NoteContainsKeywordsPredicate</code>, <code>PhoneContainsKeywordPredicate</code>, <code>PositionContainsKeywordsPredicate</code>, <code>TagContainsKeywordsPredicate</code>)
@@ -486,25 +514,19 @@ before filtering the list.</p>
 <p><strong>Step 4.</strong> <code>FindCommandParser</code> then checks the validity of the arguments before it creates the <code>FindCommand</code> object.<br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 5.</strong> <code>FindCommand</code> creates a <code>FileEncryptor</code> object to check if the address book is in a locked state by calling the <code>islocked()</code> method.<br></p>
+<p><strong>Step 5.</strong> <code>FindCommand</code> then proceeds to create <code>ClosestMatchList</code> objects.<br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 6.</strong> If not, it then proceeds to create <code>ClosestMatchList</code> objects.<br></p>
+<p><strong>Step 6.</strong> It uses the list of keywords obtained from <code>ClosestMatchList</code> to create <code>AddressContainsKeywordsPredicate</code> and <code>TagContainsKeywordsPredicate</code>.<br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 7.</strong> It uses the list of keywords obtained from <code>ClosestMatchList</code> to create <code>AddressContainsKeywordsPredicate</code> and <code>TagContainsKeywordsPredicate</code>.<br></p>
+<p><strong>Step 7.</strong> These predicates are combined into a <code>combinedPredicate</code> object using the "AND" operation.<br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 8.</strong> These predicates are combined into a <code>combinedPredicate</code> object using the AND operation.<br></p>
+<p><strong>Step 8.</strong> The model is then updated by calling <code>model.updateFilteredPersonList(combinedPredicate)</code> together with the combined predicate obtained in <strong>Step 8.</strong><br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 9.</strong> The model is then updated by calling <code>model.updateFilteredPersonList(combinedPredicate)</code> together with the combined predicate obtained in step 8.<br></p>
-</div>
-<div class="paragraph">
-<p><strong>Step 10.</strong> A <code>CommandResult</code> object will be created and an internal method <code>findActualMatches</code> will be called to generate a string of keywords that are exact matches and keywords that are guessed.<br></p>
-</div>
-<div class="paragraph">
-<p><strong>Step 11.</strong> Model update event will be called and the address book UI will update accordingly. It will also display commandResult based on the <code>CommandResult</code> object created in Step 10.</p>
+<p><strong>Step 9.</strong> A <code>CommandResult</code> object will be created and an internal method <code>findActualMatches()</code> will be called to generate a string of keywords that are exact matches and keywords that are guessed.<br></p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -552,7 +574,7 @@ Additionally, it implements the following operations:</p>
 <p>Given below is an example usage scenario and how the password mechanism behaves at each step.</p>
 </div>
 <div class="paragraph">
-<p>Step 1. The user enters the password command with a password.</p>
+<p><strong>Step 1.</strong> The user enters the password command with a password.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -567,13 +589,13 @@ If the user enters a password which is non alpha-numeric, an error will be throw
 </table>
 </div>
 <div class="paragraph">
-<p>Step 2. The user closes the addressbook.</p>
+<p><strong>Step 2.</strong> The user closes the address book.</p>
 </div>
 <div class="paragraph">
-<p>Step 3. The user re-opens the addressbook. No data will be shown as XML data file is technically not present in the data folder.</p>
+<p><strong>Step 3.</strong> The user re-opens the address book. No data will be shown as the <code>XML data file</code> is technically not present in the data folder.</p>
 </div>
 <div class="paragraph">
-<p>Step 4. The user enters the password command with the right password. Addressbook will be refreshed and restored back to its former state (before encryption).</p>
+<p><strong>Step 4.</strong> The user enters the password command with the right password. Address book will be refreshed and restored back to its former state (before encryption).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -592,8 +614,8 @@ If the user enters the wrong password , an error will be thrown at the CommandRe
 <h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-how-encryption-and-decryption-is-done"><a class="link" href="#aspect-how-encryption-and-decryption-is-done">Aspect: How encryption and decryption is done</a></h5>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>The <code>PBEKeySpec</code> is first specified using the "PBEWithMD5AndDES" specification.</p>
 </li>
@@ -601,12 +623,12 @@ If the user enters the wrong password , an error will be thrown at the CommandRe
 <p>A secret key is generated from <code>SecretKeyFactory</code> using "PBEWithMD5AndDES" cipher.</p>
 </li>
 <li>
-<p>Then a <code>Cipher</code> is used to encrypt or decrypt the file with a given password and key specifications.</p>
+<p>A <code>Cipher</code> is then used to encrypt or decrypt the file with a given password and key specifications.</p>
 </li>
 <li>
 <p>Additional salt is used in the password to ensure that the password cannot be easily broken down by dictionary attacks.</p>
 </li>
-</ul>
+</ol>
 </div>
 </div>
 <div class="sect4">
@@ -630,13 +652,13 @@ If the user enters the wrong password , an error will be thrown at the CommandRe
 <p><strong>Step 2.</strong> <code>PasswordCommandParser</code> checks for the validity of the input password (if its alpha-numeric)<br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 3.</strong> If password is acceptable, it is parsed to the <code>PasswordCommand</code> object<br></p>
+<p><strong>Step 3.</strong> If the password is acceptable, it is parsed to the <code>PasswordCommand</code> object<br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 4.</strong> Within the <code>PasswordCommand</code> object, a new <code>FileEncryptor</code> object is created and it will check if the address book is currently in a locked state<br></p>
+<p><strong>Step 4.</strong> Within the <code>PasswordCommand</code> object, a new <code>FileEncryptor</code> object is created and it will check <strong>if</strong> the address book is currently in a locked state<br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 5.</strong> If not, it will create a cipher and begin encrypting the address book with the input password.<br></p>
+<p><strong>Step 5.</strong> If it is not currently locked, it will create a cipher and begin encrypting the address book with the input password.<br></p>
 </div>
 <div class="paragraph">
 <p><strong>Step 6.</strong> Previous <code>addressbook.xml</code> will be deleted whereas a new <code>addressbook.xml.encrypted</code> file will be created.<br></p>
@@ -666,14 +688,14 @@ If the user enters the wrong password , an error will be thrown at the CommandRe
 <p><strong>Step 5.</strong> <code>ListCommand</code> creates a <code>FileEncryptor</code> object to check if the address book is in a locked state by calling the <code>islocked()</code> method.<br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 6.</strong> Assuming we have encrypted it earlier, isLocked() will return true.<br></p>
+<p><strong>Step 6.</strong> isLocked() will return true.<br></p>
 </div>
 <div class="paragraph">
 <p><strong>Step 7.</strong> A <code>CommandException</code> will be thrown to warn the user that the address book is in a locked state.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/passwordCommand_seq.png" alt="passwordCommand seq" width="600">
+<img src="../images/passwordCommand_seq.png" alt="passwordCommand seq" width="500">
 </div>
 </div>
 <div class="paragraph">
@@ -684,4 +706,4 @@ If the user enters the wrong password , an error will be thrown at the CommandRe
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 07:37:05 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 08:19:09 UTC</div></div></div></body></html>
