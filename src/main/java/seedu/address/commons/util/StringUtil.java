@@ -152,7 +152,7 @@ public class StringUtil {
      * @param input the user input string.
      * @return true if confirms, false otherwise.
      */
-    public static boolean isValidSelectSyntax(String input) {
+    public static boolean isValidMultipleIndexFormat(String input) {
         if (isRangeIndexFormat(input) || areNonZeroUnsignedInteger(input)) {
             return true;
         }

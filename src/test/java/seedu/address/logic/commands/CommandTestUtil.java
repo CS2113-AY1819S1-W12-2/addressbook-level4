@@ -2,7 +2,9 @@ package seedu.address.logic.commands;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ACTIVITY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_KPI;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -31,6 +33,8 @@ public class CommandTestUtil {
 
     public static final String VALID_NAME_AMY = "Amy Bee";
     public static final String VALID_NAME_BOB = "Bob Choo";
+    public static final String VALID_NAME_CHARLIE = "Charlie Teo";
+    public static final String VALID_NAME_DANIEL = "Daniel Lee";
     public static final String VALID_PHONE_AMY = "11111111";
     public static final String VALID_PHONE_BOB = "22222222";
     public static final String VALID_EMAIL_AMY = "amy@example.com";
@@ -45,6 +49,8 @@ public class CommandTestUtil {
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
+    public static final String NAME_DESC_CHARLIE = " " + PREFIX_NAME + VALID_NAME_CHARLIE;
+    public static final String NAME_DESC_DANIEL = " " + PREFIX_NAME + VALID_NAME_DANIEL;
     public static final String PHONE_DESC_AMY = " " + PREFIX_PHONE + VALID_PHONE_AMY;
     public static final String PHONE_DESC_BOB = " " + PREFIX_PHONE + VALID_PHONE_BOB;
     public static final String EMAIL_DESC_AMY = " " + PREFIX_EMAIL + VALID_EMAIL_AMY;
@@ -77,7 +83,20 @@ public class CommandTestUtil {
     public static final EditCommand.EditPersonDescriptor DESC_BOB;
 
     public static final String ACTIVITY_ONE_NAME = "Write a Progress Report.";
+    public static final String ACTIVITY_ONE_DATE = "29/02/2016";
     public static final String ACTIVITY_TWO_NAME = "Give Alexia a raise.";
+    public static final String ACTIVITY_TWO_DATE = "01/01/2016";
+
+    public static final String INVALID_ACTIVITY_DESC = " " + PREFIX_ACTIVITY + ""; //empty string not allowed.
+    public static final String INVALID_DATE_DESC = " " + PREFIX_DATE + "31/02/2000"; //invalid date.
+
+    public static final String ACTIVITY_ONE_NAME_DESC = " " + PREFIX_ACTIVITY + ACTIVITY_ONE_NAME;
+    public static final String ACTIVITY_TWO_NAME_DESC = " " + PREFIX_ACTIVITY + ACTIVITY_TWO_NAME;
+    public static final String ACTIVITY_ONE_DATE_DESC = " " + PREFIX_DATE + ACTIVITY_ONE_DATE;
+    public static final String ACTIVITY_TWO_DATE_DESC = " " + PREFIX_DATE + ACTIVITY_TWO_DATE;
+
+
+
 
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)

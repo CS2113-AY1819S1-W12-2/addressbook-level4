@@ -3,8 +3,6 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -14,9 +12,7 @@ import java.util.StringTokenizer;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
-import seedu.address.logic.commands.BackUpCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.backup.BackupList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Kpi;
@@ -55,13 +51,43 @@ public class ParserUtil {
      */
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
-        String trimmedName = name.trim();
+        String trimmedName = name.trim().toLowerCase();
         if (!Name.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_NAME_CONSTRAINTS);
         }
-        return new Name(trimmedName);
+        String parsedName = new String();
+        StringTokenizer st = new StringTokenizer(trimmedName);
+        while (st.hasMoreTokens()) {
+            String str = st.nextToken();
+            str = Character.toUpperCase(str.charAt(0)) + str.substring(1);
+            parsedName += str + " ";
+        }
+        parsedName = parsedName.trim();
+        return new Name(parsedName);
     }
 
+    /**
+     * Parses a {@code String attribute} into a {@code Attribute}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code attribute} is invalid.
+     */
+    public static String parseAttribute(String attribute) throws ParseException {
+        requireNonNull(attribute);
+        String trimmedAttribute = attribute.trim();
+        return trimmedAttribute;
+    }
+    /**
+     * Parses a {@code String order} into a {@code Order}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code order} is invalid.
+     */
+    public static String parseOrder(String order) throws ParseException {
+        requireNonNull(order);
+        String trimmedOrder = order.trim();
+        return trimmedOrder;
+    }
     /**
      * Parses a {@code String phone} into a {@code Phone}.
      * Leading and trailing whitespaces will be trimmed.
@@ -142,20 +168,6 @@ public class ParserUtil {
         return tagSet;
     }
 
-    //@@author Limminghong
-    /**
-     * Parses {@code String Snapshots} into a {@code Snapshots}.
-     * @throws IOException if the ".backup" directory does not exist.
-     */
-    public static BackupList parseBackup(String backupList) throws IOException {
-        requireNonNull(backupList);
-        File backupDir = new File(BackUpCommand.DEST_PATH);
-        if (!backupDir.exists()) {
-            throw new IOException(BackupList.MESSAGE_BACKUP_CONSTRAINTS);
-        }
-        return new BackupList(backupDir);
-    }
-
     //@@author LowGinWee
     /**
      * Parses a {@code String position} into an {@code Position}.
@@ -212,7 +224,7 @@ public class ParserUtil {
         int day = Integer.parseInt(tokens.nextToken());
         int month = Integer.parseInt(tokens.nextToken());
         int year = Integer.parseInt(tokens.nextToken());
-        return Activity.toDate(day, --month, year);
+        return Activity.toDate(day, month, year);
     }
 
     /**
@@ -273,10 +285,10 @@ public class ParserUtil {
      * @return the list of {@code Index} to return.
      * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
      */
-    public static ArrayList<Index> parseSelectIndex(String oneBasedIndex) throws ParseException {
+    public static ArrayList<Index> parseIndices(String oneBasedIndex) throws ParseException {
 
         // Perform a syntax check here
-        if (!StringUtil.isValidSelectSyntax(oneBasedIndex)) {
+        if (!StringUtil.isValidMultipleIndexFormat(oneBasedIndex)) {
             throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
         }
 

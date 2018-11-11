@@ -1,6 +1,8 @@
 package seedu.address.commons.core;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -21,6 +23,7 @@ public class LogsCenter {
     private static final int MAX_FILE_COUNT = 5;
     private static final int MAX_FILE_SIZE_IN_BYTES = (int) (Math.pow(2, 20) * 5); // 5MB
     private static final String LOG_FILE = "addressbook.log";
+    private static final String DUP_LOG_FILE = LOG_FILE + ".0.1"; // The duplicate log file that would be created.
     private static Level currentLogLevel = Level.INFO;
     private static final Logger logger = LogsCenter.getLogger(LogsCenter.class);
     private static FileHandler fileHandler;
@@ -124,5 +127,19 @@ public class LogsCenter {
      */
     public static String getEventHandlingLogMessage(BaseEvent e) {
         return getEventHandlingLogMessage(e, "");
+    }
+
+    /**
+     * Removes the duplicated log file that would be created when more than one instance of the application is trying
+     * to run.
+     */
+    public static void removeDuplicateLogFile() {
+        // Since Java's FileHandler does not provide a method to get the name of the log file in use, we quickly delete
+        // the duplicated log file based on the pattern string we passed into the FileHandler constructor.
+        try {
+            Files.delete(Paths.get(DUP_LOG_FILE));
+        } catch (IOException e) {
+            logger.info(logger.getName() + "Unable to delete this file. \n" + e.getMessage());
+        }
     }
 }

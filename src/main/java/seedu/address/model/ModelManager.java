@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
@@ -24,10 +23,10 @@ import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.autocomplete.CommandCompleter;
 import seedu.address.model.autocomplete.TextPrediction;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.EmptyPersonListException;
 import seedu.address.model.schedule.Activity;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
+import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.XmlAddressBookStorage;
 
 /**
@@ -36,7 +35,6 @@ import seedu.address.storage.XmlAddressBookStorage;
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
-    private final AddressBook addressBook;
     private final VersionedAddressBook versionedAddressBook;
     private final FilteredList<Person> filteredPersons;
     private List<Person> selectedPersons;
@@ -50,7 +48,6 @@ public class ModelManager extends ComponentManager implements Model {
         requireAllNonNull(addressBook, userPrefs);
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
-        this.addressBook = new AddressBook(addressBook);
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
         textPrediction = new CommandCompleter(this);
@@ -174,13 +171,52 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     //@@author lekoook
+    /**
+     * Gets the prediction given a command input string.
+     * @param input the command input string.
+     * @return the list of predictions.
+     */
+    public ArrayList<String> predictText(String input) {
+        return textPrediction.predictText(input);
+    }
 
     /**
-     * Get the TextPrediction instance.
-     * @return the TextPrediction instance used for text prediction.
+     * Inserts a person's attributes into text prediction.
+     * @param person the person to insert.
      */
-    public TextPrediction getTextPrediction() {
-        return textPrediction;
+    public void insertPersonIntoPrediction(Person person) {
+        textPrediction.insertPerson(person);
+    }
+
+    /**
+     * Removes a person's attributes from text prediction.
+     * @param person the person to remove.
+     */
+    public void removePersonFromPrediction(Person person) {
+        textPrediction.removePerson(person);
+    }
+
+    /**
+     * Edits a person's attributes in text prediction.
+     * @param personToEdit the original person to edit.
+     * @param editedPerson the edited version of original person.
+     */
+    public void editPersonInPrediction(Person personToEdit, Person editedPerson) {
+        textPrediction.editPerson(personToEdit, editedPerson);
+    }
+
+    /**
+     * Clears all data in text prediction.
+     */
+    public void clearInPrediction() {
+        textPrediction.clearData();
+    }
+
+    /**
+     * Reinitialise all text prediction data.
+     */
+    public void reinitialisePrediction() {
+        textPrediction.reinitialise();
     }
 
     /**
@@ -199,7 +235,6 @@ public class ModelManager extends ComponentManager implements Model {
         return this.selectedPersons;
     }
 
-
     //@@author lws803
     /**
      * Reinitialises the address book
@@ -208,6 +243,16 @@ public class ModelManager extends ComponentManager implements Model {
     public void reinitAddressbook() {
         UserPrefs userPref = new UserPrefs();
         Path path = Paths.get(userPref.getAddressBookFilePath().toString());
+        replaceData(path);
+    }
+
+    //@@author lws803
+    /**
+     * Method to replace data for reinitAddressbook and restoreAddressbook
+     * @param path path of .xml file
+     */
+    @Override
+    public void replaceData(Path path) {
         XmlAddressBookStorage storage = new XmlAddressBookStorage(path);
         ReadOnlyAddressBook initialData;
         try {
@@ -220,8 +265,22 @@ public class ModelManager extends ComponentManager implements Model {
         }
     }
 
-    //@@author LowGinWee
+    //@@author Limminghong
+    /**
+     * Create a backup snapshot in the ".backup" folder
+     * @param path to the snapshot
+     */
+    @Override
+    public void backUpAddressbook(Path path) {
+        try {
+            AddressBookStorage backupStorage = new XmlAddressBookStorage(path);
+            backupStorage.saveAddressBook(versionedAddressBook);
+        } catch (IOException io) {
+            logger.severe(io.getMessage());
+        }
+    }
 
+    //@@author LowGinWee
     /**
      * Get a list of unique tags of all persons in the addressbook
      * @return a list of unique tags.
@@ -270,10 +329,5 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public TreeMap<Date, ArrayList<Activity>> getSchedule() {
         return versionedAddressBook.getSchedule();
-    }
-
-    @Override
-    public void sortPerson(Comparator<Person> sortComparator, boolean isReverseOrder) throws EmptyPersonListException {
-        addressBook.sortPerson(sortComparator, isReverseOrder);
     }
 }

@@ -1,7 +1,6 @@
 package seedu.address.model;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -19,7 +18,6 @@ public class VersionedAddressBook extends AddressBook {
         addressBookStateList.add(new AddressBook(initialState));
         currentStatePointer = 0;
     }
-
 
     /**
      * Saves a copy of the current {@code AddressBook} state at the end of the state list.

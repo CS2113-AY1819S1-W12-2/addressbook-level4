@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -22,8 +23,6 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.autocomplete.CommandCompleter;
-import seedu.address.model.autocomplete.TextPrediction;
 import seedu.address.model.person.Person;
 import seedu.address.model.schedule.Activity;
 import seedu.address.model.tag.Tag;
@@ -162,8 +161,32 @@ public class AddCommandTest {
 
         //@@author lekoook
         @Override
-        public TextPrediction getTextPrediction() {
-            return new CommandCompleter(this);
+        public ArrayList<String> predictText(String input) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void insertPersonIntoPrediction(Person person) {
+        }
+
+        @Override
+        public void removePersonFromPrediction(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void editPersonInPrediction(Person personToEdit, Person editedPerson) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void clearInPrediction() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void reinitialisePrediction() {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -175,24 +198,35 @@ public class AddCommandTest {
         public List<Person> getSelectedPersons() {
             throw new AssertionError("This method should not be called.");
         }
-        //@@author
 
         //@@author lws803
         @Override
         public void reinitAddressbook() {
             throw new AssertionError("This method should not be called.");
         }
-        //@@author
+
+        @Override
+        public void replaceData(Path path) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        //@@author Limminghong
+        @Override
+        public void backUpAddressbook(Path path) {
+            throw new AssertionError("This method should not be called.");
+        }
 
         //@@author LowGinWee
         @Override
         public List<Tag> getUniqueTagList() {
             throw new AssertionError("This method should not be called.");
         }
+
         @Override
         public TreeMap<Date, ArrayList<Activity>> getSchedule() {
             throw new AssertionError("This method should not be called.");
         }
+
         @Override
         public void addActivity(Activity activity) {
             throw new AssertionError("This method should not be called.");
@@ -211,7 +245,6 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
         //@@author
-
     }
 
     /**

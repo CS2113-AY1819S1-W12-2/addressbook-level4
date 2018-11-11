@@ -57,7 +57,6 @@ public class UniqueTagList {
     /**
      * Adds all tags that belong to the person to the Map as a Key and adds the person to its (@Code UniquePersonList).
      */
-    //TODO refactor this
     public void add(Person person) {
         requireNonNull(person);
         for (Tag tag : person.getTags()) {

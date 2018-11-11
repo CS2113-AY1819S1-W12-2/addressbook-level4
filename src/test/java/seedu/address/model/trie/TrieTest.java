@@ -55,6 +55,27 @@ public class TrieTest {
     }
 
     @Test
+    public void insertAndRemove_multipleValues_success() {
+        Trie trieUnderTest = new Trie(testStrings);
+
+        ArrayList<String> actualBeforeInsertion = trieUnderTest.getPredictList("hel");
+        ArrayList<String> expectedBeforeInsertion = new ArrayList<>(Arrays.asList("l", "lo ", "ipad ", "p "));
+        assertEquals(expectedBeforeInsertion, actualBeforeInsertion);
+
+        // Insert duplicate
+        trieUnderTest.insert("hello");
+        ArrayList<String> actualAfterInsertion = trieUnderTest.getPredictList("hel");
+        ArrayList<String> expectedAfterInsertion = new ArrayList<>(Arrays.asList("l", "lo ", "ipad ", "p "));
+        assertEquals(expectedAfterInsertion, actualAfterInsertion);
+
+        // Remove the duplicate
+        trieUnderTest.remove("hello");
+        ArrayList<String> actualAfterRemoval = trieUnderTest.getPredictList("hel");
+        ArrayList<String> expectedAfterRemoval = new ArrayList<>(Arrays.asList("l", "lo ", "ipad ", "p "));
+        assertEquals(expectedAfterRemoval, actualAfterRemoval);
+    }
+
+    @Test
     public void clear_nonEmptyTrie_success() {
         Trie trieUnderTest = new Trie(testStrings);
         trieUnderTest.clear();

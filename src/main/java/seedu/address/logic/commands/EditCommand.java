@@ -65,6 +65,8 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_ALL_NAME = "You are not able to change names"
+            + " when using the \"all/\" feature";
     public static final String MESSAGE_EDIT_ALL_SUCCESS = "Edited %d Person(s)";
 
     private final Index index;
@@ -115,7 +117,9 @@ public class EditCommand extends Command {
     private CommandResult editAllEntries(Model model) throws CommandException {
         List<Person> lastShownList = model.getFilteredPersonList();
         List<Person> personsToCopy = new ArrayList<>();
-
+        if (editPersonDescriptor.getName().isPresent()) {
+            throw new CommandException(MESSAGE_ALL_NAME);
+        }
         for (Person person : lastShownList) {
             personsToCopy.add(person);
         }
@@ -127,13 +131,11 @@ public class EditCommand extends Command {
             }
 
             model.updatePerson(personToEdit, editedPerson);
-            //TODO to enquire and merge with lekoook
-            //model.getTextPrediction().editPerson(personToEdit, editedPerson);
+            model.editPersonInPrediction(personToEdit, editedPerson);
         }
 
         model.commitAddressBook();
 
-        //TODO change this to show only edited stuff and format
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_ALL_SUCCESS, personsToCopy.size()));
     }
@@ -158,7 +160,7 @@ public class EditCommand extends Command {
 
         model.commitAddressBook();
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        model.getTextPrediction().editPerson(personToEdit, editedPerson, model.getUniqueTagList());
+        model.editPersonInPrediction(personToEdit, editedPerson);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedPerson));
     }
 

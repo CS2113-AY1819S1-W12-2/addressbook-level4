@@ -1,3 +1,4 @@
+//@@author LowGinWee
 package seedu.address.model.schedule;
 
 import static org.junit.Assert.assertFalse;

@@ -343,7 +343,7 @@ Step 3. The user re-opens the addressbook. No data will be shown as XML data fil
 Step 4. The user enters the password command with the right password. Addressbook will be refreshed and restored back to its former state (before encryption).
 
 [NOTE]
-If the user enters the wrong password, an error will be thrown at the CommandResult box.
+If the user enters the wrong password , an error will be thrown at the CommandResult box.
 
 
 ==== Design Considerations
@@ -357,6 +357,46 @@ If the user enters the wrong password, an error will be thrown at the CommandRes
 ===== Aspect: Pros and cons of tight security
 ** Pros: Your data is protected and it will be near impossible to use any third part tool to crack the data file.
 ** Cons: Data will be *permanently* lost if you forget the password.
+
+====== Encrypting the address book:
+
+*Step 1.* The user executes `password test` to encrypt the address book with `test` as the password. +
+
+*Step 2.* `PasswordCommandParser` checks for the validity of the input password (if its alpha-numeric) +
+
+*Step 3.* If password is acceptable, it is parsed to the `PasswordCommand` object +
+
+*Step 4.* Within the `PasswordCommand` object, a new `FileEncryptor` object is created and it will check if the address book is currently in a locked state +
+
+*Step 5.* If not, it will create a cipher and begin encrypting the address book with the input password. +
+
+*Step 6.* Previous `addressbook.xml` will be deleted whereas a new `addressbook.xml.encrypted` file will be created. +
+
+*Step 7.* A new `emptyPredicate` object will be instantiated and `model.updateFilteredPersonList(emptyPredicate)` will be called to clear the address book list. +
+
+*Step 8.* A `CommandResult` object will be created to notify the user that the encryption was successful +
+
+
+====== Accessing commands post encryption:
+
+*Step 1.* The user executes `list` to list out all the contacts in the address book. +
+
+*Step 2.* The user input is parsed by `AddressBookParser` which creates a new `ListCommandParser` object. +
+
+*Step 3.* The arguments are then parsed by the `ListCommandParser`. +
+
+*Step 4.* `ListCommandParser` then checks the validity of the arguments before it creates the `ListCommand` object. +
+
+*Step 5.* `ListCommand` creates a `FileEncryptor` object to check if the address book is in a locked state by calling the `islocked()` method. +
+
+*Step 6.* Assuming we have encrypted it earlier, isLocked() will return true. +
+
+*Step 7.* A `CommandException` will be thrown to warn the user that the address book is in a locked state.
+
+
+image::passwordCommand_seq.png[width="600"]
+Figure 1. Interactions inside the logic component for the `password` command.
+
 
 // end::dataencryption[]
 
@@ -411,12 +451,16 @@ Hence, calling `getPredictList("wom")` will return a list containing the element
 * `"en"`
 * `"ble"`
 
+// tag::backuprestore[]
 === Back Up and Restore
 ==== Back Up
 Creation of backups is done in `BackUpCommand` class. It extends the `Command` class with an overriding execute function. +
 The execute function does the following operations: +
-Step 1. The 'BackUpCommand` class will check if a `.backup` directory exist. If it does not, a `.backup` will be created. +
-Step 2. `addressbook.xml` will be copied to the `.backup` folder with the name being saved as the number of milliseconds which has passed since epoch. +
+Step 1. The `BackUpCommand` class will check if a `.backup` directory exist. If it does not, a `.backup` will be created. +
+Step 2. The `backUpAddressbook()` method will be called on the current model. +
+Step 3. The `ModelManager` will read the current address book into a `ReadOnlyAddressbook` +
+Step 4. A `XmlAddressBookStorage` will be initialised with the path of `.backup` and the file name. The file name will be that of the time in milliseconds since epoch (1970). +
+Step 5. A new `.xml` file will be saved in the path by invoking `saveAddressBook()` on the `ReadOnlyAddessbook` created. +
 
 ==== Listing of backup snapshots
 Listing of the snapshots of backups is done with the `RestoreSnapshotsCommand` class. It also extends the `Command` class. +
@@ -426,25 +470,71 @@ Step 2. Converts the names of file into the format DATE TIME and saves it in an 
 Step 3. Iterate through the array and form a string to print. +
 Step 4. Prints the string. +
 
-==== Restoring from the list
-[[Implementation-Restore]]
+The `BackupList` object holds a map of files with indexes as its keys. It also has an array of `String`. The position of the strings corresponds to the index of the file it represents in the map. +
 
-// tag::find[]
+==== Restoring from the list
+The restoration of backup snapshots is done in the `RestoreCommand` class. It extends the `Command` class with an overriding execute function. +
+The execute method will do the following operation: +
+Step 1. `BackupList` and an `INDEX` input by the user. +
+Step 2. The `BackupList` contains a map of `File` with an `INDEX` attached to it. +
+Step 3. The chosen file based on the index will be converted in to a path and the current data in the address book will be replaced by the chosen file.
+
+// TODO: Add design considerations and sequence diagram
+
+// end::backuprestore[]
+
+// tag::exportimport[]
+=== Export and Import
+==== Export to CSV
+The export function is facilitated by the `ExportCommand` class. It extends the `Command` class wit an overriding execute function. +
+The execute method will do the following operation: +
+Step 1. The current address book information will be instantiated into a new `ReadOnlyAddressbook` object. +
+Step 2. An `ObservableList<Person>` will be obtained from the address book. +
+Step 3. The `ObservableList<Person>` will be written onto a CSV file via the CsvWriter object. +
+
+`CsvWriter` is an object that takes in a path of where the export is to be saved and write a CSV file into the said path. +
+The conversion is as follows: +
+Step 1. The constructor converts an `ObservableList<Person>` into a `List<Person>`
+Step 2. The `convertToCsv()` method will be called in `ExportCommand` and a new CSV file will be written with the content of the created `List<Person>`. +
+Step 3. This file will be created in the path. +
+
+=== Import CSV to address book
+The import function is implemented with the `ImportCommand` class. It extends the `Command` class with an overriding execute method. +
+The execute method will fo the following operation: +
+Step 1. A `CsvReader` will be instantiated with the file corresponding to the path of CSV file provided by the user. +
+Step 2. The `CsvReader` will call the `convertToList` method which returns a `List<Person>`. +
+Step 3. It will then iterate through the `List<Person>` and add `Person` one by one into the `Model`. If there are any duplicates it will be skipped. +
+
+`CsvReader` is an object that takes in a CSV file and converts it into a  list of persons. +
+The conversion is as follows: +
+Step 1. The constructor reads a CSV file line by line. +
+Step 2. The `convertToList` method formats the file into a `Model` friendly format. +
+Step 3. It then converts the strings into a persons. +
+Step 4. These persons are then stored in a `List<Person>` and returned. +
+
+// TODO: add design considerations and sequence diagram
+
+// end::exportimport[]
+
+// tag::search[]
 === Find and Search
 ==== Current Implementation
 
 The find function has been revamped to support prioritisation of search similarity. +
-`FindCommand` is now backed up by the `ClosestMatchList` class which uses `LevenshteinDistanceUtil` to generate an ordered set of Person names ordered by similarity.
+`FindCommand` is now backed up by the `ClosestMatchList` class which uses `LevenshteinDistanceUtil` and `HammingDistanceUtil` to generate an ordered set of Person attributes ordered by similarity. +
+It also supports searching by other attributes and chaining.
 
-// TODO: Add more information here
 
 ==== Design Considerations
 ===== Aspect: How find command executes
 * **Alternative 1:** Find using only predicates
 ** Pros: Easy to implement.
 ** Cons: Search must be exact, cannot have typos or incomplete keywords
-* **Alternative 2 (current choice):** Store the search results in a `treeMap` ordered by their Levenshtein distances from the search keyword
+* **Alternative 2:** Store the search results in a `treeMap` ordered by their Levenshtein or Hamming distances from the search keyword
 ** Pros: Will also consider searches that are similar to what we want and will account for typos or incomplete keywords
+** Cons: Added complexities in finding and searching, can be vague when searching for number attributes
+* **Alternative 3 (current choice):** Same as alternative 2 but we use *Hamming distance* for phone numbers and KPI attributes instead.
+** Pros: Phone number and KPI searches are now more precise
 ** Cons: Added complexities in finding and searching
 
 ===== Aspect: Expanded features of find command
@@ -467,21 +557,197 @@ results furthest away from the top few are ignored. The searches will then be pa
 (`NameContainsKeywordsPredicate`, `AddressContainsKeywordsPredicate`, `EmailContainsKeywordsPredicate`, `KpiContainsKeywordPredicate`, `NoteContainsKeywordsPredicate`, `PhoneContainsKeywordPredicate`, `PositionContainsKeywordsPredicate`, `TagContainsKeywordsPredicate`)
 before filtering the list.
 
-// end::find[]
+====== Searching for a contact:
+
+*Step 1.* The user executes `find a/Clementi t/owesMoney` to find all contacts staying in Clementi and bearing the `owesMoney` tag. +
+
+*Step 2.* The user input is parsed by `AddressBookParser` which creates a new `FindCommandParser` object. +
+
+*Step 3.* The arguments `a/Clementi t/owesMoney` are then parsed by the `FindCommandParser`. +
+
+*Step 4.* `FindCommandParser` then checks the validity of the arguments before it creates the `FindCommand` object. +
+
+*Step 5.* `FindCommand` creates a `FileEncryptor` object to check if the address book is in a locked state by calling the `islocked()` method. +
+
+*Step 6.* If not, it then proceeds to create `ClosestMatchList` objects. +
+
+*Step 7.* It uses the list of keywords obtained from `ClosestMatchList` to create `AddressContainsKeywordsPredicate` and `TagContainsKeywordsPredicate`. +
+
+*Step 8.* These predicates are combined into a `combinedPredicate` object using the AND operation. +
+
+*Step 9.* The model is then updated by calling `model.updateFilteredPersonList(combinedPredicate)` together with the combined predicate obtained in step 8. +
+
+*Step 10.* A `CommandResult` object will be created and an internal method `findActualMatches` will be called to generate a string of keywords that are exact matches and keywords that are guessed. +
+
+*Step 11.* Model update event will be called and the address book UI will update accordingly. It will also display commandResult based on the `CommandResult` object created in Step 10.
+
+image::findFeature_seq.png[width="900"]
+Figure 1. Interactions inside the logic component for the `find a/Clementi t/owesMoney` command.
+
+image::closestMatchList_seq.png[width="500"]
+Figure 2. Interactions inside the `ClosestMatchList` class
+
+// end::search[]
+
+// tag::schedule[]
 === Schedule
 ==== Current implementation
-Updating the Schedule is facilitated by the `ScheduleCommand` class which extends the `Command` class.
+Updating the *Schedule* is facilitated by the `ScheduleCommand` class which extends the `Command` class.
 `ScheduleAddCommand`, `ScheduleEditCommand` and `ScheduleDeleteCommand` further extends `ScheduleCommand` to add, edit and
-delete entries in the Schedule respectively.
+delete entries in the *Schedule* respectively.
 
 ===== Activity
-
-Each entry in the Schedule is an `Activity`. It consist of a `String` which takes the name of the activity
+Each entry in the *Schedule* is an `Activity`. It consists of a `String` which takes the name of the activity
 and the `Date`, of which the activity is due.
 
 ===== Schedule
-The schedule is a `TreeMap` with `Date` of existing activities as its `key` and a `list` of activities, which is due on the same
-date, as its `value`. The schedule is instantiated in the `addressBook` and can be accessed through methods in the `modelManager`
+`Schedule` is implemented with a `TreeMap`. It has the `Date` of activities as its `key` and a `list` of activities, which is due on the same
+date, as its `value`.
+
+Additionally, it implements the following main operations:
+
+* `Schedule#add()` -- Add an `Activity` to `schedule`. +
+* `Schedule#delete()` -- Deletes an `Activity` from `schedule`. +
+* `Schedule#setSchedule` -- Sets `schedule` from a `list` of activities. This operation is executed when importing data from an `XML` file.
+ This happens when you first start *CorpPro*.
+* `Schedule#getSchedule()` -- Returns the schedule with activities sorted by `Date` to be displayed in the GUI by `SchedulePanel` in the `UI` component.
+
+The schedule is instantiated in the `AddressBook` and have the main operations exposed in the `Model` interface as follows:
+
+* `Model#addActivity()` -- Exposes `Schedule#add()` .
+* `Model#deleteActivity()` -- Exposes `Schedule#delete()`.
+* `Model#updateActivity()` -- This operation edits an `Activity` in `schedule` by first executing `Schedule#delete()`, followed
+by `Schedule#add()`.
+* `Model#getSchedule()` -- Exposes `Schedule#getSchedule()`.
+
+===== Storage
+In addition to the CRUD (create, read, update and delete) functions, the schedule is also saved to an `XML` file
+whenever you update it. This is facilitated by `XmlAdaptedActivity` which stores an `Activity` in an `XML` format.
+`XmlSerializableAddressBook` then appends each `XmlAdaptedActivity` into a list and is saved in `addressbook.xml`.
+
+===== Usage scenarios
+Given below are examples of usage scenarios of how the schedule behaves when you carry out `schedule` commands. +
+
+====== Adding an activity:
+*Step 1.* The user executes `schedule-add d/01/01/2018 a/Complete report.` to add an activity to their schedule. +
+
+*Step 2.* The user input is first parsed by `AddressBookParser` which creates a new `ScheduleAddCommandParser` object. +
+
+*Step 3.* The arguments, `d/01/01/2018 a/Complete report.`, are then parsed by `ScheduleAddCommandParser`. +
+
+*Step 4.* `ScheduleAddCommandParser` checks the validity of the date and activity as input by the user. It then creates an
+`Activity` object. +
+
+[NOTE]
+If the date or the activity name is not valid, an error would be returned to the user instead of creating an `Activity` object.
+
+*Step 5.* `ScheduleAddCommandParser` then creates a new `ScheduleAddCommand` with the `activity` as its argument. +
+
+*Step 6.* `ScheduleAddCommand` is executed and calls `Model#addActivity()` which creates the `activity` in the `schedule`.
+
+[NOTE]
+Before calling `Model#addActivity()`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
+It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
+
+*Step 7.* `indicateAddressBookChanged()` is called within `Model#addActivity()` to raise an `AddressBookChangedEvent`, that the information within the
+address book is changed.  +
+
+*Step 8.* The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and updates
+the display to show the correct information to the user. +
+
+The following sequence diagrams shows you how the add operation works: +
+
+image::scheduleAddSequenceDiagramLogic.png[width="900"]
+Figure 1. Interactions inside the Logic component for the `schedule-add d/01/01/2018 a/Complete report.` command.
+[NOTE]
+The figure above illustrates the sequence from *Step 1.* to *Step 5.* +
+
+image::scheduleAddSequenceDiagramStorage.png[width="700"]
+Figure 2. Interactions inside the Storage component for the `schedule-add d/01/01/2018 a/Complete report.` command
+[NOTE]
+The figure above illustrates the sequence of *Step 6.* and *Step 7.* +
+
+image::scheduleAddSequenceDiagramEvent.png[width="700"]
+Figure 3. Interactions between the `EventCenter`, `UI` and `Storage` components for the `schedule-add d/01/01/2018 a/Complete report.` command
+[NOTE]
+The figure above illustrates the sequence of *Step 8.* +
+
+[NOTE]
+Storage of each activity is facilitated by `XmlAdaptedActivity` which stores an `Activity` in an `XML` format. `XmlSerializableAddressBook` then appends each `XmlAdaptedActivity` into a list and is saved in `addressbook.xml`
+
+====== Editing an activity:
+*Step 1.* The user executes `schedule-edit 2 a/Interview intern.` to edit an activity at `INDEX 2` in their schedule. +
+
+*Step 2.* The user input is first parsed by `AddressBookParser` which creates a new `ScheduleEditCommandParser` object. +
+
+*Step 3.* The arguments, `2 a/Interview intern.`, are then parsed by `ScheduleEditCommandParser`. +
+
+*Step 4.* `ScheduleEditCommandParser` checks the validity of the index and activity as input by the user. +
+
+*Step 5.* `ScheduleEditCommandParser` then creates a new `ScheduleEditCommand` with the `INDEX` and the activity
+ `String` as its argument. +
+
+*Step 6.* `ScheduleEditCommand` checks if the `INDEX` given is valid (within the size of the listed schedule) and calls
+`Model#updateActivity()`
+
+[NOTE]
+If the activity name or index is not valid, i.e. out of range, an error would be returned to the user instead of editing
+an activity.
+
+[NOTE]
+Before calling `Model#updateActivity()`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
+It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
+
+*Step 7.* `Model#updateActivity()` updates the corresponding `activity` in the `schedule`.
+`indicateAddressBookChanged()` is called within `Model#updateActivity()` to raise an `AddressBookChangedEvent` that the information within the
+address book is changed.  +
+
+*Step 8.* The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and
+updates the display to show the correct information to the user. +
+
+The following sequence diagrams shows how the edit operation works:
+
+image::scheduleEditSequenceDiagramLogic.png[width="900"]
+Figure 4. Interactions inside the Logic component for the `schedule-edit 2 a/Interview intern.` command
+[NOTE]
+The figure above illustrates the sequence from *Step 1.* to *Step 6.* +
+
+image::scheduleEditSequenceDiagramStorage.png[width="700"]
+Figure 5. Interactions inside the Model component for the `schedule-edit 2 a/Interview intern.` command
+[NOTE]
+The figure above illustrates the sequence of  *Step 7.* +
+
+The interactions between the `EventCenter`, `UI` and `Storage` components for the `schedule-edit 2 a/Interview intern.`
+command (*Step 8.*) are similar to *adding an activity* (see *Figure 3.*)
+
+====== Deleting an activity:
+*Step 1.* The user executes `schedule-delete 2` to delete the activity at `INDEX 2` in their schedule. +
+
+*Step 2.* The user input is first parsed by `AddressBookParser` which creates a new `ScheduleDeleteCommandParser` object. +
+
+*Step 3.* `ScheduleDeleteCommandParser` checks the validity of the index as input by the user.
+
+*Step 4.* `ScheduleDeleteCommandParser` then creates a new `ScheduleDeleteCommand` with the `INDEX` as its argument. +
+
+*Step 5.* `ScheduleDeleteCommand` checks if the `INDEX` given is valid (within the size of the listed schedule) and calls
+`Model#deleteActivity()`
+
+[NOTE]
+If the index is not valid, i.e. out of range, an error would be returned to the user instead of deleting
+an activity.
+
+[NOTE]
+Before calling `Model#deleteActivity()`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
+It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
+
+*Step 6.* `Model#deleteActivity` deletes the corresponding `activity` from the `schedule`. `indicateAddressBookChanged()` is called
+within `Model#deleteActivity()` to raise an `AddressBookChangedEvent`, that the information within the
+address book is changed.  +
+
+*Step 7.* The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and updates
+the display to show the correct information to the user. +
+
+The sequence of deleting an activity is similar to editing an activity. Instead of updating the activity, it is deleted. (see *Figure 4.* and *Figure 5.*)
 
 ==== Design Considerations
 ===== Aspect: Data structure of Schedule
@@ -506,6 +772,7 @@ date, as its `value`. The schedule is instantiated in the `addressBook` and can 
 ** Pros: Able to sort by time in future implementations.
 ** Cons: Need to parse `Date` when converting it to `String`.
 ** Cons: Need to parse user inputs to convert `String` to `Date`.
+// end::schedule[]
 
 == Documentation
 
@@ -1004,8 +1271,6 @@ Functional Requirements:
 
 |`* * *` |user who values time |autocomplete my commands |execute commands faster.
 
-|`* * *` |forgetful user |look at the photos of my contacts |recognise the person.
-
 |`* * *` |forgetful user |approximate my search input |get the closest output suggestions I need.
 
 |`* * *` |employee |access the full profile of my clients |retrieve their information when required.
@@ -1031,6 +1296,8 @@ Functional Requirements:
 |`*` |user |schedule tasks in a calendar |notified of my appointments.
 
 |`*` |user |schedule tasks in a calendar |notified of when tasks are due.
+
+|`*` |forgetful user |look at the photos of my contacts |recognise the person.
 |=======================================================================
 
 [appendix]

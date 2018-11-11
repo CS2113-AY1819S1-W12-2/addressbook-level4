@@ -9,12 +9,17 @@ import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_KPI_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_NOTE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_POSITION_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.KPI_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_CHARLIE;
+import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_DANIEL;
 import static seedu.address.logic.commands.CommandTestUtil.NOTE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NOTE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
@@ -22,10 +27,8 @@ import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.POSITION_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_CHARLIE;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_DANIEL;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_KPI;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
@@ -45,12 +48,16 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.UndoCommand;
+import seedu.address.logic.parser.CliSyntax;
 import seedu.address.model.Model;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Kpi;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Position;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -95,20 +102,10 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         assertTrue(getModel().getAddressBook().getPersonList().contains(BOB));
         index = INDEX_SECOND_PERSON;
         assertNotEquals(getModel().getFilteredPersonList().get(index.getZeroBased()), BOB);
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_AMY + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + POSITION_DESC_BOB + KPI_DESC_BOB + NOTE_DESC_BOB + TAG_DESC_FRIEND
-                + TAG_DESC_HUSBAND;
-        editedPerson = new PersonBuilder(BOB).withName(VALID_NAME_AMY).build();
-        assertCommandSuccess(command, index, editedPerson);
-
-        /* Case: edit a person with new values same as another person's values but with different phone and email
-         * -> edited
-         */
-        index = INDEX_SECOND_PERSON;
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_AMY + EMAIL_DESC_AMY
-                + ADDRESS_DESC_BOB + POSITION_DESC_BOB + KPI_DESC_BOB + NOTE_DESC_BOB + TAG_DESC_FRIEND
-                + TAG_DESC_HUSBAND;
-        editedPerson = new PersonBuilder(BOB).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).build();
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_DANIEL + PHONE_DESC_BOB
+                + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + POSITION_DESC_BOB + KPI_DESC_BOB + NOTE_DESC_BOB
+                + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
+        editedPerson = new PersonBuilder(BOB).withName(VALID_NAME_DANIEL).build();
         assertCommandSuccess(command, index, editedPerson);
 
         /* Case: clear tags -> cleared */
@@ -124,9 +121,9 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         showPersonsWithName(KEYWORD_MATCHING_MEIER);
         index = INDEX_FIRST_PERSON;
         assertTrue(index.getZeroBased() < getModel().getFilteredPersonList().size());
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + " " + NAME_DESC_BOB;
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + " " + NAME_DESC_CHARLIE;
         personToEdit = getModel().getFilteredPersonList().get(index.getZeroBased());
-        editedPerson = new PersonBuilder(personToEdit).withName(VALID_NAME_BOB).build();
+        editedPerson = new PersonBuilder(personToEdit).withName(VALID_NAME_CHARLIE).build();
         assertCommandSuccess(command, index, editedPerson);
 
         /* Case: filtered person list, edit index within bounds of address book but out of bounds of person list
@@ -153,7 +150,6 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         assertCommandSuccess(command, index, AMY, index);
 
         /* --------------------------------- Performing invalid edit operation -------------------------------------- */
-        //TODO add invalid note commands. add duplicate note checker
         /* Case: invalid index (0) -> rejected */
         assertCommandFailure(EditCommand.COMMAND_WORD + " 0" + NAME_DESC_BOB,
                 String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
@@ -191,6 +187,18 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
                         + INVALID_ADDRESS_DESC, Address.MESSAGE_ADDRESS_CONSTRAINTS);
 
+        /* Case: invalid note -> rejected */
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                        + INVALID_NOTE_DESC, Note.MESSAGE_NOTE_CONSTRAINTS);
+
+        /* Case: invalid position -> rejected */
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                        + INVALID_POSITION_DESC, Position.MESSAGE_POSITION_CONSTRAINTS);
+
+        /* Case: invalid kpi -> rejected */
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                        + INVALID_KPI_DESC, Kpi.MESSAGE_KPI_CONSTRAINTS);
+
         /* Case: invalid tag -> rejected */
         assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
                         + INVALID_TAG_DESC, Tag.MESSAGE_TAG_CONSTRAINTS);
@@ -223,6 +231,11 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_AMY
                 + ADDRESS_DESC_BOB + NOTE_DESC_BOB + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_PERSON);
+
+        /* Case: editing all with a name -> rejected */
+        command = EditCommand.COMMAND_WORD + " " + CliSyntax.PREFIX_ALL + " "
+                + NAME_DESC_BOB;
+        assertCommandFailure(command, EditCommand.MESSAGE_ALL_NAME);
     }
 
     /**

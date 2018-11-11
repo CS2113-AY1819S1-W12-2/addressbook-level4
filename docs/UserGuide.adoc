@@ -41,6 +41,42 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 .  Refer to <<Features>> for details of each command.
 
 [[Features]]
+
+== Command Summary
+
+* *Add* `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/POSITION] [k/KPI] [d/NOTE] [t/TAG [PRIORITY]]...` +
+e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 r/Boss k/4.5 d/James is a good friend t/friend t/colleague 2`
+* *Clear* : `clear`
+* *Delete* : `delete INDEX` +
+e.g. `delete 3`
+* *Edit* : `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/POSITION] [k/KPI] [d/NOTE] [t/TAG [PRIORITY]]…​` +
+e.g. `edit 2 n/James Lee e/jameslee@example.com` or `edit all/ t/owesMoney`
+* *Find* : `find n/ KEYWORD [MORE_KEYWORDS]` +
+e.g. `find n/James Jake`
+* *List* : `list`
+* *Help* : `help`
+* *Select* : `select INDEX` +
+e.g.`select 2` or `select 1 - 3, 5 - 7`
+* *History* : `history`
+* *Undo* : `undo`
+* *Redo* : `redo`
+* *Backup* : `backup`
+* *Restore* : `restore` +
+** List snapshots: `restore-snapshots`
+** Restore chosen snapshots: `restore 1`
+* *Export* : `export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE]`
+* *Import* : `import d/ TARGET_PATH f/ NAME_OF_FILE`
+* *Password* : `password`
+* *Schedule* :  +
+** *Add* : `schedule-add d/DATE a/ACTIVITY` +
+e.g. `schedule-add d/30/10/2018 a/Attend Meeting.`
+** *Edit* : `schedule-edit INDEX a/ACTIVITY` +
+e.g. `schedule-edit 1 a/Attend Meeting with Alex.`
+** *Delete* : `schedule-delete INDEX` +
+e.g. `schedule-delete 1` +
+* *Email* : `mail` +
+e.g. `mail all/` or `mail t/TAG`
+
 == Features
 
 ====
@@ -62,7 +98,10 @@ Adds a person to the address book +
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/POSITION] [k/KPI] [d/NOTE] [t/TAG [PRIORITY]]...`
 
 [TIP]
-KPI scores should be a number from 0 - 5
+KPI refers to https://en.wikipedia.org/wiki/Performance_indicator[Key Performance Index].
+
+[TIP]
+KPI scores should be a number from 0 - 5.
 
 [TIP]
 A person can have any number of tags (including 0). Priorities, high(2) or medium(1), can be added after the tag.
@@ -92,7 +131,7 @@ Edits an existing person in the address book. +
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/POSITION] [k/KPI] [d/NOTE] [t/TAG [PRIORITY]]...`
 
 ****
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index *must be a positive integer* 1, 2, 3, ...
+* Edits the person at the specified `INDEX`. The `INDEX` refers to the index number shown in the displayed person list. The `INDEX` *must be a positive integer* 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * Use `all/` instead of `INDEX` to edit all persons listed in a single command.
@@ -110,6 +149,7 @@ Edits the name of the 2nd person to be `Betsy Crower` and clears current positio
 * `edit all/ t/friends k/1.0` +
 Replaces all listed persons' tag to be `friends` and edits their KPI to be `1.0`. +
 
+// tag::search[]
 === Finding persons by attribute : `find`
 
 Finds persons whose names contain any of the given keywords. +
@@ -121,33 +161,54 @@ Format: `find PREFIX KEYWORD [MORE_KEYWORDS]`
 * You can search by name, email, address, key performance index, position, phone number and tags
 * Partial words or words with typos will be matched too eg. 'Hangs' will be matched to 'Hans'
 * Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
-* Finding with a keyword that yields no matches may result in address book displaying all contacts rather than 0 results
+* Only one tag at a time can be searched, eg. `find t/helloWorld` will find tags cotaining `helloWorld` and `find t/helloWorld t/world` will find tags containing `world`. *`find` will only register the last tag entered*.
 ****
+
 
 Examples:
 
 * `find n/John` +
-Returns `john` and `John Doe`
+Displays `john` and `John Doe`
 * `find n/Betsy Tim John` +
-Returns any person having names `Betsy`, `Tim`, or `John`
+Displays any person having names `Betsy`, `Tim`, or `John`
 * `find e/example@domain.com` +
-Returns any person having the email `example@domain.com`
+Displays any person having the email `example@domain.com`
 * `find p/912311231` +
-Returns any person having the phone number `912311231`
+Displays any person having the phone number `912311231`
 * `find r/secretary` +
-Returns any person who holds a `secretary` position
+Displays any person who holds a `secretary` position
 * `find a/jurong west ave` +
-Returns any person who lives in `jurong west ave`
+Displays any person who lives in `jurong`, `west`, `ave`.
+
+TIP: To better your experience with search, you should search for specific keywords to get to your results faster. Words such as `Jurong` would yield closer results compared to `Jurong West Ave`
+
 * `find k/4.0` +
-Returns any person who has a KPI of `4.0`
+Displays any person who has a KPI of `4.0`
 * `find d/John is forgetful` +
-Returns any person who has a note containing `John is forgetful`
+Displays any person who has a note containing `John is forgetful`
 * `find t/friends` +
-Returns any person who is tagged as `friends`
+Displays any person who is tagged as `friends`
 * `find n/John Betsy r/secretary a/jurong west ave` +
-Returns any person having names `John` and `Betsy` who is a `secretary` and lives in `jurong west ave`
+Displays any person having names `John` and `Betsy` who is a `secretary` and lives in `jurong west ave`
 
 
+==== Search guessing
+This feature will also display actual *Keywords matched* and *Keywords guessed* to give you a good indicator of which results were guessed.
+
+image::find_feature1.png[width="400"]
+
+
+From the above results we can see that `Bernicc` yields `Keywords guessed: {Bernice}` whereas `Alex` yields `Keywords matched: {Alex}`
+
+
+Examples:
+
+* `find p/9123` +
+Displays any person having the phone number similar to `9123` eg. `91231231`, `91231234`, and so on.
+
+TIP: To narrow down your searches, try to be more specific in the phone number you wish to search for.
+
+// end::search[]
 
 === Deleting a person : `delete`
 
@@ -156,8 +217,8 @@ Format: `delete INDEX`
 
 ****
 * Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index *must be a positive integer* 1, 2, 3, ...
+* The `INDEX` refers to the index number shown in the displayed person list.
+* The `INDEX` *must be a positive integer* 1, 2, 3, ...
 ****
 
 Examples:
@@ -176,7 +237,7 @@ Format: `select INDEX` or `select START_INDEX - END_INDEX`
 
 ****
 * The person you selected will have their information loaded in the information panel displayed in the centre.
-* The index refers to the index number to left of each person entry shown in the displayed person list.
+* The `INDEX` refers to the index number to left of each person entry shown in the displayed person list.
 * You *must enter positive integers* `1, 2, 3, ...` for the index.
 * In the case of multiple selections, the range is denoted with a dash  ( - ) and you can separate multiple ranges with comma ( , ).
 ****
@@ -192,7 +253,7 @@ Selects from the 1st to the 3rd person in the address book.
 * `list` +
 `select 1 - 3, 6 - 9` +
 Selects from the 1st to the 3rd person and 6th to the 9th person in the address book.
-* `find Betsy` +
+* `find n/Betsy` +
 `select 1` +
 Selects the 1st person in the results of the `find` command.
 
@@ -256,39 +317,80 @@ The `redo` command fails as there are no `undo` commands executed previously.
 `redo` (reapplies the `clear` command) +
 // end::undoredo[]
 
+// tag::backuprestore[]
 === Backing up all data : `backup`
-Backup the data into a “.backup” folder which is invisible to users so as to enhance security. +
-Format: `backup`
+The backup feature allows you to backup your address book and save the state for future restoration. +
+Format: `backup` +
 
 === Restore data from backup : `restore`
-Restores data from a chosen backup snapshot from the ".backup" folder. +
+The restore feature allows you to revert your address book back to a specific state int time (provided you backed up the state). +
+To list out all the available backups from latest to earliest: +
+Format: `restore-snapshots` +
+
+* The time of backup is in the format of `INDEX` d MMM uuuu HH:mm:ss.
+* Example: 1. 29 Oct 2018 00:16:31
+
+To restore your address book to the snapshot denoted by the `INDEX` +
 Format: `restore INDEX`
 
+* `INDEX` refers to the index number denoting the date and time of the backup snapshot.
+* The `INDEX` *must be a positive integer* 1, 2, 3, ...
+
+// end::backuprestore[]
+
+// tag::exportimport[]
+
 === Exports the address book to a directory : `export`
-Export the data to a designated directory with choice of filters. +
-Format: `export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE] [t/ FILTER_FIELD]`
+You can export your address book contacts into a CSV file into any existing directory. +
+Format: `export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE]`
+
+* `OUTPUT_PATH` is the directory you want to export your contacts to.
+* `NAME_OF_FILE` is the name of the CSV file exported.
+* If `OUTPUT_PATH` is not specified, it will create a `exports` folder and export into it.
+* If `NAME_OF_FILE` is not specified, it will export to a CSV file named `export.csv`.
+
+Refer to <<CSVFormat>> for details of an exported CSV file.
 
 === Imports the address book from a directory : `import`
-Import the data from a designated directory with choice of filters. +
-Format: `import [d/ TARGET_PATH] [t/ FILTER_FIELD]`
+You can import a CSV file and append it to your current address book. +
+Format: `import d/ TARGET_PATH f/ NAME_OF_FILE`
+
+* `TARGET_PATH` is the directory you want to import your file from.
+* `NAME_OF_FILE` is the name of the CSV file you want to import.
+// end::exportimport[]
 
 === Clearing all entries : `clear`
 
 Clears all entries from the address book. +
 Format: `clear`
 
-=== Exiting the program : `exit`
-
-Exits the program. +
-Format: `exit`
-
 // tag::dataencryption[]
 === Encrypting data files : `password`
 
 Encrypts the data file with your password. +
 Format: `password YOURPASSWORD` +
-All commands will be disabled during encryption, your data will be safely protected. +
-Please close the application after encrypting to clear the application and prevent others from accessing your data.
+All commands will be disabled during encryption, your data will be safely protected.
+
+** Note: You can use the same command to decrypt the file, just hit `password` and your correct password.
+
+===== Safe analogy
+
+image::safe.png[width="200"]
+
+NOTE: This feature does not actually store passwords. You will have to secure it with a password again after decryption to secure it. +
+
+Treat this feature as if it is a *safe*, once you have locked it, you have to remember the password in order to unlock it again. +
+And once you have unlocked it, you are free to set a new password.
+
+
+Examples:
+
+* `password helloworld` +
+Locks addressbook and clears all data.
+* `password helloworld` +
+Unlocks addressbook and restores all data.
+
+// end::dataencryption[]
 
 === Email contacts : `mail`
 
@@ -310,50 +412,61 @@ opens your email application with all accountants as recipients. +
 `mail` +
 opens your email application with person (3rd person in the list panel) as recipient.
 
+// tag::schedule[]
 === Schedule : `schedule`
+image::scheduleExample.png[width="400"]
 
 The Schedule feature helps you remember important activities by listing out important events and dates! +
 
-To add an activity to your schedule: +
-Format: `schedule`  `add` `d/DATE` `a/ACTIVITY` +
+*To add an activity to your schedule:* +
+Format: `schedule-add d/DATE a/ACTIVITY` +
 ****
 * Date specified must be in the "DD/MM/YYYY" format. +
 * The activity name *must contain only* letters, numbers, spaces and fullstops.
 ****
-* Example: `schedule add d/30/10/2018 a/Attend meeting with Alex.` +
-Adds activity "Attend meeting with Alex." on "30/10/2018" to your schedule. +
+* Example: `schedule-add d/30/10/2018 a/Attend meeting with Alex.` +
+Adds activity "Attend meeting with Alex." on "30/10/2018" to your schedule:
++
+image::scheduleAddExample.png[width="400"]
 
-To edit an activity from your schedule: +
-Format: `schedule edit INDEX a/ACTIVITY` +
+*To edit an activity from your schedule:* +
+Format: `schedule-edit INDEX a/ACTIVITY` +
 ****
 * Edits the activity at the specified `INDEX`.
-* The index refers to the index number shown in the displayed schedule.
-* The index *must be a positive integer* 1, 2, 3, ...
+* The `INDEX` refers to the index number shown in the displayed schedule.
+* The `INDEX` *must be a positive integer* 1, 2, 3, ...
 * The activity name *must contain only* letters, numbers, spaces and fullstops.
 ****
 
-* Example: `schedule edit 1 a/Attend meeting with Alexia.` +
-Edits activity name at `INDEX 1` to "Attend meeting with Alexia." in your schedule. +
+* Example: `schedule-edit 2 a/Attend meeting with Alexia.` +
+To edit the following activity "Attend meeting." at index `2`:
++
+image::scheduleEditExample.png[width="400"]
++
+to "Attend meeting with Alexia.":
++
+image::scheduleResultExample.png[width="400"]
 
-To delete an activity from your schedule: +
-Format: `schedule delete INDEX` +
+*To delete an activity from your schedule:* +
+Format: `schedule-delete INDEX` +
 ****
 * Deletes the activity at the specified `INDEX`.
-* The index refers to the index number shown in the displayed schedule.
-* The index *must be a positive integer* 1, 2, 3, ...
+* The `INDEX` refers to the index number shown in the displayed schedule.
+* The `INDEX` *must be a positive integer* 1, 2, 3, ...
 ****
 
-* Example: `schedule delete 1` +
-Deletes the activity at `INDEX 1` in your schedule.
-
-== Appendix
+* Example: `schedule-delete 1` +
+Deletes the following activity, "Do report", at index `1` in your schedule:
++
+image::scheduleDeleteExample.png[width="400"]
+// end::schedule[]
 
 === Text prediction
 
 Text prediction feature allows you to complete your command faster with less typing. +
 Invoke this feature by pressing the _Tab_ key on the keyboard. +
 
-You can invoke this feature on: +
+You can invoke this feature on _most_ command keywords and arguments: +
 
 * Command keywords (`mail`, `add`, `find`, etc.) .
 * Flag arguments (`n/`, `a/`, `t/`, etc.) .
@@ -363,9 +476,21 @@ Typing `m` in the box and pressing _Tab_ will auto complete to the `mail` comman
 
 Note: +
 
+* This feature does not work with some flag arguments when used with certain commands. +
+E.g. `add n/...` +
+If text prediction returns no predictions, it means text prediction is unsupported in that context.
 * If there are multiple predicted values, they will be listed down. +
 * If no argument flags are specified, the default value predicted is based on the command's default argument. +
 
+=== Custom XML path
+All addressbook data is stored in addressbook.xml file located in *data/* folder in the same directory as your jar file.
+To change where you wish to save the data file to, edit in *preferences.json*.
+
+
+=== Exiting the program : `exit`
+
+Exits the program. +
+Format: `exit`
 
 === Saving the data
 
@@ -374,41 +499,32 @@ There is no need to save manually.
 
 == FAQ
 
+*Q*: Oh no! I accidentally deleted an extremely important contact! How do i retrieve old information? +
+*A*: There are two ways in which you can retrieve old information. +
+Firstly, there is the undo/redo function in which you can undo a command. +
+Secondly, with the all new backup/restore feature, you can backup your address book at any time and restore it to that state whenever you want!.
+
 *Q*: How do I transfer my data to another Computer? +
-*A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Address Book folder.
+*A*: Now with the export/import function, you can export your old contacts into a CSV file and move the file to the new computer so you can import contacts from it. (Remember to download CorpPro on the other computer though!)
 
 *Q*: What happens if I forget my password? +
 *A*: Your Address book will not be recoverable. You will have to delete addressbook.xml.encrypted and choose a backup to restore from.
 
-== Command Summary
+// tag::appendixA[]
+[[CSVFormat]]
+[appendix]
+== Format of an exported CSV file
+For more information about CSV files, you can refer to https://en.wikipedia.org/wiki/Comma-separated_values[CSV file]
 
-* *Add* `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/POSITION] [k/KPI] [d/NOTE] [t/TAG [PRIORITY]]...` +
-e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 r/Boss k/4.5 d/James is a good friend t/friend t/colleague 2`
-* *Clear* : `clear`
-* *Delete* : `delete INDEX` +
-e.g. `delete 3`
-* *Edit* : `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/POSITION] [k/KPI] [d/NOTE] [t/TAG [PRIORITY]]…​` +
-e.g. `edit 2 n/James Lee e/jameslee@example.com`
-* *Find* : `find n/ KEYWORD [MORE_KEYWORDS]` +
-e.g. `find James Jake`
-* *List* : `list`
-* *Help* : `help`
-* *Select* : `select INDEX` +
-e.g.`select 2` or `select 1 - 3, 5 - 7`
-* *History* : `history`
-* *Undo* : `undo`
-* *Redo* : `redo`
-* *Backup* : `backup`
-* *Restore* : `restore`
-* *Export* : `export`
-* *Import* : `import`
-* *Password* : `password`
-* *Schedule* : `schedule` +
-** *Add* : `schedule add` +
-e.g. `schedule add d/30/10/2018 a/Attend Meeting.`
-** *Edit* : `schedule edit` +
-e.g. `schedule edit 1 a/Attend Meeting with Alex.`
-** *Delete* : `schedule delete` +
-e.g. `schedule delete 1` +
-* *Email* : `mail` +
-e.g. `mail all/` or `mail t/TAG`
+When an address book is exported, it will be exported into a CSV file which can be read by excel or spreadsheet applications.
+
+Each row refers to a person. +
+Each column refers to a separate field of the person. +
+If a compulsory field is left blank, the address book will not allow the CSV file to be imported. +
+
+image::CSV_Format.png[width="790"]
+
+****
+* Compulsory field includes: Name, Phone, Email and Address.
+****
+// end::appendixA[]

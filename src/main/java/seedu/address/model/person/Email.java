@@ -8,6 +8,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable; is valid as declared in {@link #isValidEmail(String)}
  */
 public class Email {
+    public static final String SORT_ATTRIBUTE = "email";
 
     private static final String SPECIAL_CHARACTERS = "!#$%&'*+/=?`{|}~^.-";
     public static final String MESSAGE_EMAIL_CONSTRAINTS = "Emails should be of the format local-part@domain "

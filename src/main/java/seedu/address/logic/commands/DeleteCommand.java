@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import seedu.address.commons.core.Messages;
@@ -26,18 +27,19 @@ public class DeleteCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
+    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted persons: %1$s\n%2$s";
 
-    private final Index targetIndex;
+    private final ArrayList<Index> targetIndices;
 
-    public DeleteCommand(Index targetIndex) {
-        this.targetIndex = targetIndex;
+    public DeleteCommand(ArrayList<Index> targetIndices) {
+        this.targetIndices = targetIndices;
     }
 
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
+        List<Person> listOfPersonsToDelete = new ArrayList<>();
 
         UserPrefs userPref = new UserPrefs();
         FileEncryptor fe = new FileEncryptor(userPref.getAddressBookFilePath().toString());
@@ -46,22 +48,39 @@ public class DeleteCommand extends Command {
             throw new CommandException(FileEncryptor.MESSAGE_ADDRESS_BOOK_LOCKED);
         }
 
-
-        if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        for (Index index : targetIndices) {
+            if (index.getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            }
+            listOfPersonsToDelete.add(lastShownList.get(index.getZeroBased()));
         }
 
-        Person personToDelete = lastShownList.get(targetIndex.getZeroBased());
-        model.deletePerson(personToDelete);
+        for (Person personToDelete : listOfPersonsToDelete) {
+            model.deletePerson(personToDelete);
+            model.removePersonFromPrediction(personToDelete);
+        }
         model.commitAddressBook();
-        model.getTextPrediction().removePerson(personToDelete, model.getUniqueTagList());
-        return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, personToDelete));
+
+        return new CommandResult(buildMessage(listOfPersonsToDelete));
+    }
+
+    /**
+     * Builds the feedback message based on a list of deleted persons.
+     * @param deletedPersons the list of deleted persons.
+     * @return the feedback message to be shown.
+     */
+    private String buildMessage(List<Person> deletedPersons) {
+        StringBuilder output = new StringBuilder();
+        for (Person person : deletedPersons) {
+            output.append(" -  ").append(person.getName().fullName).append("\n");
+        }
+        return String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedPersons.size(), output);
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof DeleteCommand // instanceof handles nulls
-                && targetIndex.equals(((DeleteCommand) other).targetIndex)); // state check
+                && targetIndices.equals(((DeleteCommand) other).targetIndices)); // state check
     }
 }

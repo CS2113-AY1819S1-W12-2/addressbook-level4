@@ -23,25 +23,36 @@ public class BackupList {
     private List<String> fileNames = new ArrayList<>();
     private Map<Integer, File> fileMap = new HashMap<>();
 
-    public BackupList(File backupDir) throws IOException {
-        List<File> backupFiles = Arrays.asList(backupDir.listFiles());
-        Collections.reverse(backupFiles);
-        for (File snapshots : backupFiles) {
-            String millis = snapshots.getName();
-            millis = millis.substring(0, millis.length() - 4);
-            String fileName = millisToDateAndTime(millis);
-            fileNames.add(fileName);
-            fileMap.put(fileNames.indexOf(fileName), snapshots);
-        }
-        if (fileNames.size() == 0) {
+    public BackupList(String backupString) throws IOException {
+        try {
+            File backupDir = new File(backupString);
+            List<File> backupFiles = Arrays.asList(backupDir.listFiles());
+            Collections.reverse(backupFiles);
+            for (File snapshots : backupFiles) {
+                String millis = snapshots.getName();
+                millis = millis.substring(0, millis.length() - 4);
+                String fileName = millisToDateAndTime(millis);
+                fileNames.add(fileName);
+                fileMap.put(fileNames.indexOf(fileName), snapshots);
+            }
+            if (fileNames.size() == 0) {
+                throw new IOException(MESSAGE_BACKUP_CONSTRAINTS);
+            }
+        } catch (NullPointerException npe) {
             throw new IOException(MESSAGE_BACKUP_CONSTRAINTS);
         }
     }
 
+    /**
+     * @return fileNames
+     */
     public List<String> getFileNames() {
         return this.fileNames;
     }
 
+    /**
+     * @return fileMap
+     */
     public Map<Integer, File> getFileMap() {
         return this.fileMap;
     }
@@ -50,7 +61,7 @@ public class BackupList {
      * Parses a (@code String millis) into an (@code String)
      * @return A converted and formatted form of date and time.
      */
-    public String millisToDateAndTime(String millis) {
+    private String millisToDateAndTime(String millis) {
         long timestamp = Long.parseLong(millis);
         LocalDateTime dateTime = LocalDateTime.ofInstant(
                 Instant.ofEpochMilli(timestamp),

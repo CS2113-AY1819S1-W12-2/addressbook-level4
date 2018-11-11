@@ -2,7 +2,6 @@
 package seedu.address.model.autocomplete;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javafx.collections.ObservableList;
 import seedu.address.logic.parser.CliSyntax;
@@ -35,6 +34,7 @@ public class CommandCompleter implements TextPrediction {
     private Trie emailTrie;
     private Trie addressTrie;
     private Trie tagTrie;
+    private Trie filenameTrie;
 
     /**
      * Word lists of strings used to instantiate Trie objects.
@@ -45,6 +45,7 @@ public class CommandCompleter implements TextPrediction {
     private ArrayList<String> emailList;
     private ArrayList<String> addressList;
     private ArrayList<String> tagList;
+    private ArrayList<String> filenameList;
 
     /**
      * Creates a command completer with the {@code model} data.
@@ -59,6 +60,7 @@ public class CommandCompleter implements TextPrediction {
         this.emailList = new ArrayList<>();
         this.addressList = new ArrayList<>();
         this.tagList = new ArrayList<>();
+        this.filenameList = new ArrayList<>();
         initLists();
         initTries();
     }
@@ -86,11 +88,13 @@ public class CommandCompleter implements TextPrediction {
         commandList.add(CliSyntax.COMMAND_LIST);
         commandList.add(CliSyntax.COMMAND_REDO);
         commandList.add(CliSyntax.COMMAND_SELECT);
+        commandList.add(CliSyntax.COMMAND_SORT);
         commandList.add(CliSyntax.COMMAND_UNDO);
         commandList.add(CliSyntax.COMMAND_PASSWORD);
         commandList.add(CliSyntax.COMMAND_MAIL);
         commandList.add(CliSyntax.COMMAND_BACKUP);
         commandList.add(CliSyntax.COMMAND_RESTORE);
+        commandList.add(CliSyntax.COMMAND_SNAPSHOTS);
         commandList.add(CliSyntax.COMMAND_IMPORT);
         commandList.add(CliSyntax.COMMAND_EXPORT);
         commandList.add(CliSyntax.COMMAND_SCHEDULE_ADD);
@@ -102,14 +106,12 @@ public class CommandCompleter implements TextPrediction {
      * Initialises attributes words lists with attribute value in each {@code Person}.
      */
     private void initAttributesLists() {
-        // TODO: prevent duplicates from being added to lists
         ObservableList<Person> list = model.getAddressBook().getPersonList();
         for (Person item : list) {
             nameList.add(item.getName().fullName);
             phoneList.add(item.getPhone().value);
             emailList.add(item.getEmail().value);
             addressList.add(item.getAddress().value);
-            // TODO: find a better way to do this
             for (Tag tag : item.getTags()) {
                 tagList.add(tag.toString());
             }
@@ -164,7 +166,6 @@ public class CommandCompleter implements TextPrediction {
         phoneTrie.insert(person.getPhone().value);
         emailTrie.insert(person.getEmail().value);
         addressTrie.insert(person.getAddress().value);
-        // TODO: find a better way to do this
         for (Tag tag : person.getTags()) {
             tagTrie.insert(tag.toString());
         }
@@ -175,15 +176,13 @@ public class CommandCompleter implements TextPrediction {
      * @param person the person to delete
      */
     @Override
-    public void removePerson(Person person, List<Tag> uniqueTagList) {
+    public void removePerson(Person person) {
         nameTrie.remove(person.getName().fullName);
         phoneTrie.remove(person.getPhone().value);
         emailTrie.remove(person.getEmail().value);
         addressTrie.remove(person.getAddress().value);
         for (Tag tag : person.getTags()) {
-            if (!uniqueTagList.contains(tag)) {
-                tagTrie.remove(tag.toString());
-            }
+            tagTrie.remove(tag.toString());
         }
     }
 
@@ -206,7 +205,7 @@ public class CommandCompleter implements TextPrediction {
      * @param editedPerson the new person.
      */
     @Override
-    public void editPerson(Person personToEdit, Person editedPerson, List<Tag> uniqueTagList) {
+    public void editPerson(Person personToEdit, Person editedPerson) {
         if (!personToEdit.getName().equals(editedPerson.getName())) {
             nameTrie.remove(personToEdit.getName().fullName);
             nameTrie.insert(editedPerson.getName().fullName);
@@ -225,9 +224,7 @@ public class CommandCompleter implements TextPrediction {
         }
         if (!personToEdit.getTags().equals(editedPerson.getTags())) {
             for (Tag tag : personToEdit.getTags()) {
-                if (!uniqueTagList.contains(tag)) {
-                    tagTrie.remove(tag.toString());
-                }
+                tagTrie.remove(tag.toString());
             }
             for (Tag tag : editedPerson.getTags()) {
                 tagTrie.insert(tag.toString());

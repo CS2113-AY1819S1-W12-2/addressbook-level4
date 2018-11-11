@@ -12,39 +12,51 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
-<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane minWidth="300.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <WebView fx:id="browser" opacity="0.0" prefHeight="200.0" prefWidth="200.0" />
       <VBox fx:id="display" prefHeight="500.0" prefWidth="600.0" spacing="5.0">
          <children>
-            <VBox alignment="CENTER_LEFT" prefHeight="259.0" prefWidth="600.0" spacing="5.0" style="-fx-background-color: white; -fx-background-radius: 5 5 5 5; -fx-border-radius: 5 5 5 5;">
+            <VBox spacing="1.0">
                <children>
-                  <Label fx:id="nameLabel" style="-fx-text-fill: black;">
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" translateX="-2.0">
-                           <image>
-                              <Image url="@../images/avatar.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </Label>
-                  <HBox prefHeight="21.0" prefWidth="395.0" spacing="5.0">
+                  <VBox style="-fx-background-color: white; -fx-background-radius: 5 5 0 0; -fx-border-radius: 5 5 0 0;">
                      <children>
-                        <ImageView fitHeight="20.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" translateX="-2.0">
-                           <image>
-                              <Image url="@../images/tag.png" />
-                           </image>
-                        </ImageView>
-                        <FlowPane fx:id="tagPanel" hgap="5.0" prefHeight="33.0" prefWidth="375.0" vgap="5.0" />
+                        <Label text="Information" />
                      </children>
-                  </HBox>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" prefHeight="259.0" prefWidth="600.0" spacing="5.0" style="-fx-background-color: white; -fx-background-radius: 0 0 5 5; -fx-border-radius: 0 0 5 5;">
+                     <children>
+                        <Label fx:id="nameLabel" style="-fx-text-fill: black;">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" translateX="-2.0">
+                                 <image>
+                                    <Image url="@../images/avatar.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <HBox prefHeight="21.0" prefWidth="395.0" spacing="5.0">
+                           <children>
+                              <ImageView fitHeight="20.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" translateX="-2.0">
+                                 <image>
+                                    <Image url="@../images/tag.png" />
+                                 </image>
+                              </ImageView>
+                              <FlowPane fx:id="tagPanel" hgap="5.0" prefHeight="33.0" prefWidth="375.0" vgap="5.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="20.0" top="5.0" />
+                     </padding>
+                  </VBox>
                </children>
-               <padding>
-                  <Insets bottom="5.0" left="20.0" top="5.0" />
-               </padding>
             </VBox>
             <VBox alignment="CENTER_LEFT" prefHeight="267.0" prefWidth="400.0" spacing="5.0" style="-fx-background-color: white; -fx-background-radius: 5 5 5 5; -fx-border-radius: 5 5 5 5;" VBox.vgrow="ALWAYS">
                <children>
@@ -120,9 +132,21 @@
             </VBox>
          </children>
       </VBox>
-      <VBox fx:id="welcomePane" alignment="CENTER" style="-fx-background-color: #eeeff1; -fx-background-radius: 5 5 5 5; -fx-border-radius: 5 5 5 5;">
+      <VBox fx:id="welcomePane" prefHeight="200.0" prefWidth="100.0">
          <children>
-            <Label alignment="CENTER" text="Welcome to CorpProC" />
+            <VBox style="-fx-background-color: white; -fx-background-radius: 5 5 0 0; -fx-border-radius: 5 5 0 0;">
+               <children>
+                  <Label text="Information" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" top="5.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER" style="-fx-background-color: #eeeff1; -fx-background-radius: 5 5 5 5; -fx-border-radius: 5 5 5 5;" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label alignment="CENTER" text="Welcome to CorpProC" />
+               </children>
+            </VBox>
          </children>
       </VBox>
    </children>

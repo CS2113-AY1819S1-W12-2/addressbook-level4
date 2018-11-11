@@ -21,6 +21,9 @@ public class CliSyntax {
     public static final Prefix PREFIX_DATE = new Prefix("d/");
     public static final Prefix PREFIX_ACTIVITY = new Prefix("a/");
     public static final Prefix PREFIX_FILENAME = new Prefix("f/");
+    public static final Prefix PREFIX_SORT_ATTRIBUTE = new Prefix("s/");
+    public static final Prefix PREFIX_SORT_ORDER = new Prefix("o/");
+
 
     /* Command keywords */
     public static final String COMMAND_ADD = "add";
@@ -34,6 +37,7 @@ public class CliSyntax {
     public static final String COMMAND_LIST = "list";
     public static final String COMMAND_REDO = "redo";
     public static final String COMMAND_SELECT = "select";
+    public static final String COMMAND_SORT = "sort";
     public static final String COMMAND_UNDO = "undo";
     public static final String COMMAND_PASSWORD = "password";
     public static final String COMMAND_BACKUP = "backup";
@@ -41,6 +45,8 @@ public class CliSyntax {
     public static final String COMMAND_IMPORT = "import";
     public static final String COMMAND_EXPORT = "export";
     public static final String COMMAND_MAIL = "mail";
-    public static final String COMMAND_SORT = "sort";
-    public static final String REVERSE_SEQUENCE = "descending";
+    public static final String COMMAND_SNAPSHOTS = "restore-snapshots";
+    public static final String COMMAND_SCHEDULE_ADD = "schedule-add";
+    public static final String COMMAND_SCHEDULE_DELETE = "schedule-delete";
+    public static final String COMMAND_SCHEDULE_EDIT = "schedule-edit";
 }

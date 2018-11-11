@@ -11,6 +11,8 @@ import java.util.Objects;
  * Guarantees: immutable; is valid as declared in {@link #isValidKpi(String)}
  */
 public class Kpi {
+    public static final String SORT_ATTRIBUTE = "kpi";
+
 
     public static final String MESSAGE_KPI_CONSTRAINTS = "KPI score should be a number from 0 - 5";
     public static final String KPI_VALIDATION_REGEX = "([0-4]{1}(\\.[0-9]+)?)|([5]{1}(\\.[0]+)?)";
@@ -53,9 +55,11 @@ public class Kpi {
         return value;
     }
 
-    //TODO To resolve issue when one is null and the other is not
     @Override
     public boolean equals(Object other) {
+        if (!doesExist() && !((Kpi) other).doesExist()) {
+            return true;
+        }
         return other == this // short circuit if same object
                 || (other instanceof Kpi // instanceof handles nulls
                 && Objects.equals(this.value, ((Kpi) other).value));

@@ -9,7 +9,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable; is valid as declared in {@link #isValidPosition(String)}
  */
 public class Position {
-    //TODO change constraints
+    public static final String SORT_ATTRIBUTE = "position";
+
     public static final String MESSAGE_POSITION_CONSTRAINTS = "Positions should only contain "
             + "alphanumeric characters and spaces";
 
@@ -31,7 +32,6 @@ public class Position {
     /**
      * No position provided
      */
-    //TODO find a better solution to null.
     public Position() {
         value = null;
     }

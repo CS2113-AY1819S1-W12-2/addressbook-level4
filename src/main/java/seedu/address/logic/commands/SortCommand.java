@@ -2,19 +2,29 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SORT_ATTRIBUTE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SORT_ORDER;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import seedu.address.commons.util.FileEncryptor;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.CliSyntax;
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Email;
+import seedu.address.model.person.Kpi;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.EmptyPersonListException;
+import seedu.address.model.person.Phone;
+import seedu.address.model.person.Position;
+
 
 /**
  * Commands for sorting by respective attributes
@@ -23,47 +33,96 @@ import seedu.address.model.person.exceptions.EmptyPersonListException;
 public class SortCommand extends Command {
 
     public static final String COMMAND_WORD = CliSyntax.COMMAND_SORT;
-    public static final String REVERSE_ORDER = CliSyntax.REVERSE_SEQUENCE;
-
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Sorts address book in ascending or descending order"
-            + "according to the attribute specified\n"
-            + "attributes includes n/, p/, e/, a/, t/, k/, r/"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sorts the address book in"
+            + " ascending or descending order by the respective attributes.\n"
             + "Parameters: "
-            + "[PREFIX]\n"
-            + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + " " + REVERSE_ORDER;
+            + PREFIX_SORT_ATTRIBUTE + "SORT_ATTRIBUTE "
+            + PREFIX_SORT_ORDER + "SORT_ORDER\n"
+            + "Possible SORT_ATTRIBUTE inputs: name, phone, email, address, position, kpi.\n"
+            + "Possible SORT_ORDER inputs: asc, des.\n"
+            + "Sort order input is optional and is set to ascending by default.\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_SORT_ATTRIBUTE + "name "
+            + PREFIX_SORT_ORDER + "asc";
 
-
-    public static final String MESSAGE_SORT_SUCCESS = "Sorted address book by %1$s in %2$s order.";
+    public static final String MESSAGE_SORT_SUCCESS = "Sorted address book in order.";
     public static final String MESSAGE_SORT_EMPTY = "No person to sort in this attribute.";
-
-
-    public static final String PREFIX_NAME_ATTRIBUTE = "n/";
-    public static final String PREFIX_PHONE_ATTRIBUTE = "p/";
-    public static final String PREFIX_EMAIL_ATTRIBUTE = "e/";
-    public static final String PREFIX_ADDRESS_ATTRIBUTE = "a/";
-    public static final String PREFIX_TAG_ATTRIBUTE = "t/";
-    public static final String PREFIX_KPI_ATTRIBUTE = "k/";
+    public static final String MESSAGE_INVALID_SORT_ATTRIBUTE = "Invalid sort attribute input";
+    public static final String MESSAGE_INVALID_SORT_ORDER = "Invalid sort order input";
 
     private final String attribute;
-    private final boolean isReverseOrder;
-
-    // Default values for sorting
-    private String sortBy = "name";
-    private String sequence = "ascending";
+    private final String order;
 
     /**
      * @param attribute     specify which attribute to sort by
-     * @param isReverseOrder specify if sorting is to be in ascending or descending order
+     * @param order specify if sorting is to be in ascending or descending order
      */
 
-    public SortCommand(String attribute, boolean isReverseOrder) {
+    public SortCommand(String attribute, String order) {
         requireNonNull(attribute);
-        requireNonNull(isReverseOrder);
+        requireNonNull(order);
 
         this.attribute = attribute;
-        this.isReverseOrder = isReverseOrder;
+        this.order = order;
+    }
+    public SortCommand(String attribute) {
+        requireNonNull(attribute);
+        this.attribute = attribute;
+        this.order = "asc";
+    }
 
+    /**
+     * Name Sorter
+     */
+    public class NameSorter implements Comparator<Person> {
+        public int compare(Person one, Person another) {
+            return one.getName().toString().compareTo(another.getName().toString());
+        }
+    }
+
+    /**
+     * Phone Sorter
+     */
+    public class PhoneSorter implements Comparator<Person> {
+        public int compare(Person one, Person another) {
+            return one.getPhone().toString().compareTo(another.getPhone().toString());
+        }
+    }
+
+    /**
+     * Email Sorter
+     */
+    public class EmailSorter implements Comparator<Person> {
+        public int compare(Person one, Person another) {
+            return one.getEmail().toString().compareTo(another.getEmail().toString());
+        }
+    }
+
+    /**
+     * Address Sorter
+     */
+    public class AddressSorter implements Comparator<Person> {
+        public int compare(Person one, Person another) {
+            return one.getAddress().toString().compareTo(another.getAddress().toString());
+        }
+    }
+
+    /**
+     * Position Sorter
+     */
+    public class PositionSorter implements Comparator<Person> {
+        public int compare(Person one, Person another) {
+            return one.getPosition().toString().compareTo(another.getPosition().toString());
+        }
+    }
+
+    /**
+     * KPI Sorter
+     */
+    public class KpiSorter implements Comparator<Person> {
+        public int compare(Person one, Person another) {
+            return one.getKpi().toString().compareTo(another.getKpi().toString());
+        }
     }
 
     @Override
@@ -76,56 +135,63 @@ public class SortCommand extends Command {
         if (fe.isLocked()) {
             throw new CommandException(FileEncryptor.MESSAGE_ADDRESS_BOOK_LOCKED);
         }
-
-        Comparator<Person> comparator = sortComparatorByPrefix(this.attribute);
-
-        try {
-            model.sortPerson(comparator, isReverseOrder);
-        } catch (EmptyPersonListException npe) {
+        List<Person> sortedList = getList(model);
+        if (sortedList.size() == 0) {
             throw new CommandException(MESSAGE_SORT_EMPTY);
         }
+        sortList(sortedList);
 
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        if (isReverseOrder) {
-            this.sequence = "descending";
+        AddressBook sortedAddressBook = new AddressBook();
+        sortedAddressBook.setPersons(sortedList);
+        model.resetData(sortedAddressBook);
+
+        return new CommandResult(MESSAGE_SORT_SUCCESS);
+
+    }
+
+    List<Person> getList(Model model) {
+        List<Person> lastShownList = model.getFilteredPersonList();
+        List<Person> sortedList = new ArrayList<>();
+        for (Person person : lastShownList) {
+            sortedList.add(person);
         }
-        return new CommandResult(String.format(MESSAGE_SORT_SUCCESS, sortBy, sequence));
+        return sortedList;
     }
 
     /**
-     * Comparator depending on the attribute specified
+     * Sorts the list according to attribute specified
      */
-    private Comparator<Person> sortComparatorByPrefix(String attribute) {
+    void sortList(List<Person> sortedList) throws CommandException {
         switch (attribute) {
-            case PREFIX_NAME_ATTRIBUTE:
-                this.sortBy = "name";
-                return (o1, o2) -> o1.getName().toString().compareToIgnoreCase(o2.getName().toString());
-            case PREFIX_PHONE_ATTRIBUTE:
-                this.sortBy = "phone";
-                return (o1, o2) -> o1.getPhone().toString().compareToIgnoreCase(o2.getPhone().toString());
-            case PREFIX_EMAIL_ATTRIBUTE:
-                this.sortBy = "email";
-                return (o1, o2) -> o1.getEmail().toString().compareToIgnoreCase(o2.getEmail().toString());
-            case PREFIX_ADDRESS_ATTRIBUTE:
-                this.sortBy = "address";
-                return (o1, o2) -> o1.getAddress().toString().compareToIgnoreCase(o2.getAddress().toString());
-            case PREFIX_TAG_ATTRIBUTE:
-                this.sortBy = "tag";
-                return (o1, o2) -> o1.getTags().toString().compareToIgnoreCase(o2.getTags().toString());
-            case PREFIX_KPI_ATTRIBUTE:
-                this.sortBy = "KPI";
-                return (o1, o2) -> o1.getKpi().toString().compareToIgnoreCase(o2.getTags().toString());
-            default:
-                return (o1, o2) -> o1.getName().toString().compareToIgnoreCase(o2.getName().toString());
+        case Phone.SORT_ATTRIBUTE:
+            Collections.sort(sortedList, new PhoneSorter());
+            break;
+        case Name.SORT_ATTRIBUTE:
+            Collections.sort(sortedList, new NameSorter());
+            break;
+        case Email.SORT_ATTRIBUTE:
+            Collections.sort(sortedList, new EmailSorter());
+            break;
+        case Address.SORT_ATTRIBUTE:
+            Collections.sort(sortedList, new AddressSorter());
+            break;
+        case Position.SORT_ATTRIBUTE:
+            Collections.sort(sortedList, new PositionSorter());
+            break;
+        case Kpi.SORT_ATTRIBUTE:
+            Collections.sort(sortedList, new KpiSorter());
+            break;
+        default:
+            throw new CommandException(MESSAGE_INVALID_SORT_ATTRIBUTE);
+        }
+
+        if (order.equals("asc")) {
+        } else if (order.equals("des")) {
+            Collections.reverse(sortedList);
+        } else {
+            throw new CommandException(MESSAGE_INVALID_SORT_ORDER);
         }
     }
 
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof SortCommand // instanceof handles nulls
-                && attribute.equals(((SortCommand) other).attribute)
-                && REVERSE_ORDER.equals(((SortCommand) other).REVERSE_ORDER));
 
-    }
 }

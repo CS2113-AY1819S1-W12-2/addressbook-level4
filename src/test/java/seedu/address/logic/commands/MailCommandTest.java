@@ -12,9 +12,9 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.ArrayList;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.logic.CommandHistory;
@@ -32,8 +32,8 @@ public class MailCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
     private CommandHistory commandHistory = new CommandHistory();
 
-    @Ignore
-    @Test
+    @org.junit.jupiter.api.Test
+    @DisabledIfEnvironmentVariable(named = "CI", matches = "true")
     public void execute_selectedPersons_success() {
         MailCommand mailCommand = new MailCommand(TYPE_SELECTION);
 
@@ -46,8 +46,8 @@ public class MailCommandTest {
         CommandTestUtil.assertCommandSuccess(mailCommand, model, commandHistory, expectedMessage, model);
     }
 
-    @Ignore
-    @Test
+    @org.junit.jupiter.api.Test
+    @DisabledIfEnvironmentVariable(named = "CI", matches = "true")
     public void execute_allPersons_success() {
         MailCommand mailCommand = new MailCommand(TYPE_ALL);
 
@@ -57,8 +57,8 @@ public class MailCommandTest {
         CommandTestUtil.assertCommandSuccess(mailCommand, model, commandHistory, expectedMessage, model);
     }
 
-    @Ignore
-    @Test
+    @org.junit.jupiter.api.Test
+    @DisabledIfEnvironmentVariable(named = "CI", matches = "true")
     public void execute_selectedGroups_success() {
         Tag tagToUse = (Tag) model.getFilteredPersonList().get(0).getTags().toArray()[0];
         String tagToUseInString = tagToUse.toString();
@@ -141,37 +141,9 @@ public class MailCommandTest {
             super(mailType);
         }
 
-        public MailCommandStubThrowsException(int mailType, String mailArgs) {
-            super(mailType, mailArgs);
-        }
-
         @Override
         public CommandResult execute(Model model, CommandHistory history) throws CommandException {
             throw new CommandException(MESSAGE_UNSUPPORTED);
         }
     }
-    /*
-    /**
-     * A MailCommand stub that runs successful without throwing CommandException
-     */
-    /*
-    private class MailCommandStubSuccess extends MailCommand {
-        public MailCommandStubSuccess(int mailType) {
-            super(mailType);
-        }
-
-        public MailCommandStubSuccess(int mailType, String mailArgs) {
-            super(mailType, mailArgs);
-        }
-
-        @Override
-        public CommandResult execute(Model model, CommandHistory history) throws CommandException {
-
-            ArrayList<Person> mailingList = mailToAll(model);
-            String recipients = buildRecipients(mailingList);
-
-            return new CommandResult(MESSAGE_SUCCESS + recipients);
-        }
-    }
-    */
 }

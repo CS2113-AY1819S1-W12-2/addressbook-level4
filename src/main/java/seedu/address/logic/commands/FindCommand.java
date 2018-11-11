@@ -14,8 +14,12 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.util.FileEncryptor;
@@ -52,6 +56,9 @@ public class FindCommand extends Command {
     private final Predicate<Person> predicate = PREDICATE_SHOW_ALL_PERSONS;
     private Map<Prefix, String[]> prefixKeywordMap;
     private Prefix[] types;
+    private Set<String> actualMatchesStrings = new HashSet<>();
+    private Set<String> guessedMatchesStrings = new HashSet<>();
+
 
     public FindCommand(Map<Prefix, String[]> prefixKeywordMap,
                        Prefix[] types) {
@@ -77,56 +84,110 @@ public class FindCommand extends Command {
         model.updateFilteredPersonList(combinedPredicate);
 
         return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size())
+                + "\n"
+                + "Keywords matched: "
+                + combinedMatchesString(actualMatchesStrings)
+                + "\n"
+                + "Keywords guessed: "
+                + combinedMatchesString(guessedMatchesStrings)
+        );
     }
 
     /**
      * Gets the person's predicate based on attributes
-     * @param model
-     * @param combinedPredicate
-     * @return
+     * @param model current model
+     * @param combinedPredicate total combined predicate of all the conditions
+     * @return returns the total combinedPredicate
      */
     private Predicate<Person> getPersonPredicate(Model model, Predicate<Person> combinedPredicate) {
         for (Prefix type : types) {
             ClosestMatchList closestMatch = new ClosestMatchList(model, type, prefixKeywordMap.get(type));
-            String[] approvedList = closestMatch.getApprovedList();
+            List<String> approvedList = Arrays.asList(closestMatch.getApprovedList());
+            List<String> keywordsForType = Arrays.asList(prefixKeywordMap.get(type));
 
             if (type == PREFIX_PHONE) {
                 combinedPredicate = combinedPredicate.and(
-                        new PhoneContainsKeywordPredicate(Arrays.asList(approvedList))
+                        new PhoneContainsKeywordPredicate(approvedList)
                 );
             } else if (type == PREFIX_NAME) {
                 combinedPredicate = combinedPredicate.and(
-                        new NameContainsKeywordsPredicate(Arrays.asList(approvedList))
+                        new NameContainsKeywordsPredicate(approvedList)
                 );
             } else if (type == PREFIX_ADDRESS) {
                 combinedPredicate = combinedPredicate.and(
-                        new AddressContainsKeywordsPredicate(Arrays.asList(approvedList))
+                        new AddressContainsKeywordsPredicate(approvedList)
                 );
             } else if (type == PREFIX_EMAIL) {
                 combinedPredicate = combinedPredicate.and(
-                        new EmailContainsKeywordsPredicate(Arrays.asList(approvedList))
+                        new EmailContainsKeywordsPredicate(approvedList)
                 );
             } else if (type == PREFIX_NOTE) {
                 combinedPredicate = combinedPredicate.and(
-                        new NoteContainsKeywordsPredicate(Arrays.asList(approvedList))
+                        new NoteContainsKeywordsPredicate(approvedList)
                 );
             } else if (type == PREFIX_POSITION) {
                 combinedPredicate = combinedPredicate.and(
-                        new PositionContainsKeywordsPredicate(Arrays.asList(approvedList))
+                        new PositionContainsKeywordsPredicate(approvedList)
                 );
             } else if (type == PREFIX_TAG) {
                 combinedPredicate = combinedPredicate.and(
-                        new TagContainsKeywordsPredicate(Arrays.asList(approvedList))
+                        new TagContainsKeywordsPredicate(approvedList)
                 );
             } else if (type == PREFIX_KPI) {
                 combinedPredicate = combinedPredicate.and(
-                        new KpiContainsKeywordPredicate(Arrays.asList(approvedList))
+                        new KpiContainsKeywordPredicate(approvedList)
                 );
             }
+
+            Set<String> approvedSet = new HashSet<>(
+                    approvedList.stream().distinct().collect(Collectors.toList()));
+
+            Set<String> keywordsForTypeSet = new HashSet<>(
+                    keywordsForType.stream().distinct().collect(Collectors.toList()));
+
+            findActualMatches(approvedSet, keywordsForTypeSet);
+
         }
         return combinedPredicate;
     }
+
+
+    /**
+     * Determine the number of actual keyword matches
+     * @param closestMatchesSet closestMatcSet determined by Levensthein distance
+     * @param keywordsSet keywords input from command
+     */
+    private void findActualMatches (final Set<String> closestMatchesSet, final Set<String> keywordsSet) {
+        for (String match: closestMatchesSet) {
+            if (keywordsSet.contains(match) || keywordsSet.contains(match.replaceAll(",", ""))) {
+                actualMatchesStrings.add(match.replaceAll(",", ""));
+            } else {
+                guessedMatchesStrings.add(match.replaceAll(",", ""));
+            }
+        }
+    }
+
+    /**
+     * Combines the matches to form a string for output
+     * @return the combined string using StringBuilder
+     */
+    private String combinedMatchesString (Set<String> stringMatches) {
+        StringBuilder output = new StringBuilder("{");
+        int count = 0;
+        for (String match: stringMatches) {
+            if (count == stringMatches.size() - 1) {
+                output.append(match);
+            } else {
+                output.append(match);
+                output.append(", ");
+            }
+            count++;
+        }
+        output.append("}");
+        return output.toString();
+    }
+
 
     @Override
     public boolean equals(Object other) {
