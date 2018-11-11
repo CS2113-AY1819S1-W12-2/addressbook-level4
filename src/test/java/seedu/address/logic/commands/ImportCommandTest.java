@@ -2,6 +2,8 @@ package seedu.address.logic.commands;
 
 import static org.junit.Assert.assertEquals;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.ImportCommand.MESSAGE_SUCCESS;
 import static seedu.address.logic.commands.ImportCommand.MESSAGE_USAGE;
 import static seedu.address.storage.CsvReader.WRONG_FORMAT;
@@ -33,6 +35,11 @@ public class ImportCommandTest {
             + File.separator + "data"
             + File.separator + "ImportTestCsv"
             + File.separator + "ImportList.csv";
+    private final String directoryTwo = "src"
+            + File.separator + "test"
+            + File.separator + "data"
+            + File.separator + "ImportTestCsv"
+            + File.separator + "ImportList2.csv";
     private final String directoryWrongFormat = "src"
             + File.separator + "test"
             + File.separator + "data"
@@ -71,5 +78,29 @@ public class ImportCommandTest {
         thrown.expectMessage(WRONG_FORMAT);
         File wrongFile = new File(directoryWrongFormat);
         new ImportCommand(directoryWrongFormat, wrongFile).execute(model, commandHistory);
+    }
+
+    @Test
+    public void equals() {
+        File importFileOne = new File(directory);
+        File importFileTwo = new File(directoryTwo);
+        ImportCommand importCommandFileOne = new ImportCommand(directory, importFileOne);
+        ImportCommand importCommandFileTwo = new ImportCommand(directoryTwo, importFileTwo);
+
+        // same object -> returns true
+        assertTrue(importCommandFileOne.equals(importCommandFileOne));
+
+        // same values -> returns true
+        ImportCommand importCommandFileOneCopy = new ImportCommand(directory, importFileOne);
+        assertTrue(importCommandFileOne.equals(importCommandFileOneCopy));
+
+        // different types -> returns false
+        assertFalse(importCommandFileOne.equals(1));
+
+        // null -> returns false
+        assertFalse(importCommandFileOne.equals(null));
+
+        // different person -> returns false
+        assertFalse(importCommandFileOne.equals(importCommandFileTwo));
     }
 }
