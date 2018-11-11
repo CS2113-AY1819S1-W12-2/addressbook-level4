@@ -54,8 +54,7 @@ search for contacts who live in Jurong West and are tagged as friends.</p>
 <p>Justification: Corporate users might need to gather rough statistics of their clients or know which worker(s) to contact and assign work.</p>
 </li>
 <li>
-<p>Highlights: This feature uses Levenshtein and Hamming Distance to find the closest match for the keywords entered. It will then sort the matches based on how close it is to the keywords entered.
-After which, it will perform a <strong>set intersection</strong> on the search results to narrow it down before displaying it to the user.</p>
+<p>Highlights: This feature uses Levenshtein and Hamming Distance to find the closest match for the keywords entered. It will then sort the matches based on how close it is to the keywords entered and then perform a <strong>set intersection</strong> on the search results to narrow it down.</p>
 </li>
 </ul>
 </div>
@@ -72,13 +71,13 @@ After which, it will perform a <strong>set intersection</strong> on the search r
 They can instead edit the preference file to change the name and location of their data storage file path.</p>
 </li>
 <li>
-<p>Highlights: This feature requires implementing the json reader in <code>UserPrefs</code> class and storing it as a public variable for other classes to depend on.</p>
+<p>Highlights: This feature requires implementing the json reader in <code>UserPrefs</code> class and storing it as a public variable for other classes to access.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/functional/lws803.md">Functional code</a>] [<a href="https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/test/lws803.md">Test code</a>]</p>
+<p><strong>Code contributed</strong>: [<a href="https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&amp;search=lws803&amp;sort=displayName&amp;since=2018-09-12&amp;until=2018-11-05&amp;timeframe=day&amp;reverse=false&amp;repoSort=true">Reposense</a>]</p>
 </li>
 <li>
 <p><strong>Other contributions</strong>:</p>
@@ -203,14 +202,6 @@ Displays any person having names <code>Betsy</code>, <code>Tim</code>, or <code>
 Displays any person having the email <code>example@domain.com</code></p>
 </li>
 <li>
-<p><code>find p/912311231</code><br>
-Displays any person having the phone number <code>912311231</code></p>
-</li>
-<li>
-<p><code>find r/secretary</code><br>
-Displays any person who holds a <code>secretary</code> position</p>
-</li>
-<li>
 <p><code>find a/jurong west ave</code><br>
 Displays any person who lives in <code>jurong</code>, <code>west</code>, <code>ave</code>.</p>
 </li>
@@ -255,7 +246,7 @@ Displays any person having names <code>John</code> and <code>Betsy</code> who is
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/find_feature1.png" alt="find feature1" width="400">
+<img src="../images/find_feature1.png" alt="find feature1" width="250">
 </div>
 </div>
 <div class="paragraph">
@@ -309,7 +300,7 @@ You can use the same command to decrypt the file, just hit <code>password</code>
 <h5 id="safe-analogy"><a class="link" href="#safe-analogy">Safe analogy</a></h5>
 <div class="imageblock">
 <div class="content">
-<img src="../images/safe.png" alt="safe" width="200">
+<img src="../images/safe.png" alt="safe" width="150">
 </div>
 </div>
 <div class="admonitionblock note">
@@ -706,4 +697,4 @@ If the user enters the wrong password , an error will be thrown at the CommandRe
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 16:17:01 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 17:45:44 UTC</div></div></div></body></html>

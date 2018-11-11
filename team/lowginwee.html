@@ -311,13 +311,16 @@ date, as its <code>value</code>.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>Schedule#add()</code>&#8201;&#8212;&#8201;Add an <code>Activity</code> to <code>schedule</code>.<br></p>
+<p><code>Schedule#add(Activity activity)</code>&#8201;&#8212;&#8201;Add an <code>Activity</code> to <code>schedule</code>.<br></p>
 </li>
 <li>
-<p><code>Schedule#delete()</code>&#8201;&#8212;&#8201;Deletes an <code>Activity</code> from <code>schedule</code>.<br></p>
+<p><code>Schedule#delete(Activity activity)</code>&#8201;&#8212;&#8201;Deletes an <code>Activity</code> from <code>schedule</code>.<br></p>
 </li>
 <li>
-<p><code>Schedule#setSchedule</code>&#8201;&#8212;&#8201;Sets <code>schedule</code> from a <code>list</code> of activities. This operation is executed when importing data from an <code>XML</code> file.
+<p><code>Schedule#update(Activity target, Activity editedActivity)</code>&#8201;&#8212;&#8201;Updates/edits an <code>Activity</code> in the <code>schedule</code>. <code>target</code> is the activity to be edited. <code>editedActivity</code> is the new, changed, activity.<br></p>
+</li>
+<li>
+<p><code>Schedule#setSchedule(List&lt;Activity&gt; activities)</code>&#8201;&#8212;&#8201;Sets <code>schedule</code> from a <code>list</code> of activities. This operation is executed when importing data from an <code>XML</code> file.
 This happens when you first start <strong>CorpPro</strong>.</p>
 </li>
 <li>
@@ -331,14 +334,13 @@ This happens when you first start <strong>CorpPro</strong>.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>Model#addActivity()</code>&#8201;&#8212;&#8201;Exposes <code>Schedule#add()</code> .</p>
+<p><code>Model#addActivity(Activity activity)</code>&#8201;&#8212;&#8201;Exposes <code>Schedule#add(Activity activity)</code> .</p>
 </li>
 <li>
-<p><code>Model#deleteActivity()</code>&#8201;&#8212;&#8201;Exposes <code>Schedule#delete()</code>.</p>
+<p><code>Model#deleteActivity(Activity activity)</code>&#8201;&#8212;&#8201;Exposes <code>Schedule#delete(Activity activity)</code>.</p>
 </li>
 <li>
-<p><code>Model#updateActivity()</code>&#8201;&#8212;&#8201;This operation edits an <code>Activity</code> in <code>schedule</code> by first executing <code>Schedule#delete()</code>, followed
-by <code>Schedule#add()</code>.</p>
+<p><code>Model#updateActivity(Activity target, Activity editedActivity)</code>&#8201;&#8212;&#8201;Exposes <code>Schedule#update(Activity target, Activity editedActivity)</code>.</p>
 </li>
 <li>
 <p><code>Model#getSchedule()</code>&#8201;&#8212;&#8201;Exposes <code>Schedule#getSchedule()</code>.</p>
@@ -390,7 +392,7 @@ If the date or the activity name is not valid, an error would be returned to the
 <p><strong>Step 5.</strong> <code>ScheduleAddCommandParser</code> then creates a new <code>ScheduleAddCommand</code> with the <code>activity</code> as its argument.<br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 6.</strong> <code>ScheduleAddCommand</code> is executed and calls <code>Model#addActivity()</code> which creates the <code>activity</code> in the <code>schedule</code>.</p>
+<p><strong>Step 6.</strong> <code>ScheduleAddCommand</code> is executed and calls <code>Model#addActivity(activity)</code> which creates the <code>activity</code> in the <code>schedule</code>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -399,14 +401,14 @@ If the date or the activity name is not valid, an error would be returned to the
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Before calling <code>Model#addActivity()</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
+Before calling <code>Model#addActivity(activity)</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
 It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p><strong>Step 7.</strong> <code>indicateAddressBookChanged()</code> is called within <code>Model#addActivity()</code> to raise an <code>AddressBookChangedEvent</code>, that the information within the
+<p><strong>Step 7.</strong> <code>indicateAddressBookChanged()</code> is called within <code>Model#addActivity(activity)</code> to raise an <code>AddressBookChangedEvent</code>, that the information within the
 address book is changed. <br></p>
 </div>
 <div class="paragraph">
@@ -438,7 +440,7 @@ The figure above illustrates the sequence from <strong>Step 1.</strong> to <stro
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/scheduleAddSequenceDiagramStorage.png" alt="scheduleAddSequenceDiagramStorage" width="700">
+<img src="../images/scheduleAddSequenceDiagramStorage.png" alt="scheduleAddSequenceDiagramStorage" width="650">
 </div>
 </div>
 <div class="paragraph">
@@ -458,7 +460,7 @@ The figure above illustrates the sequence of <strong>Step 6.</strong> and <stron
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/scheduleAddSequenceDiagramEvent.png" alt="scheduleAddSequenceDiagramEvent" width="700">
+<img src="../images/scheduleAddSequenceDiagramEvent.png" alt="scheduleAddSequenceDiagramEvent" width="650">
 </div>
 </div>
 <div class="paragraph">
@@ -503,13 +505,26 @@ Storage of each activity is facilitated by <code>XmlAdaptedActivity</code> which
 <div class="paragraph">
 <p><strong>Step 4.</strong> <code>ScheduleEditCommandParser</code> checks the validity of the index and activity as input by the user.<br></p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the activity name or index is not valid, an error would be returned to the user instead of editing
+an activity.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
-<p><strong>Step 5.</strong> <code>ScheduleEditCommandParser</code> then creates a new <code>ScheduleEditCommand</code> with the <code>INDEX</code> and the activity
+<p><strong>Step 5.</strong> <code>ScheduleEditCommandParser</code> then creates a new <code>ScheduleEditCommand</code> with the <code>INDEX</code> and the new activity
  <code>String</code> as its argument.<br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 6.</strong> <code>ScheduleEditCommand</code> checks if the <code>INDEX</code> given is valid (within the size of the listed schedule) and calls
-<code>Model#updateActivity()</code></p>
+<p><strong>Step 6.</strong> <code>ScheduleEditCommand</code> gets <code>target</code>, the activity to be edited, via <code>ScheduleCommand#getActivityFromIndex(model, index)</code> and creates <code>editedActivity</code>, the new activity.
+ It then calls <code>Model#updateActivity(target, editedActivity)</code></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -518,7 +533,7 @@ Storage of each activity is facilitated by <code>XmlAdaptedActivity</code> which
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If the activity name or index is not valid, i.e. out of range, an error would be returned to the user instead of editing
+If the index is not valid, i.e. out of range of the displayed schedule, an error would be returned to the user instead of editing
 an activity.
 </td>
 </tr>
@@ -531,15 +546,15 @@ an activity.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Before calling <code>Model#updateActivity()</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
+Before calling <code>Model#updateActivity(target, editedActivity)</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
 It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p><strong>Step 7.</strong> <code>Model#updateActivity()</code> updates the corresponding <code>activity</code> in the <code>schedule</code>.
-<code>indicateAddressBookChanged()</code> is called within <code>Model#updateActivity()</code> to raise an <code>AddressBookChangedEvent</code> that the information within the
+<p><strong>Step 7.</strong> <code>Model#updateActivity(target, editedActivity)</code> updates the corresponding <code>activity</code> in the <code>schedule</code>.
+<code>indicateAddressBookChanged()</code> is called within <code>Model#updateActivity(target, editedActivity)</code> to raise an <code>AddressBookChangedEvent</code> that the information within the
 address book is changed. <br></p>
 </div>
 <div class="paragraph">
@@ -571,7 +586,7 @@ The figure above illustrates the sequence from <strong>Step 1.</strong> to <stro
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/scheduleEditSequenceDiagramStorage.png" alt="scheduleEditSequenceDiagramStorage" width="700">
+<img src="../images/scheduleEditSequenceDiagramStorage.png" alt="scheduleEditSequenceDiagramStorage" width="650">
 </div>
 </div>
 <div class="paragraph">
@@ -590,8 +605,7 @@ The figure above illustrates the sequence of  <strong>Step 7.</strong><br>
 </table>
 </div>
 <div class="paragraph">
-<p>The interactions between the <code>EventCenter</code>, <code>UI</code> and <code>Storage</code> components for the <code>schedule-edit 2 a/Interview intern.</code>
-command (<strong>Step 8.</strong>) are similar to <strong>adding an activity</strong> (see <strong>Figure 3.</strong>)</p>
+<p>The interactions between the <code>EventCenter</code>, <code>UI</code> and <code>Storage</code> components for <code>editing an activity</code> (<strong>Step 8.</strong>) are similar to <strong>adding an activity</strong> (see <strong>Figure 3.</strong>)</p>
 </div>
 </div>
 <div class="sect5">
@@ -609,8 +623,8 @@ command (<strong>Step 8.</strong>) are similar to <strong>adding an activity</st
 <p><strong>Step 4.</strong> <code>ScheduleDeleteCommandParser</code> then creates a new <code>ScheduleDeleteCommand</code> with the <code>INDEX</code> as its argument.<br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 5.</strong> <code>ScheduleDeleteCommand</code> checks if the <code>INDEX</code> given is valid (within the size of the listed schedule) and calls
-<code>Model#deleteActivity()</code></p>
+<p><strong>Step 5.</strong> <code>ScheduleDeleteCommand</code> gets the <code>activity</code>, to be deleted, via <code>ScheduleCommand#getActivityFromIndex(model, index)</code> and calls
+<code>Model#deleteActivity(activity)</code></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -619,7 +633,7 @@ command (<strong>Step 8.</strong>) are similar to <strong>adding an activity</st
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If the index is not valid, i.e. out of range, an error would be returned to the user instead of deleting
+If the index is not valid, i.e. out of range of the displayed schedule, an error would be returned to the user instead of deleting
 an activity.
 </td>
 </tr>
@@ -632,15 +646,15 @@ an activity.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Before calling <code>Model#deleteActivity()</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
+Before calling <code>Model#deleteActivity(activity)</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
 It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p><strong>Step 6.</strong> <code>Model#deleteActivity</code> deletes the corresponding <code>activity</code> from the <code>schedule</code>. <code>indicateAddressBookChanged()</code> is called
-within <code>Model#deleteActivity()</code> to raise an <code>AddressBookChangedEvent</code>, that the information within the
+<p><strong>Step 6.</strong> <code>Model#deleteActivity(activity)</code> deletes the corresponding <code>activity</code> from the <code>schedule</code>. <code>indicateAddressBookChanged()</code> is called
+within <code>Model#deleteActivity(activity)</code> to raise an <code>AddressBookChangedEvent</code>, that the information within the
 address book is changed. <br></p>
 </div>
 <div class="paragraph">
@@ -648,33 +662,19 @@ address book is changed. <br></p>
 the display to show the correct information to the user.<br></p>
 </div>
 <div class="paragraph">
-<p>The sequence of deleting an activity is similar to editing an activity. Instead of updating the activity, it is deleted. (see <strong>Figure 4.</strong> and <strong>Figure 5.</strong>)</p>
+<p>The sequence of deleting an activity is similar to editing an activity. Instead of updating the activity , it is deleted. (see <strong>Figure 4.</strong> and <strong>Figure 5.</strong>)</p>
 </div>
+<div class="paragraph">
+<p>The interactions between the <code>EventCenter</code>, <code>UI</code> and <code>Storage</code> components for <strong>deleting an activity</strong> (<strong>Step 7.</strong>) are similar to <strong>adding an activity</strong> (see <strong>Figure 3.</strong>)
+==== Design Considerations
+===== Aspect: Data structure of Schedule
+* <strong>Alternative 1:</strong> <code>List</code> of Activities
+<strong> Pros: Easy to implement.
+</strong> Cons: Need to sort each activity by its date whenever the schedule is updated.
+** Cons: Larger time complexity.</p>
 </div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
-<div class="sect4">
-<h5 id="aspect-data-structure-of-schedule"><a class="link" href="#aspect-data-structure-of-schedule">Aspect: Data structure of Schedule</a></h5>
 <div class="ulist">
 <ul>
-<li>
-<p><strong>Alternative 1:</strong> <code>List</code> of Activities</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Easy to implement.</p>
-</li>
-<li>
-<p>Cons: Need to sort each activity by its date whenever the schedule is updated.</p>
-</li>
-<li>
-<p>Cons: Larger time complexity.</p>
-</li>
-</ul>
-</div>
-</li>
 <li>
 <p><strong>Alternative 2 (Current choice):</strong> <code>TreeMap</code> of Activities</p>
 <div class="ulist">
@@ -695,6 +695,7 @@ the display to show the correct information to the user.<br></p>
 </div>
 </li>
 </ul>
+</div>
 </div>
 </div>
 <div class="sect4">
@@ -742,4 +743,4 @@ the display to show the correct information to the user.<br></p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 16:17:01 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 17:45:44 UTC</div></div></div></body></html>
