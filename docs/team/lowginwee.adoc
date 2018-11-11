@@ -1,0 +1,72 @@
+= Low Gin Wee - Project Portfolio
+:site-section: AboutUs
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: CorpPro
+
+---
+
+== Overview
+
+*CorpPro* is a desktop address book application which targets Corporate Users. It helps its users better manage
+their information to increase efficiency and to produce effective results. *CorpPro*’s features aid users to find relevant
+details quickly, in addition to being able to create a schedule to plan and set goals. Users can create and update entries
+in *CorpPro* through the command-line interface (CLI), as well as having an uncluttered user interface (UI) to display corresponding
+information. It is made using Java, a widely used programming platform.
+
+== Summary of contributions
+
+* *Major enhancement*: Added *additional attributes* to each contact in the address book
+** What it does: The following attributes have been added:
+     *** Position/rank
+     *** Tag priority
+     *** Key Performance Index (KPI)
+     *** Note/Description
+** Justification: As a corporate user with many contacts, there is a need have additional fields and attributes to catagorize or
+search for them quickly. Users can use tags to assign an importance level to each contact. The Key Performing Index (KPI)
+is also included in the attributes to enable managers or supervisors to rate or rank their employees.
+** Highlights: This feature required the creation of additional *application programming interfaces* (API) to facilitate other features
+such as listing or finding contacts via these additional attributes.
+
+* *Major enhancement*: *Added schedule*
+** What it does: Users are able to create activities or tasks and add them to their schedule in *CorpPro*. These activities
+are sorted by date and can be edited or deleted when completed. The schedule is also saved when the user closes the application
+** Justification: Corporate users may need to organise their assignments in a schedule to maintain a methodical workstyle
+to increase efficiency and not to neglect any important tasks.
+** Highlights: This feature required the creation of additional commands and the implementation of exporting the schedule to save
+its contents after the user has exit the application. In addition, a unique data structure had to be used to maintain a sorted schedule (by date).
+
+* *Minor enhancement*: Enhanced the edit command to edit all listed entries in one command. This enables users to quickly update contacts in a similar category all at once, saving time and increasing
+efficiency.
+
+* *Code contributed*: [https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=lowginwee[RepoSense]] [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/functional/LowGinWee.md[Functional code]] [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/test/LowGinWee.md[Test code]] [https://github.com/CS2113-AY1819S1-W12-3/main/pulls?q=is%3Apr+is%3Aclosed+author%3ALowGinWee[Pull Requests]]
+
+* *Other contributions*:
+
+** Project management:
+*** Managed releases `v1.2` - `v1.4` (3 releases) on GitHub
+** Enhancements to existing features:
+**** Updated the colour scheme, made cosmetic tweaks of UI, Icon and labels (Pull Requests: https://github.com/CS2113-AY1819S1-W12-3/main/pull/118[#118], https://github.com/CS2113-AY1819S1-W12-3/main/pull/120[#120], https://github.com/CS2113-AY1819S1-W12-3/main/pull/130[#130], https://github.com/CS2113-AY1819S1-W12-3/main/pull/138[#138])
+** Issues resolved: https://github.com/CS2113-AY1819S1-W12-3/main/issues/143[1], https://github.com/CS2113-AY1819S1-W12-3/main/issues/148[2], https://github.com/CS2113-AY1819S1-W12-3/main/issues/153[3]
+
+** Community:
+*** PRs reviewed (with non-trivial review comments): (Pull Requests: https://github.com/CS2113-AY1819S1-W12-3/main/pull/70[#70], https://github.com/CS2113-AY1819S1-W12-3/main/pull/86[#86])
+*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2113-AY1819S1-T16-2/main/issues/105[1], https://github.com/CS2113-AY1819S1-T16-2/main/issues/101[2])
+
+== Contributions to the User Guide
+
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+include::../UserGuide.adoc[tag=schedule]
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+include::../DeveloperGuide.adoc[tag=schedule]
+

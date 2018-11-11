@@ -5,6 +5,8 @@
     <phone>9482asf424</phone>
     <email>hans@example</email>
     <address>4th street</address>
+    <position>Boss</position>
+    <kpi>4.5</kpi>
     <note>Sample note</note>
     <tagged>friends</tagged>
 </person>

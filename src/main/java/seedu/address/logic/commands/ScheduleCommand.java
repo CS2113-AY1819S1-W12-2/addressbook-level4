@@ -21,9 +21,6 @@ public abstract class ScheduleCommand extends Command {
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the schedule";
     public static final String MESSAGE_INVALID_INDEX = "Index is not valid";
 
-
-
-
     /**
      * Updates the schedule, add, edit or delete.
      */

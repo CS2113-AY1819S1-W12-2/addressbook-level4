@@ -136,7 +136,6 @@ public class XmlAdaptedPerson {
         final Address modelAddress = new Address(address);
         //@@author LowGinWee
         final Position modelPosition;
-        //TODO refactor this? note to doesExist()?
         if (position == null) {
             modelPosition = new Position();
         } else if (!Position.isValidPosition(position)) {
@@ -146,7 +145,6 @@ public class XmlAdaptedPerson {
         }
 
         final Kpi modelKpi;
-        //TODO refactor this? note to doesExist()?
         if (kpi == null) {
             modelKpi = new Kpi();
         } else if (!Kpi.isValidKpi(kpi)) {
@@ -156,7 +154,6 @@ public class XmlAdaptedPerson {
         }
 
         final Note modelNote;
-        //TODO refactor this? note to doesExist()?
         if (note == null) {
             modelNote = new Note();
         } else if (!Note.isValidNote(note)) {

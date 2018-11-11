@@ -187,8 +187,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * {@code target} must exist in the address book.
      */
     public void updateActivity(Activity target, Activity editedActivity) {
-        schedule.delete(target);
-        schedule.add(editedActivity);
+        schedule.update(target, editedActivity);
     }
 
     @Override

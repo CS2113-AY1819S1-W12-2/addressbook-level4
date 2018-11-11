@@ -77,7 +77,7 @@ public class XmlSerializableAddressBook {
         if (!(other instanceof XmlSerializableAddressBook)) {
             return false;
         }
-        //TODO update this to include schedule
-        return persons.equals(((XmlSerializableAddressBook) other).persons);
+        return persons.equals(((XmlSerializableAddressBook) other).persons)
+                && activities.equals(((XmlSerializableAddressBook) other).activities);
     }
 }

@@ -8,34 +8,34 @@
 ---
 
 == Overview
-CorpPro is an addressbook for corporate users. +
+CorpPro is an address book for corporate users. +
 It provides a fast and efficient system for corporate users to store their contacts safely and securely. It is also easy to maneuver and access contacts.
 CorpPro is powered by JavaFX and boasts an intuitive GUI (Graphical User Interface) with easy-to-use CLI (Command Line Interface). +
-This portfolio documents my ability to write java programs, user and developer guides.
+This portfolio documents my ability to write java programs, as well as documentation in the form of user and developer guides.
 
 == Summary of contributions
 
-* *Feature 1*: Added the ability for users to secure their addressbook by *encrypting* data.
-** What it does: Upon entering the `password` command followed by a password, it will encrypt the addressbook data using `PBEWithMD5AndDES` cipher.
-** Justification: This feature was implemented so that corporate users can secure sensitive information in accordance to PDPA (Personal Data Protection Act) rules. Reducing the possibilities of data leaks and unwanted access.
-** Highlights: This feature uses a well-known cipher `PBEWithMD5AndDES` and `PBEKeySpec` which accepts the user's password. Once the file is encrypted, it will not be crackable unless done via brute forcing.
-It also requires file type checking to make sure that I can compress both encryption and decryption process into one single `password` command much like a toggle so that users need not utilise 2 different commands for encrypting and decrypting.
+* *Feature 1*: Added the ability for users to secure their address book by *encrypting* data.
+** What it does: Upon entering the `password` command followed by a password, it will encrypt the address book data using `PBEWithMD5AndDES` cipher.
+** Justification: This feature was implemented so that corporate users can secure sensitive information in accordance to PDPA (Personal Data Protection Act) rules. This reduces the possibilities of data leaks and unwanted access.
+** Highlights: This feature implements a well-known cipher `PBEWithMD5AndDES` and `PBEKeySpec` which accepts the user's password. Once the file is encrypted, it will not be crackable unless done via brute forcing.
+It also requires file type checking to make sure that the user can compress both encryption and decryption process into one single `password` command much like a toggle so that users need not utilise 2 different commands for encrypting and decrypting.
 ** Credits: Code snippet adapted from Esailija [https://stackoverflow.com/questions/13673556/using-password-based-encryption-on-a-file-in-java[Stack overflow]]
 
 * *Feature 2*: Implemented smart searching for `find` command.
-** What it does: Users can now search for the contacts they want by roughly specifying other traits/ attributes of the contacts. For example, users can
+** What it does: Users can now search for the contacts they want by approximately specifying other traits/ attributes of the contacts. For example, users can
 search for contacts who live in Jurong West and are tagged as friends.
 ** Justification: Corporate users might need to gather rough statistics of their clients or know which worker(s) to contact and assign work.
-** Highlights: This feature uses Levenshtein Distance to find the closest match for the keywords entered. It will then sort the matches based on how close it is to the keywords entered.
-After which, it will perform a set intersection on the various contacts to find the contact which meets all the user's search requirements.
+** Highlights: This feature uses Levenshtein and Hamming Distance to find the closest match for the keywords entered. It will then sort the matches based on how close it is to the keywords entered.
+After which, it will perform a *set intersection* on the search results to narrow it down before displaying it to the user.
 
-* *Feature 3*: Implemented the use of custom preference to specify custom path for addressbook.xml.
+* *Feature 3*: Implemented custom paths for data storage.
 ** What it does: Users can now specify the path they wish to save their addressbook.xml to.
-** Justification: Corporate users might want to have separate addressbooks without the need of storing their application in different folders.
-They can instead change the preference file to decide what is the name and location they wish to store the addressbook.xml data file.
-** Highlights: This feature requires implementing their json reader in `UserPrefs` class and storing it as a public variable for other classes to depend on.
+** Justification: Corporate users might want to have separate address books without the need of storing their application in different folders.
+They can instead edit the preference file to change the name and location of their data storage file path.
+** Highlights: This feature requires implementing the json reader in `UserPrefs` class and storing it as a public variable for other classes to depend on.
 
-* *Code contributed*: [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/functional/lws803.md[Functional code]] [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/test/lws803.md[Test code]] [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/unused/lws803-unused.md[Unused code]]
+* *Code contributed*: [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/functional/lws803.md[Functional code]] [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/test/lws803.md[Test code]]
 
 * *Other contributions*:
 
@@ -44,9 +44,8 @@ They can instead change the preference file to decide what is the name and locat
 ** Documentation:
 *** Did cosmetic tweaks to existing contents of the User Guide
 ** Community:
-*** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42] - TODO
-*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3]) - TODO
-*** Some parts of the file encryptor feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2]) - TODO
+*** https://github.com/CS2113-AY1819S1-W12-3/main/pulls?q=is%3Apr+assignee%3Alws803+author%3Alws803+is%3Aclosed[PRs made]
+*** https://github.com/CS2113-AY1819S1-W12-3/main/issues?q=is%3Aissue+is%3Aclosed+author%3Alws803[Reported bugs and suggestions for other teams in the class]
 ** Tools:
 *** Integrated a new Github plugin (Travis ci) to the team repo
 *** Integrated a new Github plugin (AppVeyor) to the team repo
@@ -57,42 +56,10 @@ They can instead change the preference file to decide what is the name and locat
 |===
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
-=== Finding persons by attribute : `find`
 
-Finds persons whose names contain any of the given keywords. +
-Format: `find PREFIX KEYWORD [MORE_KEYWORDS]`
+include::../UserGuide.adoc[tag=search]
 
-****
-* The search is not case sensitive.
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* You can search by name, email, address, key performance index, position, phone number and tags
-* Partial words or words with typos will be matched too eg. 'Hangs' will be matched to 'Hans'
-* Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
-* Finding with a keyword that yields no matches may result in address book displaying all contacts rather than 0 results
-****
-
-Examples:
-
-* `find a/jurong west ave` +
-Displays any person who lives in `jurong west ave`
-* `find n/John Betsy r/secretary a/jurong west ave` +
-Displays any person having names `John` and `Betsy` who is a `secretary` and lives in `jurong west ave`
-
-=== Encrypting data files : `password`
-
-Encrypts the data file with your password. +
-Format: `password YOURPASSWORD` +
-All commands will be disabled during encryption, your data will be safely protected.
-
-** Note: You can use the same command to decrypt the file, just hit `password` and your correct password.
-
-Examples:
-
-* `password helloworld` +
-Locks addressbook and clears all data.
-* `password helloworld` +
-Unlocks addressbook and restores all data.
-
+include::../UserGuide.adoc[tag=dataencryption]
 
 == Contributions to the Developer Guide
 
@@ -100,5 +67,8 @@ Unlocks addressbook and restores all data.
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
+include::../DeveloperGuide.adoc[tag=search]
+
+include::../DeveloperGuide.adoc[tag=dataencryption]
 
 
