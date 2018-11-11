@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import seedu.address.commons.util.FileEncryptor;
+
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.CliSyntax;
@@ -50,6 +51,7 @@ public class RestoreSnapshotsCommand extends Command {
 
     /**
      * Read a Backuplist from the given destination path {@code String}
+
      * @param destination {@code String} of the path of the destination
      * @throws ParseException if ".backup" does not exists or there are no files
      */

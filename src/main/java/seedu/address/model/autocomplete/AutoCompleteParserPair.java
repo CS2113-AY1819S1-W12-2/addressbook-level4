@@ -7,11 +7,11 @@ import seedu.address.logic.parser.Prefix;
  * Pair object used in parsing of commands for auto complete functionality
  */
 public class AutoCompleteParserPair {
-    public final Prefix predictionType;
-    public final String prefixValue;
+    private final Prefix prefixType;
+    private final String prefixValue;
 
-    public AutoCompleteParserPair(Prefix predictionType, String prefixValue) {
-        this.predictionType = predictionType;
+    public AutoCompleteParserPair(Prefix prefixType, String prefixValue) {
+        this.prefixType = prefixType;
         this.prefixValue = removeLeadingWhitespace(prefixValue);
     }
 
@@ -29,9 +29,18 @@ public class AutoCompleteParserPair {
         return input;
     }
 
+    public Prefix getPrefixType() {
+        return prefixType;
+    }
+
+    public String getPrefixValue() {
+        return prefixValue;
+    }
+
     @Override
     public boolean equals(Object other) {
-        return this.predictionType.equals(((AutoCompleteParserPair) other).predictionType)
+        return other instanceof AutoCompleteParserPair
+                && this.prefixType.equals(((AutoCompleteParserPair) other).prefixType)
                 && this.prefixValue.equals(((AutoCompleteParserPair) other).prefixValue);
     }
 }

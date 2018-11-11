@@ -74,4 +74,12 @@ public class ImportCommand extends Command {
             throw new CommandException(CsvReader.WRONG_FORMAT);
         }
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof ImportCommand // instanceof handles nulls
+                && file.equals(((ImportCommand) other).file)
+                && directory.equals(((ImportCommand) other).directory));
+    }
 }

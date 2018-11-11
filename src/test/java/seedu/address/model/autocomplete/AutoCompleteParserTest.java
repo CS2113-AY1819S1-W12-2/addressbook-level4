@@ -11,8 +11,7 @@ public class AutoCompleteParserTest {
 
     @Test
     public void parseCommand_validArgs_returnValidParserPair() {
-        AutoCompleteParser parserUnderTest = new AutoCompleteParser();
-        AutoCompleteParserPair actualPair = parserUnderTest.parseCommand("list t/friends");
+        AutoCompleteParserPair actualPair = AutoCompleteParser.parseCommand("list t/friends");
         AutoCompleteParserPair expectedPair = new AutoCompleteParserPair(CliSyntax.PREFIX_TAG, "friends");
 
         assertEquals(expectedPair, actualPair);
@@ -20,8 +19,7 @@ public class AutoCompleteParserTest {
 
     @Test
     public void parseCommand_invalidArgs_returnInvalidParserPair() {
-        AutoCompleteParser parserUnderTest = new AutoCompleteParser();
-        AutoCompleteParserPair actualPair = parserUnderTest.parseCommand("");
+        AutoCompleteParserPair actualPair = AutoCompleteParser.parseCommand("");
         AutoCompleteParserPair expectedPair =
                 new AutoCompleteParserPair(CliSyntax.PREFIX_INVALID, CliSyntax.PREFIX_INVALID.getPrefix());
 

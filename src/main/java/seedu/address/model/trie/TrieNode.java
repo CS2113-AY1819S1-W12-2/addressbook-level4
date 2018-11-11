@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class TrieNode {
 
+    private boolean isRootNode;
     private boolean isEndNode;
     private char value;
     private TrieNode parent;
@@ -19,6 +20,7 @@ public class TrieNode {
      */
     public TrieNode(char value) {
         // Initialise all instance variables
+        isRootNode = false;
         isEndNode = false;
         parent = null;
         children = new ArrayList<>();
@@ -66,6 +68,14 @@ public class TrieNode {
 
     public TrieNode getFirstChild() {
         return children.get(0);
+    }
+
+    public boolean isRootNode() {
+        return isRootNode;
+    }
+
+    public void setRootNode(boolean value) {
+        isRootNode = value;
     }
 
     public boolean isEndNode() {

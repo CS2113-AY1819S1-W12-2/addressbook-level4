@@ -15,6 +15,7 @@ This portfolio documents my ability to write java programs, as well as documenta
 
 == Summary of contributions
 
+<<<<<<< HEAD
 * *Feature 1*: Added the ability for users to secure their addressbook by *encrypting* data.
 ** What it does: Upon entering the `password` command followed by a password, it will encrypt the addressbook data using `PBEWithMD5AndDES` cipher.
 ** Justification: This feature was implemented so that corporate users can secure sensitive information in accordance to PDPA (Personal Data Protection Act) rules. Reducing the possibilities of data leaks and unwanted access.
@@ -36,6 +37,28 @@ They can instead change the preference file to decide what is the name and locat
 ** Highlights: This feature requires implementing their json reader in `UserPrefs` class and storing it as a public variable for other classes to depend on.
 
 * *Code contributed*: [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/functional/lws803.md[Functional code]] [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/test/lws803.md[Test code]] [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/unused/lws803-unused.md[Unused code]]
+=======
+* *Feature 1*: Added the ability for users to secure their address book by *encrypting* data.
+** What it does: Upon entering the `password` command followed by a password, it will encrypt the address book data using `PBEWithMD5AndDES` cipher.
+** Justification: This feature was implemented so that corporate users can secure sensitive information in accordance to PDPA (Personal Data Protection Act) rules. This reduces the possibilities of data leaks and unwanted access.
+** Highlights: This feature implements a well-known cipher `PBEWithMD5AndDES` and `PBEKeySpec` which accepts the user's password. Once the file is encrypted, it will not be crackable unless done via brute forcing.
+It also requires file type checking to make sure that the user can compress both encryption and decryption process into one single `password` command much like a toggle so that users need not utilise 2 different commands for encrypting and decrypting.
+** Credits: Code snippet adapted from Esailija [https://stackoverflow.com/questions/13673556/using-password-based-encryption-on-a-file-in-java[Stack overflow]]
+
+* *Feature 2*: Implemented smart searching for `find` command.
+** What it does: Users can now search for the contacts they want by approximately specifying other traits/ attributes of the contacts. For example, users can
+search for contacts who live in Jurong West and are tagged as friends.
+** Justification: Corporate users might need to gather rough statistics of their clients or know which worker(s) to contact and assign work.
+** Highlights: This feature uses Levenshtein and Hamming Distance to find the closest match for the keywords entered. It will then sort the matches based on how close it is to the keywords entered and then perform a *set intersection* on the search results to narrow it down.
+
+* *Feature 3*: Implemented custom paths for data storage.
+** What it does: Users can now specify the path they wish to save their addressbook.xml to.
+** Justification: Corporate users might want to have separate address books without the need of storing their application in different folders.
+They can instead edit the preference file to change the name and location of their data storage file path.
+** Highlights: This feature requires implementing the json reader in `UserPrefs` class and storing it as a public variable for other classes to access.
+
+* *Code contributed*: [https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=lws803&sort=displayName&since=2018-09-12&until=2018-11-05&timeframe=day&reverse=false&repoSort=true[Reposense]]
+>>>>>>> 701b2102d87cbdf8bfc0db19fbf51b0be905971c
 
 * *Other contributions*:
 
@@ -44,9 +67,14 @@ They can instead change the preference file to decide what is the name and locat
 ** Documentation:
 *** Did cosmetic tweaks to existing contents of the User Guide
 ** Community:
+<<<<<<< HEAD
 *** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42] - TODO
 *** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3]) - TODO
 *** Some parts of the file encryptor feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2]) - TODO
+=======
+*** https://github.com/CS2113-AY1819S1-W12-3/main/pulls?q=is%3Apr+assignee%3Alws803+author%3Alws803+is%3Aclosed[PRs made]
+*** https://github.com/CS2113-AY1819S1-W12-3/main/issues?q=is%3Aissue+is%3Aclosed+author%3Alws803[Reported bugs and suggestions for other teams in the class]
+>>>>>>> 701b2102d87cbdf8bfc0db19fbf51b0be905971c
 ** Tools:
 *** Integrated a new Github plugin (Travis ci) to the team repo
 *** Integrated a new Github plugin (AppVeyor) to the team repo

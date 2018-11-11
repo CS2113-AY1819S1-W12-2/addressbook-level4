@@ -9,6 +9,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable; is valid as declared in {@link #isValidPosition(String)}
  */
 public class Position {
+
     public static final String SORT_ATTRIBUTE = "position";
 
     public static final String MESSAGE_POSITION_CONSTRAINTS = "Positions should only contain "

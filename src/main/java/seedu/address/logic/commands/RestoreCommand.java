@@ -56,7 +56,6 @@ public class RestoreCommand extends Command {
         }
 
         restoreFileFromIndex(model, fileMap, index);
-        model.reinitAddressbook();
         return new CommandResult(String.format(MESSAGE_RESTORED_SUCCESS, fileName.get(index.getZeroBased())));
     }
 
@@ -69,5 +68,14 @@ public class RestoreCommand extends Command {
     private void restoreFileFromIndex(Model model, Map<Integer, File> fileMap, Index index) {
         File newFile = fileMap.get(index.getZeroBased());
         model.replaceData(Paths.get(newFile.toString()));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof RestoreCommand // instanceof handles nulls
+                && index.equals(((RestoreCommand) other).index)
+                && fileMap.equals(((RestoreCommand) other).fileMap)
+                && fileName.equals(((RestoreCommand) other).fileName));
     }
 }

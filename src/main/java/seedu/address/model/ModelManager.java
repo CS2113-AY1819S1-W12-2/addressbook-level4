@@ -50,7 +50,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
-        textPrediction = new CommandCompleter(this);
+        textPrediction = new CommandCompleter(getAddressBook().getPersonList());
     }
 
     public ModelManager() {
@@ -134,7 +134,7 @@ public class ModelManager extends ComponentManager implements Model {
         versionedAddressBook.undo();
         indicateAddressBookChanged();
         //@@author lekoook
-        textPrediction.reinitialise();
+        textPrediction.reinitialise(getAddressBook().getPersonList());
         //@@author
     }
 
@@ -143,7 +143,7 @@ public class ModelManager extends ComponentManager implements Model {
         versionedAddressBook.redo();
         indicateAddressBookChanged();
         //@@author lekoook
-        textPrediction.reinitialise();
+        textPrediction.reinitialise(getAddressBook().getPersonList());
         //@@author
     }
 
@@ -216,7 +216,7 @@ public class ModelManager extends ComponentManager implements Model {
      * Reinitialise all text prediction data.
      */
     public void reinitialisePrediction() {
-        textPrediction.reinitialise();
+        textPrediction.reinitialise(getAddressBook().getPersonList());
     }
 
     /**
@@ -246,7 +246,6 @@ public class ModelManager extends ComponentManager implements Model {
         replaceData(path);
     }
 
-    //@@author lws803
     /**
      * Method to replace data for reinitAddressbook and restoreAddressbook
      * @param path path of .xml file

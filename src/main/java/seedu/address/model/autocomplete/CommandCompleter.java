@@ -2,10 +2,10 @@
 package seedu.address.model.autocomplete;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import javafx.collections.ObservableList;
 import seedu.address.logic.parser.CliSyntax;
-import seedu.address.model.Model;
+import seedu.address.logic.parser.Prefix;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.trie.Trie;
@@ -16,16 +16,6 @@ import seedu.address.model.trie.Trie;
 public class CommandCompleter implements TextPrediction {
 
     /**
-     * Model instance to access data.
-     */
-    private Model model;
-
-    /**
-     * Text prediction parser to parse user input.
-     */
-    private AutoCompleteParser parser;
-
-    /**
      * Trie instances for various commands and arguments.
      */
     private Trie commandTrie;
@@ -34,7 +24,8 @@ public class CommandCompleter implements TextPrediction {
     private Trie emailTrie;
     private Trie addressTrie;
     private Trie tagTrie;
-    private Trie filenameTrie;
+    private Trie positionTrie;
+    private Trie kpiTrie;
 
     /**
      * Word lists of strings used to instantiate Trie objects.
@@ -45,32 +36,32 @@ public class CommandCompleter implements TextPrediction {
     private ArrayList<String> emailList;
     private ArrayList<String> addressList;
     private ArrayList<String> tagList;
-    private ArrayList<String> filenameList;
+    private ArrayList<String> positionList;
+    private ArrayList<String> kpiList;
 
     /**
      * Creates a command completer with the {@code model} data.
-     * @param model the data represented in the address book.
+     * @param personList the list of persons whose data is to be added.
      */
-    public CommandCompleter(Model model) {
-        this.model = model;
-        this.parser = new AutoCompleteParser();
+    public CommandCompleter(List<Person> personList) {
         this.commandList = new ArrayList<>();
         this.nameList = new ArrayList<>();
         this.phoneList = new ArrayList<>();
         this.emailList = new ArrayList<>();
         this.addressList = new ArrayList<>();
         this.tagList = new ArrayList<>();
-        this.filenameList = new ArrayList<>();
-        initLists();
+        this.positionList = new ArrayList<>();
+        this.kpiList = new ArrayList<>();
+        initLists(personList);
         initTries();
     }
 
     /**
      * Initialises all words lists.
      */
-    private void initLists() {
+    private void initLists(List<Person> personList) {
         initCommandsList();
-        initAttributesLists();
+        initAttributesLists(personList);
     }
 
     /**
@@ -105,13 +96,14 @@ public class CommandCompleter implements TextPrediction {
     /**
      * Initialises attributes words lists with attribute value in each {@code Person}.
      */
-    private void initAttributesLists() {
-        ObservableList<Person> list = model.getAddressBook().getPersonList();
-        for (Person item : list) {
+    private void initAttributesLists(List<Person> personList) {
+        for (Person item : personList) {
             nameList.add(item.getName().fullName);
             phoneList.add(item.getPhone().value);
             emailList.add(item.getEmail().value);
             addressList.add(item.getAddress().value);
+            positionList.add(item.getPosition().value);
+            kpiList.add(item.getKpi().value);
             for (Tag tag : item.getTags()) {
                 tagList.add(tag.toString());
             }
@@ -128,6 +120,8 @@ public class CommandCompleter implements TextPrediction {
         emailTrie = new Trie(emailList);
         addressTrie = new Trie(addressList);
         tagTrie = new Trie(tagList);
+        positionTrie = new Trie(positionList);
+        kpiTrie = new Trie(kpiList);
     }
 
     /**
@@ -136,21 +130,25 @@ public class CommandCompleter implements TextPrediction {
      * @return predicted list of text
      */
     public ArrayList<String> predictText(String textInput) {
-        AutoCompleteParserPair pair = parser.parseCommand(textInput);
+        AutoCompleteParserPair pair = AutoCompleteParser.parseCommand(textInput);
         PredictionType predictionType = getPredictionType(pair);
         switch (predictionType) {
         case PREDICT_COMMAND:
-            return commandTrie.getPredictList(pair.prefixValue);
+            return commandTrie.getPredictList(pair.getPrefixValue());
         case PREDICT_NAME:
-            return nameTrie.getPredictList(pair.prefixValue);
+            return nameTrie.getPredictList(pair.getPrefixValue());
         case PREDICT_ADDRESS:
-            return addressTrie.getPredictList(pair.prefixValue);
+            return addressTrie.getPredictList(pair.getPrefixValue());
         case PREDICT_PHONE:
-            return phoneTrie.getPredictList(pair.prefixValue);
+            return phoneTrie.getPredictList(pair.getPrefixValue());
         case PREDICT_EMAIL:
-            return emailTrie.getPredictList(pair.prefixValue);
+            return emailTrie.getPredictList(pair.getPrefixValue());
         case PREDICT_TAG:
-            return tagTrie.getPredictList(pair.prefixValue);
+            return tagTrie.getPredictList(pair.getPrefixValue());
+        case PREDICT_POSITION:
+            return positionTrie.getPredictList(pair.getPrefixValue());
+        case PREDICT_KPI:
+            return kpiTrie.getPredictList(pair.getPrefixValue());
         default:
             return new ArrayList<>();
         }
@@ -166,6 +164,8 @@ public class CommandCompleter implements TextPrediction {
         phoneTrie.insert(person.getPhone().value);
         emailTrie.insert(person.getEmail().value);
         addressTrie.insert(person.getAddress().value);
+        positionTrie.insert(person.getPosition().value);
+        kpiTrie.insert(person.getKpi().value);
         for (Tag tag : person.getTags()) {
             tagTrie.insert(tag.toString());
         }
@@ -181,6 +181,8 @@ public class CommandCompleter implements TextPrediction {
         phoneTrie.remove(person.getPhone().value);
         emailTrie.remove(person.getEmail().value);
         addressTrie.remove(person.getAddress().value);
+        positionTrie.remove(person.getPosition().value);
+        kpiTrie.remove(person.getKpi().value);
         for (Tag tag : person.getTags()) {
             tagTrie.remove(tag.toString());
         }
@@ -191,11 +193,22 @@ public class CommandCompleter implements TextPrediction {
      */
     @Override
     public void clearData() {
+        commandTrie.clear();
         nameTrie.clear();
         phoneTrie.clear();
         emailTrie.clear();
         addressTrie.clear();
         tagTrie.clear();
+        positionTrie.clear();
+        kpiTrie.clear();
+        commandList.clear();
+        nameList.clear();
+        phoneList.clear();
+        emailList.clear();
+        addressList.clear();
+        tagList.clear();
+        positionList.clear();
+        kpiList.clear();
     }
 
     /**
@@ -222,6 +235,14 @@ public class CommandCompleter implements TextPrediction {
             addressTrie.remove(personToEdit.getAddress().value);
             addressTrie.insert(editedPerson.getAddress().value);
         }
+        if (!personToEdit.getPosition().equals(editedPerson.getPosition())) {
+            positionTrie.remove(personToEdit.getPosition().value);
+            positionTrie.insert(editedPerson.getPosition().value);
+        }
+        if (!personToEdit.getKpi().equals(editedPerson.getKpi())) {
+            kpiTrie.remove(personToEdit.getKpi().value);
+            kpiTrie.insert(editedPerson.getKpi().value);
+        }
         if (!personToEdit.getTags().equals(editedPerson.getTags())) {
             for (Tag tag : personToEdit.getTags()) {
                 tagTrie.remove(tag.toString());
@@ -238,17 +259,22 @@ public class CommandCompleter implements TextPrediction {
      * @return the type of prefix.
      */
     private PredictionType getPredictionType(AutoCompleteParserPair pair) {
-        if (pair.predictionType.equals(CliSyntax.PREFIX_TAG)) {
+        Prefix type = pair.getPrefixType();
+        if (type.equals(CliSyntax.PREFIX_TAG)) {
             return PredictionType.PREDICT_TAG;
-        } else if (pair.predictionType.equals(CliSyntax.PREFIX_EMAIL)) {
+        } else if (type.equals(CliSyntax.PREFIX_EMAIL)) {
             return PredictionType.PREDICT_EMAIL;
-        } else if (pair.predictionType.equals(CliSyntax.PREFIX_ADDRESS)) {
+        } else if (type.equals(CliSyntax.PREFIX_ADDRESS)) {
             return PredictionType.PREDICT_ADDRESS;
-        } else if (pair.predictionType.equals(CliSyntax.PREFIX_PHONE)) {
+        } else if (type.equals(CliSyntax.PREFIX_PHONE)) {
             return PredictionType.PREDICT_PHONE;
-        } else if (pair.predictionType.equals(CliSyntax.PREFIX_NAME)) {
+        } else if (type.equals(CliSyntax.PREFIX_NAME)) {
             return PredictionType.PREDICT_NAME;
-        } else if (pair.predictionType.equals(CliSyntax.PREFIX_COMMAND)) {
+        } else if (type.equals(CliSyntax.PREFIX_POSITION)) {
+            return PredictionType.PREDICT_POSITION;
+        } else if (type.equals(CliSyntax.PREFIX_KPI)) {
+            return PredictionType.PREDICT_KPI;
+        } else if (type.equals(CliSyntax.PREFIX_COMMAND)) {
             return PredictionType.PREDICT_COMMAND;
         } else {
             return PredictionType.PREDICT_INVALID;
@@ -263,17 +289,20 @@ public class CommandCompleter implements TextPrediction {
         PREDICT_EMAIL,
         PREDICT_NAME ,
         PREDICT_PHONE,
+        PREDICT_POSITION,
+        PREDICT_KPI,
         PREDICT_TAG,
         PREDICT_COMMAND,
         PREDICT_INVALID
     }
 
     /**
-     * Reinitialise all data structures with given Model.
+     * Reinitialise all data structures with given list of persons.
      */
     @Override
-    public void reinitialise() {
-        initLists();
+    public void reinitialise(List<Person> personList) {
+        clearData();
+        initLists(personList);
         initTries();
     }
 }

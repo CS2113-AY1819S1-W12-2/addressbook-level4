@@ -14,13 +14,13 @@ public class AutoCompleteParserPairTest {
     @Test
     public void constructor_validArgs_success() {
         AutoCompleteParserPair pair = new AutoCompleteParserPair(CliSyntax.PREFIX_NAME, "  john");
-        assertEquals(CliSyntax.PREFIX_NAME, pair.predictionType);
-        assertEquals("john", pair.prefixValue);
+        assertEquals(CliSyntax.PREFIX_NAME, pair.getPrefixType());
+        assertEquals("john", pair.getPrefixValue());
 
         // argument contains only white space
         AutoCompleteParserPair emptyPair = new AutoCompleteParserPair(CliSyntax.PREFIX_NAME, "    ");
-        assertEquals(CliSyntax.PREFIX_NAME, emptyPair.predictionType);
-        assertEquals("    ", emptyPair.prefixValue);
+        assertEquals(CliSyntax.PREFIX_NAME, emptyPair.getPrefixType());
+        assertEquals("    ", emptyPair.getPrefixValue());
     }
 
     @Test

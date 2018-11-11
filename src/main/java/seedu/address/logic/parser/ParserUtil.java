@@ -43,6 +43,7 @@ public class ParserUtil {
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
     }
 
+    //@@author LowGinWee
     /**
      * Parses a {@code String name} into a {@code Name}.
      * Leading and trailing whitespaces will be trimmed.
@@ -65,6 +66,7 @@ public class ParserUtil {
         parsedName = parsedName.trim();
         return new Name(parsedName);
     }
+    //@@author
 
     /**
      * Parses a {@code String attribute} into a {@code Attribute}.

@@ -193,10 +193,6 @@ Displays `john` and `John Doe`
 Displays any person having names `Betsy`, `Tim`, or `John`
 * `find e/example@domain.com` +
 Displays any person having the email `example@domain.com`
-* `find p/912311231` +
-Displays any person having the phone number `912311231`
-* `find r/secretary` +
-Displays any person who holds a `secretary` position
 * `find a/jurong west ave` +
 Displays any person who lives in `jurong`, `west`, `ave`.
 
@@ -215,7 +211,11 @@ Displays any person having names `John` and `Betsy` who is a `secretary` and liv
 ==== Search guessing
 This feature will also display actual *Keywords matched* and *Keywords guessed* to give you a good indicator of which results were guessed.
 
+<<<<<<< HEAD
 image::find_feature1.png[width="400"]
+=======
+image::find_feature1.png[width="250"]
+>>>>>>> 701b2102d87cbdf8bfc0db19fbf51b0be905971c
 
 
 From the above results we can see that `Bernicc` yields `Keywords guessed: {Bernice}` whereas `Alex` yields `Keywords matched: {Alex}`
@@ -391,6 +391,7 @@ Encrypts the data file with your password. +
 Format: `password YOURPASSWORD` +
 All commands will be disabled during encryption, your data will be safely protected.
 
+<<<<<<< HEAD
 ** Note: You can use the same command to decrypt the file, just hit `password` and your correct password.
 
 ===== Safe analogy
@@ -398,6 +399,16 @@ All commands will be disabled during encryption, your data will be safely protec
 image::safe.png[width="200"]
 
 NOTE: This feature does not actually store passwords. You will have to secure it with a password again after decryption to secure it. +
+=======
+NOTE: You can use the same command to decrypt the file, just hit `password` and your correct password.
+
+===== Safe analogy
+
+image::safe.png[width="150"]
+
+NOTE: This feature does not actually store passwords. You will have to secure it with a password again after decryption to secure it. +
+Passwords can only be alpha-numeric.
+>>>>>>> 701b2102d87cbdf8bfc0db19fbf51b0be905971c
 
 Treat this feature as if it is a *safe*, once you have locked it, you have to remember the password in order to unlock it again. +
 And once you have unlocked it, you are free to set a new password.
@@ -406,9 +417,18 @@ And once you have unlocked it, you are free to set a new password.
 Examples:
 
 * `password helloworld` +
+<<<<<<< HEAD
 Locks addressbook and clears all data.
 * `password helloworld` +
 Unlocks addressbook and restores all data.
+=======
+
+NOTE: Locks address book with a password string and clears all data.
+
+* `password helloworld` +
+
+NOTE: Entering `password helloworld` unlocks the  address book and restores all data.
+>>>>>>> 701b2102d87cbdf8bfc0db19fbf51b0be905971c
 
 // end::dataencryption[]
 

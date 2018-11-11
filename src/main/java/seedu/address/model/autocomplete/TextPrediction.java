@@ -1,6 +1,7 @@
 package seedu.address.model.autocomplete;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import seedu.address.model.person.Person;
 
@@ -46,5 +47,5 @@ public interface TextPrediction {
      * This method has a lower performance as compared to methods with specific operation (insertion, removal, etc.).
      * Hence, unless the all the data has changed, use this method sparingly.
      */
-    void reinitialise();
+    void reinitialise(List<Person> personList);
 }
