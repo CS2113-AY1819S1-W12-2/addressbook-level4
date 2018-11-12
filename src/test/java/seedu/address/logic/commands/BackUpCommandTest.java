@@ -6,8 +6,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.util.logging.Logger;
 
-import org.junit.Test;
 import org.junit.After;
+import org.junit.Test;
 
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
