@@ -13,12 +13,7 @@ public class TrieTest {
     private ArrayList<String> testStrings = new ArrayList<>(Arrays.asList("hello", "hell", "helipad", "world", "help"));
 
     @Test
-    public void constructor_validArgs_success() {
-        Trie trie = new Trie(testStrings);
-    }
-
-    @Test
-    public void getPredictList_validArgs_success() {
+    public void getPredictList_validArgs_multipleOutput() {
         Trie trieUnderTest = new Trie(testStrings);
 
         ArrayList<String> actualOutput = trieUnderTest.getPredictList("hel");
@@ -27,7 +22,7 @@ public class TrieTest {
     }
 
     @Test
-    public void getPredictList_singleOutput_success() {
+    public void getPredictList_validArgs_singleOutput() {
         Trie trieUnderTest = new Trie(testStrings);
 
         ArrayList<String> actualOutput = trieUnderTest.getPredictList("wor");
@@ -45,6 +40,19 @@ public class TrieTest {
     }
 
     @Test
+    public void insert_emptyAndNullString_noChanges() {
+        Trie trieUnderTest = new Trie(testStrings);
+
+        trieUnderTest.insert("");
+        ArrayList<String> expectedEmptyInsertion = new ArrayList<>(Arrays.asList("l", "lo ", "ipad ", "p "));
+        assertPredictSuccess("hel", trieUnderTest, expectedEmptyInsertion);
+
+        trieUnderTest.insert(null);
+        ArrayList<String> expectedNullInsertion = new ArrayList<>(Arrays.asList("l", "lo ", "ipad ", "p "));
+        assertPredictSuccess("hel", trieUnderTest, expectedNullInsertion);
+    }
+
+    @Test
     public void remove_existingValues_success() {
         Trie trieUnderTest = new Trie(testStrings);
         trieUnderTest.remove("help");
@@ -52,6 +60,19 @@ public class TrieTest {
 
         ArrayList<String> expectedOutput = new ArrayList<>(Arrays.asList("lo ", "ipad "));
         assertPredictSuccess("hel", trieUnderTest, expectedOutput);
+    }
+
+    @Test
+    public void remove_emptyAndNullString_noChanges() {
+        Trie trieUnderTest = new Trie(testStrings);
+
+        trieUnderTest.remove("");
+        ArrayList<String> expectedEmptyRemoval = new ArrayList<>(Arrays.asList("l", "lo ", "ipad ", "p "));
+        assertPredictSuccess("hel", trieUnderTest, expectedEmptyRemoval);
+
+        trieUnderTest.remove(null);
+        ArrayList<String> expectedNullRemoval = new ArrayList<>(Arrays.asList("l", "lo ", "ipad ", "p "));
+        assertPredictSuccess("hel", trieUnderTest, expectedNullRemoval);
     }
 
     @Test

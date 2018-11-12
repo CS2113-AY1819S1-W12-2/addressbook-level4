@@ -32,12 +32,14 @@ such as listing or finding contacts via these additional attributes.
 * *Major enhancement*: *Added schedule*
 ** What it does: Users are able to create activities or tasks and add them to their schedule in *CorpPro*. These activities
 are sorted by date and can be edited or deleted when completed. The schedule is also saved when the user closes the application
-** Justification: Corporate users may need to organise their assignments in a schedule to maintain a methodical workstyle
+** Justification: Corporate users may need to organise their assignments in a schedule to maintain a methodical work style
 to increase efficiency and not to neglect any important tasks.
 ** Highlights: This feature required the creation of additional commands and the implementation of exporting the schedule to save
 its contents after the user has exit the application. In addition, a unique data structure had to be used to maintain a sorted schedule (by date).
 
-* *Minor enhancement*: Enhanced the edit command to edit all listed entries in one command. This enables users to quickly update contacts in a similar category all at once, saving time and increasing
+* *Minor enhancement*: The *add command* automatically parsers the contact's name to capitalize the first letter of each word and remove additional spaces. This is to standardize contacts in the address book for a quick and easy reference.
+
+* *Minor enhancement*: Enhanced the *edit command* to edit all listed entries in one command. This enables users to quickly update contacts, listed by a similar category, all at once, saving time and increasing
 efficiency.
 
 * *Code contributed*: [https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=lowginwee[RepoSense]] [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/functional/LowGinWee.md[Functional code]] [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/test/LowGinWee.md[Test code]] [https://github.com/CS2113-AY1819S1-W12-3/main/pulls?q=is%3Apr+is%3Aclosed+author%3ALowGinWee[Pull Requests]]
@@ -47,7 +49,8 @@ efficiency.
 ** Project management:
 *** Managed releases `v1.2` - `v1.4` (3 releases) on GitHub
 ** Enhancements to existing features:
-**** Updated the colour scheme, made cosmetic tweaks of UI, Icon and labels (Pull Requests: https://github.com/CS2113-AY1819S1-W12-3/main/pull/118[#118], https://github.com/CS2113-AY1819S1-W12-3/main/pull/120[#120], https://github.com/CS2113-AY1819S1-W12-3/main/pull/130[#130], https://github.com/CS2113-AY1819S1-W12-3/main/pull/138[#138])
+
+**** Updated the colour scheme, made cosmetic tweaks of UI, icon and labels (Pull Requests: https://github.com/CS2113-AY1819S1-W12-3/main/pull/118[#118], https://github.com/CS2113-AY1819S1-W12-3/main/pull/120[#120], https://github.com/CS2113-AY1819S1-W12-3/main/pull/130[#130], https://github.com/CS2113-AY1819S1-W12-3/main/pull/138[#138])
 ** Issues resolved: https://github.com/CS2113-AY1819S1-W12-3/main/issues/143[1], https://github.com/CS2113-AY1819S1-W12-3/main/issues/148[2], https://github.com/CS2113-AY1819S1-W12-3/main/issues/153[3]
 
 ** Community:

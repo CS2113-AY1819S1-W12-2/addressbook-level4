@@ -1,9 +1,10 @@
 //@@author lekoook
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.commands.MailCommand.TYPE_ALL;
-import static seedu.address.logic.commands.MailCommand.TYPE_GROUPS;
-import static seedu.address.logic.commands.MailCommand.TYPE_SELECTION;
+import static seedu.address.logic.commands.MailCommand.MailType.TYPE_ALL;
+import static seedu.address.logic.commands.MailCommand.MailType.TYPE_GROUPS;
+import static seedu.address.logic.commands.MailCommand.MailType.TYPE_SELECTION;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.Test;
@@ -30,5 +31,14 @@ public class MailCommandParserTest {
     public void parse_selectedTags_success() {
         MailCommand expectedCommand = new MailCommand(TYPE_GROUPS, "");
         assertParseSuccess(parser, "mail " + CliSyntax.PREFIX_TAG, expectedCommand);
+    }
+
+    @Test
+    public void parse_multipleArgs_throwException() {
+        String expectedMessage = String.format(
+                MailCommandParser.MESSAGE_MULTIPLE_ARGS,
+                MailCommandParser.MESSAGE_CORRECT_EG,
+                MailCommandParser.MESSAGE_WRONG_EG);
+        assertParseFailure(parser, "mail t/boss all/", expectedMessage);
     }
 }

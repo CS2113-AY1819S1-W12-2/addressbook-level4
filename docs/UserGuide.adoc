@@ -122,8 +122,10 @@ Format: `list` or `list t/TAG` or `list k/KPI`
 
 * If no flags are specified, _all persons_ are listed by default.
 
-Example: +
-You can input `list t/friends` to display all persons with that tag in your address book.
+Example:
+
+* `list t/friends` +
+You can input  to display all persons with that tag in your address book.
 
 === Editing a person : `edit`
 
@@ -173,14 +175,10 @@ Displays `john` and `John Doe`
 Displays any person having names `Betsy`, `Tim`, or `John`
 * `find e/example@domain.com` +
 Displays any person having the email `example@domain.com`
-* `find p/912311231` +
-Displays any person having the phone number `912311231`
-* `find r/secretary` +
-Displays any person who holds a `secretary` position
 * `find a/jurong west ave` +
 Displays any person who lives in `jurong`, `west`, `ave`.
 
-TIP: To better your experience with search, you should search for specific keywords to get to your results faster. Words such as `Jurong` would yield closer results compared to `Jurong West Ave`
+TIP: To better your experience with *search*, you should search for specific keywords to get to your results faster. Words such as `Jurong` would yield closer results compared to `Jurong West Ave`
 
 * `find k/4.0` +
 Displays any person who has a KPI of `4.0`
@@ -195,7 +193,7 @@ Displays any person having names `John` and `Betsy` who is a `secretary` and liv
 ==== Search guessing
 This feature will also display actual *Keywords matched* and *Keywords guessed* to give you a good indicator of which results were guessed.
 
-image::find_feature1.png[width="400"]
+image::find_feature1.png[width="250"]
 
 
 From the above results we can see that `Bernicc` yields `Keywords guessed: {Bernice}` whereas `Alex` yields `Keywords matched: {Alex}`
@@ -232,11 +230,11 @@ Deletes the 1st person in the results of the `find` command.
 
 === Selecting a person : `select`
 
-Selects a single or multiple persons identified by their index number in the persons list displayed on the left. +
+Selects single or multiple persons identified by their index number in the persons list displayed. +
 Format: `select INDEX` or `select START_INDEX - END_INDEX`
 
 ****
-* The person you selected will have their information loaded in the information panel displayed in the centre.
+* The person you selected will have their information loaded in the information panel.
 * The `INDEX` refers to the index number to left of each person entry shown in the displayed person list.
 * You *must enter positive integers* `1, 2, 3, ...` for the index.
 * In the case of multiple selections, the range is denoted with a dash  ( - ) and you can separate multiple ranges with comma ( , ).
@@ -323,18 +321,22 @@ The backup feature allows you to backup your address book and save the state for
 Format: `backup` +
 
 === Restore data from backup : `restore`
-The restore feature allows you to revert your address book back to a specific state int time (provided you backed up the state). +
+The restore feature allows you to revert your address book back to a specific state in time (provided you backed up the state). +
 To list out all the available backups from latest to earliest: +
 Format: `restore-snapshots` +
 
-* The time of backup is in the format of `INDEX` d MMM uuuu HH:mm:ss.
+****
+* The time of backup is in the format of `INDEX` `d MMM uuuu HH:mm:ss`.
 * Example: 1. 29 Oct 2018 00:16:31
+****
 
-To restore your address book to the snapshot denoted by the `INDEX` +
+To restore your address book to the snapshot denoted by the `INDEX`, +
 Format: `restore INDEX`
 
+****
 * `INDEX` refers to the index number denoting the date and time of the backup snapshot.
 * The `INDEX` *must be a positive integer* 1, 2, 3, ...
+****
 
 // end::backuprestore[]
 
@@ -344,10 +346,12 @@ Format: `restore INDEX`
 You can export your address book contacts into a CSV file into any existing directory. +
 Format: `export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE]`
 
+****
 * `OUTPUT_PATH` is the directory you want to export your contacts to.
 * `NAME_OF_FILE` is the name of the CSV file exported.
 * If `OUTPUT_PATH` is not specified, it will create a `exports` folder and export into it.
 * If `NAME_OF_FILE` is not specified, it will export to a CSV file named `export.csv`.
+****
 
 Refer to <<CSVFormat>> for details of an exported CSV file.
 
@@ -355,8 +359,10 @@ Refer to <<CSVFormat>> for details of an exported CSV file.
 You can import a CSV file and append it to your current address book. +
 Format: `import d/ TARGET_PATH f/ NAME_OF_FILE`
 
+****
 * `TARGET_PATH` is the directory you want to import your file from.
 * `NAME_OF_FILE` is the name of the CSV file you want to import.
+****
 // end::exportimport[]
 
 === Clearing all entries : `clear`
@@ -367,15 +373,15 @@ Format: `clear`
 // tag::dataencryption[]
 === Encrypting data files : `password`
 
-Encrypts the data file with your password. +
+Encrypts the data file with your password. All commands will be disabled during encryption, your data will be safely protected.
+
 Format: `password YOURPASSWORD` +
-All commands will be disabled during encryption, your data will be safely protected.
 
 NOTE: You can use the same command to decrypt the file, just hit `password` and your correct password.
 
 ===== Safe analogy
 
-image::safe.png[width="200"]
+image::safe.png[width="150"]
 
 NOTE: This feature does not actually store passwords. You will have to secure it with a password again after decryption to secure it. +
 Passwords can only be alpha-numeric.
@@ -387,12 +393,9 @@ And once you have unlocked it, you are free to set a new password.
 Examples:
 
 * `password helloworld` +
+Locks address book with a password string and clears all data.
 
-NOTE: Locks address book with a password string and clears all data.
-
-* `password helloworld` +
-
-NOTE: Entering `password helloworld` unlocks the  address book and restores all data.
+NOTE: Entering `password helloworld` again unlocks the  address book and restores all data.
 
 // end::dataencryption[]
 
@@ -478,13 +481,13 @@ You can invoke this feature on _most_ command keywords and arguments: +
 For example, given an address book consisting of a contact with the name _Alex Yeoh_: +
 Typing `m` in the box and pressing _Tab_ will auto complete to the `mail` command. Then, typing `mail n/A` and pressing _Tab_ will auto complete to `mail n/Alex Yeoh` for you. +
 
-Note: +
-
+****
 * This feature does not work with some flag arguments when used with certain commands. +
 E.g. `add n/...` +
 If text prediction returns no predictions, it means text prediction is unsupported in that context.
 * If there are multiple predicted values, they will be listed down. +
 * If no argument flags are specified, the default value predicted is based on the command's default argument. +
+****
 
 === Custom XML path
 All addressbook data is stored in addressbook.xml file located in *data/* folder in the same directory as your jar file.

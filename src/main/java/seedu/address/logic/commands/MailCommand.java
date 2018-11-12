@@ -4,15 +4,14 @@ package seedu.address.logic.commands;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import seedu.address.commons.util.FileEncryptor;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.CliSyntax;
+import seedu.address.logic.util.MailInputUtil;
 import seedu.address.model.Model;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
@@ -27,13 +26,6 @@ public class MailCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Emails the person using default application.";
 
-    /**
-     * Determine which contacts to mail to.
-     */
-    public static final int TYPE_SELECTION = 1;
-    public static final int TYPE_GROUPS = 2;
-    public static final int TYPE_ALL = 3;
-
     public static final String MESSAGE_SUCCESS = "Mailing to: ";
     public static final String MESSAGE_UNSUPPORTED = "System desktop is unsupported.";
     public static final String MESSAGE_EMPTY_SELECTION = "No contacts selected! Select one or more and try again.";
@@ -41,19 +33,19 @@ public class MailCommand extends Command {
     /**
      * Instance variables
      */
-    private int mailType;
+    private MailType mailType;
     private String mailArgs;
     private Desktop desktop;
 
     /**
      * Creates a default Mail command
      */
-    public MailCommand(int mailType) {
+    public MailCommand(MailType mailType) {
         this.mailType = mailType;
         desktop = Desktop.getDesktop();
     }
 
-    public MailCommand(int mailType, String mailArgs) {
+    public MailCommand(MailType mailType, String mailArgs) {
         this.mailType = mailType;
         this.mailArgs = mailArgs;
         desktop = Desktop.getDesktop();
@@ -84,7 +76,7 @@ public class MailCommand extends Command {
         default:
             mailingList = mailToAll(model);
         }
-        String recipients = buildRecipients(mailingList);
+        String recipients = MailInputUtil.buildRecipients(mailingList);
 
         return new CommandResult(MESSAGE_SUCCESS + recipients);
     }
@@ -97,8 +89,8 @@ public class MailCommand extends Command {
      */
     private ArrayList<Person> mailToSelection(Model model) throws CommandException {
         ArrayList<Person> list = new ArrayList<>(model.getSelectedPersons());
-        ArrayList<String> emailList = retrieveEmails(list);
-        URI uriToMail = createUri(emailList);
+        ArrayList<String> emailList = MailInputUtil.retrieveEmails(list);
+        URI uriToMail = MailInputUtil.createUri(emailList);
         sendWithUri(uriToMail);
         return list;
     }
@@ -112,8 +104,8 @@ public class MailCommand extends Command {
     private ArrayList<Person> mailToGroups(Model model, Tag tag) throws CommandException {
         ArrayList<Person> list = new ArrayList<>(model.getFilteredPersonList());
         list.removeIf(person -> !person.getTags().contains(tag));
-        ArrayList<String> emailList = retrieveEmails(list);
-        URI uriToMail = createUri(emailList);
+        ArrayList<String> emailList = MailInputUtil.retrieveEmails(list);
+        URI uriToMail = MailInputUtil.createUri(emailList);
         sendWithUri(uriToMail);
         return list;
     }
@@ -126,83 +118,38 @@ public class MailCommand extends Command {
      */
     private ArrayList<Person> mailToAll(Model model) throws CommandException {
         ArrayList<Person> list = new ArrayList<>(model.getFilteredPersonList());
-        ArrayList<String> emailList = retrieveEmails(model.getFilteredPersonList());
-        URI uriToMail = createUri(emailList);
+        ArrayList<String> emailList = MailInputUtil.retrieveEmails(model.getFilteredPersonList());
+        URI uriToMail = MailInputUtil.createUri(emailList);
         sendWithUri(uriToMail);
         return list;
-    }
-
-    /**
-     * Extracts all emails given a list of Person.
-     * @param personList the list of Person.
-     * @return the list of extracted emails.
-     */
-    private ArrayList<String> retrieveEmails(List<Person> personList) {
-        ArrayList<String> emailList = new ArrayList<>();
-        for (Person person : personList) {
-            emailList.add(person.getEmail().value);
-        }
-        return emailList;
-    }
-
-    /**
-     * Builds the URI to be used in opening the mail application.
-     * @param emailList the list of extracted emails to send to.
-     * @return the URI to be used by the mail application.
-     * @throws CommandException if there is syntax error in the URI.
-     */
-    private URI createUri(ArrayList<String> emailList) throws CommandException {
-        StringBuilder uriToMail = new StringBuilder("mailto:");
-        URI uri;
-
-        if (emailList.size() == 0) {
-            throw new CommandException(MESSAGE_EMPTY_SELECTION);
-        } else {
-            for (String email : emailList) {
-                uriToMail.append(email).append(",");
-            }
-        }
-
-        try {
-            uri = new URI(uriToMail.toString());
-        } catch (URISyntaxException e) {
-            throw new CommandException(e.getMessage());
-        }
-        return uri;
     }
 
     /**
      * Opens the system's default email application given the specified URI.
      * @param uriToMail URI specifying the recipients.
      */
-    private void sendWithUri(URI uriToMail) {
-        // Unfortunately due to a bug in Desktop class, a new thread has to be used to prevent app freezing.
-        // This however, means an exception cannot be easily thrown from the thread.
-        // Solution adapted from :
-        // https://stackoverflow.com/questions/23176624/javafx-freeze-on-desktop-openfile-desktop-browseuri
-        new Thread (() -> {
+    private void sendWithUri(URI uriToMail) throws CommandException {
+        String os = System.getProperty("os.name");
+        if (os.toLowerCase().contains("windows") || os.toLowerCase().contains("mac")) {
             try {
                 desktop.mail(uriToMail);
             } catch (UnsupportedOperationException | IOException | SecurityException e) {
-                e.printStackTrace();
+                throw new CommandException(e.getMessage());
             }
-        }).start();
-    }
-
-    /**
-     * Builds the string of names of recipients mailed to.
-     * @param mailingList the list of recipients.
-     * @return the string including all recipients.
-     */
-    private String buildRecipients(ArrayList<Person> mailingList) {
-        StringBuilder output = new StringBuilder();
-        for (int i = 0; i < mailingList.size(); i++) {
-            output.append(mailingList.get(i).getName().fullName);
-            if (i < mailingList.size() - 1) {
-                output.append(", ");
-            }
+        } else {
+            // Unfortunately due to a bug in Desktop class, a new thread has to be used to prevent app freezing when
+            // this app is running in  some Linux distros like Ubuntu.
+            // This however, means an exception cannot be easily thrown from the thread.
+            // Solution adapted from :
+            // https://stackoverflow.com/questions/23176624/javafx-freeze-on-desktop-openfile-desktop-browseuri
+            new Thread (() -> {
+                try {
+                    desktop.mail(uriToMail);
+                } catch (UnsupportedOperationException | IOException | SecurityException e) {
+                    e.printStackTrace();
+                }
+            }).start();
         }
-        return output.toString();
     }
 
     @Override
@@ -211,5 +158,14 @@ public class MailCommand extends Command {
                 && this.mailType == ((MailCommand) other).mailType
                 && Objects.equals(this.mailArgs, ((MailCommand) other).mailArgs)
                 && Objects.equals(this.desktop, ((MailCommand) other).desktop));
+    }
+
+    /**
+     * Enumerations to help determine the mailType.
+     */
+    public enum MailType {
+        TYPE_SELECTION,
+        TYPE_GROUPS,
+        TYPE_ALL
     }
 }

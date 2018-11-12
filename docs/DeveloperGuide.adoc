@@ -7,6 +7,7 @@
 :imagesDir: images
 :stylesDir: stylesheets
 :xrefstyle: full
+:experimental:
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
@@ -450,6 +451,62 @@ Hence, calling `getPredictList("wom")` will return a list containing the element
 * `"en"`
 * `"ble"`
 
+=== Text prediction
+
+==== Current Implementation
+
+The text prediction feature is fascilitated mainly by 2 classes, `CommandCompleter` and `Trie`. `Trie` contains the underlying data structure with a set of operations that allows predictions to be retrieved. `CommandCompleter` manages several instances of that data structure (`Trie`) such that predictions of different attributes (name, email, address, etc.) and command keywords (add, edit, etc.) can be made. +
+
+For `Trie`, following operations are implemented:
+
+* `Trie#insert(String value)` -- inserts a string into the data structure.
+* `Trie#remove(String value)` -- removes a string from the data structure.
+* `Trie#getPredictList(String prefix)` -- retrieve a list of predicted string values that completes the prefix.
+
+For `CommandCompleter`, following operations are implemented:
+
+* `CommandCompleter#insertPerson(Person person)` -- inserts a Person’s attributes into respective data structure instances.
+* `CommandCompleter#removePerson(Person person)` -- removes a Person’s attributes from respective data structure instances.
+* `CommandCompleter#editPerson(Person personToEdit, Person editedPerson)` -- edits a Person’s attributes in each data structure instances.
+* `CommandCompleter#predictText(String textInput)` -- predicts  a list of possible text outputs that will complete and append to the given `textInput`.
+* `CommandCompleter#clearData()` -- clears all data structure instances of their data.
+* `CommandCompleter#reinitialise(List<Person> personList)` -- replace all data structure instances with data from the given `personList`.
+
+The above operations for `CommandCompleter` are exposed in the `Text Prediction` interface.
+
+Given below is an example usage scenario and how the text prediction mechanism beahves at each step. +
+
+Step 1. The user launches the application. `CommandCompleter` is instantiated and will initialise all data structure instances (`Trie`) with all command keywords and every contact’s (aka Person) attributes (name, phone, address, etc.). Command keywords and each contact attribute using one instance of `Trie`. All of which are managed through the `CommandCompleter`.
+
+Step 2. The user keys in `find n/Al` into the command box and presses kbd:[Tab]. The kbd:[Tab] press will invoke `getCmdPrediction` method exposed by `Logic` interface of which `predictText` exposed by `Text Prediction` will then be invoked. `predictText` will subsequently determine (assisted by several helper classes) if a command keyword or a contact attribute should be predicted. In this case, name attribute (`n/`) is determined. Once determined, the respective `Trie` (underlying data structure) instance’s `getPredictList(String prefix)`  will be called with `Al` input by the user being the `prefix`. +
+
+`getPredictList(String prefix)` then executes a sequence of logic (see Appendix __ for low level implementation details) to return a list of possible predictions, in this case `ex Yeoh`, back to `CommandCompleter`. This list of predictions is then displayed on the feedback panel.
+
+Step 3. The user decides to add a new contact with the name `Alex Tan` using the `add` command. In the `add` logic, the method `Model#insertPersonIntoPrediction(Person person)` will be called which will call the `TextPrediction#insertPerson(Person person)` method. This method inserts each attribute of the contact (Alex Tan) into the respective Trie instances.
+
+Step 4. The user decides to predict `find n/Al` again, similar to Step 2. The logic sequence that follows is the same as Step 2. However, since a new contact was added in Step 3, the name (Alex Tan) was inserted into the name attribute Trie instance as well. Thus, instead of returning `ex Yeoh` only, the returning list will contain both `ex Yeoh` and `ex Tan`. Which will be displayed in the feedback panel.
+
+Step 5. The user now decides to remove the contact with the name `Alex Yeoh` from the address book using the `delete1 command. In the `delete` logic, the method `Model#removePersonFromPrediction(Person person)` will be called which will call the `TextPrediction#removePerson(Person person)` methid. This method removes each attribute of the contact (Alex Yeoh) from the respective Trie instances.
+
+Step 6. The user decides to predict `find n/Al` again. Similar to Step 4, except that Alex Yeoh has been removed, the list returned will contain only `ex Tan`.
+
+Step 7. The user decides to clear the address book with `clear` command which invokes the `Model#clearInPrediction()` which then invokes `TextPrediction#clearData()`. This clears all attributes data in each Trie instances.
+
+Step 8. The user wants to predict `find n/Al` again. However since all data are clear, the returned predictions list contains no entries. No predictions are displayed in feedback panel.
+
+==== Design Considerations
+
+===== Aspect: How to determine which attribute to predict
+
+===== Aspect: Data structure to support text prediction
+
+* **Alternative 1 (current choice):** Use a Directed Acyclic Graph to store strings.
+** Pros: Results in greater computational efficiency than the naive approach (Alternative 2).
+** Cons: Much more difficult to implement and prone to bugs.
+* **Alternative 2:** Use a list to store strings.
+** Pros: Much more easier and simple to implement.
+** Cons: Inefficient and takes longer time to retrive the strings. Since the address book can potentially contain a large number of contacts, retrieval of strings may take too long, which results in a slow application.
+
 // tag::backuprestore[]
 === Back Up and Restore
 ==== Current implementation of backup
@@ -733,18 +790,18 @@ date, as its `value`.
 
 Additionally, it implements the following main operations:
 
-* `Schedule#add()` -- Add an `Activity` to `schedule`. +
-* `Schedule#delete()` -- Deletes an `Activity` from `schedule`. +
-* `Schedule#setSchedule` -- Sets `schedule` from a `list` of activities. This operation is executed when importing data from an `XML` file.
+* `Schedule#add(Activity activity)` -- Add an `Activity` to `schedule`. +
+* `Schedule#delete(Activity activity)` -- Deletes an `Activity` from `schedule`. +
+* `Schedule#update(Activity target, Activity editedActivity)` -- Updates/edits an `Activity` in the `schedule`. `target` is the activity to be edited. `editedActivity` is the new, changed, activity. +
+* `Schedule#setSchedule(List<Activity> activities)` -- Sets `schedule` from a `list` of activities. This operation is executed when importing data from an `XML` file.
  This happens when you first start *CorpPro*.
 * `Schedule#getSchedule()` -- Returns the schedule with activities sorted by `Date` to be displayed in the GUI by `SchedulePanel` in the `UI` component.
 
 The schedule is instantiated in the `AddressBook` and have the main operations exposed in the `Model` interface as follows:
 
-* `Model#addActivity()` -- Exposes `Schedule#add()` .
-* `Model#deleteActivity()` -- Exposes `Schedule#delete()`.
-* `Model#updateActivity()` -- This operation edits an `Activity` in `schedule` by first executing `Schedule#delete()`, followed
-by `Schedule#add()`.
+* `Model#addActivity(Activity activity)` -- Exposes `Schedule#add(Activity activity)` .
+* `Model#deleteActivity(Activity activity)` -- Exposes `Schedule#delete(Activity activity)`.
+* `Model#updateActivity(Activity target, Activity editedActivity)` -- Exposes `Schedule#update(Activity target, Activity editedActivity)`.
 * `Model#getSchedule()` -- Exposes `Schedule#getSchedule()`.
 
 ===== Storage
@@ -770,13 +827,13 @@ If the date or the activity name is not valid, an error would be returned to the
 
 *Step 5.* `ScheduleAddCommandParser` then creates a new `ScheduleAddCommand` with the `activity` as its argument. +
 
-*Step 6.* `ScheduleAddCommand` is executed and calls `Model#addActivity()` which creates the `activity` in the `schedule`.
+*Step 6.* `ScheduleAddCommand` is executed and calls `Model#addActivity(activity)` which creates the `activity` in the `schedule`.
 
 [NOTE]
-Before calling `Model#addActivity()`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
+Before calling `Model#addActivity(activity)`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
 It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
 
-*Step 7.* `indicateAddressBookChanged()` is called within `Model#addActivity()` to raise an `AddressBookChangedEvent`, that the information within the
+*Step 7.* `indicateAddressBookChanged()` is called within `Model#addActivity(activity)` to raise an `AddressBookChangedEvent`, that the information within the
 address book is changed.  +
 
 *Step 8.* The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and updates
@@ -789,18 +846,18 @@ Figure 1. Interactions inside the Logic component for the `schedule-add d/01/01/
 [NOTE]
 The figure above illustrates the sequence from *Step 1.* to *Step 5.* +
 
-image::scheduleAddSequenceDiagramStorage.png[width="700"]
-Figure 2. Interactions inside the Storage component for the `schedule-add d/01/01/2018 a/Complete report.` command
+image::scheduleAddSequenceDiagramStorage.png[width="650"]
+Figure 2. Interactions inside the Storage component for the `schedule-add d/01/01/2018 a/Complete report.` command.
 [NOTE]
 The figure above illustrates the sequence of *Step 6.* and *Step 7.* +
 
-image::scheduleAddSequenceDiagramEvent.png[width="700"]
-Figure 3. Interactions between the `EventCenter`, `UI` and `Storage` components for the `schedule-add d/01/01/2018 a/Complete report.` command
+image::scheduleAddSequenceDiagramEvent.png[width="650"]
+Figure 3. Interactions between the `EventCenter`, `UI` and `Storage` components for the `schedule-add d/01/01/2018 a/Complete report.` command.
 [NOTE]
 The figure above illustrates the sequence of *Step 8.* +
 
 [NOTE]
-Storage of each activity is facilitated by `XmlAdaptedActivity` which stores an `Activity` in an `XML` format. `XmlSerializableAddressBook` then appends each `XmlAdaptedActivity` into a list and is saved in `addressbook.xml`
+Storage of each activity is facilitated by `XmlAdaptedActivity` which stores an `Activity` in an `XML` format. `XmlSerializableAddressBook` then appends each `XmlAdaptedActivity` into a list and is saved in `addressbook.xml`.
 
 ====== Editing an activity:
 *Step 1.* The user executes `schedule-edit 2 a/Interview intern.` to edit an activity at `INDEX 2` in their schedule. +
@@ -811,22 +868,26 @@ Storage of each activity is facilitated by `XmlAdaptedActivity` which stores an 
 
 *Step 4.* `ScheduleEditCommandParser` checks the validity of the index and activity as input by the user. +
 
-*Step 5.* `ScheduleEditCommandParser` then creates a new `ScheduleEditCommand` with the `INDEX` and the activity
+[NOTE]
+If the activity name or index is not valid, an error would be returned to the user instead of editing
+an activity.
+
+*Step 5.* `ScheduleEditCommandParser` then creates a new `ScheduleEditCommand` with the `INDEX` and the new activity
  `String` as its argument. +
 
-*Step 6.* `ScheduleEditCommand` checks if the `INDEX` given is valid (within the size of the listed schedule) and calls
-`Model#updateActivity()`
+*Step 6.* `ScheduleEditCommand` gets `target`, the activity to be edited, via `ScheduleCommand#getActivityFromIndex(model, index)` and creates `editedActivity`, the new activity.
+ It then calls `Model#updateActivity(target, editedActivity)`.
 
 [NOTE]
-If the activity name or index is not valid, i.e. out of range, an error would be returned to the user instead of editing
+If the index is not valid, i.e. out of range of the displayed schedule, an error would be returned to the user instead of editing
 an activity.
 
 [NOTE]
-Before calling `Model#updateActivity()`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
+Before calling `Model#updateActivity(target, editedActivity)`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
 It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
 
-*Step 7.* `Model#updateActivity()` updates the corresponding `activity` in the `schedule`.
-`indicateAddressBookChanged()` is called within `Model#updateActivity()` to raise an `AddressBookChangedEvent` that the information within the
+*Step 7.* `Model#updateActivity(target, editedActivity)` updates the corresponding `activity` in the `schedule`.
+`indicateAddressBookChanged()` is called within `Model#updateActivity(target, editedActivity)` to raise an `AddressBookChangedEvent` that the information within the
 address book is changed.  +
 
 *Step 8.* The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and
@@ -835,17 +896,16 @@ updates the display to show the correct information to the user. +
 The following sequence diagrams shows how the edit operation works:
 
 image::scheduleEditSequenceDiagramLogic.png[width="900"]
-Figure 4. Interactions inside the Logic component for the `schedule-edit 2 a/Interview intern.` command
+Figure 4. Interactions inside the Logic component for the `schedule-edit 2 a/Interview intern.` command.
 [NOTE]
 The figure above illustrates the sequence from *Step 1.* to *Step 6.* +
 
-image::scheduleEditSequenceDiagramStorage.png[width="700"]
-Figure 5. Interactions inside the Model component for the `schedule-edit 2 a/Interview intern.` command
+image::scheduleEditSequenceDiagramStorage.png[width="650"]
+Figure 5. Interactions inside the Model component for the `schedule-edit 2 a/Interview intern.` command.
 [NOTE]
 The figure above illustrates the sequence of  *Step 7.* +
 
-The interactions between the `EventCenter`, `UI` and `Storage` components for the `schedule-edit 2 a/Interview intern.`
-command (*Step 8.*) are similar to *adding an activity* (see *Figure 3.*)
+The interactions between the `EventCenter`, `UI` and `Storage` components for `editing an activity` (*Step 8.*) are similar to *adding an activity* (see *Figure 3.*).
 
 ====== Deleting an activity:
 *Step 1.* The user executes `schedule-delete 2` to delete the activity at `INDEX 2` in their schedule. +
@@ -856,25 +916,27 @@ command (*Step 8.*) are similar to *adding an activity* (see *Figure 3.*)
 
 *Step 4.* `ScheduleDeleteCommandParser` then creates a new `ScheduleDeleteCommand` with the `INDEX` as its argument. +
 
-*Step 5.* `ScheduleDeleteCommand` checks if the `INDEX` given is valid (within the size of the listed schedule) and calls
-`Model#deleteActivity()`
+*Step 5.* `ScheduleDeleteCommand` gets the `activity`, to be deleted, via `ScheduleCommand#getActivityFromIndex(model, index)` and calls
+`Model#deleteActivity(activity)`.
 
 [NOTE]
-If the index is not valid, i.e. out of range, an error would be returned to the user instead of deleting
+If the index is not valid, i.e. out of range of the displayed schedule, an error would be returned to the user instead of deleting
 an activity.
 
 [NOTE]
-Before calling `Model#deleteActivity()`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
+Before calling `Model#deleteActivity(activity)`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
 It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
 
-*Step 6.* `Model#deleteActivity` deletes the corresponding `activity` from the `schedule`. `indicateAddressBookChanged()` is called
-within `Model#deleteActivity()` to raise an `AddressBookChangedEvent`, that the information within the
+*Step 6.* `Model#deleteActivity(activity)` deletes the corresponding `activity` from the `schedule`. `indicateAddressBookChanged()` is called
+within `Model#deleteActivity(activity)` to raise an `AddressBookChangedEvent`, that the information within the
 address book is changed.  +
 
 *Step 7.* The `UI` object, `schedulePanel` which is subscribed to the event, receives this updated information and updates
 the display to show the correct information to the user. +
 
-The sequence of deleting an activity is similar to editing an activity. Instead of updating the activity, it is deleted. (see *Figure 4.* and *Figure 5.*)
+The sequence of deleting an activity is similar to editing an activity. Instead of updating the activity , it is deleted (see *Figure 4.* and *Figure 5.*).
+
+The interactions between the `EventCenter`, `UI` and `Storage` components for *deleting an activity* (*Step 7.*) are similar to *adding an activity* (see *Figure 3.*).
 
 ==== Design Considerations
 ===== Aspect: Data structure of Schedule
@@ -893,7 +955,7 @@ The sequence of deleting an activity is similar to editing an activity. Instead 
 * **Alternative 1:** `String` of date in DD/MM/YYYY format
 ** Pros: Easy to implement and do not need to parse user input.
 ** Cons: Need to implement comparators to sort the dates of activity.
-** Cons: Not flexible. Unable to include and sort by time in future implementations
+** Cons: Not flexible. Unable to include and sort by time in future implementations.
 * **Alternative 2 (Current choice):** Usage of `java.util.Date`
 ** Pros: Easy to implement.
 ** Pros: Able to sort by time in future implementations.

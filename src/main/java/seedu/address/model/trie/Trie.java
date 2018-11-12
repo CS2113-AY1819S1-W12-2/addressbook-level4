@@ -13,7 +13,7 @@ public class Trie {
     /**
      * Class constants
      */
-    private static final char CHAR_ROOT = '.';
+    private static final char CHAR_ROOT = '`';
     private static final char CHAR_SPACE = ' ';
 
     /**
@@ -28,25 +28,29 @@ public class Trie {
      */
     public Trie(ArrayList<String> inputList) {
         root = new TrieNode(CHAR_ROOT);
-        baseList = new ArrayList<>(inputList);
-        init();
+        root.setRootNode(true);
+        baseList = new ArrayList<>();
+        init(inputList);
     }
 
     /**
-     * Initialises the Trie instance with the items in baseList
+     * Initialises the Trie instance with the items in baseList.
      */
-    private void init() {
-
-        for (int i = 0; i < baseList.size(); i++) {
-            this.insertToGraph(baseList.get(i));
+    private void init(ArrayList<String> inputList) {
+        for (String item : inputList) {
+            this.insert(item);
         }
     }
 
     /**
-     * Inserts the input string value to the class instance
-     * @param value
+     * Inserts the input string value to the class instance.
+     * @param value string to be inserted.
      */
     public void insert(String value) {
+        if (value == null || value.isEmpty()) {
+            return;
+        }
+
         // Check if this value exists
         if (!baseList.contains(value)) {
             insertToGraph(value);
@@ -56,7 +60,7 @@ public class Trie {
 
     /**
      * Inserts the given string value to the Trie graph.
-     * @param keyString the string value to be inserted
+     * @param keyString the string value to be inserted.
      */
     private void insertToGraph(String keyString) {
         // A TrieNode as pointer to traverse through the tree
@@ -82,18 +86,23 @@ public class Trie {
     }
 
     /**
-     * Removes all string entries in the instance
+     * Removes all string entries in the instance.
      */
     public void clear() {
         root = new TrieNode(CHAR_ROOT);
+        root.setRootNode(true);
         baseList = new ArrayList<>();
     }
 
     /**
-     * Removes the input string value from the class instance
-     * @param value the value to remove
+     * Removes the input string value from the class instance.
+     * @param value the value to remove.
      */
     public void remove(String value) {
+        if (value == null || value.isEmpty()) {
+            return;
+        }
+
         baseList.remove(value);
         // Check if this value exists
         if (!baseList.contains(value)) {
@@ -101,14 +110,14 @@ public class Trie {
         }
     }
     /**
-     * Removes the input string value from the actual graph implementation
-     * Traverse from the root to the last character (End node) of the string
-     * Prerequisites: the value must exist in the Trie
+     * Removes the input string value from the actual graph implementation.
+     * Traverse from the root to the last character (End node) of the string.
+     * Prerequisites: the value must exist in the Trie.
      *
-     * If the remove of this node does not affect any chidren node
-     * (ie the node has no children), remove the whole word
+     * If the remove of this node does not affect any children node.
+     * (ie the node has no children), remove the whole word.
      *
-     * @param value the value to remove
+     * @param value the value to remove.
      */
     private void removeFromGraph(String value) {
         TrieNode pointer;
@@ -125,8 +134,8 @@ public class Trie {
 
     /**
      * Traverses the Trie from the start character to the end character of the given string value.
-     * @param value the given value
-     * @return the TrieNode referencing the end node
+     * @param value the given value.
+     * @return the TrieNode referencing the end node.
      */
     private TrieNode traverseToEndNode(String value) {
         TrieNode pointer = root;
@@ -145,14 +154,14 @@ public class Trie {
      * Removes a word from the graph given the end node of that word.
      * Removes every parent level node until a node that has more than one child
      * or it is an end node.
-     * @param pointer the first node in the graph to be removed
+     * @param pointer the first node in the graph to be removed.
      */
     private void removeWordFromGraph(TrieNode pointer) {
         // Set this node as non-end node first.
         pointer.setEndNode(false);
 
         // Traverse upwards the trie.
-        while (!pointer.isEndNode() && pointer.getChildrenSize() == 0 && !pointer.equals(root)) {
+        while (!pointer.isEndNode() && pointer.getChildrenSize() == 0 && !pointer.isRootNode()) {
             TrieNode parent = pointer.getParent();
             parent.removeChild(pointer);
             pointer = parent;
@@ -161,8 +170,8 @@ public class Trie {
 
     /**
      * Returns a list of strings that are predicted to complete the {@code prefix}.
-     * @param prefix string prefix to be predicted
-     * @return a list of string predictions
+     * @param prefix string prefix to be predicted.
+     * @return a list of string predictions.
      */
     public ArrayList<String> getPredictList(String prefix) {
         predictionsList = new ArrayList<>();
@@ -171,7 +180,7 @@ public class Trie {
         // skipToStartNode returns root node if the prefix does not exist in the Trie.
         TrieNode startNode = skipToStartNode(root, prefix);
 
-        if (startNode.equals(root)) {
+        if (startNode.isRootNode()) {
             return predictionsList;
         }
 
@@ -220,9 +229,9 @@ public class Trie {
      *
      * From a starting node, the method traverse through all nodes that corresponds to every character
      * in the given string up until the last character.
-     * @param start the starting node to traverse from
-     * @param prefix the given string to traverse with
-     * @return a TrieNode instance that holds a value equal to the last character of the {@code prefix}
+     * @param start the starting node to traverse from.
+     * @param prefix the given string to traverse with.
+     * @return a TrieNode instance that holds a value equal to the last character of the {@code Prefix}.
      */
     private TrieNode skipToStartNode(TrieNode start, String prefix) {
         TrieNode current = start;
@@ -243,12 +252,12 @@ public class Trie {
     }
 
     /**
-     * Traverses through the whole Trie structure to find all possible strings
-     * @param charStack StringBuilder to build a possible strings
-     * @param pointer the starting node to traverse from
+     * Traverses through the whole Trie structure to find all possible strings.
+     * @param charStack StringBuilder to build a possible strings.
+     * @param pointer the starting node to traverse from.
      */
     private void explore(StringBuilder charStack, TrieNode pointer) {
-        if (!pointer.equals(root)) {
+        if (!pointer.isRootNode()) {
             charStack.append(pointer.getValue());
         }
 

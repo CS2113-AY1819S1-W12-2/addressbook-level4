@@ -60,7 +60,7 @@ public class AutoCompleteArgumentsParserTest {
 
         AutoCompleteParserPair actualMailPair =
                 AutoCompleteArgumentsParser.parse(COMMAND_MAIL, "john", argumentMultimap);
-        AutoCompleteParserPair expectedMailPair = new AutoCompleteParserPair(PREFIX_NAME, "john");
+        AutoCompleteParserPair expectedMailPair = new AutoCompleteParserPair(PREFIX_TAG, "john");
 
         assertEquals(expectedFindPair, actualFindPair);
         assertEquals(expectedListPair, actualListPair);

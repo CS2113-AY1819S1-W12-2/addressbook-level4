@@ -27,15 +27,6 @@ public class AutoCompleteParser {
      */
     private static final Pattern COMMAND_INPUT_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
-    private AutoCompleteArgumentsParser argumentsParser;
-
-    /**
-     * Default constructor
-     */
-    public AutoCompleteParser() {
-        argumentsParser = new AutoCompleteArgumentsParser();
-    }
-
     /**
      * TODO: Extend to other attributes
      * Parses the command to be used for auto completing of commands
@@ -43,7 +34,7 @@ public class AutoCompleteParser {
      * @return a pair of values to be used to determine the Trie to use for auto complete
      * @throws ParseException if the user input does not conform the expected format
      */
-    public AutoCompleteParserPair parseCommand(String textInput) {
+    public static AutoCompleteParserPair parseCommand(String textInput) {
         final Matcher matcher = COMMAND_INPUT_FORMAT.matcher(textInput);
 
         if (!matcher.matches()) {

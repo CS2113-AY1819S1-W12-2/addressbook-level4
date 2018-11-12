@@ -26,16 +26,15 @@ It also requires file type checking to make sure that the user can compress both
 ** What it does: Users can now search for the contacts they want by approximately specifying other traits/ attributes of the contacts. For example, users can
 search for contacts who live in Jurong West and are tagged as friends.
 ** Justification: Corporate users might need to gather rough statistics of their clients or know which worker(s) to contact and assign work.
-** Highlights: This feature uses Levenshtein and Hamming Distance to find the closest match for the keywords entered. It will then sort the matches based on how close it is to the keywords entered.
-After which, it will perform a *set intersection* on the search results to narrow it down before displaying it to the user.
+** Highlights: This feature uses Levenshtein and Hamming Distance to find the closest match for the keywords entered. It will then sort the matches based on how close it is to the keywords entered and then perform a *set intersection* on the search results to narrow it down.
 
 * *Feature 3*: Implemented custom paths for data storage.
 ** What it does: Users can now specify the path they wish to save their addressbook.xml to.
 ** Justification: Corporate users might want to have separate address books without the need of storing their application in different folders.
 They can instead edit the preference file to change the name and location of their data storage file path.
-** Highlights: This feature requires implementing the json reader in `UserPrefs` class and storing it as a public variable for other classes to depend on.
+** Highlights: This feature requires implementing the json reader in `UserPrefs` class and storing it as a public variable for other classes to access.
 
-* *Code contributed*: [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/functional/lws803.md[Functional code]] [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/test/lws803.md[Test code]]
+* *Code contributed*: [https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=lws803&sort=displayName&since=2018-09-12&until=2018-11-05&timeframe=day&reverse=false&repoSort=true[Reposense]]
 
 * *Other contributions*:
 

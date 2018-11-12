@@ -16,7 +16,7 @@ import java.util.Locale;
  */
 public class Activity {
     public static final String DATE_VALIDATION_REGEX = "\\d{2}/\\d{2}/\\d{4}";
-    public static final String ACTIVITY_VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*\\.*";
+    public static final String ACTIVITY_VALIDATION_REGEX = "([\\p{Alnum}]|\\.)([\\p{Alnum} ]|\\.\\s*)*";
     public static final String MESSAGE_DATE_CONSTRAINTS = "Date should be in \"DD/MM/YYYY\" and must be a valid date.";
     public static final String MESSAGE_ACTIVITY_CONSTRAINTS = "Task name should only contain alphanumeric characters,"
             + "spaces and fullstops.";

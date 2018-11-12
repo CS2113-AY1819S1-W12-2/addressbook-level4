@@ -8,8 +8,10 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_INVALID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_KPI;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_POSITION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.logic.parser.ArgumentMultimap;
@@ -57,7 +59,9 @@ public class AutoCompleteArgumentsParser {
                 PREFIX_EMAIL,
                 PREFIX_PHONE,
                 PREFIX_ADDRESS,
-                PREFIX_TAG);
+                PREFIX_TAG,
+                PREFIX_POSITION,
+                PREFIX_KPI);
 
         if (argMultimap.getValue(lastPrefix).isPresent()) {
             return new AutoCompleteParserPair(lastPrefix, argMultimap.getValue(lastPrefix).get());
@@ -73,12 +77,12 @@ public class AutoCompleteArgumentsParser {
      * @return the appropriate AutoCompleteParserPair instance.
      */
     private static AutoCompleteParserPair getMailParserPair(String arguments, ArgumentMultimap argMultimap) {
-        Prefix lastPrefix = ArgumentTokenizer.findLastPrefix(arguments, PREFIX_TAG, PREFIX_NAME);
+        Prefix lastPrefix = ArgumentTokenizer.findLastPrefix(arguments, PREFIX_TAG);
         if (argMultimap.getValue(lastPrefix).isPresent()) {
             return new AutoCompleteParserPair(lastPrefix, argMultimap.getValue(lastPrefix).get());
         }
         // Default text prediction is names
-        return new AutoCompleteParserPair(PREFIX_NAME, arguments);
+        return new AutoCompleteParserPair(PREFIX_TAG, arguments);
     }
 
     /**
@@ -90,7 +94,8 @@ public class AutoCompleteArgumentsParser {
     private static AutoCompleteParserPair getListParserPair(String arguments, ArgumentMultimap argMultimap) {
         Prefix lastPrefix = ArgumentTokenizer.findLastPrefix(
                 arguments,
-                PREFIX_TAG);
+                PREFIX_TAG,
+                PREFIX_KPI);
         if (argMultimap.getValue(lastPrefix).isPresent()) {
             return new AutoCompleteParserPair(lastPrefix, argMultimap.getValue(lastPrefix).get());
         }
