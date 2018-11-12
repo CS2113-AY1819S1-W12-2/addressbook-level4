@@ -468,7 +468,7 @@ The `BackupList` object holds a map of files with indexes as its keys. It also h
 
 * `BackupList#getFileName()` -- returns a list of the names of the snapshots. +
 * `BackupList#getFileMap()` -- returns a map of the snapshots, each denoted with an `INDEX` +
-* `BackupList#millisToDateAndTime(String)` -- converts a timestamp in milliseconds to a formatted date and time format. +
+* `BackupList#millisToDateAndTime(String fileName)` -- converts a timestamp in milliseconds to a formatted date and time format. +
 
 ==== Current implementation of Restoring from the list
 The restoration of backup snapshots is done in the `RestoreCommand` class. It extends the `Command` class with an overriding execute function. +
@@ -476,7 +476,7 @@ The restoration of backup snapshots is done in the `RestoreCommand` class. It ex
 ===== Model
 This feature implements a new method in `Model` +
 
-* `Model#replaceData(Path)` -- Overrides the current address book information with another `XML` file. +
+* `Model#replaceData(Path path)` -- Overrides the current address book information with another `XML` file. +
 
 ==== Usage Scenarios
 Given below is the sequence of actions done by the address book when you back up and restore your data. +
@@ -533,7 +533,7 @@ If the index is not valid, an error would be returned to the user instead of cre
 *Step 6.* `RestoreCommand` is executed and calls `Model#replaceData(Path)` which replaces the data of the address book with the `XML` file denoted by the `Path`.
 
 [NOTE]
-Before calling `Model#replaceData(Path)`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
+Before calling `Model#replaceData(Path path)`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
 It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
 
 *Step 7.* A `XmlAddressBookStorage` will be initialised which helps to read the data of the `XML` file. +
@@ -595,10 +595,10 @@ If the directory is not valid or a file with the same file name exists in the di
 
 *Step 5.* `ExportCommand` is executed and creates a `CsvWriter` object. The `CsvWriter` object is created with a copy of the address book taken from `Model` +
 
-*Step 6.* `convertToCsv(String)` is called with the full directory as the argument which writes the data of the address book to a file of `CSV` format. +
+*Step 6.* `convertToCsv(String directory)` is called with the full directory as the argument which writes the data of the address book to a file of `CSV` format. +
 
 [NOTE]
-Before calling `convertToCsv(String)`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
+Before calling `convertToCsv(String directory)`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
 It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
 
 The following sequence diagrams shows you how the add operation works: +
@@ -630,7 +630,7 @@ If the file is of the wrong format, an error would also be returned to the user 
 *Step 6.* `convertToList()` is called which creates a list of persons that can be added. +
 
 [NOTE]
-Before calling `convertToCsv(String)`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
+Before calling `convertToList()`, the address book is checked if it is encrypted with a password, via `FileEncryptor`.
 It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
 
 *Step 7.* There is a loop that iterates through the list and add the persons into the address book. All duplicated persons will be skipped. +
@@ -1693,23 +1693,6 @@ Windows, Linux, Unix, OS-X
 
 [[private-contact-detail]] Private contact detail::
 A contact detail that is not meant to be shared with others
-
-[appendix]
-== Product Survey
-
-*Product Name*
-
-Author: ...
-
-Pros:
-
-* ...
-* ...
-
-Cons:
-
-* ...
-* ...
 
 [appendix]
 == Instructions for Manual Testing

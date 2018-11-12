@@ -9,23 +9,22 @@
 
 == Overview
 
-CorpPro is a desktop address book application which targets small to medium corporates and allow their workers to keep track of colleague information in the office.
-CorpPro allows users to `add`, `edit` and `tag` with the Command Line Interface (CLI) or the Graphical User Interface (GUI) that is created with JavaFX.
-This portfolio contains the contributions i had made towards the improvement of the basic Address Book provided to us. +
+*CorpPro* is a desktop address book application which targets small to medium corporates to allow their employees to keep track of colleague information in the office.
+CorpPro allows users to `add`, `edit` and `tag` with the Command Line Interface (CLI) or the Graphical User Interface (GUI), that is created with JavaFX.
+This portfolio contains the contributions I had made towards the improvement of the basic Address Book provided to us. +
 
 == Summary of contributions
 
-* *Major enhancement 1*: added *the ability to export and import your contacts information.*
-** What it does: Allows the user export contacts to a CSV file in any existing directory. Vice versa, CSV files can also be imported from any existing directory and be appended to the address book.
-** Justification: Changing systems will be much easier as contact information can be packaged into an
-easy to read format and exchanged between systems.
-** Highlights: In order to ensure that the exported file can be read by other applications, CorpPro have to write the file in a way that it can be easily adapted by the other spreadsheet applications. +
-When files are imported from other applications, in depth analysis have to be made to ensure that it can read the format of the file formatted by these spreadsheet applications.
+* *Major enhancement 1*: added *the ability to export and import your contacts.*
+** What it does: Allows the user to export contacts to a CSV file to any existing directory. Vice versa, `CSV` files can also be imported from any existing directory and be added to the address book.
+** Justification: Enables users to shift between computer systems with ease. +
+** Highlights: In order to ensure that the exported file is compatible with other applications. +
+Imported files have to be properly parsed to retrieve contacts.
 
 * *Major enhancement 2*: added *the ability to back up and restore your address book.*
 ** What it does: Allow the user to back up their address book at any point in time. This allows them to revert their address book to any previous state if they wish to.
 ** Justification: This feature allows the user to retrieve any lost information if they have accidentally deleted any.
-** Highlights: Careful planning has to be done as saving the folders in a separate directory will result in the database being easily accessible. Therefore, we have to protect the folder the backups are saved by making the directory unknown.
+** Highlights: Precautionary measures have to be done as saving the folders in a separate directory will result in the database being compromise. Therefore, we have to protect the folder the backups are saved by making the directory unknown.
 
 * *Code contributed*: [https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=limminghong[RepoSense]] [https://github.com/CS2113-AY1819S1-W12-3/main/pulls?q=is%3Apr+is%3Aclosed+author%3ALimminghong[Pull Requests]]
 
