@@ -42,7 +42,7 @@ its contents after the user has exit the application. In addition, a unique data
 * *Minor enhancement*: Enhanced the *edit command* to edit all listed entries in one command. This enables users to quickly update contacts, listed by a similar category, all at once, saving time and increasing
 efficiency.
 
-* *Code contributed*: [https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=lowginwee[RepoSense]] [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/functional/LowGinWee.md[Functional code]] [https://github.com/CS2113-AY1819S1-W12-3/main/blob/master/collated/test/LowGinWee.md[Test code]] [https://github.com/CS2113-AY1819S1-W12-3/main/pulls?q=is%3Apr+is%3Aclosed+author%3ALowGinWee[Pull Requests]]
+* *Code contributed*: [https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=lowginwee[RepoSense]] [https://github.com/CS2113-AY1819S1-W12-3/main/pulls?q=is%3Apr+is%3Aclosed+author%3ALowGinWee[Pull Requests]]
 
 * *Other contributions*:
 
@@ -54,7 +54,7 @@ efficiency.
 ** Issues resolved: https://github.com/CS2113-AY1819S1-W12-3/main/issues/143[1], https://github.com/CS2113-AY1819S1-W12-3/main/issues/148[2], https://github.com/CS2113-AY1819S1-W12-3/main/issues/153[3]
 
 ** Community:
-*** PRs reviewed (with non-trivial review comments): (Pull Requests: https://github.com/CS2113-AY1819S1-W12-3/main/pull/70[#70], https://github.com/CS2113-AY1819S1-W12-3/main/pull/86[#86])
+*** PRs reviewed (with non-trivial review comments): (Pull Requests: https://github.com/CS2113-AY1819S1-W12-3/main/pull/70[#70], https://github.com/CS2113-AY1819S1-W12-3/main/pull/86[#86], https://github.com/CS2113-AY1819S1-W12-3/main/pull/189[#189])
 *** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2113-AY1819S1-T16-2/main/issues/105[1], https://github.com/CS2113-AY1819S1-T16-2/main/issues/101[2])
 
 == Contributions to the User Guide
