@@ -306,8 +306,15 @@ Format: <code>list</code> or <code>list t/TAG</code> or <code>list k/KPI</code><
 </ul>
 </div>
 <div class="paragraph">
-<p>Example:<br>
-You can input <code>list t/friends</code> to display all persons with that tag in your address book.</p>
+<p>Example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>list t/friends</code><br>
+You can input  to display all persons with that tag in your address book.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
@@ -427,7 +434,7 @@ Displays any person who lives in <code>jurong</code>, <code>west</code>, <code>a
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-To better your experience with search, you should search for specific keywords to get to your results faster. Words such as <code>Jurong</code> would yield closer results compared to <code>Jurong West Ave</code>
+To better your experience with <strong>search</strong>, you should search for specific keywords to get to your results faster. Words such as <code>Jurong</code> would yield closer results compared to <code>Jurong West Ave</code>
 </td>
 </tr>
 </table>
@@ -534,7 +541,7 @@ Deletes the 1st person in the results of the <code>find</code> command.</p>
 <div class="sect2">
 <h3 id="selecting-a-person-code-select-code"><a class="link" href="#selecting-a-person-code-select-code">4.7. Selecting a person : <code>select</code></a></h3>
 <div class="paragraph">
-<p>Selects a single or multiple persons identified by their index number in the persons list displayed on the left.<br>
+<p>Selects single or multiple persons identified by their index number in the persons list displayed.<br>
 Format: <code>select INDEX</code> or <code>select START_INDEX - END_INDEX</code></p>
 </div>
 <div class="sidebarblock">
@@ -542,7 +549,7 @@ Format: <code>select INDEX</code> or <code>select START_INDEX - END_INDEX</code>
 <div class="ulist">
 <ul>
 <li>
-<p>The person you selected will have their information loaded in the information panel displayed in the centre.</p>
+<p>The person you selected will have their information loaded in the information panel.</p>
 </li>
 <li>
 <p>The <code>INDEX</code> refers to the index number to left of each person entry shown in the displayed person list.</p>
@@ -693,24 +700,30 @@ Format: <code>backup</code><br></p>
 <div class="sect2">
 <h3 id="restore-data-from-backup-code-restore-code"><a class="link" href="#restore-data-from-backup-code-restore-code">4.12. Restore data from backup : <code>restore</code></a></h3>
 <div class="paragraph">
-<p>The restore feature allows you to revert your address book back to a specific state int time (provided you backed up the state).<br>
+<p>The restore feature allows you to revert your address book back to a specific state in time (provided you backed up the state).<br>
 To list out all the available backups from latest to earliest:<br>
 Format: <code>restore-snapshots</code><br></p>
 </div>
+<div class="sidebarblock">
+<div class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>The time of backup is in the format of <code>INDEX</code> d MMM uuuu HH:mm:ss.</p>
+<p>The time of backup is in the format of <code>INDEX</code> <code>d MMM uuuu HH:mm:ss</code>.</p>
 </li>
 <li>
 <p>Example: 1. 29 Oct 2018 00:16:31</p>
 </li>
 </ul>
 </div>
+</div>
+</div>
 <div class="paragraph">
-<p>To restore your address book to the snapshot denoted by the <code>INDEX</code><br>
+<p>To restore your address book to the snapshot denoted by the <code>INDEX</code>,<br>
 Format: <code>restore INDEX</code></p>
 </div>
+<div class="sidebarblock">
+<div class="content">
 <div class="ulist">
 <ul>
 <li>
@@ -722,12 +735,16 @@ Format: <code>restore INDEX</code></p>
 </ul>
 </div>
 </div>
+</div>
+</div>
 <div class="sect2">
 <h3 id="exports-the-address-book-to-a-directory-code-export-code"><a class="link" href="#exports-the-address-book-to-a-directory-code-export-code">4.13. Exports the address book to a directory : <code>export</code></a></h3>
 <div class="paragraph">
 <p>You can export your address book contacts into a CSV file into any existing directory.<br>
 Format: <code>export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE]</code></p>
 </div>
+<div class="sidebarblock">
+<div class="content">
 <div class="ulist">
 <ul>
 <li>
@@ -744,6 +761,8 @@ Format: <code>export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE]</code></p>
 </li>
 </ul>
 </div>
+</div>
+</div>
 <div class="paragraph">
 <p>Refer to <a href="#CSVFormat">Appendix A, <em>Format of an exported CSV file</em></a> for details of an exported CSV file.</p>
 </div>
@@ -754,6 +773,8 @@ Format: <code>export [d/ OUTPUT_PATH] [f/ NAME_OF_FILE]</code></p>
 <p>You can import a CSV file and append it to your current address book.<br>
 Format: <code>import d/ TARGET_PATH f/ NAME_OF_FILE</code></p>
 </div>
+<div class="sidebarblock">
+<div class="content">
 <div class="ulist">
 <ul>
 <li>
@@ -763,6 +784,8 @@ Format: <code>import d/ TARGET_PATH f/ NAME_OF_FILE</code></p>
 <p><code>NAME_OF_FILE</code> is the name of the CSV file you want to import.</p>
 </li>
 </ul>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -775,9 +798,10 @@ Format: <code>clear</code></p>
 <div class="sect2">
 <h3 id="encrypting-data-files-code-password-code"><a class="link" href="#encrypting-data-files-code-password-code">4.16. Encrypting data files : <code>password</code></a></h3>
 <div class="paragraph">
-<p>Encrypts the data file with your password.<br>
-Format: <code>password YOURPASSWORD</code><br>
-All commands will be disabled during encryption, your data will be safely protected.</p>
+<p>Encrypts the data file with your password. All commands will be disabled during encryption, your data will be safely protected.</p>
+</div>
+<div class="paragraph">
+<p>Format: <code>password YOURPASSWORD</code><br></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -821,7 +845,8 @@ And once you have unlocked it, you are free to set a new password.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>password helloworld</code><br></p>
+<p><code>password helloworld</code><br>
+Locks address book with a password string and clears all data.</p>
 </li>
 </ul>
 </div>
@@ -832,26 +857,7 @@ And once you have unlocked it, you are free to set a new password.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Locks address book with a password string and clears all data.
-</td>
-</tr>
-</table>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>password helloworld</code><br></p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Entering <code>password helloworld</code> unlocks the  address book and restores all data.
+Entering <code>password helloworld</code> again unlocks the  address book and restores all data.
 </td>
 </tr>
 </table>
@@ -1038,9 +1044,8 @@ Invoke this feature by pressing the <em>Tab</em> key on the keyboard.<br></p>
 <p>For example, given an address book consisting of a contact with the name <em>Alex Yeoh</em>:<br>
 Typing <code>m</code> in the box and pressing <em>Tab</em> will auto complete to the <code>mail</code> command. Then, typing <code>mail n/A</code> and pressing <em>Tab</em> will auto complete to <code>mail n/Alex Yeoh</code> for you.<br></p>
 </div>
-<div class="paragraph">
-<p>Note:<br></p>
-</div>
+<div class="sidebarblock">
+<div class="content">
 <div class="ulist">
 <ul>
 <li>
@@ -1055,6 +1060,8 @@ If text prediction returns no predictions, it means text prediction is unsupport
 <p>If no argument flags are specified, the default value predicted is based on the command&#8217;s default argument.<br></p>
 </li>
 </ul>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1130,4 +1137,4 @@ If a compulsory field is left blank, the address book will not allow the CSV fil
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 18:31:04 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 01:34:52 UTC</div></div></div></body></html>
