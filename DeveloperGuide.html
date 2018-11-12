@@ -88,9 +88,12 @@
 <ul class="sectlevel2">
 <li><a href="#launch-and-shutdown">G.1. Launch and Shutdown</a></li>
 <li><a href="#adding-a-person">G.2. Adding a person</a></li>
-<li><a href="#deleting-a-person">G.3. Deleting a person</a></li>
-<li><a href="#updating-the-schedule">G.4. Updating the Schedule</a></li>
-<li><a href="#saving-data">G.5. Saving data</a></li>
+<li><a href="#editing-a-person">G.3. Editing a person</a></li>
+<li><a href="#searching-for-a-person">G.4. Searching for a person</a></li>
+<li><a href="#locking-and-unlocking">G.5. Locking and unlocking</a></li>
+<li><a href="#deleting-a-person">G.6. Deleting a person</a></li>
+<li><a href="#updating-the-schedule">G.7. Updating the Schedule</a></li>
+<li><a href="#saving-data">G.8. Saving data</a></li>
 </ul>
 </li>
 </ul>
@@ -4188,6 +4191,30 @@ Expected: The person is added to the contact list.</p>
 <p>Test case: <code>add n/Alexia Tok p/22224444 e/AT@example.com a/123, Potong Pasir, 1234665 r/Boss k/4.5 d/AT is a good friend t/friend t/colleague 2</code><br>
 Expected: No person is added as the person "Alexia Tok" is already in the contact list. Error details shown in the status message.</p>
 </li>
+<li>
+<p>Test case: <code>add n/Bob Teo p/23q e/AT@example.com a/123, Potong Pasir, 1234665 r/Boss k/4.5 d/AT is a good friend t/friend t/colleague 2</code><br>
+Expected: No person is added as the phone number is invalid. Error details shown in the status message.</p>
+</li>
+<li>
+<p>Test case: <code>add n/Bob Teo p/99008800 e/ATexamplecom a/123, Potong Pasir, 1234665 r/Boss k/4.5 d/AT is a good friend t/friend t/colleague 2</code><br>
+Expected: No person is added as the email is invalid. Error details shown in the status message.</p>
+</li>
+<li>
+<p>Test case: <code>add n/Bob Teo p/99008800 e/AT@example.com a/123, Potong Pasir, 1234665 r/&#8230;&#8203; k/4.5 d/AT is a good friend t/friend t/colleague 2</code><br>
+Expected: No person is added as the position is invalid. Error details shown in the status message.</p>
+</li>
+<li>
+<p>Test case: <code>add n/Bob Teo p/99008800 e/AT@example.com a/123, Potong Pasir, 1234665 r/Boss k/6 d/AT is a good friend t/friend t/colleague 2</code><br>
+Expected: No person is added as the kpi is invalid. Error details shown in the status message.</p>
+</li>
+<li>
+<p>Test case: <code>add n/Bob Teo p/99008800 e/AT@example.com a/123, Potong Pasir, 1234665 r/Boss k/4.5 d/?#$% t/friend t/colleague 2</code><br>
+Expected: No person is added as the note is invalid. Error details shown in the status message.</p>
+</li>
+<li>
+<p>Test case: <code>add n/Bob Teo p/99008800 e/AT@example.com a/123, Potong Pasir, 1234665 r/Boss k/4.5 d/AT is a good friend t/friend t/colleague 3</code><br>
+Expected: No person is added as the tag is invalid. Error details shown in the status message.</p>
+</li>
 </ol>
 </div>
 </li>
@@ -4195,7 +4222,108 @@ Expected: No person is added as the person "Alexia Tok" is already in the contac
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-a-person"><a class="link" href="#deleting-a-person">G.3. Deleting a person</a></h3>
+<h3 id="editing-a-person"><a class="link" href="#editing-a-person">G.3. Editing a person</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Editing a person in the address book.
+Prerequisites: There are multiple persons in the contact list.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Test case: <code>edit 1 p/22224444 e/AT@example.com a/123, Potong Pasir, 1234665 r/Boss k/4.5 d/AT is a good friend t/friend t/colleague 2</code><br>
+Expected: The first person in the contact list is edited.</p>
+</li>
+<li>
+<p>Test case: <code>edit 0 p/12345678</code><br>
+Expected: No person is edited. Error details shown in status message.</p>
+</li>
+<li>
+<p>Test case: <code>edit all/ n/Hercules fatty</code><br>
+Expected: No persons is edited. Error details shown in status message.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="searching-for-a-person"><a class="link" href="#searching-for-a-person">G.4. Searching for a person</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Finding a person in the address book.
+Prerequisites: The following commands must be entered, "Alexia Tok" and "Marcus Tok" must exist within the contact list:<br>
+<code>add n/Alexia Tok p/22224444 e/AT@example.com a/123, Potong Pasir, 1234665 r/Boss k/4.5 d/AT is a good friend t/friend t/colleague 2</code><br>
+<code>add n/Marcus Tok p/12341234 e/MT@example.com a/123, Admiraly, 1234665 r/Cleaner k/4.0 d/MT is a bad cleaner t/notFriend t/colleague 2</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Test case: <code>find n/Tok</code><br>
+Expected: "Marcus Tok" and "Alexia Tok" will show up in the contacts panel.</p>
+</li>
+<li>
+<p>Test case: <code>find k/4.0</code><br>
+Expected: "Marcus Tok" will show up in the contacts panel.</p>
+</li>
+<li>
+<p>Test case: <code>find k/4</code><br>
+Expected: "Marcus Tok" and "Alexia Tok" will show up in the contacts panel.</p>
+</li>
+<li>
+<p>Test case: <code>find r/bass</code><br>
+Expected: "Alexia Tok" with position "Boss" will show up in the contacts panel. <code>Keywords guessed: {Boss}</code> will show at the status message as "bass" is a closer match to "Boss"</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="locking-and-unlocking"><a class="link" href="#locking-and-unlocking">G.5. Locking and unlocking</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Locking and unlocking of the address book.
+Prerequisites: Address book should not be locked. Check path at <code>./data/addressbook.xml</code> to ensure that it is not encrypted: <code>addressbook.xml.encrypted</code> and that <code>addressbook.xml</code> exists.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Test case: <code>password hello</code><br>
+Expected: A status message "File encrypted!" will be displayed to the user and the contacts panel will be cleared. All further commands at this point will show a message "Address book is locked, please key in password".<br></p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Schedule panel will still be visible and not cleared. But the user will not be able to update it. Closing and re-opening the address book will clear it.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Test case: <code>password test</code><br>
+Prerequisites: This test case should be carried out after the previous test case.<br>
+Expected: A status message "Password mismatch!" will be displayed to the user and the address book will remain locked.</p>
+</li>
+<li>
+<p>Test case: <code>password hello</code><br>
+Prerequisites: This test case should be carried out after the previous test case <strong>a.</strong><br>
+Expected: A status message "File decrypted!" will be displayed to the user, the contacts panel and schedule will be refreshed to show the data that was encrypted.<br></p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deleting-a-person"><a class="link" href="#deleting-a-person">G.6. Deleting a person</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4227,7 +4355,7 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="updating-the-schedule"><a class="link" href="#updating-the-schedule">G.4. Updating the Schedule</a></h3>
+<h3 id="updating-the-schedule"><a class="link" href="#updating-the-schedule">G.7. Updating the Schedule</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4266,7 +4394,7 @@ Expected: No activity is deleted. Error details shown in the status message.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-data"><a class="link" href="#saving-data">G.5. Saving data</a></h3>
+<h3 id="saving-data"><a class="link" href="#saving-data">G.8. Saving data</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4283,4 +4411,4 @@ Expected: No activity is deleted. Error details shown in the status message.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 03:06:25 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 06:32:59 UTC</div></div></div></body></html>
