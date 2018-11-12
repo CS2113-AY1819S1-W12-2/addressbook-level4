@@ -557,7 +557,7 @@ The following sequence diagrams shows you how the add operation works: +
 image::backupSequenceDiagramLogic.png[width="900"]
 Figure 1. Interactions inside the Logic component for the `backup` command.
 
-image::backupSequenceDiagramStorage.png[Height="300"]
+image::backupSequenceDiagramStorage.png[Height="200"]
 Figure 2. Interactions inside the Storage component for the `backup` command.
 
 ===== Listing all the snapshots
@@ -600,15 +600,9 @@ It the address book is locked, an error would be displayed to the user instead o
 image::restoreSequenceDiagramLogic.png[width="900"]
 Figure 4. Interactions inside the Logic component for the `restore 1` command.
 
-image::restoreSequenceDiagramStorage.png[Height="300"]
+image::restoreSequenceDiagramStorage.png[Height="200"]
 Figure 5. Interactions inside the Storage component for the `restore 1` command.
 
-==== Design Considerations
-===== Aspect: How to save data from the address book
-* **Alternative 1:** Copy and paste from the data folder. +
-
-** Pros: Easy to implement. +
-** Cons: Backups cannot be created without a `XML` file. This means that this feature cannot be used when the application runs for the first time. +
 // end::backuprestore[]
 
 // tag::exportimport[]
@@ -663,7 +657,7 @@ The following sequence diagrams shows you how the add operation works: +
 image::exportSequenceDiagramLogic.png[width="900"]
 Figure 1. Interactions inside the Logic component for the `export d/C:\Users\USER\Desktop\DemoExport f/test` command.
 
-image::exportSequenceDiagramStorage.png[Height="300"]
+image::exportSequenceDiagramStorage.png[Height="200"]
 Figure 2. Interactions inside the Storage component for the `export d/C:\Users\USER\Desktop\DemoExport f/test` command.
 
 ====== Importing to your address book
@@ -696,13 +690,6 @@ The following sequence diagrams shows you how the add operation works: +
 
 image::importSequenceDiagramLogic.png[width="900"]
 Figure 1. Interactions inside the Logic component for the `import d/C:\Users\USER\Desktop\DemoExport f/test` command.
-
-==== Design Considerations
-===== Aspect: How to extract data from the address book
-* **Alternative 1:** Convert straight from the `XML` file in the `data` folder
-** Pros: Easy to implement.
-** Cons: Uses libraries.
-** Cons: Not flexible as some of the attributes have commas in them.
 
 // end::exportimport[]
 

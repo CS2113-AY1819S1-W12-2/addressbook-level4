@@ -521,15 +521,17 @@ Secondly, with the all new backup/restore feature, you can backup your address b
 [[CSVFormat]]
 [appendix]
 == Format of an exported CSV file
-For more information about CSV files, you can refer to https://en.wikipedia.org/wiki/Comma-separated_values[CSV file]
+For more information about `CSV` files, you can refer to https://en.wikipedia.org/wiki/Comma-separated_values[CSV file]
 
 When an address book is exported, it will be exported into a CSV file which can be read by excel or spreadsheet applications.
 
 Each row refers to a person. +
 Each column refers to a separate field of the person. +
-If a compulsory field is left blank, the address book will not allow the CSV file to be imported. +
 
 image::CSV_Format.png[width="790"]
+Figure 1. Sample of a `CSV` file.
+
+If a compulsory field is left blank, the address book will not allow the CSV file to be imported. +
 
 ****
 * Compulsory field includes: Name, Phone, Email and Address.
