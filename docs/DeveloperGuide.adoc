@@ -1799,22 +1799,6 @@ Given below are instructions to test the app manually.
 [NOTE]
 These instructions only provide a starting point for testers to work on; testers are expected to do more _exploratory_ testing.
 
-=== Launch and Shutdown
-
-. Initial launch
-
-.. Download the jar file and copy into an empty folder
-.. Double-click the jar file +
-   Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
-
-. Saving window preferences
-
-.. Resize the window to an optimum size. Move the window to a different location. Close the window.
-.. Re-launch the app by double-clicking the jar file. +
-   Expected: The most recent window size and location is retained.
-
-_{ more test cases ... }_
-
 === Adding a person
 . Adding a person to the address book.
    Prerequisites: Carry out the following commands sequentially:
@@ -1850,7 +1834,7 @@ _{ more test cases ... }_
 . Finding a person in the address book.
     Prerequisites: The following commands must be entered, "Alexia Tok" and "Marcus Tok" must exist within the contact list: +
     `add n/Alexia Tok p/22224444 e/AT@example.com a/123, Potong Pasir, 1234665 r/Boss k/4.5 d/AT is a good friend t/friend t/colleague 2` +
-    `add n/Marcus Tok p/12341234 e/MT@example.com a/123, Admiraly, 1234665 r/Cleaner k/4.0 d/MT is a bad cleaner t/notFriend t/colleague 2`
+    `add n/Marcus Tok p/12341234 e/MT@example.com a/123, Admiralty, 1234665 r/Cleaner k/4.0 d/MT is a bad cleaner t/notFriend t/colleague 2`
 
 .. Test case: `find n/Tok` +
     Expected: "Marcus Tok" and "Alexia Tok" will show up in the contacts panel.
@@ -1877,8 +1861,6 @@ NOTE: Schedule panel will still be visible and not cleared. But the user will no
     Prerequisites: This test case should be carried out after the previous test case *a.* +
     Expected: A status message "File decrypted!" will be displayed to the user, the contacts panel and schedule will be refreshed to show the data that was encrypted. +
 
-
-
 === Deleting a person
 
 . Deleting a person while all persons are listed
@@ -1888,10 +1870,43 @@ NOTE: Schedule panel will still be visible and not cleared. But the user will no
    Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 .. Test case: `delete 0` +
    Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
+.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) +
    Expected: Similar to previous.
 
-_{ more test cases ... }_
+=== Backing up and restoring data in the address book
+
+Backing up and restoring data in the address book.
+
+. Prerequisites: Make a backup with the `backup` command. +
+. Test case: `restore-snapshot` +
+   Expected: One snapshot will be shown on the screen if this is your first backup. If this is not your first backup, the list will be populated with older snapshots. +
+. Test case: `restore 0` +
+   Expected: No data restored. Error details shown in the status message. Status bar remains the same.
+. Other incorrect restore commands to try: `restore`, `delete x` (where x is larger than the list size) +
+   Expected: Similar to previous.
+
+=== Exporting data from the address book
+
+Exporting data from the address book.
+
+. Prerequisites: Make sure the address book is populated with people +
+. Test case: `export` +
+   Expected: A copy of the contacts in `CSV` format will be created in a `exports` folder in the root directory +
+. Test case: `export DIRECTORY FILENAME` +
+   Expected: A copy of the contacts in `CSV` format will be created in the designated folder with the designated name.
+. Any directory or file name that does not exist: `export FALSE_DIRECTORY FILENAME`, `export DIRECTORY FALSE_FILENAME`. +
+   Expected: Nothing will be created. An error will be thrown to the user. Status bar will remain the same.
+
+=== Importing data to the address book
+
+Importing data from the address book.
+
+. Test case: `import DIRECTORY FILENAME` +
+   Expected: A copy of the contacts in `CSV` format will be created in the designated folder with the designated name.
+. Test case: `import` +
+   Expected: Nothing will be created. An error will be thrown to the user. Status bar will remain the same.
+. Any directory or file name that does not exist: `import FALSE_DIRECTORY FILENAME`, `import DIRECTORY FALSE_FILENAME`. +
+   Expected: Similar to previous
 
 === Updating the Schedule
 
@@ -1909,13 +1924,3 @@ _{ more test cases ... }_
    Expected: First activity is deleted from the schedule.
 .. Test case: `schedule-delete 0` +
    Expected: No activity is deleted. Error details shown in the status message.
-
-
-=== Saving data
-
-. Dealing with missing/corrupted data files
-
-.. _{explain how to simulate a missing/corrupted file and the expected behavior}_
-
-
-
