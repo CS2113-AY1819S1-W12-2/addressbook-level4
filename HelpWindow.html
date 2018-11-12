@@ -11,15 +11,15 @@
 <ul class="sectlevel1">
 <li><a href="#introduction">1. Introduction</a></li>
 <li><a href="#quick-start">2. Quick Start</a></li>
-<li><a href="#Features">3. Command Summary</a></li>
-<li><a href="#features">4. Features</a>
+<li><a href="#command-summary">3. Command Summary</a></li>
+<li><a href="#Features">4. Features</a>
 <ul class="sectlevel2">
 <li><a href="#viewing-help-code-help-code">4.1. Viewing help : <code>help</code></a></li>
 <li><a href="#adding-a-person-code-add-code">4.2. Adding a person: <code>add</code></a></li>
 <li><a href="#listing-all-persons-code-list-code">4.3. Listing all persons : <code>list</code></a></li>
 <li><a href="#editing-a-person-code-edit-code">4.4. Editing a person : <code>edit</code></a></li>
 <li><a href="#finding-persons-by-attribute-code-find-code">4.5. Finding persons by attribute : <code>find</code></a></li>
-<li><a href="#deleting-a-person-code-delete-code">4.6. Deleting a person : <code>delete</code></a></li>
+<li><a href="#selecting-a-person-code-delete-code">4.6. Selecting a person : <code>delete</code></a></li>
 <li><a href="#selecting-a-person-code-select-code">4.7. Selecting a person : <code>select</code></a></li>
 <li><a href="#listing-entered-commands-code-history-code">4.8. Listing entered commands : <code>history</code></a></li>
 <li><a href="#undoing-previous-command-code-undo-code">4.9. Undoing previous command : <code>undo</code></a></li>
@@ -97,15 +97,18 @@ e.g. typing <strong><code>help</code></strong> and pressing <kbd>Enter</kbd> wil
 </div>
 </li>
 <li>
-<p>Refer to <a href="#Features">Section 3, &#8220;Command Summary&#8221;</a> for details of each command.</p>
+<p>Refer to <a href="#Features">Section 4, &#8220;Features&#8221;</a> for details of each command.</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="Features"><a class="link" href="#Features">3. Command Summary</a></h2>
+<h2 id="command-summary"><a class="link" href="#command-summary">3. Command Summary</a></h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>This section shows you usage example(s) of each command. For detailed explanations refer to <a href="#Features">Section 4, &#8220;Features&#8221;</a>.</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -199,7 +202,7 @@ e.g. <code>mail all/</code> or <code>mail t/TAG</code></p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="features"><a class="link" href="#features">4. Features</a></h2>
+<h2 id="Features"><a class="link" href="#Features">4. Features</a></h2>
 <div class="sectionbody">
 <div class="exampleblock">
 <div class="content">
@@ -227,13 +230,14 @@ e.g. <code>mail all/</code> or <code>mail t/TAG</code></p>
 <div class="sect2">
 <h3 id="viewing-help-code-help-code"><a class="link" href="#viewing-help-code-help-code">4.1. Viewing help : <code>help</code></a></h3>
 <div class="paragraph">
-<p>Format: <code>help</code></p>
+<p>Opens the User Guide window.<br>
+Format: <code>help</code></p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="adding-a-person-code-add-code"><a class="link" href="#adding-a-person-code-add-code">4.2. Adding a person: <code>add</code></a></h3>
 <div class="paragraph">
-<p>Adds a person to the address book<br>
+<p>Adds a contact to the address book<br>
 Format: <code>add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/POSITION] [k/KPI] [d/NOTE] [t/TAG [PRIORITY]]&#8230;&#8203;</code></p>
 </div>
 <div class="admonitionblock tip">
@@ -278,10 +282,10 @@ A person can have any number of tags (including 0). Priorities, high(2) or mediu
 <div class="ulist">
 <ul>
 <li>
-<p><code>add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 r/Secretary k/4.99 d/John is forgetful t/friends t/owesMoney 2</code></p>
+<p><code>add n/John Doe p/98765432 e/johnd@nus.com a/311, Clementi Ave 2, #02-25 r/Secretary k/4.99 d/John is forgetful t/Accounting t/To Liase 2</code></p>
 </li>
 <li>
-<p><code>add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 r/prisoner t/criminal</code></p>
+<p><code>add n/Betsy Crowe t/same office e/betsycrowe@microhard.com a/Microhard p/1234567 r/CEO t/boss</code></p>
 </li>
 </ul>
 </div>
@@ -311,8 +315,7 @@ Format: <code>list</code> or <code>list t/TAG</code> or <code>list k/KPI</code><
 <div class="ulist">
 <ul>
 <li>
-<p><code>list t/friends</code><br>
-You can input  to display all persons with that tag in your address book.</p>
+<p>You can input <code>list t/HumanResource</code> to display all persons with <code>HumanResource</code> tag in your address book.</p>
 </li>
 </ul>
 </div>
@@ -358,16 +361,16 @@ Format: <code>edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/POSITION] [
 <div class="ulist">
 <ul>
 <li>
-<p><code>edit 1 p/91234567 e/johndoe@example.com</code><br>
-Edits the phone number and email address of the 1st person to be <code>91234567</code> and <code>johndoe@example.com</code> respectively.</p>
+<p><code>edit 1 p/91234567 e/johndoe@nus.com</code><br>
+Edits the phone number and email address of the 1st person to be <code>91234567</code> and <code>johndoe@nus.com</code> respectively.</p>
 </li>
 <li>
 <p><code>edit 2 n/Betsy Crower r/ t/</code><br>
 Edits the name of the 2nd person to be <code>Betsy Crower</code> and clears current position and all existing tags.</p>
 </li>
 <li>
-<p><code>edit all/ t/friends k/1.0</code><br>
-Replaces all listed persons' tag to be <code>friends</code> and edits their KPI to be <code>1.0</code>.<br></p>
+<p><code>edit all/ t/HR k/1.0</code><br>
+Replaces all listed persons' tag to be <code>HR</code> and edits their KPI to be <code>1.0</code>.<br></p>
 </li>
 </ul>
 </div>
@@ -450,8 +453,8 @@ Displays any person who has a KPI of <code>4.0</code></p>
 Displays any person who has a note containing <code>John is forgetful</code></p>
 </li>
 <li>
-<p><code>find t/friends</code><br>
-Displays any person who is tagged as <code>friends</code></p>
+<p><code>find t/tester</code><br>
+Displays any person who is tagged as <code>tester</code></p>
 </li>
 <li>
 <p><code>find n/John Betsy r/secretary a/jurong west ave</code><br>
@@ -498,23 +501,26 @@ To narrow down your searches, try to be more specific in the phone number you wi
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-a-person-code-delete-code"><a class="link" href="#deleting-a-person-code-delete-code">4.6. Deleting a person : <code>delete</code></a></h3>
+<h3 id="selecting-a-person-code-delete-code"><a class="link" href="#selecting-a-person-code-delete-code">4.6. Selecting a person : <code>delete</code></a></h3>
 <div class="paragraph">
-<p>Deletes the specified person from the address book.<br>
-Format: <code>delete INDEX</code></p>
+<p>Deletes a single or multiple contacts identified by their index number in the contacts list displayed on the left.<br>
+Format: <code>delete INDEX</code> or <code>delete START_INDEX - END_INDEX</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>Deletes the person at the specified <code>INDEX</code>.</p>
+<p>Deletes the contact at the specified <code>INDEX</code>.</p>
 </li>
 <li>
-<p>The <code>INDEX</code> refers to the index number shown in the displayed person list.</p>
+<p>The <code>INDEX</code> refers to the index number to left of each contact entry shown in the displayed person list.</p>
 </li>
 <li>
-<p>The <code>INDEX</code> <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+<p>You <strong>must enter positive integers</strong> <code>1, 2, 3, &#8230;&#8203;</code> for the <code>INDEX</code>.</p>
+</li>
+<li>
+<p>In the case of multiple deletions, the range is denoted with a dash  ( - ) and you can separate multiple ranges with comma ( , ).</p>
 </li>
 </ul>
 </div>
@@ -528,12 +534,22 @@ Format: <code>delete INDEX</code></p>
 <li>
 <p><code>list</code><br>
 <code>delete 2</code><br>
-Deletes the 2nd person in the address book.</p>
+Deletes the 2nd contact in the address book.</p>
 </li>
 <li>
-<p><code>find Betsy</code><br>
+<p><code>list</code><br>
+<code>delete 1 - 3</code><br>
+Deletes the 1st to the 3rd contact in the address book.</p>
+</li>
+<li>
+<p><code>list</code><br>
+<code>delete 1 - 3, 6 - 9</code><br>
+Deletes the 1st to the 3rd contact and 6th to the 9th contact in the address book.</p>
+</li>
+<li>
+<p><code>find n/Betsy</code><br>
 <code>delete 1</code><br>
-Deletes the 1st person in the results of the <code>find</code> command.</p>
+Deletes the 1st contact in the results of the <code>find</code> command.</p>
 </li>
 </ul>
 </div>
@@ -541,7 +557,7 @@ Deletes the 1st person in the results of the <code>find</code> command.</p>
 <div class="sect2">
 <h3 id="selecting-a-person-code-select-code"><a class="link" href="#selecting-a-person-code-select-code">4.7. Selecting a person : <code>select</code></a></h3>
 <div class="paragraph">
-<p>Selects single or multiple persons identified by their index number in the persons list displayed.<br>
+<p>Selects a single or multiple contacts identified by their index number in the contacts list displayed on the left.<br>
 Format: <code>select INDEX</code> or <code>select START_INDEX - END_INDEX</code></p>
 </div>
 <div class="sidebarblock">
@@ -549,13 +565,13 @@ Format: <code>select INDEX</code> or <code>select START_INDEX - END_INDEX</code>
 <div class="ulist">
 <ul>
 <li>
-<p>The person you selected will have their information loaded in the information panel.</p>
+<p>The contact you selected will have their information loaded in the information panel displayed in the centre.</p>
 </li>
 <li>
-<p>The <code>INDEX</code> refers to the index number to left of each person entry shown in the displayed person list.</p>
+<p>The <code>INDEX</code> refers to the index number to left of each contact entry shown in the displayed person list.</p>
 </li>
 <li>
-<p>You <strong>must enter positive integers</strong> <code>1, 2, 3, &#8230;&#8203;</code> for the index.</p>
+<p>You <strong>must enter positive integers</strong> <code>1, 2, 3, &#8230;&#8203;</code> for the <code>INDEX</code>.</p>
 </li>
 <li>
 <p>In the case of multiple selections, the range is denoted with a dash  ( - ) and you can separate multiple ranges with comma ( , ).</p>
@@ -572,22 +588,22 @@ Format: <code>select INDEX</code> or <code>select START_INDEX - END_INDEX</code>
 <li>
 <p><code>list</code><br>
 <code>select 2</code><br>
-Selects the 2nd person in the address book.</p>
+Selects the 2nd contact in the address book.</p>
 </li>
 <li>
 <p><code>list</code><br>
 <code>select 1 - 3</code><br>
-Selects from the 1st to the 3rd person in the address book.</p>
+Selects the 1st to the 3rd contact in the address book.</p>
 </li>
 <li>
 <p><code>list</code><br>
 <code>select 1 - 3, 6 - 9</code><br>
-Selects from the 1st to the 3rd person and 6th to the 9th person in the address book.</p>
+Selects the 1st to the 3rd contact and 6th to the 9th contact in the address book.</p>
 </li>
 <li>
 <p><code>find n/Betsy</code><br>
 <code>select 1</code><br>
-Selects the 1st person in the results of the <code>find</code> command.</p>
+Selects the 1st contact in the results of the <code>find</code> command.</p>
 </li>
 </ul>
 </div>
@@ -867,7 +883,7 @@ Entering <code>password helloworld</code> again unlocks the  address book and re
 <div class="sect2">
 <h3 id="email-contacts-code-mail-code"><a class="link" href="#email-contacts-code-mail-code">4.17. Email contacts : <code>mail</code></a></h3>
 <div class="paragraph">
-<p>Opens your system&#8217;s default email application.<br>
+<p>Opens your system&#8217;s default email application with specified contacts as recipients.<br>
 Format: <code>mail all/</code> or <code>mail t/TAG</code> or <code>mail</code></p>
 </div>
 <div class="ulist">
@@ -879,7 +895,7 @@ Format: <code>mail all/</code> or <code>mail t/TAG</code> or <code>mail</code></
 <p><code>t/TAG</code> flag can be specified with a tag to open the email applications with <em>all contacts belonging to that tag</em> as recipients.<br></p>
 </li>
 <li>
-<p>If no flags are specified, selected contacts are chosen as recipients.</p>
+<p>If no flags are specified, contacts selected with <code>select</code> command are chosen as recipients.</p>
 </li>
 </ul>
 </div>
@@ -889,13 +905,17 @@ Format: <code>mail all/</code> or <code>mail t/TAG</code> or <code>mail</code></
 <div class="ulist">
 <ul>
 <li>
+<p><code>mail all/</code><br>
+opens your email application with all contacts as recipients.<br></p>
+</li>
+<li>
 <p><code>mail t/accountant</code><br>
-opens your email application with all accountants as recipients.<br></p>
+opens your email application with contacts tagged with <code>accountant</code> as recipients.<br></p>
 </li>
 <li>
 <p><code>select 3</code><br>
 <code>mail</code><br>
-opens your email application with person (3rd person in the list panel) as recipient.</p>
+opens your email application with person (3rd person in the list panel) as recipient.<br></p>
 </li>
 </ul>
 </div>
@@ -1044,24 +1064,43 @@ Invoke this feature by pressing the <em>Tab</em> key on the keyboard.<br></p>
 <p>For example, given an address book consisting of a contact with the name <em>Alex Yeoh</em>:<br>
 Typing <code>m</code> in the box and pressing <em>Tab</em> will auto complete to the <code>mail</code> command. Then, typing <code>mail n/A</code> and pressing <em>Tab</em> will auto complete to <code>mail n/Alex Yeoh</code> for you.<br></p>
 </div>
-<div class="sidebarblock">
-<div class="content">
+<div class="paragraph">
+<p>Note:<br></p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p>This feature does not work with some flag arguments when used with certain commands.<br>
-E.g. <code>add n/&#8230;&#8203;</code><br>
-If text prediction returns no predictions, it means text prediction is unsupported in that context.</p>
+<p>If there are multiple predicted values, they will be listed down.</p>
 </li>
 <li>
-<p>If there are multiple predicted values, they will be listed down.<br></p>
+<p>If no argument flags are specified, the default value predicted is based on the command&#8217;s default argument.</p>
 </li>
 <li>
-<p>If no argument flags are specified, the default value predicted is based on the command&#8217;s default argument.<br></p>
+<p>This feature does not work with some flag arguments when used with certain commands.
+E.g. <code>add n/Alex</code>.<br>
+If text prediction returns no predictions, it means text prediction is unsupported in that context.
+For full list, refer below.</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>List of commands and it&#8217;s arguments prefix supported:<br></p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>list</code> : <code>t/</code>, <code>k/</code><br></p>
+</li>
+<li>
+<p><code>find</code> : <code>n/</code>, <code>e/</code>, <code>p/</code>, <code>a/</code>, <code>t/</code>, <code>k/</code>, <code>r/</code></p>
+</li>
+<li>
+<p><code>mail</code> : <code>t/</code>, <code>all/</code></p>
+</li>
+<li>
+<p>For the remaining commands, all <strong>command keywords are supported</strong> but their <strong>arguments are unsupported</strong>.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
@@ -1104,6 +1143,10 @@ Secondly, with the all new backup/restore feature, you can backup your address b
 <p><strong>Q</strong>: What happens if I forget my password?<br>
 <strong>A</strong>: Your Address book will not be recoverable. You will have to delete addressbook.xml.encrypted and choose a backup to restore from.</p>
 </div>
+<div class="paragraph">
+<p><strong>Q</strong>: Strange&#8230;&#8203; sometimes the text prediction doesn&#8217;t seem to work?<br>
+<strong>A</strong>: All command keywords are supported by text prediction. However, some command&#8217;s arguments are <em>not</em> supported. Check <a href="#text-prediction">Section 4.19, &#8220;Text prediction&#8221;</a> for more details.<br></p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1142,4 +1185,4 @@ Each column refers to a separate field of the person.<br></p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 06:32:59 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 08:19:39 UTC</div></div></div></body></html>
