@@ -231,20 +231,25 @@ Format: <code>import d/ TARGET_PATH f/ NAME_OF_FILE</code></p>
 <h2 id="CSVFormat"><a class="link" href="#CSVFormat">Appendix A: Format of an exported CSV file</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>For more information about CSV files, you can refer to <a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV file</a></p>
+<p>For more information about <code>CSV</code> files, you can refer to <a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV file</a></p>
 </div>
 <div class="paragraph">
 <p>When an address book is exported, it will be exported into a CSV file which can be read by excel or spreadsheet applications.</p>
 </div>
 <div class="paragraph">
 <p>Each row refers to a person.<br>
-Each column refers to a separate field of the person.<br>
-If a compulsory field is left blank, the address book will not allow the CSV file to be imported.<br></p>
+Each column refers to a separate field of the person.<br></p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="../images/CSV_Format.png" alt="CSV Format" width="790">
 </div>
+</div>
+<div class="paragraph">
+<p>Figure 1. Sample of a <code>CSV</code> file.</p>
+</div>
+<div class="paragraph">
+<p>If a compulsory field is left blank, the address book will not allow the CSV file to be imported.<br></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -484,29 +489,6 @@ It the address book is locked, an error would be displayed to the user instead o
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
-<div class="sect4">
-<h5 id="aspect-how-to-save-data-from-the-address-book"><a class="link" href="#aspect-how-to-save-data-from-the-address-book">Aspect: How to save data from the address book</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1:</strong> Copy and paste from the data folder.<br></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Easy to implement.<br></p>
-</li>
-<li>
-<p>Cons: Backups cannot be created without a <code>XML</code> file. This means that this feature cannot be used when the application runs for the first time.<br></p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-</div>
 </div>
 <div class="sect2">
 <h3 id="export-and-import"><a class="link" href="#export-and-import">Export and Import</a></h3>
@@ -688,32 +670,6 @@ It the address book is locked, an error would be displayed to the user instead o
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
-<div class="sect4">
-<h5 id="aspect-how-to-extract-data-from-the-address-book"><a class="link" href="#aspect-how-to-extract-data-from-the-address-book">Aspect: How to extract data from the address book</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1:</strong> Convert straight from the <code>XML</code> file in the <code>data</code> folder</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Easy to implement.</p>
-</li>
-<li>
-<p>Cons: Uses libraries.</p>
-</li>
-<li>
-<p>Cons: Not flexible as some of the attributes have commas in them.</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 02:47:34 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 02:52:12 UTC</div></div></div></body></html>
