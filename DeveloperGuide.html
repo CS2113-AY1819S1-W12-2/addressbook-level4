@@ -79,12 +79,11 @@
 <li><a href="#use-cases">Appendix D: Use Cases</a></li>
 <li><a href="#non-functional-requirements">Appendix E: Non Functional Requirements</a></li>
 <li><a href="#glossary">Appendix F: Glossary</a></li>
-<li><a href="#product-survey">Appendix G: Product Survey</a></li>
-<li><a href="#instructions-for-manual-testing">Appendix H: Instructions for Manual Testing</a>
+<li><a href="#instructions-for-manual-testing">Appendix G: Instructions for Manual Testing</a>
 <ul class="sectlevel2">
-<li><a href="#launch-and-shutdown">H.1. Launch and Shutdown</a></li>
-<li><a href="#deleting-a-person">H.2. Deleting a person</a></li>
-<li><a href="#saving-data">H.3. Saving data</a></li>
+<li><a href="#launch-and-shutdown">G.1. Launch and Shutdown</a></li>
+<li><a href="#deleting-a-person">G.2. Deleting a person</a></li>
+<li><a href="#saving-data">G.3. Saving data</a></li>
 </ul>
 </li>
 </ul>
@@ -1209,7 +1208,7 @@ If the user enters the wrong password , an error will be thrown at the CommandRe
 <p><code>BackupList#getFileMap()</code>&#8201;&#8212;&#8201;returns a map of the snapshots, each denoted with an <code>INDEX</code><br></p>
 </li>
 <li>
-<p><code>BackupList#millisToDateAndTime(String)</code>&#8201;&#8212;&#8201;converts a timestamp in milliseconds to a formatted date and time format.<br></p>
+<p><code>BackupList#millisToDateAndTime(String fileName)</code>&#8201;&#8212;&#8201;converts a timestamp in milliseconds to a formatted date and time format.<br></p>
 </li>
 </ul>
 </div>
@@ -1228,7 +1227,7 @@ If the user enters the wrong password , an error will be thrown at the CommandRe
 <div class="ulist">
 <ul>
 <li>
-<p><code>Model#replaceData(Path)</code>&#8201;&#8212;&#8201;Overrides the current address book information with another <code>XML</code> file.<br></p>
+<p><code>Model#replaceData(Path path)</code>&#8201;&#8212;&#8201;Overrides the current address book information with another <code>XML</code> file.<br></p>
 </li>
 </ul>
 </div>
@@ -1281,7 +1280,7 @@ If the user enters the wrong password , an error will be thrown at the CommandRe
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/backupSequenceDiagramStorage.png" alt="backupSequenceDiagramStorage" width="700">
+<img src="images/backupSequenceDiagramStorage.png" alt="backupSequenceDiagramStorage">
 </div>
 </div>
 <div class="paragraph">
@@ -1350,7 +1349,7 @@ If the index is not valid, an error would be returned to the user instead of cre
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Before calling <code>Model#replaceData(Path)</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
+Before calling <code>Model#replaceData(Path path)</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
 It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
 </td>
 </tr>
@@ -1372,7 +1371,7 @@ It the address book is locked, an error would be displayed to the user instead o
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/restoreSequenceDiagramStorage.png" alt="restoreSequenceDiagramStorage" width="700">
+<img src="images/restoreSequenceDiagramStorage.png" alt="restoreSequenceDiagramStorage">
 </div>
 </div>
 <div class="paragraph">
@@ -1476,7 +1475,7 @@ If the directory is not valid or a file with the same file name exists in the di
 <p><strong>Step 5.</strong> <code>ExportCommand</code> is executed and creates a <code>CsvWriter</code> object. The <code>CsvWriter</code> object is created with a copy of the address book taken from <code>Model</code><br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 6.</strong> <code>convertToCsv(String)</code> is called with the full directory as the argument which writes the data of the address book to a file of <code>CSV</code> format.<br></p>
+<p><strong>Step 6.</strong> <code>convertToCsv(String directory)</code> is called with the full directory as the argument which writes the data of the address book to a file of <code>CSV</code> format.<br></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1485,7 +1484,7 @@ If the directory is not valid or a file with the same file name exists in the di
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Before calling <code>convertToCsv(String)</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
+Before calling <code>convertToCsv(String directory)</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
 It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
 </td>
 </tr>
@@ -1504,7 +1503,7 @@ It the address book is locked, an error would be displayed to the user instead o
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/exportSequenceDiagramStorage.png" alt="exportSequenceDiagramStorage" width="700">
+<img src="images/exportSequenceDiagramStorage.png" alt="exportSequenceDiagramStorage">
 </div>
 </div>
 <div class="paragraph">
@@ -1563,7 +1562,7 @@ If the file is of the wrong format, an error would also be returned to the user 
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Before calling <code>convertToCsv(String)</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
+Before calling <code>convertToList()</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
 It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
 </td>
 </tr>
@@ -4056,44 +4055,7 @@ Use case ends.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="product-survey"><a class="link" href="#product-survey">Appendix G: Product Survey</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><strong>Product Name</strong></p>
-</div>
-<div class="paragraph">
-<p>Author: &#8230;&#8203;</p>
-</div>
-<div class="paragraph">
-<p>Pros:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>&#8230;&#8203;</p>
-</li>
-<li>
-<p>&#8230;&#8203;</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Cons:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>&#8230;&#8203;</p>
-</li>
-<li>
-<p>&#8230;&#8203;</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="instructions-for-manual-testing"><a class="link" href="#instructions-for-manual-testing">Appendix H: Instructions for Manual Testing</a></h2>
+<h2 id="instructions-for-manual-testing"><a class="link" href="#instructions-for-manual-testing">Appendix G: Instructions for Manual Testing</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Given below are instructions to test the app manually.</p>
@@ -4111,7 +4073,7 @@ These instructions only provide a starting point for testers to work on; testers
 </table>
 </div>
 <div class="sect2">
-<h3 id="launch-and-shutdown"><a class="link" href="#launch-and-shutdown">H.1. Launch and Shutdown</a></h3>
+<h3 id="launch-and-shutdown"><a class="link" href="#launch-and-shutdown">G.1. Launch and Shutdown</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4149,7 +4111,7 @@ Expected: The most recent window size and location is retained.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-a-person"><a class="link" href="#deleting-a-person">H.2. Deleting a person</a></h3>
+<h3 id="deleting-a-person"><a class="link" href="#deleting-a-person">G.2. Deleting a person</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4181,7 +4143,7 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-data"><a class="link" href="#saving-data">H.3. Saving data</a></h3>
+<h3 id="saving-data"><a class="link" href="#saving-data">G.3. Saving data</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4201,4 +4163,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 01:34:57 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 02:21:29 UTC</div></div></div></body></html>

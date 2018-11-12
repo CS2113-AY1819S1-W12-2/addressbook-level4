@@ -10,9 +10,9 @@
 <h2 id="overview"><a class="link" href="#overview">Overview</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>CorpPro is a desktop address book application which targets small to medium corporates and allow their workers to keep track of colleague information in the office.
-CorpPro allows users to <code>add</code>, <code>edit</code> and <code>tag</code> with the Command Line Interface (CLI) or the Graphical User Interface (GUI) that is created with JavaFX.
-This portfolio contains the contributions i had made towards the improvement of the basic Address Book provided to us.<br></p>
+<p><strong>CorpPro</strong> is a desktop address book application which targets small to medium corporates to allow their employees to keep track of colleague information in the office.
+CorpPro allows users to <code>add</code>, <code>edit</code> and <code>tag</code> with the Command Line Interface (CLI) or the Graphical User Interface (GUI), that is created with JavaFX.
+This portfolio contains the contributions I had made towards the improvement of the basic Address Book provided to us.<br></p>
 </div>
 </div>
 </div>
@@ -22,19 +22,18 @@ This portfolio contains the contributions i had made towards the improvement of 
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Major enhancement 1</strong>: added <strong>the ability to export and import your contacts information.</strong></p>
+<p><strong>Major enhancement 1</strong>: added <strong>the ability to export and import your contacts.</strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p>What it does: Allows the user export contacts to a CSV file in any existing directory. Vice versa, CSV files can also be imported from any existing directory and be appended to the address book.</p>
+<p>What it does: Allows the user to export contacts to a CSV file to any existing directory. Vice versa, <code>CSV</code> files can also be imported from any existing directory and be added to the address book.</p>
 </li>
 <li>
-<p>Justification: Changing systems will be much easier as contact information can be packaged into an
-easy to read format and exchanged between systems.</p>
+<p>Justification: Enables users to shift between computer systems with ease.<br></p>
 </li>
 <li>
-<p>Highlights: In order to ensure that the exported file can be read by other applications, CorpPro have to write the file in a way that it can be easily adapted by the other spreadsheet applications.<br>
-When files are imported from other applications, in depth analysis have to be made to ensure that it can read the format of the file formatted by these spreadsheet applications.</p>
+<p>Highlights: In order to ensure that the exported file is compatible with other applications.<br>
+Imported files have to be properly parsed to retrieve contacts.</p>
 </li>
 </ul>
 </div>
@@ -50,7 +49,7 @@ When files are imported from other applications, in depth analysis have to be ma
 <p>Justification: This feature allows the user to retrieve any lost information if they have accidentally deleted any.</p>
 </li>
 <li>
-<p>Highlights: Careful planning has to be done as saving the folders in a separate directory will result in the database being easily accessible. Therefore, we have to protect the folder the backups are saved by making the directory unknown.</p>
+<p>Highlights: Precautionary measures have to be done as saving the folders in a separate directory will result in the database being compromise. Therefore, we have to protect the folder the backups are saved by making the directory unknown.</p>
 </li>
 </ul>
 </div>
@@ -313,7 +312,7 @@ If a compulsory field is left blank, the address book will not allow the CSV fil
 <p><code>BackupList#getFileMap()</code>&#8201;&#8212;&#8201;returns a map of the snapshots, each denoted with an <code>INDEX</code><br></p>
 </li>
 <li>
-<p><code>BackupList#millisToDateAndTime(String)</code>&#8201;&#8212;&#8201;converts a timestamp in milliseconds to a formatted date and time format.<br></p>
+<p><code>BackupList#millisToDateAndTime(String fileName)</code>&#8201;&#8212;&#8201;converts a timestamp in milliseconds to a formatted date and time format.<br></p>
 </li>
 </ul>
 </div>
@@ -332,7 +331,7 @@ If a compulsory field is left blank, the address book will not allow the CSV fil
 <div class="ulist">
 <ul>
 <li>
-<p><code>Model#replaceData(Path)</code>&#8201;&#8212;&#8201;Overrides the current address book information with another <code>XML</code> file.<br></p>
+<p><code>Model#replaceData(Path path)</code>&#8201;&#8212;&#8201;Overrides the current address book information with another <code>XML</code> file.<br></p>
 </li>
 </ul>
 </div>
@@ -385,7 +384,7 @@ If a compulsory field is left blank, the address book will not allow the CSV fil
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/backupSequenceDiagramStorage.png" alt="backupSequenceDiagramStorage" width="700">
+<img src="../images/backupSequenceDiagramStorage.png" alt="backupSequenceDiagramStorage">
 </div>
 </div>
 <div class="paragraph">
@@ -454,7 +453,7 @@ If the index is not valid, an error would be returned to the user instead of cre
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Before calling <code>Model#replaceData(Path)</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
+Before calling <code>Model#replaceData(Path path)</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
 It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
 </td>
 </tr>
@@ -476,7 +475,7 @@ It the address book is locked, an error would be displayed to the user instead o
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/restoreSequenceDiagramStorage.png" alt="restoreSequenceDiagramStorage" width="700">
+<img src="../images/restoreSequenceDiagramStorage.png" alt="restoreSequenceDiagramStorage">
 </div>
 </div>
 <div class="paragraph">
@@ -580,7 +579,7 @@ If the directory is not valid or a file with the same file name exists in the di
 <p><strong>Step 5.</strong> <code>ExportCommand</code> is executed and creates a <code>CsvWriter</code> object. The <code>CsvWriter</code> object is created with a copy of the address book taken from <code>Model</code><br></p>
 </div>
 <div class="paragraph">
-<p><strong>Step 6.</strong> <code>convertToCsv(String)</code> is called with the full directory as the argument which writes the data of the address book to a file of <code>CSV</code> format.<br></p>
+<p><strong>Step 6.</strong> <code>convertToCsv(String directory)</code> is called with the full directory as the argument which writes the data of the address book to a file of <code>CSV</code> format.<br></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -589,7 +588,7 @@ If the directory is not valid or a file with the same file name exists in the di
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Before calling <code>convertToCsv(String)</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
+Before calling <code>convertToCsv(String directory)</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
 It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
 </td>
 </tr>
@@ -608,7 +607,7 @@ It the address book is locked, an error would be displayed to the user instead o
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/exportSequenceDiagramStorage.png" alt="exportSequenceDiagramStorage" width="700">
+<img src="../images/exportSequenceDiagramStorage.png" alt="exportSequenceDiagramStorage">
 </div>
 </div>
 <div class="paragraph">
@@ -667,7 +666,7 @@ If the file is of the wrong format, an error would also be returned to the user 
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Before calling <code>convertToCsv(String)</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
+Before calling <code>convertToList()</code>, the address book is checked if it is encrypted with a password, via <code>FileEncryptor</code>.
 It the address book is locked, an error would be displayed to the user instead of carrying on with the command.
 </td>
 </tr>
@@ -717,4 +716,4 @@ It the address book is locked, an error would be displayed to the user instead o
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 01:34:57 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 02:21:29 UTC</div></div></div></body></html>
