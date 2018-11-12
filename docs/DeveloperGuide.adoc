@@ -500,7 +500,7 @@ The following sequence diagrams shows you how the add operation works: +
 image::backupSequenceDiagramLogic.png[width="900"]
 Figure 1. Interactions inside the Logic component for the `backup` command.
 
-image::backupSequenceDiagramStorage.png[width="650"]
+image::backupSequenceDiagramStorage.png[Height="300"]
 Figure 2. Interactions inside the Storage component for the `backup` command.
 
 ===== Listing all the snapshots
@@ -543,7 +543,7 @@ It the address book is locked, an error would be displayed to the user instead o
 image::restoreSequenceDiagramLogic.png[width="900"]
 Figure 4. Interactions inside the Logic component for the `restore 1` command.
 
-image::restoreSequenceDiagramStorage.png[width="650"]
+image::restoreSequenceDiagramStorage.png[Height="300"]
 Figure 5. Interactions inside the Storage component for the `restore 1` command.
 
 ==== Design Considerations
@@ -606,7 +606,7 @@ The following sequence diagrams shows you how the add operation works: +
 image::exportSequenceDiagramLogic.png[width="900"]
 Figure 1. Interactions inside the Logic component for the `export d/C:\Users\USER\Desktop\DemoExport f/test` command.
 
-image::exportSequenceDiagramStorage.png[width="650"]
+image::exportSequenceDiagramStorage.png[Height="300"]
 Figure 2. Interactions inside the Storage component for the `export d/C:\Users\USER\Desktop\DemoExport f/test` command.
 
 ====== Importing to your address book
